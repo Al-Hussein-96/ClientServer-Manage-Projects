@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public class tempClient {
 
     private static InetAddress host;
-    private static final int PORT = 1234;
+    private static final int PORT = 4321;
 
     public static void main(String[] args) {
         try {
@@ -31,7 +31,7 @@ public class tempClient {
             socket = new Socket(host,PORT);
             
             Scanner networkInput = new Scanner(socket.getInputStream());
-            PrintWriter networkOutput = new PrintWriter(socket.getOutputStream());
+            PrintWriter networkOutput = new PrintWriter(socket.getOutputStream(),true);
             
             Scanner userEnrty = new Scanner(System.in);
             

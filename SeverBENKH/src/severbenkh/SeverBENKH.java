@@ -14,31 +14,23 @@ public class SeverBENKH {
     int SiginUp_Port = 2;
 
     private static ServerSocket serverSocket;
-    private static final int PORT = 1234;
+    private static final int PORT = 4321;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         try {
             serverSocket = new ServerSocket(PORT);
         } catch (IOException ex) {
             System.out.println("Unable to Connect to Port");
             System.exit(1);
         }
-        
-        do{
-            try {
-                Socket client = serverSocket.accept();
-                System.out.println("New Client Accepted");
-                
-                ClientHandler handler = new ClientHandler(client);
-                handler.run();
-            } catch (IOException ex) {
-                System.out.println("Can't connect Server");
-            }
-            
-        }while(true);
-        
-        
-        
+
+        do {
+            Socket client = serverSocket.accept();
+            System.out.println("New Client Accepted");
+
+            ClientHandler handler = new ClientHandler(client);
+            handler.start();
+        } while (true);
 
     }
 

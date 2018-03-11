@@ -17,9 +17,9 @@ public class ClientHandler extends Thread {
         this.client = client;
         try {
             input = new Scanner(client.getInputStream());
-            output = new PrintWriter(client.getOutputStream());
+            output = new PrintWriter(client.getOutputStream(),true);
         } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error in  Constucte");
         }
     }
     @Override
