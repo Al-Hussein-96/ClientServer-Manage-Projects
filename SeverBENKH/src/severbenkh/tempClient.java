@@ -29,31 +29,38 @@ public class tempClient {
 
     private static void sendMessage() {
         Socket socket = null;
-        
+
         try {
-            socket = new Socket(host,PORT);
+            socket = new Socket(host, PORT);
             BufferedReader networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            PrintWriter networkOutput = new PrintWriter(socket.getOutputStream(),true);
-            
+            PrintWriter networkOutput = new PrintWriter(socket.getOutputStream(), true);
+
             Scanner userEnrty = new Scanner(System.in);
-            
-            String message,response;
-            
-            do{
-                System.out.println("Enter Message ('QUIT') to exit: ");
-                
+
+            String message, response;
+
+            do {
+                System.out.println("Enter Message ('Stop') to exit: ");
+
                 message = userEnrty.nextLine();
                 networkOutput.println(message);
+
+                System.out.print("Enter UserName: ");
+                message = userEnrty.nextLine();
+                networkOutput.println(message);
+                System.out.print("Enter Password: ");
+                message = userEnrty.nextLine();
+                networkOutput.println(message);
+
                 response = networkInput.readLine();
-                
+
                 System.out.println("\nServer : " + response);
-                
-            }while(!message.equals("QUIT"));
-            
-            
+
+            } while (!message.equals("QUIT"));
+
         } catch (IOException ex) {
             ex.printStackTrace();
-        }finally{
+        } finally {
             try {
                 System.out.println("\nClosing connection...");
                 socket.close();

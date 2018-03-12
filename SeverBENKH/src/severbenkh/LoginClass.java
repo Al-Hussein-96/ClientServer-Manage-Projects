@@ -7,18 +7,15 @@ import static severbenkh.ResourceManager.load;
 public class LoginClass {
 
     public static boolean Login(User user) {
-        List<User> UserList = new ArrayList<>();
+        List<User> UserList;
         try {
             UserList = (ArrayList) load("UserSignUp.data");
         } catch (Exception ex) {
             return false;
         }
         for (User Tempuser : UserList) {
-            if (Tempuser.Name.equals(user.Name)) {
-                if (Tempuser.Password.equals(user.Password)) {
-                    return true;
-                }
-                return false;
+            if (Tempuser.getName().equals(user.getName())) {
+                return Tempuser.getPassword().equals(user.getPassword());
             }
         }
         return false;
