@@ -18,15 +18,6 @@ public class SeverBENKH {
 
     public static void main(String[] args) throws IOException {
         
-        /***************** temp *****************/
-        int s = 1;
-        try {
-            ResourceManager.save(s, "Moh");
-        } catch (Exception ex) {
-            Logger.getLogger(SeverBENKH.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /*****************************************/
-        
         try{
             serverSocket = new ServerSocket(PORT);
         } catch (IOException ex) {

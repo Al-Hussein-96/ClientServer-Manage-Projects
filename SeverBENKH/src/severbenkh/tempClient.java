@@ -33,7 +33,6 @@ public class tempClient {
         try {
             socket = new Socket(host,PORT);
             BufferedReader networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
             PrintWriter networkOutput = new PrintWriter(socket.getOutputStream(),true);
             
             Scanner userEnrty = new Scanner(System.in);
@@ -42,6 +41,7 @@ public class tempClient {
             
             do{
                 System.out.println("Enter Message ('QUIT') to exit: ");
+                
                 message = userEnrty.nextLine();
                 networkOutput.println(message);
                 response = networkInput.readLine();

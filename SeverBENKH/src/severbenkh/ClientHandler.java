@@ -1,6 +1,5 @@
 package severbenkh;
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,34 +14,49 @@ public class ClientHandler extends Thread {
 
     private Socket client;
     private BufferedReader input;
-
     private PrintWriter output;
 
     ClientHandler(Socket client) {
         this.client = client;
+
         try {
             input = new BufferedReader(new InputStreamReader(client.getInputStream()));
-
-            output = new PrintWriter(client.getOutputStream(),true);
+            output = new PrintWriter(client.getOutputStream(), true);
         } catch (IOException ex) {
             System.out.println("Error in  Constucte");
         }
+
     }
+
     @Override
-    public  void run(){
+    public void run() {
         String received = null;
-        do{
+        do {
             try {
                 received = input.readLine();
+
+                switch (received) {
+                    case "SIGNUP":
+                        /// go to Class SignUP
+
+                        break;
+                    case "LOGIN":
+                        /// go to Class Login
+                        break;
+
+                    case "Send File":
+
+                        break;
+
+                }
+
             } catch (IOException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-       
-            output.println("ECHO: " + received);
-            
-        }while(!received.equals("Stop"));
-        if(client != null)
-        {
+
+            //   output.println("ECHO: " + received);
+        } while (!received.equals("Stop"));
+        if (client != null) {
             try {
                 System.out.println("Closing connection...");
                 client.close();
@@ -50,20 +64,7 @@ public class ClientHandler extends Thread {
                 System.out.println("Unable to disconnect");
             }
         }
-        
-        
+
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
