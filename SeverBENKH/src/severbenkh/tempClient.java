@@ -1,5 +1,8 @@
 package severbenkh;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -29,8 +32,8 @@ public class tempClient {
         
         try {
             socket = new Socket(host,PORT);
+            BufferedReader networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             
-            Scanner networkInput = new Scanner(socket.getInputStream());
             PrintWriter networkOutput = new PrintWriter(socket.getOutputStream(),true);
             
             Scanner userEnrty = new Scanner(System.in);
@@ -41,7 +44,7 @@ public class tempClient {
                 System.out.println("Enter Message ('QUIT') to exit: ");
                 message = userEnrty.nextLine();
                 networkOutput.println(message);
-                response = networkInput.nextLine();
+                response = networkInput.readLine();
                 
                 System.out.println("\nServer : " + response);
                 

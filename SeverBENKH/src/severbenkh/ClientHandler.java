@@ -1,5 +1,9 @@
 package severbenkh;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -10,13 +14,15 @@ import java.util.logging.Logger;
 public class ClientHandler extends Thread {
 
     private Socket client;
-    private Scanner input;
+    private BufferedReader input;
+
     private PrintWriter output;
 
     ClientHandler(Socket client) {
         this.client = client;
         try {
-            input = new Scanner(client.getInputStream());
+            input = new BufferedReader(new InputStreamReader(client.getInputStream()));
+
             output = new PrintWriter(client.getOutputStream(),true);
         } catch (IOException ex) {
             System.out.println("Error in  Constucte");
@@ -24,9 +30,14 @@ public class ClientHandler extends Thread {
     }
     @Override
     public  void run(){
-        String received;
+        String received = null;
         do{
-            received = input.nextLine();
+            try {
+                received = input.readLine();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       
             output.println("ECHO: " + received);
             
         }while(!received.equals("Stop"));
