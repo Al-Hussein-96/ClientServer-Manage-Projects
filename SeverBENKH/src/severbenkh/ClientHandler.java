@@ -21,7 +21,8 @@ public class ClientHandler extends Thread {
 
         try {
             input = new BufferedReader(new InputStreamReader(client.getInputStream()));
-            output = new PrintWriter(client.getOutputStream(), true);
+
+            output = new PrintWriter(client.getOutputStream(),true);
         } catch (IOException ex) {
             System.out.println("Error in  Constucte");
         }
