@@ -11,12 +11,12 @@ import java.nio.file.Paths;
 public class ResourceManager {
 
     public static void save(Serializable data, String fileName) throws Exception {
-        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get("src/" + fileName)))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(Paths.get(fileName)))) {
             oos.writeObject(data);
         }
     }
     public static Object load(String fileName) throws Exception {
-        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get("src/" + fileName)))) {
+        try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(Paths.get(fileName)))) {
             return ois.readObject();
         }
     }
