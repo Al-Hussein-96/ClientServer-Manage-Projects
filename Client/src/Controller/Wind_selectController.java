@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package login;
+package Controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
@@ -38,7 +38,10 @@ public class Wind_selectController implements Initializable {
 
     @FXML
     private void login_c(MouseEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLDocument.fxml"));
+        login.getScene().getWindow().hide();
+        
+        
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/LoginMain.fxml"));
         Parent root1 = (Parent) fxmlLoader.load();
         Stage stage = new Stage();
         stage.setScene(new Scene(root1));

@@ -27,6 +27,7 @@ public class SignUpClass {
         String directoryname="src\\Users Information\\"+user.getName();
         String userFileName=directoryname+"\\"+user.getName()+"information file.data";
         String projectFileName=directoryname+"\\"+user.getName()+"projects.data";
+        
         //create a directory for each user
         File dir=new File(directoryname);
         if(!dir.exists()){
@@ -35,6 +36,7 @@ public class SignUpClass {
             return false;
         }
         user.setId(x);
+        
         //create user file contains user name and password
         try {
             save(user, userFileName);

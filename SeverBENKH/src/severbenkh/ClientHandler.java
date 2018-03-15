@@ -70,6 +70,9 @@ public class ClientHandler extends Thread {
             String name = input.readLine();
             String password = input.readLine();
             boolean ok = SignUpClass.SignUp(new User(name, password));
+            
+            
+            
             if (ok) {
                 output.println("Server Agree on username");
             } else {
