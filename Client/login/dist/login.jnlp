@@ -10,7 +10,7 @@
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib\fontawesomefx-8.9.jar" size="571068" download="eager" />
     <jar href="lib\jfoenix-8.0.1.jar" size="2405715" download="eager" />
-    <jar href="login.jar" size="32259" download="eager" />
+    <jar href="login.jar" size="59553" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="login" >
     <param name="requiredFXVersion" value="8.0+"/>

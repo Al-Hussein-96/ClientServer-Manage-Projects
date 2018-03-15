@@ -20,7 +20,7 @@ public class Login extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Wind_select.fxml"));
         
         Scene scene = new Scene(root);
         //To dont show bar

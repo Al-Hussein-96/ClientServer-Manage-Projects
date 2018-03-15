@@ -23,4 +23,9 @@ and open the template in the editor.
  {
      -fx-background-color: #3196DE
  }
+ 
+.left
+{
+    -fx-background-color: #303F9F
+}
 
