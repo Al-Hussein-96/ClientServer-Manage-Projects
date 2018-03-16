@@ -1,40 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package severbenkh;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Najib
- */
-public class Project {
+public class Project  implements Serializable{
     int id;
-    String userName;
-    String projectName;
-    List<User>users;
-    Date lastCommite;
+    String userCreateProject;
+    String ProjectName;
+    String ProjectDirectory;
+    /// Names of users work in project
+    List<String>users = new ArrayList<>();
     int numberOFBranshes;
+    int NumberOfVersion;
+    List < branchClass > branchListClass = new ArrayList<>();
     
     // add project to projects file
-    public static void addProject(Project project) throws IOException{
-        String fileName=SeverBENKH.ProjectFileName;
-        try {
-            ResourceManager.save((Serializable) project,fileName);
-        } catch (Exception ex) {
-            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /// don't make new project if ProjectDirectory is used from another project
+
+    Project(String userCreateProject , String ProjectName , String ProjectDirectory) throws IOException, Exception{
+        this.userCreateProject = userCreateProject;
+        this.ProjectName = ProjectName;
+        this.ProjectDirectory = ProjectDirectory;
+        users.add(userCreateProject);
+        NumberOfVersion = 1;
+        numberOFBranshes = 1;
+        branchClass branchMaster = new branchClass(this , "Master");
+        branchListClass.add(branchMaster);
+        
+        /// Creat Project Directory
+        File CreateProjectDirectory= new File(ProjectDirectory);
+        CreateProjectDirectory.mkdir();
+        
+        /// Creat Project File info
+        String infoDirectory = ProjectDirectory+"\\"+"info";
+        ResourceManager.save(this , infoDirectory);
+
     }
     
     

@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class Project extends Application {
 
     private static InetAddress host;
-    private static final int PORT = 4321;
+    private static final int PORT = 2233;
     public static Socket socket;
     public static BufferedReader networkInput;
     public static PrintWriter networkOutput;
