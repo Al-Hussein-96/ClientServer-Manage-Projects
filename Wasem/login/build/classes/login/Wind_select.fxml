@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.Wind_selectController">
+   <children>
+      <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css" />
+      <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css">
+         <children>
+            <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="202.0" onMouseClicked="#create_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@style.css" text="Create Account" textFill="#fff1f1" />
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="248.0" layoutY="200.0" onMouseClicked="#login_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" text="log In" textFill="#f5d6d6" />
+            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="289.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@login-512.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

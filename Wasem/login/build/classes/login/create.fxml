@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.create.fxml">
+   <children>
+      <AnchorPane layoutY="-1.0" prefHeight="141.0" prefWidth="600.0" styleClass="topPane" />
+      <AnchorPane layoutX="87.0" layoutY="43.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane">
+         <children>
+            <ImageView fitHeight="92.0" fitWidth="115.0" layoutX="175.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@download.png" />
+               </image>
+            </ImageView>
+            <JFXTextField alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="145.0" layoutY="128.0" promptText="Enter Your Name" unFocusColor="#234ad7">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="16.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXTextField>
+            <JFXButton buttonType="RAISED" layoutX="181.0" layoutY="257.0" onMouseClicked="#create_clc" prefHeight="30.0" prefWidth="75.0" styleClass="topPane" text="Done" textFill="#ffe5e5">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="20.0" />
+               </font>
+            </JFXButton>
+            <JFXPasswordField alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="8.0" layoutY="196.0" prefHeight="25.0" prefWidth="165.0" promptText="Enter Your Password" unFocusColor="#234ad7">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="16.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXPasswordField>
+            <JFXPasswordField alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="247.0" layoutY="197.0" prefHeight="25.0" prefWidth="165.0" promptText="Config Your Password" unFocusColor="#234ad7">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="16.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXPasswordField>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
