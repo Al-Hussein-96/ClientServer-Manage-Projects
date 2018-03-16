@@ -65,6 +65,7 @@ public class Wind_selectController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(root1));
             stage.initStyle(StageStyle.TRANSPARENT);
+
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
@@ -72,8 +73,9 @@ public class Wind_selectController implements Initializable {
     }
 
     @FXML
-    private void closeth(MouseEvent event) {
+    void Close(ActionEvent event) {
         Platform.exit();
+
     }
 
 }

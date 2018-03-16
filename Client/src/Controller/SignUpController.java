@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,12 +42,13 @@ public class SignUpController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
- //       JFXDepthManager.setDepth(cardpanal, 2);
+        //       JFXDepthManager.setDepth(cardpanal, 2);
     }
 
     @FXML
-    public void closeth(MouseEvent event) {
+    void Close(ActionEvent event) {
         Platform.exit();
+
     }
 
     @FXML
@@ -78,6 +78,7 @@ public class SignUpController implements Initializable {
             System.out.println("gfdgdfgdfgdfgdfgdfgdfg");
         }
     }
+
     @FXML
     private void Back(MouseEvent event) {
         try {

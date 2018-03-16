@@ -6,7 +6,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
-import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -47,8 +46,9 @@ public class LoginController implements Initializable {
     }
 
     @FXML
-    public void closeth(MouseEvent event) {
+    void Close(ActionEvent event) {
         Platform.exit();
+
     }
 
     @FXML

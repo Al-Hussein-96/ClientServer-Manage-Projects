@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class Project extends Application {
 
@@ -28,7 +29,10 @@ public class Project extends Application {
         Scene scene = new Scene(root);
 
         stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+
         stage.show();
+
         stage.setResizable(false);
     }
 
@@ -42,7 +46,7 @@ public class Project extends Application {
         socket = new Socket(host, PORT);
         networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         networkOutput = new PrintWriter(socket.getOutputStream(), true);
-        
+
         launch(args);
 
         //sendMessage();
