@@ -18,7 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-public class LoginController implements Initializable {
+public class SignUpController implements Initializable {
 
     @FXML
     private AnchorPane cardpanal;
@@ -30,19 +30,27 @@ public class LoginController implements Initializable {
     private JFXPasswordField password;
 
     @FXML
-    private JFXButton login;
+    private JFXPasswordField password_confirmation;
 
     @FXML
-    void btnlogin(ActionEvent event) {
+    private JFXButton signup;
+
+    @FXML
+    void btnSignUp(ActionEvent event) {
         String response;
         try {
-            networkOutput.println("LOGIN");
+            networkOutput.println("SIGNUP");
             String UserName = username.getText();
             String PassWord = password.getText();
+            String Password_Confirmation = password_confirmation.getText();
+            if (!PassWord.equals(Password_Confirmation)) {
+                System.out.println("Mismatch");
+                return;
+            }
             networkOutput.println(UserName);
             networkOutput.println(PassWord);
             response = networkInput.readLine();
-            if (response.equals("Login Done Correct")) {
+            if (response.equals("Server Agree on username")) {
                 //go to the next page              
             }
             System.out.println("\nServer : " + response);
@@ -50,7 +58,6 @@ public class LoginController implements Initializable {
 //            alert.setHeaderText(null);
 //            alert.setContentText(response);
 //            alert.show();
-
         } catch (IOException ex) {
             System.out.println("gfdgdfgdfgdfgdfgdfgdfg");
         }

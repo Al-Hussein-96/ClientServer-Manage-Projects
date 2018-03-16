@@ -12,8 +12,10 @@ import static severbenkh.ResourceManager.load;
 public class LoginClass {
 
     public static boolean Login(User user) {
-        String directoryname="D:\\ClientServer-Manage-Projects-master\\SeverBENKH\\src\\Users Information\\"+user.getName();
-        String filename=directoryname+"\\"+user.getName()+"file.data";
+        String directoryname="src\\Users Information\\"+user.getName();
+        String filename=directoryname+"\\"+user.getName()+"information file.data";
+        
+        
         try {
             User nuser=(User)load(filename);
             if(nuser.getPassword().equals(user.getPassword())){
