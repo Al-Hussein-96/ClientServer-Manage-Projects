@@ -10,33 +10,49 @@ import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 //import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class SignUpController implements Initializable {
 
     @FXML
-    private AnchorPane cardpanal;
-
-    @FXML
     private JFXTextField username;
-
     @FXML
     private JFXPasswordField password;
-
     @FXML
     private JFXPasswordField password_confirmation;
+    @FXML
+    private JFXButton done;
+    @FXML
+    private JFXButton back;
+    @FXML
+    private Button close;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+ //       JFXDepthManager.setDepth(cardpanal, 2);
+    }
 
     @FXML
-    private JFXButton signup;
+    public void closeth(MouseEvent event) {
+        Platform.exit();
+    }
 
     @FXML
-    void btnSignUp(ActionEvent event) {
+    private void create_clc(MouseEvent event) {
         String response;
         try {
             networkOutput.println("SIGNUP");
@@ -61,16 +77,20 @@ public class SignUpController implements Initializable {
         } catch (IOException ex) {
             System.out.println("gfdgdfgdfgdfgdfgdfgdfg");
         }
-
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        JFXDepthManager.setDepth(cardpanal, 2);
-    }
-
-    public void closeth(MouseEvent event) {
-        Platform.exit();
+    @FXML
+    private void Back(MouseEvent event) {
+        try {
+            back.getScene().getWindow().hide();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Wind_select.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

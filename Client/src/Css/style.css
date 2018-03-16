@@ -11,19 +11,19 @@ and open the template in the editor.
 .root 
 {
     -fx-background-color: #DDDDDD;
-    
+
 }
- .cardPane
- {
-     -fx-background-color: white;
-     -fx-background-radius : 8px;
-        
- }
- .topPane
- {
-     -fx-background-color: #3196DE
- }
- 
+.cardPane
+{
+    -fx-background-color: white;
+    -fx-background-radius : 8px;
+
+}
+.topPane
+{
+    -fx-background-color: #3196DE
+}
+
 .left
 {
     -fx-background-color: #303F9F

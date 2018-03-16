@@ -9,12 +9,16 @@ import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -30,6 +34,8 @@ public class Wind_selectController implements Initializable {
     private JFXButton login;
     @FXML
     private JFXButton signup;
+    @FXML
+    private Button close;
 
     /**
      * Initializes the controller class.
@@ -51,14 +57,23 @@ public class Wind_selectController implements Initializable {
     }
 
     @FXML
-    private void SignUp_c(MouseEvent event) throws IOException {
-        signup.getScene().getWindow().hide();
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/SignUp.fxml"));
-        Parent root1 = (Parent) fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root1));
-        stage.initStyle(StageStyle.TRANSPARENT);
-        stage.show();
+    private void create_c(MouseEvent event) {
+        try {
+            signup.getScene().getWindow().hide();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/SignUp.fxml"));
+            Parent root1 = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root1));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void closeth(MouseEvent event) {
+        Platform.exit();
     }
 
 }
