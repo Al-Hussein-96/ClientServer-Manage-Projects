@@ -47,7 +47,6 @@ public class ClientHandler extends Thread {
                     SendToLogin();
                     break;
                 case "Send File":
-
                     break;
 
             }

@@ -28,8 +28,6 @@ import javafx.stage.StageStyle;
 public class LoginController implements Initializable {
 
     @FXML
-    private AnchorPane cardpanal;
-    @FXML
     private JFXTextField username;
     @FXML
     private JFXPasswordField password;
@@ -38,7 +36,7 @@ public class LoginController implements Initializable {
     @FXML
     private JFXButton back;
     @FXML
-    private Button close;
+    private AnchorPane cardpanal;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -62,7 +60,7 @@ public class LoginController implements Initializable {
             networkOutput.println(PassWord);
             response = networkInput.readLine();
             if (response.equals("Login Done Correct")) {
-                //go to the next page              
+                GoToMainPage();
             }
             System.out.println("\nServer : " + response);
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -71,7 +69,7 @@ public class LoginController implements Initializable {
 //            alert.show();
 
         } catch (IOException ex) {
-            System.out.println("gfdgdfgdfgdfgdfgdfgdfg");
+            System.out.println("Error LOGIN");
         }
     }
 
@@ -89,5 +87,20 @@ public class LoginController implements Initializable {
             Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    private void GoToMainPage() {
+        try {
+            login.getScene().getWindow().hide();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/MainPage.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 
 }

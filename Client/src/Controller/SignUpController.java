@@ -67,7 +67,7 @@ public class SignUpController implements Initializable {
             networkOutput.println(PassWord);
             response = networkInput.readLine();
             if (response.equals("Server Agree on username")) {
-                //go to the next page              
+                GoToMainPage();
             }
             System.out.println("\nServer : " + response);
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -75,7 +75,7 @@ public class SignUpController implements Initializable {
 //            alert.setContentText(response);
 //            alert.show();
         } catch (IOException ex) {
-            System.out.println("gfdgdfgdfgdfgdfgdfgdfg");
+            System.out.println("Error SIGN UP");
         }
     }
 
@@ -91,6 +91,20 @@ public class SignUpController implements Initializable {
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void GoToMainPage() {
+        try {
+            back.getScene().getWindow().hide();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/MainPage.fxml"));
+            Parent root = (Parent) fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
