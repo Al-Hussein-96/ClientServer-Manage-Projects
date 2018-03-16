@@ -10,7 +10,7 @@
       <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css" />
       <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css">
          <children>
-            <JFXButton buttonType="RAISED" layoutX="14.0" layoutY="202.0" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@style.css" text="Create Account" textFill="#fff1f1" />
+            <JFXButton fx:id="signup" buttonType="RAISED" layoutX="14.0" layoutY="202.0" onMouseClicked="#SignUp_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@style.css" text="Create Account" textFill="#fff1f1" />
             <JFXButton fx:id="login" buttonType="RAISED" layoutX="254.0" layoutY="200.0" onMouseClicked="#login_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" text="log In" textFill="#f5d6d6" />
             <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
