@@ -7,13 +7,10 @@ package Controller;
 
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
+import client.User;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXTextField;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +23,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.FileChooser;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javax.swing.JFileChooser;
@@ -37,6 +34,8 @@ import javax.swing.JFileChooser;
  * @author Moaz
  */
 public class MainPageController implements Initializable {
+
+    private User Owner;
 
     @FXML
     private AnchorPane cardpanal;
@@ -51,10 +50,18 @@ public class MainPageController implements Initializable {
 
     /**
      * Initializes the controller class.
+     *
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+
+    }
+
+    public void setOwner(User Owner) {
+        this.Owner = Owner;
     }
 
     @FXML
@@ -74,13 +81,11 @@ public class MainPageController implements Initializable {
                 f.showSaveDialog(null);
                 String path = f.getSelectedFile().toString();
                 System.out.println(path);
+                networkOutput.println(this.Owner.getName());
+                networkOutput.println("Mohammad"); /// this is not complete we need project name that Client choose it
                 networkOutput.println(path);
             }
             System.out.println("\nServer : " + response);
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setHeaderText(null);
-//            alert.setContentText(response);
-//            alert.show();
 
         } catch (IOException ex) {
             System.out.println("Error START PROJECT");

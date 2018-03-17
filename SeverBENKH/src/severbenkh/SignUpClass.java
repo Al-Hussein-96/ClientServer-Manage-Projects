@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,27 +15,27 @@ import static severbenkh.ResourceManager.*;
 public class SignUpClass {
 
     public static boolean SignUp(User user) throws FileNotFoundException, IOException {
-        FileInputStream id=new FileInputStream(SeverBENKH.idFileName);
-        int x=id.read();
+        FileInputStream id = new FileInputStream(SeverBENKH.idFileName);
+        int x = id.read();
         id.close();
         x++;
-        FileOutputStream idd=new FileOutputStream(SeverBENKH.idFileName);
+        FileOutputStream idd = new FileOutputStream(SeverBENKH.idFileName);
         idd.write(x);
         idd.close();
-        
-        String directoryname="src\\Users Information\\"+user.getName();
-        String userFileName=directoryname+"\\"+user.getName()+"information file.data";
-        String projectFileName=directoryname+"\\"+user.getName()+"projects.data";
-        
+
+        String directoryname = "src\\Users Information\\" + user.getName();
+        String userFileName = directoryname + "\\" + user.getName() + "information file.data";
+        String projectFileName = directoryname + "\\" + user.getName() + "projects.data";
+
         //create a directory for each user
-        File dir=new File(directoryname);
-        if(!dir.exists()){
+        File dir = new File(directoryname);
+        if (!dir.exists()) {
             dir.mkdir();
-        }else {
+        } else {
             return false;
         }
         user.setId(x);
-        
+
         //create user file contains user name and password
         try {
             save(user, userFileName);
@@ -45,8 +44,8 @@ public class SignUpClass {
         }
         //create projects file that may contains projects ids and names only
         try (PrintWriter out = new PrintWriter(projectFileName)) {
-    out.println("no projects yet!!!");
-}
+            out.println("no projects yet!!!");
+        }
 //        List<User> UserList = new ArrayList<>();
 //        try {
 //            UserList = (ArrayList) load("UserSignUp.data");
