@@ -28,7 +28,7 @@ public class Project implements Serializable {
         users.add(userCreateProject);
         NumberOfVersion = 1;
         numberOFBranshes = 1;
-        branchClass branchMaster = new branchClass(this, "Master");
+        branchClass branchMaster = new branchClass(this, "Master" , userCreateProject);
         branchListClass.add(branchMaster);
 
         /// Creat Project Directory
