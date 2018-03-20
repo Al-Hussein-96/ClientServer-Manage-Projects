@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="605.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.LoginController">
+   <children>
+      <AnchorPane prefHeight="141.0" prefWidth="556.0" styleClass="topPane">
+         <children>
+            <JFXButton cancelButton="true" layoutX="575.0" layoutY="-2.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#fff4f4" />
+            <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="15.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/Fleche-gauche.png" />
+               </image>
+            </ImageView>
+         </children></AnchorPane>
+      <AnchorPane fx:id="cardpanal" layoutX="90.0" layoutY="43.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane">
+         <children>
+            <ImageView fitHeight="97.0" fitWidth="91.0" layoutX="173.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/user-512.png" />
+               </image>
+            </ImageView>
+            <JFXTextField fx:id="username" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="122.0" prefHeight="25.0" prefWidth="176.0" promptText="Username" unFocusColor="#1e0bc6">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="18.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXTextField>
+            <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="133.0" layoutY="205.0" prefHeight="25.0" prefWidth="176.0" promptText="Password" unFocusColor="#1e0bc6">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="18.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXPasswordField>
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="332.0" layoutY="259.0" onMouseClicked="#login_c" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #03A9F4;" text="Log In" textFill="#f8f8f8">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="back" buttonType="RAISED" layoutX="14.0" layoutY="259.0" onMouseClicked="#Back" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #03A9F4;" text="Back" textFill="#f8f8f8">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
