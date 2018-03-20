@@ -13,12 +13,7 @@
    <children>
       <AnchorPane prefHeight="141.0" prefWidth="556.0" styleClass="topPane">
          <children>
-            <JFXButton cancelButton="true" layoutX="575.0" layoutY="-2.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#fff4f4" />
-            <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="15.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../res/Fleche-gauche.png" />
-               </image>
-            </ImageView>
+            <JFXButton cancelButton="true" layoutX="575.0" layoutY="-2.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" />
          </children></AnchorPane>
       <AnchorPane fx:id="cardpanal" layoutX="90.0" layoutY="43.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane">
          <children>
