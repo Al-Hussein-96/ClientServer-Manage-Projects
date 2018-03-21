@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 //import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -36,9 +37,9 @@ public class SignUpController implements Initializable {
     @FXML
     private JFXButton done;
     @FXML
-    private JFXButton back;
+    private ImageView back;
     @FXML
-    private Button close;
+    private JFXButton close;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
