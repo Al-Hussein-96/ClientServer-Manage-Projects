@@ -1,5 +1,7 @@
 package client;
 
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,8 +27,10 @@ public class Project extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
-
-        Scene scene = new Scene(root);
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        int width = gd.getDisplayMode().getWidth();
+        int height = gd.getDisplayMode().getHeight();
+        Scene scene = new Scene(root, width / 2-85, height / 2+15);
 
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
