@@ -171,8 +171,8 @@ public class ClientHandler extends Thread {
         return TempList;
     }
 
-    private List< Project> GetMyProject() {
-        List< Project> MyProject = new ArrayList<>();
+    private List< CommonProject> GetMyProject() {
+        List< CommonProject> MyProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
         for (Project s : TempList) {
             boolean ok = false;
@@ -182,21 +182,43 @@ public class ClientHandler extends Thread {
                 }
             }
             if (ok) {
-                MyProject.add(s);
+                MyProject.add(Project_to_CommonProject(s));
             }
         }
         return MyProject;
     }
 
-    private List< Project> GetPublicProject() {
-        List< Project> PublicProject = new ArrayList<>();
+    private List< CommonProject > GetPublicProject() {
+        List< CommonProject> PublicProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
         for (Project s : TempList) {
             if (s.Access == true) {
-                PublicProject.add(s);
+                
+                PublicProject.add(Project_to_CommonProject(s));
             }
         }
         return PublicProject;
     }
-
+    private CommonProject Project_to_CommonProject(Project MyProject)
+    {
+        CommonProject temp  = new CommonProject();
+        temp.Access = MyProject.Access;
+        temp.Author = MyProject.Author;
+        temp.Contributors = MyProject.Contributors;
+        temp.NameProject = MyProject.NameProject;
+        temp.id = MyProject.id;
+        temp.numberOFBranshes = MyProject.numberOFBranshes;
+        temp.DateCreate = MyProject.DateCreate;
+        List<String> BranchNames = new ArrayList<>();
+        for(branchClass s : MyProject.branchListClass)
+        {
+            BranchNames.add(s.branchName);
+            for(CommitClass t : s.way)
+            {
+                temp.way.add(t);
+            }   
+        }
+        return temp;
+    }
+    
 }

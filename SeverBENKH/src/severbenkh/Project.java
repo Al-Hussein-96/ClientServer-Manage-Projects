@@ -18,7 +18,6 @@ public class Project implements Serializable {
     List<String> Contributors = new ArrayList<>();
     int numberOFBranshes;
     int NumberOfVersion;
-    int NumberOfContributors;
     List< branchClass> branchListClass = new ArrayList<>();
     Date DateCreate  ;
     // add project to projects file
@@ -31,7 +30,6 @@ public class Project implements Serializable {
         this.ProjectDirectory = ProjectDirectory;
         Contributors.add(Author);
         NumberOfVersion = 1;
-        numberOFBranshes = 1;
         branchClass branchMaster = new branchClass(this, "Master" , Author);
         branchListClass.add(branchMaster);
         /// Creat Project Directory
