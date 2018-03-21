@@ -10,11 +10,16 @@ public class branchClass  implements  Serializable{
     List < String > way = new ArrayList<>();
     String projectdirector ; 
     /// list of user download last Version
-    List<String> users = new ArrayList<>();
+    List<String> UsersHowSeeLastUpdate = new ArrayList<>();
     Date lastCommite;
     Project father;
-    branchClass(Project father, String branchName , String userCreateBranch)
+    private void ContributorIsFoundOrNot(String Contributor)
     {
+        
+    }
+    branchClass(Project father, String branchName , String Author)
+    {
+        lastCommite = new Date();
         this.father = father;
         this.projectdirector = father.ProjectDirectory ;
         int NumberOfVersion = father.NumberOfVersion;
@@ -22,7 +27,7 @@ public class branchClass  implements  Serializable{
         /// incres Number Of Version
         File CreateProjectDirectory= new File(projectdirector+"\\"+NumberOfVersion);
         CreateProjectDirectory.mkdir();
-        users.add(userCreateBranch);
+        UsersHowSeeLastUpdate.add(Author);
         father.NumberOfVersion++;
         
     }
@@ -35,12 +40,25 @@ public class branchClass  implements  Serializable{
      {
         way.add(fatherBranch.way.get(i)); 
      }
-     users.add(userCreateBranch);
+     UsersHowSeeLastUpdate.add(userCreateBranch);
+     lastCommite = new Date();
+     boolean ok_add = true;
+     for(String s : father.Contributors)
+     {
+      if(s.equals(userCreateBranch))
+      {
+          ok_add = false;
+      }
+     }
+     if(ok_add)
+     {
+      father.Contributors.add(userCreateBranch);
+     }
     }
     
     boolean UserCanaddNewVersion(String user)
     {
-        for(String temp : users)
+        for(String temp : UsersHowSeeLastUpdate)
         {
             if(temp.equals(user))
             {
@@ -54,12 +72,25 @@ public class branchClass  implements  Serializable{
     boolean addNewVersion(String user)
     {
        /// update Version
-       users.clear();
-       users.add(user);
+       UsersHowSeeLastUpdate.clear();
+       UsersHowSeeLastUpdate.add(user);
        int NumberOfVersion = father.NumberOfVersion;
        way.add(projectdirector+"\\"+NumberOfVersion);
        father.NumberOfVersion++;
+       lastCommite = new Date();
        
+       boolean ok_add = true;
+        for(String s : father.Contributors)
+        {
+         if(s.equals(user))
+         {
+             ok_add = false;
+         }
+        }
+        if(ok_add)
+        {
+         father.Contributors.add(user);
+        }
        return true;
     }
     

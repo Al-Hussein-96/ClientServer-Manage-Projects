@@ -3,34 +3,37 @@ package severbenkh;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Project implements Serializable {
-
+    boolean Access = true;
     int id;
-    String userCreateProject;
-    String ProjectName;
+    String Author;
+    String NameProject;
     String ProjectDirectory;
     /// Names of users work in project
-    List<String> users = new ArrayList<>();
+    List<String> Contributors = new ArrayList<>();
     int numberOFBranshes;
     int NumberOfVersion;
+    int NumberOfContributors;
     List< branchClass> branchListClass = new ArrayList<>();
-
+    Date DateCreate  ;
     // add project to projects file
     /// don't make new project if ProjectDirectory is used from another project
-    Project(String userCreateProject, String ProjectName, String ProjectDirectory) {
-        this.userCreateProject = userCreateProject;
-        this.ProjectName = ProjectName;
+    Project(boolean Access , String Author, String NameProject, String ProjectDirectory) {
+        this.Access = Access;
+        DateCreate = new Date();
+        this.Author = Author;
+        this.NameProject = NameProject;
         this.ProjectDirectory = ProjectDirectory;
-        users.add(userCreateProject);
+        Contributors.add(Author);
         NumberOfVersion = 1;
         numberOFBranshes = 1;
-        branchClass branchMaster = new branchClass(this, "Master" , userCreateProject);
+        branchClass branchMaster = new branchClass(this, "Master" , Author);
         branchListClass.add(branchMaster);
-
         /// Creat Project Directory
         File CreateProjectDirectory = new File(ProjectDirectory);
         CreateProjectDirectory.mkdir();
@@ -53,20 +56,20 @@ public class Project implements Serializable {
         this.id = id;
     }
 
-    public String getUserCreateProject() {
-        return userCreateProject;
+    public String getAuthor() {
+        return Author;
     }
 
-    public void setUserCreateProject(String userCreateProject) {
-        this.userCreateProject = userCreateProject;
+    public void setAuthor(String Author) {
+        this.Author = Author;
     }
 
-    public String getProjectName() {
-        return ProjectName;
+    public String getNameProject() {
+        return NameProject;
     }
 
-    public void setProjectName(String ProjectName) {
-        this.ProjectName = ProjectName;
+    public void setNameProject(String NameProject) {
+        this.NameProject = NameProject;
     }
 
     public String getProjectDirectory() {
@@ -78,11 +81,11 @@ public class Project implements Serializable {
     }
 
     public List<String> getUsers() {
-        return users;
+        return Contributors;
     }
 
     public void setUsers(List<String> users) {
-        this.users = users;
+        this.Contributors = users;
     }
 
     public int getNumberOFBranshes() {

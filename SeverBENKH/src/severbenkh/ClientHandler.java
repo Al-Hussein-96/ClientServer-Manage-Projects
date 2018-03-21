@@ -2,19 +2,23 @@ package severbenkh;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static severbenkh.SeverBENKH.projectdirectoryName;
 
 public class ClientHandler extends Thread {
-
+    private String MyUser;
     private Socket client;
     private BufferedReader input;
     private PrintWriter output;
@@ -33,6 +37,7 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
+        
         String command = null;
         do {
             try {
@@ -79,6 +84,7 @@ public class ClientHandler extends Thread {
             boolean ok = SignUpClass.SignUp(new User(name, password));
 
             if (ok) {
+                MyUser = name;
                 output.println("Server Agree on username");
             } else {
                 output.println("User Name is exist! please Change it");
@@ -94,6 +100,7 @@ public class ClientHandler extends Thread {
             String password = input.readLine();
             boolean ok = LoginClass.Login(new User(name, password));
             if (ok) {
+                MyUser = name;
                 output.println("Login Done Correct");
             } else {
                 output.println("username or password is incorrect");
@@ -106,13 +113,24 @@ public class ClientHandler extends Thread {
     private void SendToStartProject() {
         try {
             output.println("Done");
-            String userCreateProject = input.readLine();
-            String ProjectName = input.readLine();
+            boolean Access;
+         ///   String Author = input.readLine();
+            String Author = MyUser;
+            String NameProject = input.readLine();
             String ProjectDirectory = input.readLine();
+            String tempAccess = input.readLine();
+           /// 
+            if(tempAccess == "true")
+            {
+                Access = true;
+            }
+            else 
+            {
+                Access = false;
+            }
+            System.out.println(Author + " : " + NameProject + " : " + ProjectDirectory);
 
-            System.out.println(userCreateProject + " : " + ProjectName + " : " + ProjectDirectory);
-
-            Project NewProject = new Project(userCreateProject, ProjectName, ProjectDirectory);
+            Project NewProject = new Project(Access,Author, NameProject, ProjectDirectory);
 
             AddNewProjectToServer(NewProject);
 
@@ -129,11 +147,67 @@ public class ClientHandler extends Thread {
     private void AddNewProjectToServer(Project NewProject) {
 
         try {
-            ResourceManager.save((Serializable) NewProject, projectdirectoryName + "\\" + NewProject.ProjectName);
+            ResourceManager.save((Serializable) NewProject, projectdirectoryName + "\\" + NewProject.NameProject);
         } catch (Exception ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    
+    
+    private List < Project > getAllProjectInServer()
+    {
+        List < Project > TempList = new ArrayList<>();
+        String projectdirectoryName = "src\\Projects Information";
+        File Allproject = new File(projectdirectoryName);
+        ViewfolderClass Viewfolder = ResourceManager.ViewFolder(Allproject);
+        for(String s : Viewfolder.MyFolder)
+        {
+            String sdirectoryName = projectdirectoryName+"\\"+s+"info";
+            try {
+	            FileInputStream fileIn = new FileInputStream(sdirectoryName);
+	            ObjectInputStream objectIn = new ObjectInputStream(fileIn); 
+	            Project obj = (Project)objectIn.readObject();
+                    TempList.add(obj);
+	            objectIn.close();
+	        } catch (Exception ex) {
+
+	        } 
+        }
+        return TempList;
+    }
+    private List < Project > GetMyProject() {
+        List < Project > MyProject = new ArrayList<>();
+        List < Project > TempList = getAllProjectInServer();
+         for(Project s : TempList)
+        {
+            boolean ok = false;
+            for(String t : s.Contributors)
+            {
+                if(t.equals(MyUser))
+                {
+                    ok = true;
+                }
+            }
+            if(ok)
+            {
+             MyProject.add(s);
+            }
+        }
+         return MyProject;
+    }
+    private List < Project > GetPublicProject() {
+        List < Project > PublicProject = new ArrayList<>();
+        List < Project > TempList = getAllProjectInServer();
+        for(Project s : TempList)
+        {
+            if(s.Access == true)
+            {
+                PublicProject.add(s);
+            }
+        }
+        return PublicProject;
     }
 
 }
