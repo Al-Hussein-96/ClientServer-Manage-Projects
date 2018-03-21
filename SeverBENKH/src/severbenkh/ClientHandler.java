@@ -54,6 +54,7 @@ public class ClientHandler extends Thread {
                     SendToLogin();
                     break;
                 case "STARTPROJECT":
+                    System.out.println("StartProject");
                     SendToStartProject();
                     break;
 

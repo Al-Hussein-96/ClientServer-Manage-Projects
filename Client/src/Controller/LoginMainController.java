@@ -18,13 +18,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-//import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class LoginController implements Initializable {
+public class LoginMainController implements Initializable {
 
     @FXML
     private JFXTextField username;
@@ -83,18 +82,18 @@ public class LoginController implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void GoToMainPage() {
         try {
             login.getScene().getWindow().hide();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/First_Windows.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PageMain.fxml"));
             Parent root = (Parent) fxmlLoader.load();
 
-//            MainPageController mainPageController = fxmlLoader.getController();
-//            mainPageController.setOwner(new User(username.getText(), password.getText()));
+            PageMainController mainPageController = fxmlLoader.getController();
+            mainPageController.setOwner(new User(username.getText(), password.getText()));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

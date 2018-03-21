@@ -90,7 +90,7 @@ public class SignUpController implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -104,7 +104,7 @@ public class SignUpController implements Initializable {
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

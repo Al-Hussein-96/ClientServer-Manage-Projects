@@ -45,69 +45,7 @@ public class Project implements Serializable {
 
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getUserCreateProject() {
-        return userCreateProject;
-    }
-
-    public void setUserCreateProject(String userCreateProject) {
-        this.userCreateProject = userCreateProject;
-    }
-
-    public String getProjectName() {
-        return ProjectName;
-    }
-
-    public void setProjectName(String ProjectName) {
-        this.ProjectName = ProjectName;
-    }
-
-    public String getProjectDirectory() {
-        return ProjectDirectory;
-    }
-
-    public void setProjectDirectory(String ProjectDirectory) {
-        this.ProjectDirectory = ProjectDirectory;
-    }
-
-    public List<String> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<String> users) {
-        this.users = users;
-    }
-
-    public int getNumberOFBranshes() {
-        return numberOFBranshes;
-    }
-
-    public void setNumberOFBranshes(int numberOFBranshes) {
-        this.numberOFBranshes = numberOFBranshes;
-    }
-
-    public int getNumberOfVersion() {
-        return NumberOfVersion;
-    }
-
-    public void setNumberOfVersion(int NumberOfVersion) {
-        this.NumberOfVersion = NumberOfVersion;
-    }
-
-    public List<branchClass> getBranchListClass() {
-        return branchListClass;
-    }
-
-    public void setBranchListClass(List<branchClass> branchListClass) {
-        this.branchListClass = branchListClass;
-    }
     
     
     

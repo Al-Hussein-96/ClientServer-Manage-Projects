@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controller;
 
 import client.TabelProject;
@@ -15,20 +10,24 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.util.Callback;
 
-/**
- *
- * @author Al-Hussein
- */
 public class MyProjectController implements Initializable {
 
     @FXML
     private JFXTreeTableView<TabelProject> TabelView;
+
+    @FXML
+    void btnOpen(ActionEvent event) {
+        
+        
+
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,19 +76,14 @@ public class MyProjectController implements Initializable {
                 return param.getValue().getValue().NumberOfCommits;
             }
         });
-        
-                ObservableList<TabelProject> users = FXCollections.observableArrayList();
-        users.add(new TabelProject("Computer", "2012", "Mohammad","3","2"));
-        users.add(new TabelProject("Sales", "2015", "Ahmad","2","3"));
-        users.add(new TabelProject("IT", "2018", "Moaz","5","23"));
-//        users.add(new User("Sales Department", "25", "Employee 4"));
-//        users.add(new User("Sales Department", "25", "Employee 5"));
-//        users.add(new User("IT Department", "42", "ID 2"));
-//        users.add(new User("HR Department", "22", "HR 1"));
-//        users.add(new User("HR Department", "22", "HR 2"));
+
+        ObservableList<TabelProject> users = FXCollections.observableArrayList();
+        users.add(new TabelProject("Computer", "2012", "Mohammad", "3", "2"));
+        users.add(new TabelProject("Sales", "2015", "Ahmad", "2", "3"));
+        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
 
         final TreeItem<TabelProject> root = new RecursiveTreeItem<TabelProject>(users, RecursiveTreeObject::getChildren);
-        TabelView.getColumns().setAll(nameProject, dataCreate, author,numberOfContributors,numberOfCommits);
+        TabelView.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
         TabelView.setRoot(root);
         TabelView.setShowRoot(false);
 

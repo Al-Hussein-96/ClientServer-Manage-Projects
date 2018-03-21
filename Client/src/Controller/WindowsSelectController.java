@@ -28,7 +28,7 @@ import javafx.stage.StageStyle;
  *
  * @author Wasem
  */
-public class Wind_selectController implements Initializable {
+public class WindowsSelectController implements Initializable {
 
     @FXML
     private JFXButton login;
@@ -68,7 +68,7 @@ public class Wind_selectController implements Initializable {
 
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(Wind_selectController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
