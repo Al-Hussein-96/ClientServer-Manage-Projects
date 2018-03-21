@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.net.Socket;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.DataOutputStream;
 import static severbenkh.SeverBENKH.projectdirectoryName;
 
 public class ClientHandler extends Thread {
@@ -61,6 +63,9 @@ public class ClientHandler extends Thread {
                     break;
                 case "STARTPROJECT":
                     SendToStartProject();
+                    break;
+                case "MYPROJECT":
+                    SendToMyProject();
                     break;
 
             }
@@ -136,6 +141,37 @@ public class ClientHandler extends Thread {
         }
     }
 
+    private void SendToMyProject() {
+        List< CommonProject> MyProject = GetMyProject();
+
+        try {
+
+            output.println("Done");
+
+            FileOutputStream fos = new FileOutputStream("temp.data");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(MyProject);
+            oos.close();
+
+            DataOutputStream dos = new DataOutputStream(client.getOutputStream());
+            FileInputStream fis = new FileInputStream("temp.data");
+            byte[] buffer = new byte[4096];
+
+            while (fis.read(buffer) > 0) {
+                dos.write(buffer);
+            }
+
+            fis.close();
+            dos.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     /*
     *  This function to add the new project to all projects in the server in track (src\\Projects Information)
     *  
@@ -188,20 +224,19 @@ public class ClientHandler extends Thread {
         return MyProject;
     }
 
-    private List< CommonProject > GetPublicProject() {
+    private List< CommonProject> GetPublicProject() {
         List< CommonProject> PublicProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
         for (Project s : TempList) {
             if (s.Access == true) {
-                
                 PublicProject.add(Project_to_CommonProject(s));
             }
         }
         return PublicProject;
     }
-    private CommonProject Project_to_CommonProject(Project MyProject)
-    {
-        CommonProject temp  = new CommonProject();
+
+    private CommonProject Project_to_CommonProject(Project MyProject) {
+        CommonProject temp = new CommonProject();
         temp.Access = MyProject.Access;
         temp.Author = MyProject.Author;
         temp.Contributors = MyProject.Contributors;
@@ -210,15 +245,13 @@ public class ClientHandler extends Thread {
         temp.numberOFBranshes = MyProject.numberOFBranshes;
         temp.DateCreate = MyProject.DateCreate;
         List<String> BranchNames = new ArrayList<>();
-        for(branchClass s : MyProject.branchListClass)
-        {
+        for (branchClass s : MyProject.branchListClass) {
             BranchNames.add(s.branchName);
-            for(CommitClass t : s.way)
-            {
+            for (CommitClass t : s.way) {
                 temp.way.add(t);
-            }   
+            }
         }
         return temp;
     }
-    
+
 }

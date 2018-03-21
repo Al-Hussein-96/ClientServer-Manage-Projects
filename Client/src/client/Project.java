@@ -4,11 +4,9 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +24,7 @@ public class Project extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/PageMain.fxml"));
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         int width = gd.getDisplayMode().getWidth();
         int height = gd.getDisplayMode().getHeight();
@@ -41,15 +39,15 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        try {
-            host = InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            System.out.println("\nHost ID not foun!");
-            System.exit(1);
-        }
-        socket = new Socket(host, PORT);
-        networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        networkOutput = new PrintWriter(socket.getOutputStream(), true);
+//        try {
+//            host = InetAddress.getLocalHost();
+//        } catch (UnknownHostException ex) {
+//            System.out.println("\nHost ID not foun!");
+//            System.exit(1);
+//        }
+//        socket = new Socket(host, PORT);
+//        networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        networkOutput = new PrintWriter(socket.getOutputStream(), true);
 
         launch(args);
 
