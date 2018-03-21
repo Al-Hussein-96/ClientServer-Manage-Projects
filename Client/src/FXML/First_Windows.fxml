@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.Group?>
-<?import javafx.scene.effect.Light.Distant?>
 <?import javafx.scene.effect.Lighting?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.effect.Shadow?>
@@ -13,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="455.0" prefWidth="693.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="900.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.First_Windows">
    <children>
-      <AnchorPane prefHeight="455.0" prefWidth="164.0" style="-fx-background-color: #000033;">
+      <AnchorPane prefHeight="800.0" prefWidth="202.0" style="-fx-background-color: #000033;">
          <children>
             <Text fill="#ffebeb" layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BEHKN">
                <font>
@@ -33,9 +31,7 @@
                            <bumpInput>
                               <Shadow />
                            </bumpInput>
-                           <light>
-                              <Light.Distant />
-                           </light>
+                          
                         </Lighting>
                      </effect>
                      <graphic>
@@ -50,7 +46,7 @@
             </Group>
             <Group layoutX="15.0" layoutY="152.0" opacity="0.99">
                <children>
-                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-47.0" layoutY="-8.0" prefHeight="46.0" prefWidth="211.0" ripplerFill="#cf7f19" text="MY Project" textFill="#00edbc">
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-42.0" layoutY="-8.0" onAction="#btnmyproject" prefHeight="46.0" prefWidth="211.0" ripplerFill="#cf7f19" text="MY Project" textFill="#00edbc">
                      <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />
                      </font>
@@ -69,7 +65,7 @@
             </Group>
             <Group layoutX="28.0" layoutY="228.0" opacity="0.99">
                <children>
-                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-37.0" layoutY="-30.0" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
                      <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />
                      </font>
@@ -86,9 +82,8 @@
                   </JFXButton>
                </children>
             </Group>
-            <MaterialDesignIconView fill="#eee7e7" glyphName="VIEW_HEADLINE" layoutX="166.0" layoutY="50.0" size="25" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="202.0" prefHeight="455.0" prefWidth="493.0" styleClass="cardPane" />
+      <AnchorPane fx:id="roopane" layoutX="202.0" prefHeight="800.0" prefWidth="699.0" styleClass="cardPane" />
    </children>
 </AnchorPane>

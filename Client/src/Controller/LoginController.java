@@ -32,8 +32,7 @@ public class LoginController implements Initializable {
     private JFXPasswordField password;
     @FXML
     private JFXButton login;
-    @FXML
-    private JFXButton back;
+
     @FXML
     private AnchorPane cardpanal;
 
@@ -74,8 +73,9 @@ public class LoginController implements Initializable {
 
     @FXML
     private void Back(MouseEvent event) {
+
         try {
-            back.getScene().getWindow().hide();
+            login.getScene().getWindow().hide();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Wind_select.fxml"));
             Parent root1 = (Parent) fxmlLoader.load();
             Stage stage = new Stage();
@@ -90,18 +90,18 @@ public class LoginController implements Initializable {
     private void GoToMainPage() {
         try {
             login.getScene().getWindow().hide();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/MainPage.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/First_Windows.fxml"));
             Parent root = (Parent) fxmlLoader.load();
 
-            MainPageController mainPageController = fxmlLoader.getController();
-            mainPageController.setOwner(new User(username.getText(), password.getText()));
+//            MainPageController mainPageController = fxmlLoader.getController();
+//            mainPageController.setOwner(new User(username.getText(), password.getText()));
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("error : " + ex.getMessage());
         }
     }
 

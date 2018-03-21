@@ -17,7 +17,7 @@
             <JFXButton fx:id="login" buttonType="RAISED" layoutX="248.0" layoutY="200.0" onMouseClicked="#login_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@../Css/style.css" text="log In" textFill="#fff1f1" />
             <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../res/images.jpg" />
+                  <Image url="@../res/Sign_Up-512.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="289.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
