@@ -34,6 +34,8 @@ public class WindowsSelectController implements Initializable {
     private JFXButton login;
     @FXML
     private JFXButton signup;
+    @FXML
+    private Button close;
 
     /**
      * Initializes the controller class.

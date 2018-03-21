@@ -1,7 +1,5 @@
 package client;
 
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -24,11 +22,10 @@ public class Project extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/PageMain.fxml"));
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        int width = gd.getDisplayMode().getWidth();
-        int height = gd.getDisplayMode().getHeight();
-        Scene scene = new Scene(root, width / 2-85, height / 2+15);
+
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
+
+        Scene scene = new Scene(root);
 
         stage.setScene(scene);
         stage.initStyle(StageStyle.TRANSPARENT);
