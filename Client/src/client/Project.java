@@ -24,7 +24,7 @@ public class Project extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/FXML/Wind_select.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
 
         Scene scene = new Scene(root);
 

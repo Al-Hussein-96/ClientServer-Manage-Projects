@@ -3,7 +3,6 @@ package Controller;
 import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.User;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -41,9 +40,9 @@ public class CreateProjectController implements Initializable {
 
             if (response.equals("Done")) {
                 String path = txtLocation.getText();
-                networkOutput.println(Owner.getName());
                 networkOutput.println(txtNameProject.getText());
                 networkOutput.println(path);
+                networkOutput.println("true");
             }
             System.out.println("\nServer : " + response);
 

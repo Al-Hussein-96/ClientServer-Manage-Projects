@@ -13,7 +13,12 @@
     <children>
         <AnchorPane layoutY="-1.0" prefHeight="141.0" prefWidth="600.0" styleClass="topPane">
          <children>
-            <JFXButton cancelButton="true" layoutX="568.0" layoutY="-1.0" onAction="#Close" prefHeight="30.0" prefWidth="32.0" text="X" />
+            <JFXButton fx:id="close" cancelButton="true" layoutX="568.0" layoutY="-1.0" onAction="#Close" prefHeight="30.0" prefWidth="32.0" text="X" />
+            <ImageView fx:id="back" fitHeight="20.0" fitWidth="30.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#Back" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/Fleche-gauche.png" />
+               </image>
+            </ImageView>
          </children></AnchorPane>
         <AnchorPane layoutX="87.0" layoutY="43.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane">
             <children>
@@ -51,11 +56,6 @@
                         <Reflection />
                     </effect>
                 </JFXPasswordField>
-            <JFXButton fx:id="back" buttonType="RAISED" layoutY="281.0" onMouseClicked="#Back" prefHeight="27.0" prefWidth="92.0" style="-fx-background-color: #03A9F4;" text="Back" textFill="#f8f8f8">
-               <font>
-                  <Font name="CoconNextArabic-Light" size="18.0" />
-               </font>
-            </JFXButton>
             </children>
         </AnchorPane>
     </children>
