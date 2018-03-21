@@ -7,20 +7,20 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WindowsSelectController">
    <children>
-      <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css" AnchorPane.bottomAnchor="260.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css">
          <children>
-            <JFXButton cancelButton="true" layoutX="571.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="29.0" text="X" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="570.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <JFXButton cancelButton="true" layoutX="571.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="29.0" text="X" />
          </children></AnchorPane>
-      <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="84.0" AnchorPane.rightAnchor="84.0" AnchorPane.topAnchor="50.0">
+      <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css">
          <children>
-            <JFXButton fx:id="signup" buttonType="RAISED" layoutX="14.0" layoutY="202.0" onMouseClicked="#create_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@../Css/style.css" text="Create Account" textFill="#fff1f1" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="200.0" />
-            <JFXButton fx:id="login" buttonType="RAISED" layoutX="248.0" layoutY="200.0" onMouseClicked="#login_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@../Css/style.css" text="log In" textFill="#fff1f1" AnchorPane.bottomAnchor="86.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="200.0" />
-            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="290.0" AnchorPane.topAnchor="72.0">
+            <JFXButton fx:id="signup" buttonType="RAISED" layoutX="14.0" layoutY="202.0" onMouseClicked="#create_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@../Css/style.css" text="Create Account" textFill="#fff1f1" />
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="248.0" layoutY="200.0" onMouseClicked="#login_c" prefHeight="28.0" prefWidth="173.0" styleClass="topPane" stylesheets="@../Css/style.css" text="log In" textFill="#fff1f1" />
+            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/Sign_Up-512.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="289.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="290.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="72.0">
+            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="289.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/login-512.png" />
                </image>
