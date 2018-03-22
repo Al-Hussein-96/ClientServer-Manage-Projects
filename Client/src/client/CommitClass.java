@@ -1,8 +1,9 @@
 package client;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class CommitClass {
+public class CommitClass implements  Serializable{
     String Directory = "";
     String Author = ""; 
     Date MyDate ;

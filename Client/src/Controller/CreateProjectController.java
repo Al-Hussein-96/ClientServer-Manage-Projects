@@ -41,7 +41,9 @@ public class CreateProjectController implements Initializable {
             if (response.equals("Done")) {
                 String path = txtLocation.getText();
                 networkOutput.println(txtNameProject.getText());
-                networkOutput.println(path);
+                /// should not send bath   
+                /// should save it in client folders
+               /// networkOutput.println(path);
                 networkOutput.println("true");
             }
             System.out.println("\nServer : " + response);

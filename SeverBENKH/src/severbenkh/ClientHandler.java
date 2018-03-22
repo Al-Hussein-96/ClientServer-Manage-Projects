@@ -122,25 +122,47 @@ public class ClientHandler extends Thread {
             boolean Access;
             String Author = MyUser;
             String NameProject = input.readLine();
-            String ProjectDirectory = input.readLine();
+            /// Should not send Directory
+            /// String ProjectDirectory = input.readLine();
+            String ProjectDirectory = SeverBENKH.projectdirectoryName;
             String tempAccess = input.readLine();
-            /// 
             if ("true".equals(tempAccess)) {
                 Access = true;
             } else {
                 Access = false;
             }
             System.out.println(Author + " : " + NameProject + " : " + ProjectDirectory);
-
-            Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
-
-            AddNewProjectToServer(NewProject);
+ 
+           boolean ok = CanAddNewProjectToServer(NameProject);
+           if(!ok)
+           {
+               System.out.println("Can't create project ");
+               return ;
+           }
+           Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
 
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    /// to see if this name is use before
+    private boolean CanAddNewProjectToServer(String s)
+    {
+        String dir = SeverBENKH.projectdirectoryName;
+        File projects = new File(dir);
+        for(File t : projects.listFiles())
+        {
+            if(t.isDirectory())
+            {
+                if(t.getName() == s)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+        
+    }
     private void SendToMyProject() {
         System.out.println("Recive Request from Client To Create list of MyProject");
         
@@ -180,27 +202,14 @@ public class ClientHandler extends Thread {
 
     }
 
-    /*
-    *  This function to add the new project to all projects in the server in track (src\\Projects Information)
-    *   when Client Create Project in GUI this function will call to add NewProject to Old Project information[
-     */
-    private void AddNewProjectToServer(Project NewProject) {
-
-        try {
-            ResourceManager.save((Serializable) NewProject, projectdirectoryName + "\\" + NewProject.NameProject);
-        } catch (Exception ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
     private List< Project> getAllProjectInServer() {
         List< Project> TempList = new ArrayList<>();
         String projectdirectoryName = "src\\Projects Information";
         File Allproject = new File(projectdirectoryName);
         ViewfolderClass Viewfolder = ResourceManager.ViewFolder(Allproject);
         for (String s : Viewfolder.MyFolder) {
-            String sdirectoryName = projectdirectoryName + "\\" + s + "info";
+            
+            String sdirectoryName =  s +"\\"+ "info";
             try {
                 FileInputStream fileIn = new FileInputStream(sdirectoryName);
                 ObjectInputStream objectIn = new ObjectInputStream(fileIn);

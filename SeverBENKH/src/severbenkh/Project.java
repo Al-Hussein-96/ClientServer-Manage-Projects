@@ -27,17 +27,19 @@ public class Project implements Serializable {
         DateCreate = new Date();
         this.Author = Author;
         this.NameProject = NameProject;
-        this.ProjectDirectory = ProjectDirectory;
+        this.ProjectDirectory = ProjectDirectory+"\\"+NameProject;     
+        /// Creat Project Directory
+        File CreateProjectDirectory = new File(this.ProjectDirectory );
+        CreateProjectDirectory.mkdir();
+        
         Contributors.add(Author);
         NumberOfVersion = 1;
         branchClass branchMaster = new branchClass(this, "Master" , Author);
         branchListClass.add(branchMaster);
-        /// Creat Project Directory
-        File CreateProjectDirectory = new File(ProjectDirectory);
-        CreateProjectDirectory.mkdir();
+        
 
         /// Creat Project File info
-        String infoDirectory = ProjectDirectory + "\\" + "info";
+        String infoDirectory = this.ProjectDirectory + "\\" + "info";
         try {
             ResourceManager.save(this, infoDirectory);
         } catch (Exception ex) {
