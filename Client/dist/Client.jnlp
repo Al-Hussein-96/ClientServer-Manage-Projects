@@ -8,11 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-<<<<<<< HEAD
-    <jar href="Client.jar" size="257778" download="eager" />
-=======
-    <jar href="Client.jar" size="257257" download="eager" />
->>>>>>> 9913d0d57bcebd4e8a73780796d87212e785b549
+    <jar href="Client.jar" size="259793" download="eager" />
     <jar href="lib\controlsfx-8.0.1.jar" size="296347" download="eager" />
     <jar href="lib\jfoenix-8.0.1.jar" size="2405715" download="eager" />
   </resources>

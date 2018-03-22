@@ -142,39 +142,46 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToMyProject() {
+        System.out.println("Recive Request from Client To Create list of MyProject");
+        
         List< CommonProject> MyProject = GetMyProject();
+        
+        System.out.println("List: " + MyProject.size());
+        
+        
+        /// for Send To Client
 
-        try {
-
-            output.println("Done");
-
-            FileOutputStream fos = new FileOutputStream("temp.data");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(MyProject);
-            oos.close();
-
-            DataOutputStream dos = new DataOutputStream(client.getOutputStream());
-            FileInputStream fis = new FileInputStream("temp.data");
-            byte[] buffer = new byte[4096];
-
-            while (fis.read(buffer) > 0) {
-                dos.write(buffer);
-            }
-
-            fis.close();
-            dos.close();
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//
+//            output.println("Done");
+//
+//            FileOutputStream fos = new FileOutputStream("temp.data");
+//            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//            oos.writeObject(MyProject);
+//            oos.close();
+//
+//            DataOutputStream dos = new DataOutputStream(client.getOutputStream());
+//            FileInputStream fis = new FileInputStream("temp.data");
+//            byte[] buffer = new byte[4096];
+//
+//            while (fis.read(buffer) > 0) {
+//                dos.write(buffer);
+//            }
+//            
+//
+//            fis.close();
+//            dos.close();
+//
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
     /*
     *  This function to add the new project to all projects in the server in track (src\\Projects Information)
-    *  
     *   when Client Create Project in GUI this function will call to add NewProject to Old Project information[
      */
     private void AddNewProjectToServer(Project NewProject) {

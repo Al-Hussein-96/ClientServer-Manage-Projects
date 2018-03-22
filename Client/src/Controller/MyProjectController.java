@@ -4,6 +4,7 @@ import client.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import static client.Project.socket;
+import client.ResourceManager;
 import client.TabelProject;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
@@ -99,36 +100,46 @@ public class MyProjectController implements Initializable {
     }
 
     private List<CommonProject> GetMyProject() {
-        try {
-            networkOutput.println("MYPROJECT");
-            String respone = networkInput.readLine();
+        System.out.println("Send Request to Server for create List of myproject");
+        networkOutput.println("MYPROJECT");
 
-            if (respone.equals("Done")) {
-                DataInputStream dis = new DataInputStream(socket.getInputStream());
-
-                FileOutputStream fos = new FileOutputStream("temp.data");
-
-                byte[] buffer = new byte[4096];
-
-                int filesize = 15123; // Send file size in separate msg
-                int read = 0;
-                int totalRead = 0;
-                int remaining = filesize;
-                while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
-                    totalRead += read;
-                    remaining -= read;
-                    System.out.println("read " + totalRead + " bytes.");
-                    fos.write(buffer, 0, read);
-                }
-
-                fos.close();
-                dis.close();
-
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+//        try {
+//            String respone = networkInput.readLine();
+//
+//            if (respone.equals("Done")) {
+//                DataInputStream dis = new DataInputStream(socket.getInputStream());
+//
+//                FileOutputStream fos = new FileOutputStream("temp.data");
+//
+//                byte[] buffer = new byte[4096];
+//
+//                int filesize = 15123; // Send file size in separate msg
+//                int read = 0;
+//                int totalRead = 0;
+//                int remaining = filesize;
+//                while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+//                    totalRead += read;
+//                    remaining -= read;
+//                    System.out.println("read " + totalRead + " bytes.");
+//                    fos.write(buffer, 0, read);
+//                }
+//
+//                fos.close();
+//                dis.close();
+//
+//                List<CommonProject> mylist;
+//                try {
+//                    mylist = (List<CommonProject>) ResourceManager.load("temp.data");
+//                    System.out.println("LIST: " + mylist.size());
+//                } catch (Exception ex) {
+//                    System.err.println("Error : " + ex.getMessage());
+//                }
+//
+//            }
+//        } catch (IOException ex) {
+//            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
         return null;
 
     }
