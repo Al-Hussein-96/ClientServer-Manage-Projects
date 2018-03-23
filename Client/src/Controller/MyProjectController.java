@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -88,11 +89,18 @@ public class MyProjectController implements Initializable {
                 return param.getValue().getValue().NumberOfCommits;
             }
         });
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
 
         ObservableList<TabelProject> users = FXCollections.observableArrayList();
-        users.add(new TabelProject("Computer", "2012", "Mohammad", "3", "2"));
-        users.add(new TabelProject("Sales", "2015", "Ahmad", "2", "3"));
-        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
+        for (int i = 0; i < MyProject.size(); i++) {
+            CommonProject CP = MyProject.get(i);
+            TabelProject TP = new TabelProject(CP.NameProject, ft.format(CP.DateCreate),
+                    CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(CP.way.size()));
+            users.add(TP);
+        }
+//        users.add(new TabelProject("Computer", "2012", "Mohammad", "3", "2"));
+//        users.add(new TabelProject("Sales", "2015", "Ahmad", "2", "3"));
+//        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
 
         final TreeItem<TabelProject> root = new RecursiveTreeItem<TabelProject>(users, RecursiveTreeObject::getChildren);
         TabelView.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
@@ -104,16 +112,15 @@ public class MyProjectController implements Initializable {
     private List<CommonProject> GetMyProject() {
         System.out.println("Send Request to Server for create List of myproject");
         networkOutput.println("MYPROJECT");
-
+        List<CommonProject> mylist = null;
         try {
             String respone = networkInput.readLine();
 
             if (respone.equals("Done")) {
-                
+
                 /*
                 * here another Connect To Second ServerSocket For Send Files
-                */
-
+                 */
                 Socket socket1 = new Socket(host, PORT1);
 
                 DataInputStream dis = new DataInputStream(socket1.getInputStream());
@@ -121,8 +128,9 @@ public class MyProjectController implements Initializable {
                 FileOutputStream fos = new FileOutputStream("temp.data");
 
                 byte[] buffer = new byte[4096];
-
-                int filesize = 15123; // Send file size in separate msg
+                int filesize = dis.readInt(); // Send file size in separate msg
+                System.out.println("Size = " + filesize + "bytes");
+                //           int filesize = 15123; // Send file size in separate msg
                 int read = 0;
                 int totalRead = 0;
                 int remaining = filesize;
@@ -135,9 +143,6 @@ public class MyProjectController implements Initializable {
 
                 fos.close();
                 dis.close();
-
-                List<CommonProject> mylist;
-
                 try {
                     mylist = (List<CommonProject>) ResourceManager.load("temp.data"); /// This List Must put inside TabelView
                     System.out.println("Number Of Project for User is : " + mylist.size());
@@ -145,13 +150,10 @@ public class MyProjectController implements Initializable {
 
                     System.err.println("Error : " + ex.getMessage());
                 }
-
             }
         } catch (IOException ex) {
             Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return null;
-
+        return mylist;
     }
 }

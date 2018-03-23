@@ -29,8 +29,8 @@ class ClientHandler1 extends Thread {
 
     @Override
     public void run() {
-          SendToMyProject();
-       // System.out.println("HELLO WORLD");
+        SendToMyProject();
+        // System.out.println("HELLO WORLD");
 
     }
 
@@ -50,7 +50,12 @@ class ClientHandler1 extends Thread {
             oos.close();
 
             dos = new DataOutputStream(client.getOutputStream());
-            fis = new FileInputStream("temp.data");
+            File f = new File("temp.data");
+            fis = new FileInputStream(f);
+            int size = (int) f.length();
+            System.out.println("Size file = " + size);
+            dos.writeInt(size);
+
             byte[] buffer = new byte[4096];
 
             while (fis.read(buffer) > 0) {
