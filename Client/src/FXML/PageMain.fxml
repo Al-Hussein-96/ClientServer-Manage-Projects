@@ -20,7 +20,7 @@
                   <Font name="CoconNextArabic-Light" size="33.0" />
                </font>
             </Text>
-            <Group layoutX="-19.0" layoutY="93.0" opacity="0.99">
+            <Group layoutX="-19.0" layoutY="93.0" opacity="0.99" AnchorPane.leftAnchor="-18.0" AnchorPane.topAnchor="85.0">
                <children>
                   <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="17.0" layoutY="1.0" onAction="#brnCreateProject" prefHeight="40.0" prefWidth="189.0" ripplerFill="#776aa8" text="Create Project" textFill="#00edbc">
                      <font>
@@ -44,7 +44,7 @@
                   </JFXButton>
                </children>
             </Group>
-            <Group layoutX="15.0" layoutY="152.0" opacity="0.99">
+            <Group layoutX="15.0" layoutY="152.0" opacity="0.99" AnchorPane.leftAnchor="-45.0" AnchorPane.topAnchor="135.0">
                <children>
                   <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-42.0" layoutY="-8.0" onAction="#btnmyproject" prefHeight="46.0" prefWidth="211.0" ripplerFill="#cf7f19" text="MY Project" textFill="#00edbc">
                      <font>
@@ -63,7 +63,7 @@
                   </JFXButton>
                </children>
             </Group>
-            <Group layoutX="28.0" layoutY="228.0" opacity="0.99">
+            <Group layoutX="28.0" layoutY="228.0" opacity="0.99" AnchorPane.leftAnchor="-25.0" AnchorPane.topAnchor="185.0">
                <children>
                   <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
                      <font>
@@ -76,6 +76,25 @@
                         <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../res/FilesDelieveredIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </Group>
+            <Group layoutX="28.0" layoutY="281.0" opacity="0.99" AnchorPane.leftAnchor="-35.0" AnchorPane.topAnchor="235.0">
+               <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onMouseClicked="#SignOut" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="Sign Out" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                     <graphic>
+                        <ImageView fitHeight="32.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../res/4.png" />
                            </image>
                         </ImageView>
                      </graphic>
