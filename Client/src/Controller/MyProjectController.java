@@ -1,9 +1,10 @@
 package Controller;
 
-import client.CommonProject;
+import CommonClass.CommonProject;
+import static client.Project.PORT1;
+import static client.Project.host;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import static client.Project.socket;
 import client.ResourceManager;
 import client.TabelProject;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -13,6 +14,7 @@ import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import java.io.DataInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.Socket;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -103,43 +105,52 @@ public class MyProjectController implements Initializable {
         System.out.println("Send Request to Server for create List of myproject");
         networkOutput.println("MYPROJECT");
 
-//        try {
-//            String respone = networkInput.readLine();
-//
-//            if (respone.equals("Done")) {
-//                DataInputStream dis = new DataInputStream(socket.getInputStream());
-//
-//                FileOutputStream fos = new FileOutputStream("temp.data");
-//
-//                byte[] buffer = new byte[4096];
-//
-//                int filesize = 15123; // Send file size in separate msg
-//                int read = 0;
-//                int totalRead = 0;
-//                int remaining = filesize;
-//                while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
-//                    totalRead += read;
-//                    remaining -= read;
-//                    System.out.println("read " + totalRead + " bytes.");
-//                    fos.write(buffer, 0, read);
-//                }
-//
-//                fos.close();
-//                dis.close();
-//
-//                List<CommonProject> mylist;
-//                try {
-//                    mylist = (List<CommonProject>) ResourceManager.load("temp.data");
-//                    System.out.println("LIST: " + mylist.size());
-//                } catch (Exception ex) {
-//                    System.err.println("Error : " + ex.getMessage());
-//                }
-//
-//            }
-//        } catch (IOException ex) {
-//            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
+        try {
+            String respone = networkInput.readLine();
+
+            if (respone.equals("Done")) {
+                
+                /*
+                * here another Connect To Second ServerSocket For Send Files
+                */
+
+                Socket socket1 = new Socket(host, PORT1);
+
+                DataInputStream dis = new DataInputStream(socket1.getInputStream());
+
+                FileOutputStream fos = new FileOutputStream("temp.data");
+
+                byte[] buffer = new byte[4096];
+
+                int filesize = 15123; // Send file size in separate msg
+                int read = 0;
+                int totalRead = 0;
+                int remaining = filesize;
+                while ((read = dis.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+                    totalRead += read;
+                    remaining -= read;
+                    System.out.println("read " + totalRead + " bytes.");
+                    fos.write(buffer, 0, read);
+                }
+
+                fos.close();
+                dis.close();
+
+                List<CommonProject> mylist;
+
+                try {
+                    mylist = (List<CommonProject>) ResourceManager.load("temp.data"); /// This List Must put inside TabelView
+                    System.out.println("Number Of Project for User is : " + mylist.size());
+                } catch (Exception ex) {
+
+                    System.err.println("Error : " + ex.getMessage());
+                }
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         return null;
 
     }

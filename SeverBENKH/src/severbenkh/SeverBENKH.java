@@ -17,11 +17,10 @@ public class SeverBENKH {
     public static String idFileProject = "src\\id.Project";
     public static String projectdirectoryName = "src\\Projects Information";
     public static String usersdirectoryName = "src\\Users Information";
-    
-  ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
 
+    ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
     public static void main(String[] args) throws IOException {
-      
+
         initFile();
 
         try {
@@ -51,8 +50,8 @@ public class SeverBENKH {
         x--;
         return x;
     }
-    
-     public static int idincreProject(String idFileProject) throws FileNotFoundException, IOException {
+
+    public static int idincreProject(String idFileProject) throws FileNotFoundException, IOException {
 
         FileInputStream id = new FileInputStream(idFileProject);
         int x = id.read();
@@ -97,24 +96,23 @@ public class SeverBENKH {
 
         }
     }
-    
+
     private static boolean ProjectNameAllow(String ProjectName) {
 
-        File idFile = new File(projectdirectoryName +"\\" + ProjectName);
+        File idFile = new File(projectdirectoryName + "\\" + ProjectName);
         if (!idFile.exists()) {
             return true;
         }
         return false;
     }
-    
+
     private static boolean UserNameAllow(String UserName) {
 
-        File idFile = new File(usersdirectoryName +"\\" + UserName);
+        File idFile = new File(usersdirectoryName + "\\" + UserName);
         if (!idFile.exists()) {
             return true;
         }
         return false;
     }
-    
 
 }
