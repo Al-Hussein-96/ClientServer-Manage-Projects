@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
 public class PageMainController implements Initializable {
 
     static User Owner;

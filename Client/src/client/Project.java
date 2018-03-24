@@ -1,6 +1,8 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -20,8 +22,10 @@ public class Project extends Application {
     public static final int PORT = 4321;
     public static final int PORT1 = 4322;
     public static Socket socket;
-    public static BufferedReader networkInput;
-    public static PrintWriter networkOutput;
+    public static DataInputStream networkInput;
+    public static DataOutputStream networkOutput;
+//    public static BufferedReader networkInput;
+//    public static PrintWriter networkOutput;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -46,8 +50,10 @@ public class Project extends Application {
             System.exit(1);
         }
         socket = new Socket(host, PORT);
-        networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        networkOutput = new PrintWriter(socket.getOutputStream(), true);
+        networkInput = new DataInputStream(socket.getInputStream());
+        networkOutput = new DataOutputStream(socket.getOutputStream());
+//        networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        networkOutput = new PrintWriter(socket.getOutputStream(), true);
 
         launch(args);
 

@@ -56,7 +56,7 @@ public class SignUpController implements Initializable {
     private void create_clc(MouseEvent event) {
         String response;
         try {
-            networkOutput.println("SIGNUP");
+            networkOutput.writeUTF("SIGNUP");
             String UserName = username.getText();
             String PassWord = password.getText();
             String Password_Confirmation = password_confirmation.getText();
@@ -64,9 +64,9 @@ public class SignUpController implements Initializable {
                 System.out.println("Mismatch");
                 return;
             }
-            networkOutput.println(UserName);
-            networkOutput.println(PassWord);
-            response = networkInput.readLine();
+            networkOutput.writeUTF(UserName);
+            networkOutput.writeUTF(PassWord);
+            response = networkInput.readUTF();
             if (response.equals("Server Agree on username")) {
                 GoToMainPage();
             }

@@ -35,16 +35,16 @@ public class CreateProjectController implements Initializable {
     void btnCreate(ActionEvent event) {
         String response;
         try {
-            networkOutput.println("STARTPROJECT");
-            response = networkInput.readLine();
+            networkOutput.writeUTF("STARTPROJECT");
+            response = networkInput.readUTF();
 
             if (response.equals("Done")) {
                 String path = txtLocation.getText();
-                networkOutput.println(txtNameProject.getText());
+                networkOutput.writeUTF(txtNameProject.getText());
                 /// should not send bath   
                 /// should save it in client folders
                /// networkOutput.println(path);
-                networkOutput.println("true");
+                networkOutput.writeUTF("true");
             }
             System.out.println("\nServer : " + response);
 

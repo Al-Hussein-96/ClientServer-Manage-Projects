@@ -50,12 +50,15 @@ public class LoginMainController implements Initializable {
     private void login_c(MouseEvent event) {
         String response;
         try {
-            networkOutput.println("LOGIN");
+            networkOutput.writeUTF("LOGIN");
+            //    networkOutput.println("LOGIN");
             String UserName = username.getText();
             String PassWord = password.getText();
-            networkOutput.println(UserName);
-            networkOutput.println(PassWord);
-            response = networkInput.readLine();
+            networkOutput.writeUTF(UserName);
+            networkOutput.writeUTF(PassWord);
+//            networkOutput.println(UserName);
+//            networkOutput.println(PassWord);
+            response = networkInput.readUTF();
             if (response.equals("Login Done Correct")) {
                 GoToMainPage();
             }
