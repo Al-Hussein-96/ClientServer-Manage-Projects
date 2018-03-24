@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
 public class PageMainController implements Initializable {
 
     static User Owner;
@@ -26,23 +25,21 @@ public class PageMainController implements Initializable {
     private AnchorPane roopane;
 
     @FXML
-    void btnmyproject(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/MyProject.fxml"));
-        roopane.getChildren().setAll(pane);
-    }
-
-    public void setOwner(User Owner) {
-        this.Owner = Owner;
-    }
-
-    @FXML
     void brnCreateProject(ActionEvent event) throws IOException {
         AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/CreateProject.fxml"));
         roopane.getChildren().setAll(pane);
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    @FXML
+    void btnmyproject(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/MyProject.fxml"));
+        roopane.getChildren().setAll(pane);
+    }
+
+    @FXML
+    private void btnallproject(ActionEvent event) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/AllProject.fxml"));
+        roopane.getChildren().setAll(pane);
     }
 
     @FXML
@@ -58,6 +55,14 @@ public class PageMainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void setOwner(User Owner) {
+        this.Owner = Owner;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
 
 }

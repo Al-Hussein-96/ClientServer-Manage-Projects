@@ -70,7 +70,9 @@ public class ClientHandler extends Thread {
                 case "MYPROJECT":
                     SendToMyProject();
                     break;
-
+                case "ALLPROJECT":
+                    SendToAllProject();
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -191,7 +193,46 @@ public class ClientHandler extends Thread {
             Path path = Paths.get("temp.data");
 
             byte[] buffer = Files.readAllBytes(path);
-            int Size=buffer.length;
+            int Size = buffer.length;
+            output.writeInt(Size);
+            System.out.println("Size = " + Size);
+            output.write(buffer);
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("DONE SENT FILE FROM SERVER");
+
+    }
+
+    private void SendToAllProject() {
+        System.out.println("Sent Done Only");
+        try {
+            output.writeUTF("Done");
+//        output.println("Done");
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Recive Request from Client To Create list of AllProject");
+        System.out.println("User: " + MyUser);
+        List< CommonProject> AllProject = GetAllProject();
+
+        System.out.println("List: " + AllProject.size());
+
+        /// for Send To Client
+        try {
+
+            FileOutputStream fos = new FileOutputStream("temp.data");
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(AllProject);
+            oos.close();
+
+            Path path = Paths.get("temp.data");
+
+            byte[] buffer = Files.readAllBytes(path);
+            int Size = buffer.length;
             output.writeInt(Size);
             System.out.println("Size = " + Size);
             output.write(buffer);
@@ -211,7 +252,6 @@ public class ClientHandler extends Thread {
         File Allproject = new File(projectdirectoryName);
         ViewfolderClass Viewfolder = ResourceManager.ViewFolder(Allproject);
         for (String s : Viewfolder.MyFolder) {
-
             String sdirectoryName = s + "\\" + "info";
             try {
                 FileInputStream fileIn = new FileInputStream(sdirectoryName);
@@ -220,7 +260,6 @@ public class ClientHandler extends Thread {
                 TempList.add(obj);
                 objectIn.close();
             } catch (IOException | ClassNotFoundException ex) {
-
             }
         }
         return TempList;
@@ -241,6 +280,23 @@ public class ClientHandler extends Thread {
             }
         }
         return MyProject;
+    }
+
+    private List< CommonProject> GetAllProject() {
+        List< CommonProject> AllProject = new ArrayList<>();
+        List< Project> TempList = getAllProjectInServer();
+        for (Project s : TempList) {
+            boolean ok = false;
+            for (String t : s.Contributors) {
+                if (t.equals(MyUser)) {
+                    ok = true;
+                }
+            }
+            if (ok || s.Access) {
+                AllProject.add(Project_to_CommonProject(s));
+            }
+        }
+        return AllProject;
     }
 
     private List< CommonProject> GetPublicProject() {

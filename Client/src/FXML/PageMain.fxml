@@ -65,7 +65,7 @@
             </Group>
             <Group layoutX="28.0" layoutY="228.0" opacity="0.99" AnchorPane.leftAnchor="-25.0" AnchorPane.topAnchor="185.0">
                <children>
-                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onAction="#btnallproject" prefHeight="43.0" prefWidth="175.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
                      <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />
                      </font>
