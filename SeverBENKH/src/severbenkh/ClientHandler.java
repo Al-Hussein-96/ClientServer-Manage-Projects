@@ -191,6 +191,9 @@ public class ClientHandler extends Thread {
             Path path = Paths.get("temp.data");
 
             byte[] buffer = Files.readAllBytes(path);
+            int Size=buffer.length;
+            output.writeInt(Size);
+            System.out.println("Size = " + Size);
             output.write(buffer);
 
         } catch (FileNotFoundException ex) {
@@ -229,7 +232,7 @@ public class ClientHandler extends Thread {
         for (Project s : TempList) {
             boolean ok = false;
             for (String t : s.Contributors) {
-                if (t.equals("m")) {
+                if (t.equals(MyUser)) {
                     ok = true;
                 }
             }

@@ -138,7 +138,9 @@ public class MyProjectController implements Initializable {
 
                 byte[] buffer = new byte[5005];
 
-                int filesize = 17428; // Send file size in separate msg
+                int filesize = networkInput.readInt(); // Send file size in separate msg
+                System.out.println("Size = " + filesize);
+                //         int filesize = 17428; // Send file size in separate msg
                 int read = 0;
                 int totalRead = 0;
                 int remaining = filesize;
