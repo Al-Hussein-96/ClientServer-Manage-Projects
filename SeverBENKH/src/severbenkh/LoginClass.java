@@ -12,10 +12,8 @@ import static severbenkh.ResourceManager.load;
 public class LoginClass {
 
     public static boolean Login(User user) {
-        String directoryname="src\\Users Information\\"+user.getName();
+        String directoryname= SeverBENKH.usersdirectoryName +"\\"+user.getName();
         String filename=directoryname+"\\"+user.getName()+"information file.data";
-        
-        
         try {
             User nuser=(User)load(filename);
             if(nuser.getPassword().equals(user.getPassword())){
@@ -25,17 +23,5 @@ public class LoginClass {
         } catch (Exception ex) {
             return false;
         }
-//        List<User> UserList;
-//        try {
-//            UserList = (ArrayList) load("UserSignUp.data");
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//        for (User Tempuser : UserList) {
-//            if (Tempuser.getName().equals(user.getName())) {
-//                return Tempuser.getPassword().equals(user.getPassword());
-//            }
-//        }
-//        return false;
     }
 }

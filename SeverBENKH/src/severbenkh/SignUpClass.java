@@ -22,8 +22,8 @@ public class SignUpClass {
         FileOutputStream idd = new FileOutputStream(SeverBENKH.idFileName);
         idd.write(x);
         idd.close();
-
-        String directoryname = "src\\Users Information\\" + user.getName();
+        
+        String directoryname = SeverBENKH.usersdirectoryName  +"\\"+ user.getName();
         String userFileName = directoryname + "\\" + user.getName() + "information file.data";
         String projectFileName = directoryname + "\\" + user.getName() + "projects.data";
 
@@ -35,7 +35,6 @@ public class SignUpClass {
             return false;
         }
         user.setId(x);
-
         //create user file contains user name and password
         try {
             save(user, userFileName);
@@ -46,33 +45,7 @@ public class SignUpClass {
         try (PrintWriter out = new PrintWriter(projectFileName)) {
             out.println("no projects yet!!!");
         }
-//        List<User> UserList = new ArrayList<>();
-//        try {
-//            UserList = (ArrayList) load("UserSignUp.data");
-//        } catch (Exception ex) {
-//            user.setId(id);
-//            UserList.add(user);
-//            SaveUserList(UserList);
-//            return true;
-//        }
-//        for (User Tempuser : UserList) {
-//            if (Tempuser.getName().equals(user.getName())) {
-//                return false;
-//            }
-//            id++;
-//        }
-//        user.setId(id);
-//        UserList.add(user);
-//        SaveUserList(UserList);
         return true;
-    }
-
-    private static void SaveUserList(List<User> UserList) {
-        try {
-            save((Serializable) UserList, "UserSignUp.data");
-        } catch (Exception e) {
-            System.out.println("Cann't Save");
-        }
     }
 
 }

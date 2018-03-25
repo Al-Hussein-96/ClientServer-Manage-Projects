@@ -93,7 +93,6 @@ public class ClientHandler extends Thread {
             String name = input.readUTF();
             String password = input.readUTF();
             boolean ok = SignUpClass.SignUp(new User(name, password));
-
             if (ok) {
                 MyUser = name;
                 output.writeUTF("Server Agree on username");
@@ -127,7 +126,6 @@ public class ClientHandler extends Thread {
     private void SendToStartProject() {
         try {
             output.writeUTF("Done");
-            //   output.println("Done");
             boolean Access;
             String Author = MyUser;
             String NameProject = input.readUTF();
@@ -248,7 +246,7 @@ public class ClientHandler extends Thread {
 
     private List< Project> getAllProjectInServer() {
         List< Project> TempList = new ArrayList<>();
-        String projectdirectoryName = "src\\Projects Information";
+        String projectdirectoryName = SeverBENKH.projectdirectoryName;
         File Allproject = new File(projectdirectoryName);
         ViewfolderClass Viewfolder = ResourceManager.ViewFolder(Allproject);
         for (String s : Viewfolder.MyFolder) {

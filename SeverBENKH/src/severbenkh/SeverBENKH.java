@@ -13,10 +13,10 @@ public class SeverBENKH {
     private static ServerSocket serverSocket;
     private static final int PORT = 4321;
 
-    public static String idFileName = "src\\id.Name";
-    public static String idFileProject = "src\\id.Project";
-    public static String projectdirectoryName = "src\\Projects Information";
-    public static String usersdirectoryName = "src\\Users Information";
+    public static String idFileName = "Data\\id.Name";
+    public static String idFileProject = "Data\\id.Project";
+    public static String projectdirectoryName = "Data\\Projects Information";
+    public static String usersdirectoryName = "Data\\Users Information";
 
     ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
     public static void main(String[] args) throws IOException {
@@ -65,6 +65,11 @@ public class SeverBENKH {
 
     private static void initFile() throws FileNotFoundException, IOException {
 
+        File DataFile = new File("Data");
+        if(!DataFile.exists())
+        {
+            DataFile.mkdir();
+        }
         // create id Name
         File idFile = new File(idFileName);
         if (!idFile.exists()) {
