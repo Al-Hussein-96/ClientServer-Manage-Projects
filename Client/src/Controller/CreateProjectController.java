@@ -7,6 +7,8 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -36,18 +38,23 @@ public class CreateProjectController implements Initializable {
         String response;
         try {
             networkOutput.writeUTF("STARTPROJECT");
+            String path = txtLocation.getText();
+            networkOutput.writeUTF(txtNameProject.getText());
+           
+            networkOutput.writeUTF("true");
+            
             response = networkInput.readUTF();
-
             if (response.equals("Done")) {
-                String path = txtLocation.getText();
-                networkOutput.writeUTF(txtNameProject.getText());
-                /// should not send bath   
-                /// should save it in client folders
-               /// networkOutput.println(path);
-                networkOutput.writeUTF("true");
+              int IdProject = networkInput.readInt();
+              String Author = networkInput.readUTF();
+              int lastCommit = 1;
+              List<String> Contributors = new ArrayList<>();
+              Contributors.add(Author);
+              ProjectToUpload Temp = new ProjectToUpload(path +"\\.BENKH",1,IdProject , Contributors , "Master" );
+              Temp.Save();
             }
             System.out.println("\nServer : " + response);
-
+            
         } catch (IOException ex) {
             System.out.println("Error START PROJECT");
         }

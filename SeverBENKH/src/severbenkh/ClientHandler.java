@@ -125,12 +125,14 @@ public class ClientHandler extends Thread {
 
     private void SendToStartProject() {
         try {
-            output.writeUTF("Done");
+            
             boolean Access;
             String Author = MyUser;
             String NameProject = input.readUTF();
+            
             /// Should not send Directory
             /// String ProjectDirectory = input.readLine();
+            /// this is Directory in Server
             String ProjectDirectory = SeverBENKH.projectdirectoryName;
             String tempAccess = input.readUTF();
             if ("true".equals(tempAccess)) {
@@ -142,10 +144,13 @@ public class ClientHandler extends Thread {
 
             boolean ok = CanAddNewProjectToServer(NameProject);
             if (!ok) {
-                System.out.println("Can't create project ");
+                output.writeUTF("Can't create project ");
                 return;
             }
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
+            output.writeUTF("Done");
+            output.writeInt(NewProject.id);
+            output.writeUTF(Author);
 
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
