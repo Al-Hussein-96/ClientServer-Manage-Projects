@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.effect.Reflection?>
@@ -56,6 +57,7 @@
                         <Reflection />
                     </effect>
                 </JFXPasswordField>
+            <JFXCheckBox fx:id="RememberMe" layoutX="297.0" layoutY="291.0" text="Remember Me" />
             </children>
         </AnchorPane>
     </children>

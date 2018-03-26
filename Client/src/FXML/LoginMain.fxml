@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.effect.Reflection?>
@@ -35,7 +36,7 @@
                   <Reflection />
                </effect>
             </JFXTextField>
-            <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="133.0" layoutY="205.0" prefHeight="25.0" prefWidth="176.0" promptText="Password" unFocusColor="#1e0bc6">
+            <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="190.0" prefHeight="25.0" prefWidth="176.0" promptText="Password" unFocusColor="#1e0bc6">
                <font>
                   <Font name="CoconNextArabic-Light" size="18.0" />
                </font>
@@ -43,11 +44,12 @@
                   <Reflection />
                </effect>
             </JFXPasswordField>
-            <JFXButton fx:id="login" buttonType="RAISED" layoutX="332.0" layoutY="259.0" onMouseClicked="#login_c" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #03A9F4;" text="Log In" textFill="#f8f8f8">
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="14.0" layoutY="260.0" onMouseClicked="#login_c" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #03A9F4;" text="Log In" textFill="#f8f8f8">
                <font>
                   <Font name="CoconNextArabic-Light" size="18.0" />
                </font>
             </JFXButton>
+            <JFXCheckBox fx:id="RememberMe" layoutX="131.0" layoutY="271.0" text="Remember Me" />
          </children>
       </AnchorPane>
    </children>

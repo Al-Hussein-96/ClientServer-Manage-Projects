@@ -3,9 +3,13 @@ package Controller;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.effects.JFXDepthManager;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -40,6 +44,8 @@ public class SignUpController implements Initializable {
     private ImageView back;
     @FXML
     private JFXButton close;
+    @FXML
+    private JFXCheckBox RememberMe;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -75,6 +81,7 @@ public class SignUpController implements Initializable {
 //            alert.setHeaderText(null);
 //            alert.setContentText(response);
 //            alert.show();
+            CheckRememberMe(UserName, PassWord);
         } catch (IOException ex) {
             System.out.println("Error SIGN UP");
         }
@@ -106,6 +113,30 @@ public class SignUpController implements Initializable {
             stage.show();
         } catch (IOException ex) {
             Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void CheckRememberMe(String UserName, String PassWord) {
+        File f = new File("Data");
+        if (!f.exists()) {
+            f.mkdir();
+        }
+        if (RememberMe.isSelected()) {
+            File F = new File("Data\\temp.txt");
+            BufferedWriter writer;
+            try {
+                writer = new BufferedWriter(new FileWriter(F));
+                writer.write(UserName);
+                writer.newLine();
+                writer.write(PassWord);
+                writer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            File F = new File("Data\\temp.txt");
+            F.delete();
         }
     }
 

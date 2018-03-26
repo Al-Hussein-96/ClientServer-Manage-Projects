@@ -4,9 +4,18 @@ import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.User;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -34,16 +43,17 @@ public class LoginMainController implements Initializable {
 
     @FXML
     private AnchorPane cardpanal;
+    @FXML
+    private JFXCheckBox RememberMe;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        JFXDepthManager.setDepth(cardpanal, 2);
+        //     CheckRememberMe();
     }
 
     @FXML
     void Close(ActionEvent event) {
         Platform.exit();
-
     }
 
     @FXML
@@ -67,7 +77,7 @@ public class LoginMainController implements Initializable {
 //            alert.setHeaderText(null);
 //            alert.setContentText(response);
 //            alert.show();
-
+            CheckRememberMe(UserName, PassWord);
         } catch (IOException ex) {
             System.out.println("Error LOGIN");
         }
@@ -91,19 +101,41 @@ public class LoginMainController implements Initializable {
 
     private void GoToMainPage() {
         try {
-            login.getScene().getWindow().hide();
+            username.getScene().getWindow().hide();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PageMain.fxml"));
             Parent root = (Parent) fxmlLoader.load();
-
             PageMainController mainPageController = fxmlLoader.getController();
             mainPageController.setOwner(new User(username.getText(), password.getText()));
-
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);
             stage.show();
         } catch (IOException ex) {
             System.err.println("error : " + ex.getMessage());
+        }
+    }
+
+    void CheckRememberMe(String UserName, String PassWord) {
+        File f = new File("Data");
+        if (!f.exists()) {
+            f.mkdir();
+        }
+        if (RememberMe.isSelected()) {
+            File F = new File("Data\\temp.txt");
+            BufferedWriter writer;
+            try {
+                writer = new BufferedWriter(new FileWriter(F));
+                writer.write(UserName);
+                writer.newLine();
+                writer.write(PassWord);
+                writer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else {
+            File F = new File("Data\\temp.txt");
+            F.delete();
         }
     }
 

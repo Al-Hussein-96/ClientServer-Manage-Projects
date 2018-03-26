@@ -1,11 +1,13 @@
 package Controller;
 
 import client.User;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,6 +57,8 @@ public class PageMainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        File F = new File("Data\\temp.txt");
+        F.delete();
     }
 
     public void setOwner(User Owner) {
@@ -63,6 +67,11 @@ public class PageMainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    @FXML
+    private void Close(ActionEvent event) {
+        Platform.exit();
     }
 
 }
