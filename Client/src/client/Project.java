@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -36,7 +34,8 @@ public class Project extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        if (!CheckRememberMe(stage)) {
+       // if (!CheckRememberMe(stage))
+        {
             Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -56,8 +55,6 @@ public class Project extends Application {
         socket = new Socket(host, PORT);
         networkInput = new DataInputStream(socket.getInputStream());
         networkOutput = new DataOutputStream(socket.getOutputStream());
-//        networkInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//        networkOutput = new PrintWriter(socket.getOutputStream(), true);
 
         launch(args);
 

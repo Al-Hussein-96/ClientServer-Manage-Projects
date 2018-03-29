@@ -59,6 +59,12 @@ public class CreateProjectController implements Initializable {
             System.out.println("Error START PROJECT");
         }
     }
+    
+    @FXML
+    void Close(ActionEvent event)
+    {
+        
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -1,0 +1,49 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 23, 2018, 3:47:59 AM
+    Author     : Wasem
+*/
+
+.button
+{
+    -fx-font-weight:bold;
+    -fx-background-color: white ;
+    -fx-background-radius: 22;
+    -fx-text-fill: #3196DE;
+    -fx-border-color:  #3196DE;
+    -fx-border-radius: 22;
+    -fx-border-width: 3;
+    
+}
+
+.button:hover
+{
+    -fx-font-weight:bold;
+    -fx-background-color:  #3196DE;
+    -fx-background-radius: 40;
+    -fx-text-fill: white;
+    -fx-border-color:  #3196DE;
+    -fx-border-radius: 22;
+    -fx-border-width: 3;
+    
+    
+    
+}
+
+.button:pressed
+{
+    -fx-font-weight:bold;
+    -fx-background-color:  #3196DE;
+    -fx-background-radius: 40;
+    -fx-text-fill: white;
+    -fx-border-color:  #3196DE;
+    -fx-border-radius: 20;
+    -fx-border-width: 3;
+    -fx-rotate: 10;
+    
+    
+}

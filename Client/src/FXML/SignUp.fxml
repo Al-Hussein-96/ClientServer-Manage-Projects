@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.scene.effect.Reflection?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -21,14 +22,14 @@
                </image>
             </ImageView>
          </children></AnchorPane>
-        <AnchorPane layoutX="87.0" layoutY="43.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane">
+        <AnchorPane layoutX="87.0" layoutY="43.0" prefHeight="326.0" prefWidth="433.0" styleClass="cardPane">
             <children>
-                <ImageView fitHeight="92.0" fitWidth="115.0" layoutX="171.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="171.0" AnchorPane.rightAnchor="170.0">
+                <ImageView fitHeight="92.0" fitWidth="115.0" layoutX="172.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="172.0" AnchorPane.rightAnchor="169.0">
                     <image>
                         <Image url="@../res/download.png" />
                     </image>
                 </ImageView>
-                <JFXTextField fx:id="username" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="137.0" layoutY="128.0" promptText="Enter Your Name" unFocusColor="#234ad7" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0">
+                <JFXTextField fx:id="username" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="120.0" layoutY="104.0" promptText="Enter Your Name" unFocusColor="#234ad7" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0">
                     <font>
                         <Font name="CoconNextArabic-Light" size="16.0" />
                     </font>
@@ -36,12 +37,16 @@
                         <Reflection />
                     </effect>
                 </JFXTextField>
-                <JFXButton fx:id="done" buttonType="RAISED" layoutX="341.0" layoutY="278.0" onMouseClicked="#create_clc" prefHeight="27.0" prefWidth="92.0" styleClass="topPane" stylesheets="@../Css/style.css" text="Done" textFill="#ffe5e5" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0">
+                <JFXButton fx:id="done" buttonType="RAISED" layoutX="294.0" layoutY="269.0" onMouseClicked="#create_clc" prefHeight="20.0" prefWidth="125.0" styleClass="topPane" text="Done" textFill="#ffe5e5" AnchorPane.leftAnchor="294.0" AnchorPane.rightAnchor="14.0">
                     <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />
                     </font>
+               <stylesheets>
+                  <URL value="@../Css/style.css" />
+                  <URL value="@../Css/Button.css" />
+               </stylesheets>
                 </JFXButton>
-                <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="8.0" layoutY="196.0" prefHeight="25.0" prefWidth="165.0" promptText="Enter Your Password" unFocusColor="#234ad7" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="250.0">
+                <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="20.0" layoutY="165.0" prefHeight="25.0" prefWidth="165.0" promptText="Enter Your Password" unFocusColor="#234ad7" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="250.0">
                     <font>
                         <Font name="CoconNextArabic-Light" size="16.0" />
                     </font>
@@ -49,7 +54,7 @@
                         <Reflection />
                     </effect>
                 </JFXPasswordField>
-                <JFXPasswordField fx:id="password_confirmation" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="247.0" layoutY="197.0" prefHeight="25.0" prefWidth="165.0" promptText="Config Your Password" unFocusColor="#234ad7" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="20.0">
+                <JFXPasswordField fx:id="password_confirmation" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="250.0" layoutY="167.0" prefHeight="25.0" prefWidth="165.0" promptText="Config Your Password" unFocusColor="#234ad7" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="20.0">
                     <font>
                         <Font name="CoconNextArabic-Light" size="16.0" />
                     </font>
@@ -57,7 +62,13 @@
                         <Reflection />
                     </effect>
                 </JFXPasswordField>
-            <JFXCheckBox fx:id="RememberMe" layoutX="297.0" layoutY="291.0" text="Remember Me" />
+            <JFXCheckBox fx:id="RememberMe" layoutX="153.0" layoutY="227.0" prefHeight="30.0" prefWidth="128.0" text="Remember Me" unCheckedColor="#2666cd" underline="true">
+               <font>
+                  <Font name="Cocon-Light" size="15.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect></JFXCheckBox>
             </children>
         </AnchorPane>
     </children>

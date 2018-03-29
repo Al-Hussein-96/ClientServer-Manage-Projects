@@ -11,10 +11,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageMainController">
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #000033;" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageMainController">
    <children>
       <AnchorPane fx:id="roopane" layoutX="202.0" layoutY="33.0" prefHeight="467.0" prefWidth="700.0" styleClass="cardPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-      <JFXButton cancelButton="true" layoutX="873.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" />
+      <JFXButton cancelButton="true" layoutX="873.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#ffeeee" />
       <AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="202.0" style="-fx-background-color: #000033;">
          <children>
             <Text fill="#ffebeb" layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BEHKN">

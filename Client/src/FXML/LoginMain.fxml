@@ -28,7 +28,7 @@
                   <Image url="@../res/user-512.png" />
                </image>
             </ImageView>
-            <JFXTextField fx:id="username" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="122.0" prefHeight="25.0" prefWidth="176.0" promptText="Username" unFocusColor="#1e0bc6">
+            <JFXTextField fx:id="username" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="105.0" prefHeight="25.0" prefWidth="176.0" promptText="Username" unFocusColor="#1e0bc6">
                <font>
                   <Font name="CoconNextArabic-Light" size="18.0" />
                </font>
@@ -36,7 +36,7 @@
                   <Reflection />
                </effect>
             </JFXTextField>
-            <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="190.0" prefHeight="25.0" prefWidth="176.0" promptText="Password" unFocusColor="#1e0bc6">
+            <JFXPasswordField fx:id="password" alignment="CENTER" focusColor="#dd09cf" labelFloat="true" layoutX="131.0" layoutY="167.0" prefHeight="25.0" prefWidth="176.0" promptText="Password" unFocusColor="#1e0bc6">
                <font>
                   <Font name="CoconNextArabic-Light" size="18.0" />
                </font>
@@ -44,12 +44,18 @@
                   <Reflection />
                </effect>
             </JFXPasswordField>
-            <JFXButton fx:id="login" buttonType="RAISED" layoutX="14.0" layoutY="260.0" onMouseClicked="#login_c" prefHeight="33.0" prefWidth="85.0" style="-fx-background-color: #03A9F4;" text="Log In" textFill="#f8f8f8">
+            <JFXButton fx:id="login" buttonType="RAISED" layoutX="326.0" layoutY="255.0" onMouseClicked="#login_c" prefHeight="33.0" prefWidth="85.0" stylesheets="@../Css/Button.css" text="Log In" textFill="#f8f8f8">
                <font>
                   <Font name="CoconNextArabic-Light" size="18.0" />
                </font>
             </JFXButton>
-            <JFXCheckBox fx:id="RememberMe" layoutX="131.0" layoutY="271.0" text="Remember Me" />
+            <JFXCheckBox fx:id="RememberMe" layoutX="151.0" layoutY="236.0" text="Remember Me" unCheckedColor="#0f58dd" underline="true">
+               <font>
+                  <Font name="Cocon-Light" size="15.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect></JFXCheckBox>
          </children>
       </AnchorPane>
    </children>
