@@ -75,13 +75,13 @@ public class SignUpController implements Initializable {
             response = networkInput.readUTF();
             if (response.equals("Server Agree on username")) {
                 GoToMainPage();
+                CheckRememberMe(UserName, PassWord);
             }
             System.out.println("\nServer : " + response);
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setHeaderText(null);
 //            alert.setContentText(response);
 //            alert.show();
-            CheckRememberMe(UserName, PassWord);
         } catch (IOException ex) {
             System.out.println("Error SIGN UP");
         }

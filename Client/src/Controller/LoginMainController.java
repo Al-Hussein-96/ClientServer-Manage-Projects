@@ -69,16 +69,16 @@ public class LoginMainController implements Initializable {
 //            networkOutput.println(UserName);
 //            networkOutput.println(PassWord);
             response = networkInput.readUTF();
-        //    response = "Login Done Correct";
+            //    response = "Login Done Correct";
             if (response.equals("Login Done Correct")) {
                 GoToMainPage();
+                CheckRememberMe(UserName, PassWord);
             }
             System.out.println("\nServer : " + response);
 //            Alert alert = new Alert(Alert.AlertType.ERROR);
 //            alert.setHeaderText(null);
 //            alert.setContentText(response);
 //            alert.show();
-            CheckRememberMe(UserName, PassWord);
         } catch (IOException ex) {
             System.out.println("Error LOGIN");
         }
