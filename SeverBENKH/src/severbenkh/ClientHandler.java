@@ -136,12 +136,16 @@ public class ClientHandler extends Thread {
                         int sz = br.way.size();
                         sz--;
 
-                         //// Karttomeh here Work fine
+                         //// Done
                         System.out.println("Function SendNameProject in ClientHandler before Error");
+                        System.out.println(br.projectdirector);
+                        System.out.println((br.way.get(sz)).Directory);
                          ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
-                        System.out.println("Function SendNameProject in ClientHandler after Error");
-                        //// karttomeh here not works
-              //          SentObjectUseFile(ob); not now, first must ob not null
+                         
+                         System.out.println("Function SendNameProject in ClientHandler after Error");
+                        //// Done
+                        ResourceManager.ShowViewfolder(ob);
+                       ///   SentObjectUseFile(ob);  /// not now, first must ob not null
                     }
                 }
             } catch (Exception ex) {

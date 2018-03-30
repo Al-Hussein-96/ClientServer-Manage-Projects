@@ -23,8 +23,10 @@ public class branchClass implements Serializable {
         this.father = father;
         this.projectdirector = father.ProjectDirectory;
         int NumberOfVersion = father.NumberOfVersion;
-        String Directory = projectdirector + "\\" + NumberOfVersion;
-
+        System.out.println("Here Error : ");
+        System.out.println(projectdirector);
+        String Directory = this.projectdirector + "\\" + NumberOfVersion;
+        System.out.println(Directory);
         CommitClass temp = new CommitClass(branchName, Author, Directory, "", 1);
         way.add(temp);
         /// incres Number Of Version
