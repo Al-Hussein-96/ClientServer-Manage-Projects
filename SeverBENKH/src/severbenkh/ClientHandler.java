@@ -3,6 +3,7 @@ package severbenkh;
 import CommonClass.ViewfolderClass;
 import CommonClass.ResourceManager;
 import CommonClass.CommonProject;
+import CommonClass.NameAndDirectory;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -348,8 +349,8 @@ public class ClientHandler extends Thread {
         String projectdirectoryName = SeverBENKH.projectdirectoryName;
         File Allproject = new File(projectdirectoryName);
         ViewfolderClass Viewfolder = ResourceManager.ViewFolder(Allproject);
-        for (String s : Viewfolder.MyFolder) {
-            String sdirectoryName = s + "\\" + "info";
+        for (NameAndDirectory s : Viewfolder.MyFolder) {
+            String sdirectoryName = s.Directory + "\\" + "info";
             try {
                 FileInputStream fileIn = new FileInputStream(sdirectoryName);
                 ObjectInputStream objectIn = new ObjectInputStream(fileIn);
@@ -423,6 +424,7 @@ public class ClientHandler extends Thread {
             for (CommonClass.CommitClass t : s.way) {
                 temp.way.add(t);
             }
+            
         }
         return temp;
     }

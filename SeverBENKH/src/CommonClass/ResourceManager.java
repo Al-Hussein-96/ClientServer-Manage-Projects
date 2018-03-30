@@ -26,23 +26,25 @@ public class ResourceManager {
 
         ViewfolderClass MyViewfolder = new ViewfolderClass();
         String MyDirectory = NameFolder.getPath();
-
         for (File file : NameFolder.listFiles()) {
 
             boolean isDirectory = file.isDirectory(); // Check if it's a directory
             boolean isFile = file.isFile();      // Check if it's a regular file
             if (isDirectory) {
-                MyViewfolder.MyFolder.add(MyDirectory + "\\" + file.getName());
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFolder.add(New);
                 File tempFolder = new File(MyDirectory + "\\" + file.getName());
                 ViewfolderClass temp = ViewProject(tempFolder);
-                for (String s : temp.MyFile) {
-                    MyViewfolder.MyFile.add(s);
-                }
-                for (String s : temp.MyFolder) {
-                    MyViewfolder.MyFolder.add(s);
-                }
+                MyViewfolder.MyFolderView.add(temp);
+
+                
             } else {
-                MyViewfolder.MyFile.add(MyDirectory + "\\" + file.getName());
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFile.add(New);
             }
         }
         return MyViewfolder;
@@ -56,9 +58,15 @@ public class ResourceManager {
             boolean isDirectory = file.isDirectory(); // Check if it's a directory
             boolean isFile = file.isFile();      // Check if it's a regular file
             if (isDirectory) {
-                MyViewfolder.MyFolder.add(MyDirectory + "\\" + file.getName());
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFolder.add(New);
             } else {
-                MyViewfolder.MyFile.add(MyDirectory + "\\" + file.getName());
+                 String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFile.add(New);
             }
         }
         return MyViewfolder;
@@ -66,11 +74,11 @@ public class ResourceManager {
 
     /// this take Viewfile and Show it
     public static void ShowViewfolder(ViewfolderClass G) {
-        for (String f : G.MyFile) {
-            System.out.println("File : " + f);
+        for (NameAndDirectory f : G.MyFile) {
+            System.out.println("File : " + f.Name + " "+f.Directory);
         }
-        for (String f : G.MyFolder) {
-            System.out.println("Folder : " + f);
+        for (NameAndDirectory f : G.MyFolder) {
+            System.out.println("File : " + f.Name + " "+f.Directory);
         }
     }
 }

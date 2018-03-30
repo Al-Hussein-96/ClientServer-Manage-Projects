@@ -22,7 +22,7 @@ public class SeverBENKH {
     ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
     public static void main(String[] args) throws IOException {
         ViewfolderClass vi =  ResourceManager.ViewProject(new File("src"));
-        ResourceManager.ShowViewProject(vi);
+        ResourceManager.ShowViewfolder(vi);
         initFile();
 
         try {

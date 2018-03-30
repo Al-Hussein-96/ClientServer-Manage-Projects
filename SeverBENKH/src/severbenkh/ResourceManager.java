@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import java.io.File;
 import java.io.ObjectInputStream;
@@ -24,45 +25,62 @@ public class ResourceManager {
 
     /// this get list of files and folders inside folder
     public static ViewfolderClass ViewProject(File NameFolder) {
+
+        ViewfolderClass MyViewfolder = new ViewfolderClass();
+        String MyDirectory = NameFolder.getPath();
+        for (File file : NameFolder.listFiles()) {
+
+            boolean isDirectory = file.isDirectory(); // Check if it's a directory
+            boolean isFile = file.isFile();      // Check if it's a regular file
+            if (isDirectory) {
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFolder.add(New);
+                File tempFolder = new File(MyDirectory + "\\" + file.getName());
+                ViewfolderClass temp = ViewProject(tempFolder);
+                MyViewfolder.MyFolderView.add(temp);
+
+                
+            } else {
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFile.add(New);
+            }
+        }
+        return MyViewfolder;
+    }
+
+    /// this get list of files and folders inside folder
+    public static ViewfolderClass ViewFolder(File NameFolder) {
         ViewfolderClass MyViewfolder = new ViewfolderClass();
         String MyDirectory = NameFolder.getPath();
         for (File file : NameFolder.listFiles()) {
             boolean isDirectory = file.isDirectory(); // Check if it's a directory
             boolean isFile = file.isFile();      // Check if it's a regular file
             if (isDirectory) {
-                MyViewfolder.MyFolder.add(file.getName());
-                File tempFolder = new File(MyDirectory + "\\" + file.getName());
-                ViewfolderClass temp = ViewProject(tempFolder);
-                MyViewfolder.MyFolderView.add(temp);
+                String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFolder.add(New);
             } else {
-                MyViewfolder.MyFile.add( file.getName());
+                 String Directory = MyDirectory + "\\" + file.getName();
+                String Name =  file.getName();
+                NameAndDirectory New = new NameAndDirectory(Name , Directory);
+                MyViewfolder.MyFile.add(New);
             }
         }
         return MyViewfolder;
     }
 
-
     /// this take Viewfile and Show it
-    public static void ShowViewfolder(ViewfolderClass G ) {
-        for (String f : G.MyFile) {
-            System.out.println("File : " + f);
+    public static void ShowViewfolder(ViewfolderClass G) {
+        for (NameAndDirectory f : G.MyFile) {
+            System.out.println("File : " + f.Name + " "+f.Directory);
         }
-        for (String f : G.MyFolder) {
-            System.out.println("Folder : " + f);
+        for (NameAndDirectory f : G.MyFolder) {
+            System.out.println("File : " + f.Name + " "+f.Directory);
         }
-           
-    }
-    
-    public static void ShowViewProject(ViewfolderClass G ) {
-        for (String f : G.MyFile) {
-            System.out.println("File : " + f);
-        }
-        int cnt = 0;
-        for (String f : G.MyFolder) {
-            System.out.println("Folder : " + f);
-            ShowViewProject(G.MyFolderView.get(cnt));
-            cnt++;
-        }
-           
     }
 }
