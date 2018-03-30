@@ -161,15 +161,18 @@ public class MyProjectController implements Initializable {
         try {
             networkOutput.writeUTF("MYPROJECT");
         } catch (IOException ex) {
-            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
         }
+
         List<CommonProject> mylist = null;
         try {
+         //    System.out.println("reach Here: ");
             String respone = networkInput.readUTF();
-
+            //System.out.println("reach Here: 2");
             if (respone.equals("Done")) {
-                FileOutputStream fos = new FileOutputStream("temp.data");
+               
 
+                FileOutputStream fos = new FileOutputStream("temp.data");
                 byte[] buffer = new byte[5005];
 
                 int filesize = networkInput.readInt(); // Send file size in separate msg
@@ -195,7 +198,7 @@ public class MyProjectController implements Initializable {
                 }
             }
         } catch (IOException ex) {
-            Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error3 in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
         }
         return mylist;
     }

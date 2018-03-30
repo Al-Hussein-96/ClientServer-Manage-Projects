@@ -101,7 +101,8 @@ public class ClientHandler extends Thread {
         }
         //// get all branch  " GetAllBranch" + "Name"
         /// get name project "SendNameProject"
-        while (true) {
+       // while (true)
+        {
             try {
                 String temp = input.readUTF();
                 switch (temp) {
@@ -137,20 +138,19 @@ public class ClientHandler extends Thread {
                         int sz = br.way.size();
                         sz--;
 
-                         //// Done
-                        System.out.println("Function SendNameProject in ClientHandler before Error");
+                        //// Done
                         System.out.println(br.projectdirector);
                         System.out.println((br.way.get(sz)).Directory);
-                         ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
-                         
-                         System.out.println("Function SendNameProject in ClientHandler after Error");
+                        ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
+
                         //// Done
                         ResourceManager.ShowViewfolder(ob);
-                       ///   SentObjectUseFile(ob);  /// not now, first must ob not null
+
+                        SentObjectUseFile(ob);  /// not now, first must ob not null
                     }
                 }
             } catch (Exception ex) {
-            //    System.out.println("Error: " + ex.getMessage());
+                //    System.out.println("Error: " + ex.getMessage());
 
             }
 
@@ -244,13 +244,13 @@ public class ClientHandler extends Thread {
     private void SentObjectUseFile(Object ob) {
         /// for Send To Client
         try {
-
-            FileOutputStream fos = new FileOutputStream("temp.data");
+            System.out.println("reach Here");
+            FileOutputStream fos = new FileOutputStream("temp1.data");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(ob);
             oos.close();
 
-            Path path = Paths.get("temp.data");
+            Path path = Paths.get("temp1.data");
 
             byte[] buffer = Files.readAllBytes(path);
             int Size = buffer.length;
@@ -259,18 +259,17 @@ public class ClientHandler extends Thread {
             output.write(buffer);
 
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error in function SentObjectUseFile: " + ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error in function SentObjectUseFile: " + ex.getMessage());
         }
-        System.out.println("DONE SENT FILE FROM SERVER");
+        System.out.println("DONE SENT FILE for Browsers FROM SERVER");
     }
 
     private void SendToMyProject() {
         System.out.println("Sent Done Only");
         try {
             output.writeUTF("Done");
-//        output.println("Done");
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -424,7 +423,7 @@ public class ClientHandler extends Thread {
             for (CommonClass.CommitClass t : s.way) {
                 temp.way.add(t);
             }
-            
+
         }
         return temp;
     }

@@ -60,32 +60,33 @@ public class FileBrowsersController implements Initializable {
                 System.out.println(Owner);
                 networkOutput.writeUTF(Owner.NameProject);
 
-//                FileOutputStream fos = new FileOutputStream("temp.data");
-//
-//                byte[] buffer = new byte[5005];
-//                System.out.println("YES");
-//                int filesize = networkInput.readInt(); // Send file size in separate msg
-//                System.out.println("Size = " + filesize);
-//
-//                //  int filesize = 17428; // Send file size in separate msg
-//                int read = 0;
-//                int totalRead = 0;
-//                int remaining = filesize;
-//                if ((read = networkInput.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
-//                    totalRead += read;
-//                    remaining -= read;
-//                    System.out.println("read " + totalRead + " bytes.");
-//                    fos.write(buffer, 0, read);
-//                }
-//                fos.close();
-//
-//                ViewfolderClass mylist;
-//                try {
-//                    mylist = (ViewfolderClass) ResourceManager.load("temp.data"); /// This List Must put inside TabelView
-//                    System.out.println("Number Of Project for User is : " + mylist);
-//                } catch (Exception ex) {
-//                    System.err.println("Error : " + ex.getMessage());
-//                }
+                FileOutputStream fos = new FileOutputStream("temp1.data");
+
+                byte[] buffer = new byte[5005];
+                System.out.println("YES");
+                int filesize = networkInput.readInt(); // Send file size in separate msg
+                System.out.println("Size = " + filesize);
+
+                //  int filesize = 17428; // Send file size in separate msg
+                int read = 0;
+                int totalRead = 0;
+                int remaining = filesize;
+                if ((read = networkInput.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+                    totalRead += read;
+                    remaining -= read;
+                    System.out.println("read " + totalRead + " bytes.");
+                    fos.write(buffer, 0, read);
+                }
+                fos.close();
+
+                ViewfolderClass mylist;
+                try {
+                    mylist = (ViewfolderClass) ResourceManager.load("temp1.data"); /// This List Must put inside TabelView
+                    System.out.println("Number Of Project for User is : " + mylist.MyFile.size() + " : " + mylist.MyFolder.size() + " : " + mylist.MyFolderView.size());
+
+                } catch (Exception ex) {
+                    System.err.println("Error : " + ex.getMessage());
+                }
 
             } else {
 

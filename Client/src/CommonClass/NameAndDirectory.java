@@ -1,7 +1,9 @@
 
 package CommonClass;
 
-public class NameAndDirectory {
+import java.io.Serializable;
+
+public class NameAndDirectory implements Serializable{
     public String Name;
     public String Directory;
     public NameAndDirectory(String Name , String Directory)
