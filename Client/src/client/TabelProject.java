@@ -22,9 +22,15 @@ public class TabelProject extends RecursiveTreeObject<TabelProject> {
     }
 
     public boolean equal(CommonProject CP) {
-        if (this.NameProject.equals(CP.NameProject) && this.DateCreate.equals(CP.DateCreate)
-                && this.Author.equals(CP.Author) && this.NumberOfContributors.equals(CP.Contributors.size())
-                && this.NumberOfCommits.equals(CP.way.size())) {
+        System.out.println(this.NameProject.get() + " : " + CP.NameProject);
+        System.out.println(this.DateCreate.get() + " : " + CP.DateCreate);
+        System.out.println(this.Author.get() + " : " + CP.Author);
+        System.out.println(this.NumberOfContributors.get() + " : " + CP.Contributors.size());
+        System.out.println(this.NumberOfCommits.get() + " : " + CP.way.size());
+
+        if (this.NameProject.get().equals(String.valueOf(CP.NameProject))
+                && this.Author.get().equals(String.valueOf(CP.Author)) && this.NumberOfContributors.get().equals(String.valueOf(CP.Contributors.size()))
+                && this.NumberOfCommits.get().equals(String.valueOf(CP.way.size()))) {
             return true;
         }
         return false;

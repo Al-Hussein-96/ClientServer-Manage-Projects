@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import severbenkh.ResourceManager;
+import CommonClass.ResourceManager;
 public class ProjectToUpload implements Serializable{
 public String director;
 public int IdLastCommit;

@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.ViewfolderClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +21,8 @@ public class SeverBENKH {
 
     ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
     public static void main(String[] args) throws IOException {
-
+        ViewfolderClass vi =  ResourceManager.ViewProject(new File("src"));
+        ResourceManager.ShowViewProject(vi);
         initFile();
 
         try {

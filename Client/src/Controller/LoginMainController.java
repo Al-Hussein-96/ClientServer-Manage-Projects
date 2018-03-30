@@ -69,6 +69,7 @@ public class LoginMainController implements Initializable {
 //            networkOutput.println(UserName);
 //            networkOutput.println(PassWord);
             response = networkInput.readUTF();
+        //    response = "Login Done Correct";
             if (response.equals("Login Done Correct")) {
                 GoToMainPage();
             }

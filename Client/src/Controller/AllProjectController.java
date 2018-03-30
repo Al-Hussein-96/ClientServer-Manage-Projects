@@ -3,7 +3,7 @@ package Controller;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.ResourceManager;
+import CommonClass.ResourceManager;
 import client.TabelProject;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;

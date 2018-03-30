@@ -3,8 +3,10 @@ package Controller;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.ResourceManager;
+import CommonClass.ResourceManager;
+import client.CommonVariable;
 import client.TabelProject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -22,13 +24,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class MyProjectController implements Initializable {
 
+    private AnchorPane roopane;
+
+    @FXML
+    private JFXButton open;
     @FXML
     private JFXTreeTableView<TabelProject> TabelView;
     private List< CommonProject> MyProject;
@@ -45,6 +54,7 @@ public class MyProjectController implements Initializable {
         if (MyProject == null || TP == null) {
             return;
         }
+        System.out.println(MyProject.size());
         for (int i = 0; i < MyProject.size(); i++) {
             if (TP.equal(MyProject.get(i))) {
                 CP = MyProject.get(i);
@@ -54,11 +64,35 @@ public class MyProjectController implements Initializable {
             return;
         }
         System.out.println("Go");
-        //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT 
+        //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
+
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
+
+        fxmlLoader.setController(fileBrowsersController);
+
+        Parent root = null;
+        try {
+            root = (Parent) fxmlLoader.load();
+        } catch (IOException ex) {
+            System.out.println("Error:::: " + ex.getMessage());
+        }
+
+        AnchorPane pane;
+        pane = (AnchorPane) root;
+//        System.out.println(pane + " " + roopane);
+        roopane.getChildren().setAll(pane);
+
+    }
+
+    public void setRoopane(AnchorPane roopane) {
+        this.roopane = roopane;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         MyProject = GetMyProject();
 
         JFXTreeTableColumn<TabelProject, String> nameProject = new JFXTreeTableColumn<>("Name");

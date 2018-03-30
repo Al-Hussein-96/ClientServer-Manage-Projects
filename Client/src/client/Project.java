@@ -34,7 +34,7 @@ public class Project extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-       // if (!CheckRememberMe(stage))
+       if (!CheckRememberMe(stage))
         {
             Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
             Scene scene = new Scene(root);
@@ -44,7 +44,6 @@ public class Project extends Application {
             stage.setResizable(false);
         }
     }
-
     public static void main(String[] args) throws IOException {
         try {
             host = InetAddress.getLocalHost();

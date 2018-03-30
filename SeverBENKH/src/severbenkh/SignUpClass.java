@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static severbenkh.ResourceManager.*;
+import static CommonClass.ResourceManager.*;
 
 public class SignUpClass {
 
