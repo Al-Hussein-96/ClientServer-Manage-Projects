@@ -160,6 +160,7 @@ public class MyProjectController implements Initializable {
         System.out.println("Send Request to Server for create List of myproject");
         try {
             networkOutput.writeUTF("MYPROJECT");
+            networkOutput.flush();
         } catch (IOException ex) {
             System.out.println("Error in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
         }

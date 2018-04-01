@@ -108,6 +108,8 @@ public class AllProjectController implements Initializable {
         System.out.println("Send Request to Server for create List of Allproject");
         try {
             networkOutput.writeUTF("ALLPROJECT");
+            networkOutput.flush();
+
         } catch (IOException ex) {
             Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);
         }

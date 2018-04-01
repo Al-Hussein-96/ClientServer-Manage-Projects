@@ -61,11 +61,14 @@ public class LoginMainController implements Initializable {
         String response;
         try {
             networkOutput.writeUTF("LOGIN");
+            networkOutput.flush();
             //    networkOutput.println("LOGIN");
             String UserName = username.getText();
             String PassWord = password.getText();
             networkOutput.writeUTF(UserName);
+            networkOutput.flush();
             networkOutput.writeUTF(PassWord);
+            networkOutput.flush();
 //            networkOutput.println(UserName);
 //            networkOutput.println(PassWord);
             response = networkInput.readUTF();

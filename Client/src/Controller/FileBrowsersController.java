@@ -65,11 +65,11 @@ public class FileBrowsersController implements Initializable {
         TabelBrowsers[] st = new TabelBrowsers[LengthTable];
         for (int i = 0; i < MyFolder.size(); i++) {
             String s1 = MyFolder.get(i).Name;
-            st[i] = new TabelBrowsers(s1, true,i);
+            st[i] = new TabelBrowsers(s1, true, i);
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).Name;
-            st[i + MyFolder.size()] = new TabelBrowsers(s1, false,i+MyFolder.size());
+            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size());
         }
         list = FXCollections.observableArrayList(st);
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -102,7 +102,7 @@ public class FileBrowsersController implements Initializable {
             current = MyFolderView.get(index);
             ShowFolder(current);
         } else {
-            // HER OPEN THE FILE 
+     
         }
     }
 
@@ -110,11 +110,14 @@ public class FileBrowsersController implements Initializable {
         ViewfolderClass mylist = null;
         try {
             networkOutput.writeUTF("GETPROJECT");
+            networkOutput.flush();
             String respone = networkInput.readUTF();
             if (respone.equals("Done")) {
                 networkOutput.writeUTF("SendNameProject");
+                networkOutput.flush();
                 System.out.println(Owner);
                 networkOutput.writeUTF(Owner.NameProject);
+                networkOutput.flush();
 
                 FileOutputStream fos = new FileOutputStream("temp1.data");
 

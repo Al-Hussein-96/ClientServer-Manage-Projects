@@ -63,6 +63,7 @@ public class SignUpController implements Initializable {
         String response;
         try {
             networkOutput.writeUTF("SIGNUP");
+            networkOutput.flush();
             String UserName = username.getText();
             String PassWord = password.getText();
             String Password_Confirmation = password_confirmation.getText();
@@ -71,7 +72,9 @@ public class SignUpController implements Initializable {
                 return;
             }
             networkOutput.writeUTF(UserName);
+            networkOutput.flush();
             networkOutput.writeUTF(PassWord);
+            networkOutput.flush();
             response = networkInput.readUTF();
             if (response.equals("Server Agree on username")) {
                 GoToMainPage();

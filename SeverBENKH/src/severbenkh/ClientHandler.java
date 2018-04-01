@@ -4,6 +4,8 @@ import CommonClass.ViewfolderClass;
 import CommonClass.ResourceManager;
 import CommonClass.CommonProject;
 import CommonClass.NameAndDirectory;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -27,15 +29,16 @@ public class ClientHandler extends Thread {
 
     public static String MyUser;
     private Socket client;
-    private DataInputStream input;
-    private DataOutputStream output;
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
 
     ClientHandler(Socket client) {
         this.client = client;
 
         try {
-            input = new DataInputStream(client.getInputStream());
-            output = new DataOutputStream(client.getOutputStream());
+            output = new ObjectOutputStream(client.getOutputStream());
+            input = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
+
         } catch (IOException ex) {
             System.out.println("Error in  Constucte");
         }
@@ -48,15 +51,19 @@ public class ClientHandler extends Thread {
         String command = null;
         do {
             try {
+                                
                 command = input.readUTF();
             } catch (IOException ex) {
                 System.out.println("Cann't Read Command");
                 break;
+            } catch (Exception ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (command == null) {
                 continue;
             }
+            System.out.println("Command : " + command);
 
             switch (command) {
                 case "SIGNUP":
@@ -77,6 +84,15 @@ public class ClientHandler extends Thread {
                 case "GETPROJECT":
                     GETPROJECT();
                     break;
+                case "GETFILE":
+                    GETFILE();
+                    break;
+                case "GETBRANCH":
+                    GetBranch();
+                    break;
+                case "GETCOMMITS":
+                    GetCommits();
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -92,10 +108,14 @@ public class ClientHandler extends Thread {
 
     }
 
+    private void GETFILE() {
+    }
+
     private void GETPROJECT() {
 
         try {
             output.writeUTF("Done");
+            output.flush();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -167,8 +187,10 @@ public class ClientHandler extends Thread {
             if (ok) {
                 MyUser = name;
                 output.writeUTF("Server Agree on username");
+                output.flush();
             } else {
                 output.writeUTF("User Name is exist! please Change it");
+                output.flush();
             }
         } catch (IOException ex) {
             System.out.println("Error SIGNUP");
@@ -176,6 +198,7 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToLogin() {
+        System.out.println("SendToLogin");
         try {
             String name = input.readUTF();
             String password = input.readUTF();
@@ -184,9 +207,11 @@ public class ClientHandler extends Thread {
             if (ok) {
                 MyUser = name;
                 output.writeUTF("Login Done Correct");
+                output.flush();
 
             } else {
                 output.writeUTF("username or password is incorrect");
+                output.flush();
 
             }
         } catch (IOException ex) {
@@ -215,12 +240,16 @@ public class ClientHandler extends Thread {
             boolean ok = CanAddNewProjectToServer(NameProject);
             if (!ok) {
                 output.writeUTF("Can't create project ");
+                output.flush();
                 return;
             }
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
             output.writeUTF("Done");
+            output.flush();
             output.writeInt(NewProject.id);
+            output.flush();
             output.writeUTF(Author);
+            output.flush();
 
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,8 +284,10 @@ public class ClientHandler extends Thread {
             byte[] buffer = Files.readAllBytes(path);
             int Size = buffer.length;
             output.writeInt(Size);
+            output.flush();
             System.out.println("Size = " + Size);
             output.write(buffer);
+            output.flush();
 
         } catch (FileNotFoundException ex) {
             System.out.println("Error in function SentObjectUseFile: " + ex.getMessage());
@@ -270,6 +301,7 @@ public class ClientHandler extends Thread {
         System.out.println("Sent Done Only");
         try {
             output.writeUTF("Done");
+            output.flush();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -292,8 +324,10 @@ public class ClientHandler extends Thread {
             byte[] buffer = Files.readAllBytes(path);
             int Size = buffer.length;
             output.writeInt(Size);
+            output.flush();
             System.out.println("Size = " + Size);
             output.write(buffer);
+            output.flush();
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -308,6 +342,8 @@ public class ClientHandler extends Thread {
         System.out.println("Sent Done Only");
         try {
             output.writeUTF("Done");
+            output.flush();
+
 //        output.println("Done");
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,8 +367,10 @@ public class ClientHandler extends Thread {
             byte[] buffer = Files.readAllBytes(path);
             int Size = buffer.length;
             output.writeInt(Size);
+            output.flush();
             System.out.println("Size = " + Size);
             output.write(buffer);
+            output.flush();
 
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -426,6 +464,14 @@ public class ClientHandler extends Thread {
 
         }
         return temp;
+    }
+
+    private void GetBranch() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void GetCommits() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

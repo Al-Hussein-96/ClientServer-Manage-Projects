@@ -38,10 +38,15 @@ public class CreateProjectController implements Initializable {
         String response;
         try {
             networkOutput.writeUTF("STARTPROJECT");
+                        networkOutput.flush();
+
             String path = txtLocation.getText();
             networkOutput.writeUTF(txtNameProject.getText());
+                        networkOutput.flush();
+
            
             networkOutput.writeUTF("true");
+            networkOutput.flush();
             
             response = networkInput.readUTF();
             if (response.equals("Done")) {
