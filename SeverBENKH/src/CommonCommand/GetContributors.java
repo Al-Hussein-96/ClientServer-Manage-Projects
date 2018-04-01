@@ -5,10 +5,7 @@
  */
 package CommonCommand;
 
-/**
- *
- * @author Al-Hussein
- */
 public class GetContributors extends GetProject{
+    
     
 }

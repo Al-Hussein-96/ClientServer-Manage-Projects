@@ -5,6 +5,10 @@ import CommonClass.ViewfolderClass;
 import CommonClass.ResourceManager;
 import CommonClass.CommonProject;
 import CommonClass.NameAndDirectory;
+import CommonCommand.*;
+import CommonRespone.*;
+import static CommonRespone.Type.DONE;
+import static CommonRespone.Type.FALIURE;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
@@ -49,11 +53,10 @@ public class ClientHandler extends Thread {
     @Override
     public void run() {
 
-        String command = null;
+    CommonCommand.Command command = null;
         do {
-            try {
-                                
-                command = input.readUTF();
+            try {             
+                command = (Command) input.readObject();
             } catch (IOException ex) {
                 System.out.println("Cann't Read Command");
                 break;
@@ -66,33 +69,33 @@ public class ClientHandler extends Thread {
             }
             System.out.println("Command : " + command);
 
-            switch (command) {
-                case "SIGNUP":
-                    SendToSignUp();
+            switch (command.TypeCommand) {
+                case SIGNUP:
+                    SendToSignUp(command);
                     break;
-                case "LOGIN":
-                    SendToLogin();
+                case LOGIN:
+                    SendToLogin(command);
                     break;
-                case "STARTPROJECT":
-                    SendToStartProject();
+                case STARTPROJECT:
+                    SendToStartProject(command);
                     break;
-                case "MYPROJECT":
-                    SendToMyProject();
+                case MYPROJECT : 
+                    SendToMyProject(command);
                     break;
-                case "ALLPROJECT":
-                    SendToAllProject();
+                case ALLPROJECT:
+                    SendToAllProject(command);
                     break;
-                case "GETPROJECT":
-                    GETPROJECT();
+                case GETPROJECT :
+                    GETPROJECT(command);
                     break;
-                case "GETFILE":
-                    GETFILE();
+                case GETFILE :
+                    GETFILE(command);
                     break;
-                case "GETBRANCH":
-                    GetBranch();
+                case GETBRANCH :
+                    GetBranch(command);
                     break;
-                case "GETCOMMITS":
-                    GetCommits();
+                case  GETCOMMITS:
+                    GetCommits(command);
                     break;
             }
 
@@ -109,33 +112,35 @@ public class ClientHandler extends Thread {
 
     }
 
-    private void GETFILE() {
+    private void GETFILE(Command command) {
     }
 
-    private void GETPROJECT() {
-
-        try {
-            output.writeUTF("Done");
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //// get all branch  " GetAllBranch" + "Name"
-        /// get name project "SendNameProject"
-        // while (true)
-        {
+    private void GETPROJECT(Command command) {
+        /// Get last Commit in master branch
+           String NameProject =   ((GetProject)command).NameProject;
             try {
-                String temp = input.readUTF();
-                switch (temp) {
-                    case "SendNameProject":
-                        SendNameProject();
-                        break;
+                Project myprojecProject = get_projectClass(NameProject);
+                for (branchClass br : myprojecProject.branchListClass) {
+                    if (br.branchName.equals("Master")) /// get Branch
+                    {
+                        /// get Last Commit
+                        int sz = br.way.size() - 1;
+                        ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
+                        SendProject Rc  = new SendProject(DONE , ob);
+                        output.writeObject(Rc);
+                        output.flush();
+                    }
                 }
-
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                SendProject Rc  = new SendProject(FALIURE , null);
+                try {
+                    output.writeObject(Rc);
+                    output.flush();
+                } catch (IOException ex1) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                
             }
-        }
     }
 
     private Project get_projectClass(String temp) {
@@ -147,50 +152,18 @@ public class ClientHandler extends Thread {
         return null;
     }
 
-    private void SendNameProject() {
+    private void SendToSignUp(Command command) {
         try {
-            String temp = input.readUTF();
-            try {
-                Project myprojecProject = get_projectClass(temp);
-                for (branchClass br : myprojecProject.branchListClass) {
-                    if (br.branchName.equals("Master")) /// get Branch
-                    {
-                        /// get Last Commit
-                        int sz = br.way.size();
-                        sz--;
-                        
-                        //// Done
-                        System.out.println(br.projectdirector);
-                        System.out.println((br.way.get(sz)).Directory);
-                        ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
-
-                        //// Done
-                        ResourceManager.ShowViewfolder(ob);
-
-                        SentObjectUseFile(ob);  /// not now, first must ob not null
-                    }
-                }
-            } catch (Exception ex) {
-                //    System.out.println("Error: " + ex.getMessage());
-
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void SendToSignUp() {
-        try {
-            String name = input.readUTF();
-            String password = input.readUTF();
-            boolean ok = SignUpClass.SignUp(new User(name, password));
+            Respone Rc = new Status();
+            boolean ok = SignUpClass.SignUp(((SIGNUP)command).user);
             if (ok) {
-                MyUser = name;
-                output.writeUTF("Server Agree on username");
+                MyUser = ((SIGNUP)command).user.getName();
+                Rc.TypeRespone = DONE;
+                output.writeObject(Rc);
                 output.flush();
             } else {
-                output.writeUTF("User Name is exist! please Change it");
+                Rc.TypeRespone = FALIURE;
+                output.writeObject(Rc);
                 output.flush();
             }
         } catch (IOException ex) {
@@ -198,58 +171,50 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private void SendToLogin() {
+    private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
         try {
-            String name = input.readUTF();
-            String password = input.readUTF();
-
-            boolean ok = LoginClass.Login(new User(name, password));
+           Respone Rc = new Status();
+           boolean ok = LoginClass.Login(((LOGIN)command).user);
             if (ok) {
-                MyUser = name;
-                output.writeUTF("Login Done Correct");
+                MyUser = ((LOGIN)command).user.getName();     
+                Rc.TypeRespone = DONE;
+                output.writeObject(Rc);
                 output.flush();
-
             } else {
-                output.writeUTF("username or password is incorrect");
+                Rc.TypeRespone = FALIURE;
+                output.writeObject(Rc);
                 output.flush();
-
             }
         } catch (IOException ex) {
             System.out.println("Error LOGIN");
         }
     }
 
-    private void SendToStartProject() {
+    private void SendToStartProject(Command command) {
         try {
-
+            
             boolean Access;
             String Author = MyUser;
-            String NameProject = input.readUTF();
-
-            /// Should not send Directory
-            /// String ProjectDirectory = input.readLine();
-            /// this is Directory in Server
             String ProjectDirectory = SeverBENKH.projectdirectoryName;
-            String tempAccess = input.readUTF();
+            String NameProject =  ((StartProject)command).NameProject;
+            String tempAccess = ((StartProject)command).Access;
             if ("true".equals(tempAccess)) {
                 Access = true;
             } else {
                 Access = false;
             }
-
             boolean ok = CanAddNewProjectToServer(NameProject);
             if (!ok) {
-                output.writeUTF("Can't create project ");
+                Respone Rc = new Status();
+                Rc.TypeRespone = FALIURE;
+                output.writeObject(Rc);
                 output.flush();
                 return;
             }
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
-            output.writeUTF("Done");
-            output.flush();
-            output.writeInt(NewProject.id);
-            output.flush();
-            output.writeUTF(Author);
+            CreateProject Rc = new CreateProject(DONE , NewProject.id , Author);
+            output.writeObject(Rc);
             output.flush();
 
         } catch (IOException ex) {
@@ -270,116 +235,28 @@ public class ClientHandler extends Thread {
         }
         return true;
     }
-
-    private void SentObjectUseFile(Object ob) {
+    private void SendToMyProject(Command command) {
         /// for Send To Client
         try {
-            System.out.println("reach Here");
-            FileOutputStream fos = new FileOutputStream("temp1.data");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(ob);
-            oos.close();
-
-            Path path = Paths.get("temp1.data");
-
-            byte[] buffer = Files.readAllBytes(path);
-            int Size = buffer.length;
-            output.writeInt(Size);
+            List< CommonProject> MyProject = GetMyProject();
+            SendMyProject Rc = new SendMyProject(DONE , MyProject);
+            output.writeObject(Rc);
             output.flush();
-            System.out.println("Size = " + Size);
-            output.write(buffer);
-            output.flush();
-
-        } catch (FileNotFoundException ex) {
-            System.out.println("Error in function SentObjectUseFile: " + ex.getMessage());
         } catch (IOException ex) {
-            System.out.println("Error in function SentObjectUseFile: " + ex.getMessage());
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("DONE SENT FILE for Browsers FROM SERVER");
     }
 
-    private void SendToMyProject() {
-        System.out.println("Sent Done Only");
+    private void SendToAllProject(Command command) {
+         /// for Send To Client
         try {
-            output.writeUTF("Done");
+            List< CommonProject> AllProject = GetAllProject();
+            SendAllProject Rc = new SendAllProject(DONE , AllProject);
+            output.writeObject(Rc);
             output.flush();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Recive Request from Client To Create list of MyProject");
-        System.out.println("User: " + MyUser);
-        List< CommonProject> MyProject = GetMyProject();
-
-        System.out.println("List: " + MyProject.size());
-
-        /// for Send To Client
-        try {
-
-            FileOutputStream fos = new FileOutputStream("temp.data");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(MyProject);
-            oos.close();
-
-            Path path = Paths.get("temp.data");
-
-            byte[] buffer = Files.readAllBytes(path);
-            int Size = buffer.length;
-            output.writeInt(Size);
-            output.flush();
-            System.out.println("Size = " + Size);
-            output.write(buffer);
-            output.flush();
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("DONE SENT FILE FROM SERVER");
-
-    }
-
-    private void SendToAllProject() {
-        System.out.println("Sent Done Only");
-        try {
-            output.writeUTF("Done");
-            output.flush();
-
-//        output.println("Done");
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("Recive Request from Client To Create list of AllProject");
-        System.out.println("User: " + MyUser);
-        List< CommonProject> AllProject = GetAllProject();
-
-        System.out.println("List: " + AllProject.size());
-
-        /// for Send To Client
-        try {
-
-            FileOutputStream fos = new FileOutputStream("temp.data");
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(AllProject);
-            oos.close();
-
-            Path path = Paths.get("temp.data");
-
-            byte[] buffer = Files.readAllBytes(path);
-            int Size = buffer.length;
-            output.writeInt(Size);
-            output.flush();
-            System.out.println("Size = " + Size);
-            output.write(buffer);
-            output.flush();
-
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        System.out.println("DONE SENT FILE FROM SERVER");
-
     }
 
     private List< Project> getAllProjectInServer() {
@@ -467,11 +344,11 @@ public class ClientHandler extends Thread {
         return temp;
     }
 
-    private void GetBranch() {
+    private void GetBranch(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void GetCommits() {
+    private void GetCommits(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

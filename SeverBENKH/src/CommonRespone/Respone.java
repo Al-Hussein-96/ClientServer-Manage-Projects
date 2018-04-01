@@ -1,5 +1,13 @@
 package CommonRespone;
 
 public abstract class Respone{
-    Type TypeRespone;
+    public Type TypeRespone;
+    Respone()
+    {
+        
+    }
+    Respone(Type TypeRespone)
+    {
+     this.TypeRespone = TypeRespone;   
+    }
 }

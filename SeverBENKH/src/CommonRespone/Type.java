@@ -4,12 +4,7 @@
  * and open the template in the editor.
  */
 package CommonRespone;
-
-/**
- *
- * @author Al-Hussein
- */
 public enum Type {
-    DONE;
+    DONE , FALIURE;
     
 }
