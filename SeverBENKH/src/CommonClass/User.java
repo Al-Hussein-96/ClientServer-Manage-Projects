@@ -1,4 +1,4 @@
-package severbenkh;
+package CommonClass;
 
 import java.io.Serializable;
 

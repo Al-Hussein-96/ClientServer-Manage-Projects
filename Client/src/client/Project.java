@@ -1,5 +1,6 @@
 package client;
 
+import CommonClass.User;
 import Controller.LoginMainController;
 import Controller.PageMainController;
 import java.io.BufferedOutputStream;

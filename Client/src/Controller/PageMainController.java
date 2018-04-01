@@ -1,6 +1,6 @@
 package Controller;
 
-import client.User;
+import CommonClass.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;

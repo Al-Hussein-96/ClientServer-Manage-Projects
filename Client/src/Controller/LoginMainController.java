@@ -2,7 +2,7 @@ package Controller;
 
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.User;
+import CommonClass.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;

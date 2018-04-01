@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.User;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

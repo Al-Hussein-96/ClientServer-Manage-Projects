@@ -1,4 +1,4 @@
-package client;
+package CommonClass;
 
 import java.io.Serializable;
 

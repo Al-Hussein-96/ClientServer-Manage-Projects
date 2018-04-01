@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.User;
 import CommonClass.ViewfolderClass;
 import CommonClass.ResourceManager;
 import CommonClass.CommonProject;
@@ -157,7 +158,7 @@ public class ClientHandler extends Thread {
                         /// get Last Commit
                         int sz = br.way.size();
                         sz--;
-
+                        
                         //// Done
                         System.out.println(br.projectdirector);
                         System.out.println((br.way.get(sz)).Directory);
