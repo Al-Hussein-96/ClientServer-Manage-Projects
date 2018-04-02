@@ -4,7 +4,14 @@
  * and open the template in the editor.
  */
 package CommonRespone;
-public enum Type {
+
+import java.io.Serializable;
+
+/**
+ *
+ * @author Al-Hussein
+ */
+public enum ResponeType implements Serializable{
     DONE , FALIURE;
     
 }

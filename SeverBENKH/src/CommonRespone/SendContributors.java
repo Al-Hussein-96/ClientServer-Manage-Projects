@@ -5,10 +5,17 @@
  */
 package CommonRespone;
 
+import CommonClass.ViewfolderClass;
+import java.io.Serializable;
+
 /**
  *
  * @author Al-Hussein
  */
-public class SendContributors extends SendProject{
+public class SendContributors extends SendProject implements Serializable{
+    
+    public SendContributors(ViewfolderClass ob) {
+        super(ob);
+    }
     
 }

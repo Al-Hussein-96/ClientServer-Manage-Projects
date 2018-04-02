@@ -5,10 +5,17 @@
  */
 package CommonCommand;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Al-Hussein
  */
-public class GetContributors extends GetProject{
+public class GetContributors extends GetProject implements Serializable{
+    
+    public GetContributors(String NameProject) {
+        super(NameProject);
+    }
+    
     
 }

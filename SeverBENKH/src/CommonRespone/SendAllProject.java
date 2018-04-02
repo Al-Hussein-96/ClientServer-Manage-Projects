@@ -1,11 +1,12 @@
 package CommonRespone;
 
 import CommonClass.CommonProject;
+import java.io.Serializable;
 import java.util.List;
 
-public class SendAllProject extends Respone{
+public class SendAllProject extends Respone implements Serializable{
     List<CommonProject> mylist;
-    public SendAllProject(Type TypeRespone , List<CommonProject> mylist)
+    public SendAllProject(ResponeType TypeRespone , List<CommonProject> mylist)
     {
         super(TypeRespone);
         for(CommonProject temp : mylist)
@@ -13,4 +14,10 @@ public class SendAllProject extends Respone{
             this.mylist.add(temp);
         }
     }
+
+    public List<CommonProject> getMylist() {
+        return mylist;
+    }
+    
+    
 }

@@ -4,6 +4,11 @@ import CommonClass.CommonProject;
 import CommonClass.NameAndDirectory;
 import CommonClass.ResourceManager;
 import CommonClass.ViewfolderClass;
+import CommonCommand.Command;
+import CommonCommand.GetProject;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
+import CommonRespone.SendProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBrowsers;
@@ -102,57 +107,27 @@ public class FileBrowsersController implements Initializable {
             current = MyFolderView.get(index);
             ShowFolder(current);
         } else {
-     
+
         }
     }
 
     ViewfolderClass GetMyProject() {
-        ViewfolderClass mylist = null;
         try {
-            networkOutput.writeUTF("GETPROJECT");
+            Command command = new GetProject(Owner.NameProject);
+
+            networkOutput.writeObject(command);
             networkOutput.flush();
-            String respone = networkInput.readUTF();
-            if (respone.equals("Done")) {
-                networkOutput.writeUTF("SendNameProject");
-                networkOutput.flush();
-                System.out.println(Owner);
-                networkOutput.writeUTF(Owner.NameProject);
-                networkOutput.flush();
 
-                FileOutputStream fos = new FileOutputStream("temp1.data");
+            Respone respone = (Respone) networkInput.readObject();
 
-                byte[] buffer = new byte[5005];
-                System.out.println("YES");
-                int filesize = networkInput.readInt(); // Send file size in separate msg
-                System.out.println("Size = " + filesize);
-
-                //  int filesize = 17428; // Send file size in separate msg
-                int read = 0;
-                int totalRead = 0;
-                int remaining = filesize;
-                if ((read = networkInput.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
-                    totalRead += read;
-                    remaining -= read;
-                    System.out.println("read " + totalRead + " bytes.");
-                    fos.write(buffer, 0, read);
-                }
-                fos.close();
-
-                try {
-                    mylist = (ViewfolderClass) ResourceManager.load("temp1.data"); /// This List Must put inside TabelView
-                    System.out.println("Number Of Project for User is : " + mylist.MyFile.size() + " : " + mylist.MyFolder.size() + " : " + mylist.MyFolderView.size());
-                } catch (Exception ex) {
-                    System.err.println("Error : " + ex.getMessage());
-                }
-
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((SendProject) respone).ob;
             } else {
-
+                System.out.println("Error in Project");
             }
-
-//        CreateTabelView("D:\\ITE 2017\\المشروع 1\\ClientServer-Manage-Projects\\Client");
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return mylist;
+        return null;
     }
 }

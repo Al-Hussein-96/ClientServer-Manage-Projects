@@ -1,16 +1,14 @@
 package CommonRespone;
 
 import CommonClass.ViewfolderClass;
+import java.io.Serializable;
 
-public class SendProject extends Respone{
-    public ViewfolderClass ob ; 
-    public SendProject()
+public class SendProject extends Respone implements Serializable{
+    public ViewfolderClass ob; 
+
+    public SendProject(ViewfolderClass ob)
     {
-        
-    }
-    public SendProject(Type TypeRespone, ViewfolderClass ob)
-    {
-        super(TypeRespone);
+        super(ResponeType.DONE);
         this.ob = ob ; 
     }
 }

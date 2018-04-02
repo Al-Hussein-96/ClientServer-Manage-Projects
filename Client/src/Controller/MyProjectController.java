@@ -4,7 +4,10 @@ import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import CommonClass.ResourceManager;
-import client.CommonVariable;
+import CommonCommand.MyProject;
+import CommonRespone.Respone;
+import CommonRespone.SendMyProject;
+import CommonRespone.ResponeType;
 import client.TabelProject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -81,7 +84,6 @@ public class MyProjectController implements Initializable {
 
         AnchorPane pane;
         pane = (AnchorPane) root;
-//        System.out.println(pane + " " + roopane);
         roopane.getChildren().setAll(pane);
 
     }
@@ -157,9 +159,8 @@ public class MyProjectController implements Initializable {
     }
 
     private List<CommonProject> GetMyProject() {
-        System.out.println("Send Request to Server for create List of myproject");
         try {
-            networkOutput.writeUTF("MYPROJECT");
+            networkOutput.writeObject(new MyProject());
             networkOutput.flush();
         } catch (IOException ex) {
             System.out.println("Error in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
@@ -167,40 +168,14 @@ public class MyProjectController implements Initializable {
 
         List<CommonProject> mylist = null;
         try {
-         //    System.out.println("reach Here: ");
-            String respone = networkInput.readUTF();
-            //System.out.println("reach Here: 2");
-            if (respone.equals("Done")) {
-               
+            Respone respone = (Respone) networkInput.readObject();
 
-                FileOutputStream fos = new FileOutputStream("temp.data");
-                byte[] buffer = new byte[5005];
-
-                int filesize = networkInput.readInt(); // Send file size in separate msg
-                System.out.println("Size = " + filesize);
-                //         int filesize = 17428; // Send file size in separate msg
-                int read = 0;
-                int totalRead = 0;
-                int remaining = filesize;
-                if ((read = networkInput.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
-                    totalRead += read;
-                    remaining -= read;
-                    System.out.println("read " + totalRead + " bytes.");
-                    fos.write(buffer, 0, read);
-                }
-                fos.close();
-
-                try {
-                    mylist = (List<CommonProject>) ResourceManager.load("temp.data"); /// This List Must put inside TabelView
-                    System.out.println("Number Of Project for User is : " + mylist.size());
-                } catch (Exception ex) {
-
-                    System.err.println("Error : " + ex.getMessage());
-                }
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((SendMyProject) respone).getMylist();
             }
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error3 in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
         }
-        return mylist;
+        return null;
     }
 }

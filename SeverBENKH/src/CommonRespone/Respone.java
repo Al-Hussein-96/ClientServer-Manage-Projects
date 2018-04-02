@@ -1,13 +1,15 @@
 package CommonRespone;
 
-public abstract class Respone{
-    public Type TypeRespone;
-    Respone()
-    {
-        
+import java.io.Serializable;
+
+public abstract class Respone implements Serializable{
+    public ResponeType TypeRespone;
+
+
+
+    public Respone(ResponeType TypeRespone) {
+        this.TypeRespone = TypeRespone;
     }
-    Respone(Type TypeRespone)
-    {
-     this.TypeRespone = TypeRespone;   
-    }
+    
+    
 }

@@ -1,14 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CommonRespone;
 
-/**
- *
- * @author Al-Hussein
- */
-public class SendProject {
-    
+import CommonClass.ViewfolderClass;
+import java.io.Serializable;
+
+public class SendProject extends Respone implements Serializable{
+
+    public ViewfolderClass ob;
+
+    public SendProject(ViewfolderClass ob) {
+        super(ResponeType.DONE);
+        this.ob = ob;
+    }
 }

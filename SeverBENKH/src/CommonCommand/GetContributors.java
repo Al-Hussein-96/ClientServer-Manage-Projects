@@ -1,11 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package CommonCommand;
 
-public class GetContributors extends GetProject{
+import java.io.Serializable;
+
+public class GetContributors extends GetProject implements Serializable{
     
+    public GetContributors(String NameProject) {
+        super(NameProject);
+    }
     
 }

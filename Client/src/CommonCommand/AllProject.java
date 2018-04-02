@@ -5,10 +5,16 @@
  */
 package CommonCommand;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Al-Hussein
  */
-public class AllProject extends Command{
+public class AllProject extends Command implements Serializable{
+    
+    public AllProject() {
+        super(CommandType.ALLPROJECT);
+    }
     
 }

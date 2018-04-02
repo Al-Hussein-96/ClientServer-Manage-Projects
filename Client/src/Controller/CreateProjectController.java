@@ -1,5 +1,10 @@
 package Controller;
 
+import CommonCommand.Command;
+import CommonCommand.StartProject;
+import CommonRespone.Respone;
+import CommonRespone.SendCreateProject;
+import CommonRespone.ResponeType;
 import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
@@ -10,6 +15,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,40 +42,31 @@ public class CreateProjectController implements Initializable {
 
     @FXML
     void btnCreate(ActionEvent event) {
-        String response;
         try {
-            networkOutput.writeUTF("STARTPROJECT");
-                        networkOutput.flush();
-
             String path = txtLocation.getText();
-            networkOutput.writeUTF(txtNameProject.getText());
-                        networkOutput.flush();
-
-           
-            networkOutput.writeUTF("true");
+            Command command = new StartProject(txtNameProject.getText(), "true");
+            networkOutput.writeObject(command);
             networkOutput.flush();
-            
-            response = networkInput.readUTF();
-            if (response.equals("Done")) {
-              int IdProject = networkInput.readInt();
-              String Author = networkInput.readUTF();
-              int lastCommit = 1;
-              List<String> Contributors = new ArrayList<>();
-              Contributors.add(Author);
-              ProjectToUpload Temp = new ProjectToUpload(path +"\\.BENKH",1,IdProject , Contributors , "Master" );
-              Temp.Save();
+
+            Respone response = (Respone) networkInput.readObject();
+            if (response.TypeRespone == ResponeType.DONE) {
+                Respone respone1 = (Respone) networkInput.readObject();
+                int IdProject = ((SendCreateProject) respone1).IdProject;
+                String Author = ((SendCreateProject) respone1).Author;
+                int lastCommit = 1;
+                List<String> Contributors = new ArrayList<>();
+                Contributors.add(Author);
+                ProjectToUpload Temp = new ProjectToUpload(path + "\\.BENKH", 1, IdProject, Contributors, "Master");
+                Temp.Save();
             }
-            System.out.println("\nServer : " + response);
-            
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error START PROJECT");
         }
     }
-    
+
     @FXML
-    void Close(ActionEvent event)
-    {
-        
+    void Close(ActionEvent event) {
+
     }
 
     @Override

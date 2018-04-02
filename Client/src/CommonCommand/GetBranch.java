@@ -5,11 +5,16 @@
  */
 package CommonCommand;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Al-Hussein
  */
-public class GetBranch extends GetProject{
-    
-    
+public class GetBranch extends GetProject implements Serializable{
+
+    public GetBranch(String NameProject) {
+        super(NameProject);
+    }
+
 }

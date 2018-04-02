@@ -1,14 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package CommonCommand;
 
-/**
- *
- * @author Al-Hussein
- */
-public abstract class Command {
-    protected Type TypeCommand; 
+import java.io.Serializable;
+
+
+public abstract class Command implements Serializable{
+    public CommandType TypeCommand; 
+
+    public Command(CommandType TypeCommand) {
+        this.TypeCommand = TypeCommand;
+    }
+
+    public CommandType getTypeCommand() {
+        return TypeCommand;
+    }
+    
+    
+    
 }

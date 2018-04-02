@@ -1,6 +1,10 @@
 package client;
 
 import CommonClass.User;
+import CommonCommand.Command;
+import CommonCommand.LOGIN;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
 import Controller.LoginMainController;
 import Controller.PageMainController;
 import java.io.BufferedOutputStream;
@@ -31,9 +35,7 @@ public class Project extends Application {
     public static Socket socket;
     public static ObjectInputStream networkInput;
     public static ObjectOutputStream networkOutput;
-//    public static DataInputStream networkInput;
-//    public static DataOutputStream networkOutput;
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         if (!CheckRememberMe(stage)) {
@@ -73,28 +75,28 @@ public class Project extends Application {
         if (F.exists()) {
             BufferedReader reader = null;
             try {
-                networkOutput.writeUTF("LOGIN");
-                networkOutput.flush();
 
                 reader = new BufferedReader(new FileReader(F));
                 String UserName = reader.readLine();
                 String PassWord = reader.readLine();
-                System.out.println(UserName + "  " + PassWord);
 
-                networkOutput.writeUTF(UserName);
+                User user = new User(UserName, PassWord);
+                
+                Command command = new LOGIN(user);
+                networkOutput.writeObject(command);
                 networkOutput.flush();
-                networkOutput.writeUTF(PassWord);
-                networkOutput.flush();
-                String response = networkInput.readUTF();
-                System.out.println(response);
-                if (response.equals("Login Done Correct")) {
+                Respone respone = (Respone) networkInput.readObject();
+                
+                if (respone.TypeRespone == ResponeType.DONE) {
                     GoToMainPage(new User(UserName, PassWord), stage);
                 }
-                System.out.println("\nServer : " + response);
+                
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
             } finally {
                 try {
                     reader.close();

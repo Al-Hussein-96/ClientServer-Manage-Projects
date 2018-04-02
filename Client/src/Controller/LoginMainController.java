@@ -1,21 +1,20 @@
 package Controller;
 
+import CommonClass.User;
+import CommonCommand.Command;
+import CommonCommand.LOGIN;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import CommonClass.User;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -58,32 +57,26 @@ public class LoginMainController implements Initializable {
 
     @FXML
     private void login_c(MouseEvent event) {
-        String response;
         try {
-            networkOutput.writeUTF("LOGIN");
-            networkOutput.flush();
-            //    networkOutput.println("LOGIN");
             String UserName = username.getText();
             String PassWord = password.getText();
-            networkOutput.writeUTF(UserName);
+
+            User user = new User(UserName, PassWord);
+
+            Command command = new LOGIN(user);
+            networkOutput.writeObject(command);
             networkOutput.flush();
-            networkOutput.writeUTF(PassWord);
-            networkOutput.flush();
-//            networkOutput.println(UserName);
-//            networkOutput.println(PassWord);
-            response = networkInput.readUTF();
-            //    response = "Login Done Correct";
-            if (response.equals("Login Done Correct")) {
+            Respone respone = (Respone) networkInput.readObject();
+
+            if (respone.TypeRespone == ResponeType.DONE) {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);
             }
-            System.out.println("\nServer : " + response);
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setHeaderText(null);
-//            alert.setContentText(response);
-//            alert.show();
+
         } catch (IOException ex) {
             System.out.println("Error LOGIN");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

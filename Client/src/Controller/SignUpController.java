@@ -1,12 +1,16 @@
 package Controller;
 
+import CommonClass.User;
+import CommonCommand.Command;
+import CommonCommand.SIGNUP;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.effects.JFXDepthManager;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,11 +26,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 //import javafx.scene.control.Alert;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -60,10 +62,7 @@ public class SignUpController implements Initializable {
 
     @FXML
     private void create_clc(MouseEvent event) {
-        String response;
         try {
-            networkOutput.writeUTF("SIGNUP");
-            networkOutput.flush();
             String UserName = username.getText();
             String PassWord = password.getText();
             String Password_Confirmation = password_confirmation.getText();
@@ -71,22 +70,23 @@ public class SignUpController implements Initializable {
                 System.out.println("Mismatch");
                 return;
             }
-            networkOutput.writeUTF(UserName);
+
+            User user = new User(UserName, PassWord);
+            Command command = new SIGNUP(user);
+            networkOutput.writeObject(command);
             networkOutput.flush();
-            networkOutput.writeUTF(PassWord);
-            networkOutput.flush();
-            response = networkInput.readUTF();
-            if (response.equals("Server Agree on username")) {
+           
+
+            Respone response = (Respone) networkInput.readObject();
+             System.out.println("Hello SignUp");
+            if (response.TypeRespone == ResponeType.DONE) {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);
             }
-            System.out.println("\nServer : " + response);
-//            Alert alert = new Alert(Alert.AlertType.ERROR);
-//            alert.setHeaderText(null);
-//            alert.setContentText(response);
-//            alert.show();
         } catch (IOException ex) {
             System.out.println("Error SIGN UP");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SignUpController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
