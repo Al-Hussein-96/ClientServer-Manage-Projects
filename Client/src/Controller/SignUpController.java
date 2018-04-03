@@ -78,7 +78,6 @@ public class SignUpController implements Initializable {
            
 
             Respone response = (Respone) networkInput.readObject();
-             System.out.println("Hello SignUp");
             if (response.TypeRespone == ResponeType.DONE) {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);

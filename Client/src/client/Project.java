@@ -35,7 +35,7 @@ public class Project extends Application {
     public static Socket socket;
     public static ObjectInputStream networkInput;
     public static ObjectOutputStream networkOutput;
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         if (!CheckRememberMe(stage)) {
@@ -58,7 +58,6 @@ public class Project extends Application {
         socket = new Socket(host, PORT);
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         networkInput = new ObjectInputStream(socket.getInputStream());
-        
 
         launch(args);
 
@@ -81,16 +80,16 @@ public class Project extends Application {
                 String PassWord = reader.readLine();
 
                 User user = new User(UserName, PassWord);
-                
+
                 Command command = new LOGIN(user);
                 networkOutput.writeObject(command);
                 networkOutput.flush();
                 Respone respone = (Respone) networkInput.readObject();
-                
+
                 if (respone.TypeRespone == ResponeType.DONE) {
                     GoToMainPage(new User(UserName, PassWord), stage);
                 }
-                
+
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

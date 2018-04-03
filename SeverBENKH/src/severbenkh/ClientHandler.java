@@ -164,6 +164,7 @@ public class ClientHandler extends Thread {
     private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
         try {
+            System.out.println("GOOO");
             boolean ok = LoginClass.Login(((LOGIN) command).user);
             if (ok) {
                 MyUser = ((LOGIN) command).user.getName();
@@ -196,10 +197,14 @@ public class ClientHandler extends Thread {
                 output.flush();
                 return;
             }
+            output.writeObject(new SendStatus(DONE));
+            output.flush();
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
             SendCreateProject Rc = new SendCreateProject(NewProject.id, Author);
+
             output.writeObject(Rc);
             output.flush();
+            System.out.println("SendTpStartProject");
 
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,11 +229,18 @@ public class ClientHandler extends Thread {
         /// for Send To Client
         try {
             List< CommonProject> MyProject = GetMyProject();
+            
             SendMyProject Rc = new SendMyProject(MyProject);
             output.writeObject(Rc);
             output.flush();
+            System.out.println("After");
         } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                output.writeObject(new SendStatus(FALIURE));
+                output.flush();
+            } catch (IOException ex1) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 

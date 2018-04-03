@@ -15,8 +15,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,13 +47,16 @@ public class CreateProjectController implements Initializable {
             networkOutput.flush();
 
             Respone response = (Respone) networkInput.readObject();
+
             if (response.TypeRespone == ResponeType.DONE) {
                 Respone respone1 = (Respone) networkInput.readObject();
+                
                 int IdProject = ((SendCreateProject) respone1).IdProject;
                 String Author = ((SendCreateProject) respone1).Author;
                 int lastCommit = 1;
                 List<String> Contributors = new ArrayList<>();
                 Contributors.add(Author);
+               
                 ProjectToUpload Temp = new ProjectToUpload(path + "\\.BENKH", 1, IdProject, Contributors, "Master");
                 Temp.Save();
             }
@@ -66,13 +67,10 @@ public class CreateProjectController implements Initializable {
 
     @FXML
     void Close(ActionEvent event) {
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("HELLLOOOOOOOO");
-        System.out.println(Owner);
     }
 
 }

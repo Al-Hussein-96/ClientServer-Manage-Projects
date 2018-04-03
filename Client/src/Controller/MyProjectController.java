@@ -3,7 +3,6 @@ package Controller;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import CommonClass.ResourceManager;
 import CommonCommand.MyProject;
 import CommonRespone.Respone;
 import CommonRespone.SendMyProject;
@@ -14,14 +13,11 @@ import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -52,12 +48,10 @@ public class MyProjectController implements Initializable {
         TabelProject TP = null;
         if (TI != null) {
             TP = TI.getValue();
-            System.out.println(TP.NameProject);
         }
         if (MyProject == null || TP == null) {
             return;
         }
-        System.out.println(MyProject.size());
         for (int i = 0; i < MyProject.size(); i++) {
             if (TP.equal(MyProject.get(i))) {
                 CP = MyProject.get(i);
@@ -66,7 +60,6 @@ public class MyProjectController implements Initializable {
         if (CP == null) {
             return;
         }
-        System.out.println("Go");
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
         FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
@@ -142,16 +135,17 @@ public class MyProjectController implements Initializable {
             }
         });
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
-
         ObservableList<TabelProject> users = FXCollections.observableArrayList();
+
         for (int i = 0; i < MyProject.size(); i++) {
+
             CommonProject CP = MyProject.get(i);
             TabelProject TP = new TabelProject(CP.NameProject, ft.format(CP.DateCreate),
                     CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(CP.way.size()));
             users.add(TP);
         }
-//        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
 
+//        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
         final TreeItem<TabelProject> root = new RecursiveTreeItem<TabelProject>(users, RecursiveTreeObject::getChildren);
         TabelView.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
         TabelView.setRoot(root);
@@ -159,23 +153,24 @@ public class MyProjectController implements Initializable {
     }
 
     private List<CommonProject> GetMyProject() {
+
         try {
             networkOutput.writeObject(new MyProject());
             networkOutput.flush();
+
         } catch (IOException ex) {
             System.out.println("Error in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
+            return null;
         }
-
-        List<CommonProject> mylist = null;
         try {
             Respone respone = (Respone) networkInput.readObject();
-
             if (respone.TypeRespone == ResponeType.DONE) {
                 return ((SendMyProject) respone).getMylist();
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error3 in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());
         }
+
         return null;
     }
 }

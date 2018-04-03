@@ -35,21 +35,22 @@ public class PageMainController implements Initializable {
     }
 
     @FXML
-    void btnmyproject(ActionEvent event) throws IOException {
+    void btnmyproject(ActionEvent event) {
 
-        System.out.println("btnmyproject begin");
+        try {
 
-        FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
 
-        AnchorPane pane = fXMLLoader.load();
+            AnchorPane pane = (AnchorPane) fXMLLoader.load();
 
-//        System.out.println("pane: " + pane);
-        MyProjectController myProjectController = fXMLLoader.getController();
-        myProjectController.setRoopane(roopane);
+            MyProjectController myProjectController = fXMLLoader.getController();
+            myProjectController.setRoopane(roopane);
 
-        roopane.getChildren().setAll(pane);
+            roopane.getChildren().setAll(pane);
 
-        System.out.println("btnmyproject end");
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage() + "End Message");
+        }
 
     }
 

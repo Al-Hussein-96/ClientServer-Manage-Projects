@@ -5,6 +5,7 @@ import CommonCommand.Command;
 import CommonCommand.LOGIN;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import CommonRespone.SendStatus;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXButton;
@@ -66,8 +67,8 @@ public class LoginMainController implements Initializable {
             Command command = new LOGIN(user);
             networkOutput.writeObject(command);
             networkOutput.flush();
-            Respone respone = (Respone) networkInput.readObject();
 
+            Respone respone = (SendStatus) networkInput.readObject();
             if (respone.TypeRespone == ResponeType.DONE) {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);
