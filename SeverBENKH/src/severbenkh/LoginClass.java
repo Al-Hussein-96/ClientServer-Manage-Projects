@@ -1,14 +1,7 @@
 package severbenkh;
 
 import CommonClass.User;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static CommonClass.ResourceManager.load;
+import static severbenkh.ResourceManager.load;
 
 public class LoginClass {
 

@@ -1,7 +1,6 @@
 package severbenkh;
 
 import CommonClass.ViewfolderClass;
-import CommonClass.ResourceManager;
 import CommonClass.CommonProject;
 import CommonClass.NameAndDirectory;
 import CommonCommand.*;
@@ -11,6 +10,7 @@ import static CommonRespone.ResponeType.FALIURE;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -104,6 +104,32 @@ public class ClientHandler extends Thread {
     }
 
     private void GETFILE(Command command) {
+        FileInputStream fis = null;
+        try {
+            byte[] DataFile = new byte[4096];
+            File file = new File(((GetFile) command).getDirectoryFile());
+            fis = new FileInputStream(file);
+            long fileSize = file.length();
+
+            int n;
+            while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
+                fileSize -= n;
+                Respone respone = new SendFile(DataFile,fileSize == 0);
+                output.writeObject(respone);
+                output.flush();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fis.close();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     private void GETPROJECT(Command command) {
@@ -229,7 +255,7 @@ public class ClientHandler extends Thread {
         /// for Send To Client
         try {
             List< CommonProject> MyProject = GetMyProject();
-            
+
             SendMyProject Rc = new SendMyProject(MyProject);
             output.writeObject(Rc);
             output.flush();

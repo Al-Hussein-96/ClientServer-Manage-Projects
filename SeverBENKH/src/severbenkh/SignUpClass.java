@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static CommonClass.ResourceManager.*;
+import static severbenkh.ResourceManager.save;
 
 public class SignUpClass {
 
@@ -21,8 +21,8 @@ public class SignUpClass {
         FileOutputStream idd = new FileOutputStream(SeverBENKH.idFileName);
         idd.write(x);
         idd.close();
-        
-        String directoryname = SeverBENKH.usersdirectoryName  +"\\"+ user.getName();
+
+        String directoryname = SeverBENKH.usersdirectoryName + "\\" + user.getName();
         String userFileName = directoryname + "\\" + user.getName() + "information file.data";
         String projectFileName = directoryname + "\\" + user.getName() + "projects.data";
 

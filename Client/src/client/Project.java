@@ -49,6 +49,8 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
+    //        String s = "Data\\Projects Information\\Java\\1\\New Text Document.txt";
+    //        System.out.println("SS: " + s.substring(s.indexOf("Java")));
         try {
             host = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {

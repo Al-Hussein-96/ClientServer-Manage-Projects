@@ -4,13 +4,18 @@ import CommonClass.CommonProject;
 import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
+import CommonCommand.GetFile;
 import CommonCommand.GetProject;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import CommonRespone.SendFile;
 import CommonRespone.SendProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBrowsers;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -69,10 +74,14 @@ public class FileBrowsersController implements Initializable {
         for (int i = 0; i < MyFolder.size(); i++) {
             String s1 = MyFolder.get(i).Name;
             st[i] = new TabelBrowsers(s1, true, i);
+            String Dir = MyFolder.get(i).Directory;
+            st[i].setDiectoryServer(Dir.substring(Dir.indexOf(Owner.NameProject)));  //// need it for open File
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).Name;
             st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size());
+            String Dir = MyFile.get(i).Directory;
+            st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
         }
         list = FXCollections.observableArrayList(st);
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -93,7 +102,7 @@ public class FileBrowsersController implements Initializable {
     }
 
     @FXML
-    void btnOpen(ActionEvent event) {
+    void btnOpen(ActionEvent event){
         List< ViewfolderClass> MyFolderView = current.MyFolderView;
         TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();
         if (TI == null || MyFolderView == null) {
@@ -105,6 +114,30 @@ public class FileBrowsersController implements Initializable {
             current = MyFolderView.get(index);
             ShowFolder(current);
         } else {
+            Command command = new GetFile(TI.DiectoryServer);
+            try {
+                networkOutput.writeObject(command);
+                networkOutput.flush();
+                
+                FileOutputStream fos = new FileOutputStream(TI.getName());
+                SendFile respone;
+                do
+                {
+                    respone = (SendFile) networkInput.readObject();
+                    fos.write(respone.getDataFile());
+                    System.out.println("HE");    
+                }while(!respone.isEndOfFile());
+                
+                fos.close();
+                
+                File file = new File(TI.getName());
+                Desktop desktop = Desktop.getDesktop();
+                desktop.open(file);
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println("Error in GetFile " + ex.getMessage());
+            } 
+            
+            
 
         }
     }

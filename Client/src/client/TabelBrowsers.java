@@ -12,6 +12,7 @@ public class TabelBrowsers {
     public SimpleStringProperty DataModified;
     public SimpleStringProperty Size;
     public SimpleStringProperty Description;
+    public String DiectoryServer;
 
     public TabelBrowsers(String Name, boolean type, int id) {
         this.Name = new SimpleStringProperty(Name);
@@ -23,5 +24,11 @@ public class TabelBrowsers {
     public String getName() {
         return Name.get();
     }
+
+    public void setDiectoryServer(String DiectoryServer) {
+        this.DiectoryServer = DiectoryServer;
+    }
+    
+    
 
 }
