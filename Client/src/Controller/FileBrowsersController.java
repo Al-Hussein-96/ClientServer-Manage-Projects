@@ -6,6 +6,7 @@ import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetFile;
 import CommonCommand.GetProject;
+import CommonCommand.GetPull;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
@@ -28,6 +29,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -50,6 +52,9 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     private TableColumn<TabelBrowsers, String> Size;
+
+    @FXML
+    private Label idCommit;
 
     ViewfolderClass current = null;
     List<ViewfolderClass> previous = new ArrayList<>();
@@ -75,7 +80,7 @@ public class FileBrowsersController implements Initializable {
             String s1 = MyFolder.get(i).Name;
             st[i] = new TabelBrowsers(s1, true, i);
             String Dir = MyFolder.get(i).Directory;
-            st[i].setDiectoryServer(Dir.substring(Dir.indexOf(Owner.NameProject)));  //// need it for open File
+            st[i].setDiectoryServer(Dir);  //// need it for open File
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).Name;
@@ -102,7 +107,7 @@ public class FileBrowsersController implements Initializable {
     }
 
     @FXML
-    void btnOpen(ActionEvent event){
+    void btnOpen(ActionEvent event) {
         List< ViewfolderClass> MyFolderView = current.MyFolderView;
         TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();
         if (TI == null || MyFolderView == null) {
@@ -114,32 +119,68 @@ public class FileBrowsersController implements Initializable {
             current = MyFolderView.get(index);
             ShowFolder(current);
         } else {
+            /**
+             * Here Open File in Windows Desktop
+             * 
+             */
             Command command = new GetFile(TI.DiectoryServer);
             try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-                
+
                 FileOutputStream fos = new FileOutputStream(TI.getName());
                 SendFile respone;
-                do
-                {
+                do {
                     respone = (SendFile) networkInput.readObject();
                     fos.write(respone.getDataFile());
-                    System.out.println("HE");    
-                }while(!respone.isEndOfFile());
-                
+                    System.out.println("HE");
+                } while (!respone.isEndOfFile());
+
                 fos.close();
-                
+
                 File file = new File(TI.getName());
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(file);
             } catch (IOException | ClassNotFoundException ex) {
                 System.out.println("Error in GetFile " + ex.getMessage());
-            } 
+            }
+
+        }
+    }
+
+    @FXML
+    void btnPull(ActionEvent event) {
+        Command command = new GetPull(Owner.NameProject, Integer.parseInt(idCommit.getText()),"Mater");
+        /// Not Complete
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
             
             
 
+            int NumberOfFile = networkInput.readInt();
+            for (int i = 0; i < NumberOfFile; i++) {
+                String DirectoryFile = networkInput.readUTF();
+                /// read Directory of File and its Name     
+                FileOutputStream fos = new FileOutputStream(DirectoryFile);
+                SendFile respone;
+                do {
+                    respone = (SendFile) networkInput.readObject();
+                    fos.write(respone.getDataFile());
+                    System.out.println("HE");
+                } while (!respone.isEndOfFile());
+                fos.close();
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    @FXML
+    void btnPush(ActionEvent event) {
+
     }
 
     ViewfolderClass GetMyProject() {
@@ -155,9 +196,11 @@ public class FileBrowsersController implements Initializable {
                 return ((SendProject) respone).ob;
             } else {
                 System.out.println("Error in Project");
+
             }
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileBrowsersController.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

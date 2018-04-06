@@ -88,6 +88,9 @@ public class ClientHandler extends Thread {
                 case GETCOMMITS:
                     GetCommits(command);
                     break;
+                case GETPULL:
+                    SendToGetPull(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -103,6 +106,22 @@ public class ClientHandler extends Thread {
 
     }
 
+    private void SendToGetPull(Command command) {
+        String NameProject = ((GetPull) command).NameProject;
+        int idCommit = ((GetPull) command).getIdCommit();
+
+        /**
+         * here I will Send you <Name Of Project> and <Numbr of Commit> and You will
+         * Send: 
+         * 1 - Object OF <SendPull>
+         * 2 - File in order in list in Send Project One by one 1->2->3->....
+         *
+         * @note : maybe you use Function GetFile in Below , Create Temp
+         * Command:(GetFile) and Send it To Function GetFile Below
+         *
+         */
+    }
+
     private void GETFILE(Command command) {
         FileInputStream fis = null;
         try {
@@ -114,7 +133,7 @@ public class ClientHandler extends Thread {
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
                 fileSize -= n;
-                Respone respone = new SendFile(DataFile,fileSize == 0);
+                Respone respone = new SendFile(DataFile, fileSize == 0);
                 output.writeObject(respone);
                 output.flush();
             }

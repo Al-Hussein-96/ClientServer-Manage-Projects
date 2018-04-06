@@ -4,7 +4,7 @@ public class SendFile extends Respone {
 
     public byte[] DataFile;
     boolean EndOfFile;
-
+    
     public SendFile(byte source[], boolean EndOfFile) {
         super(ResponeType.DONE);
         DataFile = copyFullArrayUsingClone(source);

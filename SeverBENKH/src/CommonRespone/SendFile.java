@@ -1,7 +1,7 @@
 package CommonRespone;
 
 public class SendFile extends Respone {
-
+    
     public byte[] DataFile;
     boolean EndOfFile;
 
