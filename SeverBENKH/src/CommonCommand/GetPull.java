@@ -4,7 +4,6 @@ public class GetPull extends GetProject {
 
     private int idCommit;
     String BranchName;
-
     public GetPull(String NameProject, int idCommit, String BranchName) {
         super(NameProject, CommandType.GETPULL);
         this.idCommit = idCommit;

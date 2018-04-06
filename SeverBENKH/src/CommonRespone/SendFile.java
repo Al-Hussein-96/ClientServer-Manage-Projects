@@ -1,12 +1,16 @@
 package CommonRespone;
 
+import CommonClass.NameAndDirectory;
+
 public class SendFile extends Respone {
     
     public byte[] DataFile;
     boolean EndOfFile;
-
-    public SendFile(byte source[], boolean EndOfFile) {
+    NameAndDirectory My ; 
+   
+    public SendFile(byte source[], boolean EndOfFile , NameAndDirectory My) {
         super(ResponeType.DONE);
+        this.My = My;
         DataFile = copyFullArrayUsingClone(source);
         this.EndOfFile = EndOfFile;
 

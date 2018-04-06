@@ -108,12 +108,27 @@ public class ClientHandler extends Thread {
 
     private void SendToGetPull(Command command) {
         String NameProject = ((GetPull) command).NameProject;
-        int idCommit = ((GetPull) command).getIdCommit();
 
+        int idCommit = ((GetPull) command).getIdCommit();
+        String BranchName = ((GetPull) command).getBranchName();
+        String dir = get_Directory_project(idCommit , BranchName , NameProject);
+        ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+        SendProject Rc = new SendProject(ob);
+        try {
+                output.writeObject(Rc);
+                output.flush();
+            } catch (IOException ex1) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        
+        //// we send folders for client the here send files
+        SendFolder(ob);
+        
+        /// should send some things to know that server finish
+        
         /**
-         * here I will Send you <Name Of Project> and <Numbr of Commit> and You will
-         * Send: 
-         * 1 - Object OF <SendPull>
+         * here I will Send you <Name Of Project> and <Numbr of Commit> and You
+         * will Send: 1 - Object OF <SendPull>
          * 2 - File in order in list in Send Project One by one 1->2->3->....
          *
          * @note : maybe you use Function GetFile in Below , Create Temp
@@ -121,19 +136,59 @@ public class ClientHandler extends Thread {
          *
          */
     }
+    
+    private void SendFolder(ViewfolderClass ob)
+    {
+        for(NameAndDirectory temp : ob.MyFile)
+        {
+            GetFile get = new GetFile(temp.Directory);
+            GETFILE(get);
+        }
+        for(ViewfolderClass temp : ob.MyFolderView)
+        {
+            SendFolder(temp);
+        }
+    }
+    private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
+        String dir = "";
+        Project myprojecProject = get_projectClass(NameProject);
+        for (branchClass br : myprojecProject.branchListClass) {
+            if (br.branchName.equals(BranchName)) /// get Branch
+            {
+                int sz = idCommit - 1;
+                dir = br.way.get(sz).Directory;
+            }
+        }
+        return dir;
+    }
+
+    private String get_Directory_project_first_Time(String BranchName, String NameProject) {
+        String dir = "";
+        Project myprojecProject = get_projectClass(NameProject);
+        for (branchClass br : myprojecProject.branchListClass) {
+            if (br.branchName.equals(BranchName)) /// get Branch
+            {
+                int sz = br.way.size() - 1;
+                dir = br.way.get(sz).Directory;
+            }
+        }
+        return dir;
+    }
 
     private void GETFILE(Command command) {
         FileInputStream fis = null;
         try {
             byte[] DataFile = new byte[4096];
-            File file = new File(((GetFile) command).getDirectoryFile());
+            String dir = ((GetFile) command).getDirectoryFile();
+            File file = new File(dir);
+            NameAndDirectory My = new NameAndDirectory(file.getName() , dir); 
             fis = new FileInputStream(file);
             long fileSize = file.length();
 
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
                 fileSize -= n;
-                Respone respone = new SendFile(DataFile, fileSize == 0);
+                Respone respone = new SendFile(DataFile, fileSize == 0 , My);
                 output.writeObject(respone);
                 output.flush();
             }
@@ -154,20 +209,8 @@ public class ClientHandler extends Thread {
     private void GETPROJECT(Command command) {
         /// Get last Commit in master branch
         String NameProject = ((GetProject) command).NameProject;
-        try {
-            Project myprojecProject = get_projectClass(NameProject);
-            for (branchClass br : myprojecProject.branchListClass) {
-                if (br.branchName.equals("Master")) /// get Branch
-                {
-                    /// get Last Commit
-                    int sz = br.way.size() - 1;
-                    ViewfolderClass ob = ResourceManager.ViewProject(new File(br.way.get(sz).Directory));
-                    SendProject Rc = new SendProject(ob);
-                    output.writeObject(Rc);
-                    output.flush();
-                }
-            }
-        } catch (Exception ex) {
+        String dir = get_Directory_project_first_Time("Master", NameProject);
+        if (dir == "") {
             Respone Rc = new SendStatus(ResponeType.FALIURE);
             try {
                 output.writeObject(Rc);
@@ -176,9 +219,17 @@ public class ClientHandler extends Thread {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
             }
 
+        } else {
+            ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+            try {
+                SendProject Rc = new SendProject(ob);
+                output.writeObject(Rc);
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
-
     private Project get_projectClass(String temp) {
         try {
             return (Project) ResourceManager.load(projectdirectoryName + "\\" + temp + "\\" + "info");
