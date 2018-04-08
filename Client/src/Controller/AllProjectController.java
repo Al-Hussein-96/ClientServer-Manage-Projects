@@ -7,7 +7,9 @@ import CommonCommand.AllProject;
 import CommonRespone.Respone;
 import CommonRespone.SendAllProject;
 import CommonRespone.ResponeType;
+import static Controller.PageMainController.Owner;
 import client.TabelProject;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
@@ -24,20 +26,70 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
+import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class AllProjectController implements Initializable {
 
+    private AnchorPane roopane;
+    @FXML
+    private JFXButton open;
     @FXML
     private JFXTreeTableView<TabelProject> TabelView;
     private List< CommonProject> AllProject;
 
     @FXML
     void btnOpen(ActionEvent event) {
+        TreeItem<TabelProject> TI = TabelView.getSelectionModel().getSelectedItem();
+        CommonProject CP = null;
+        TabelProject TP = null;
+        if (TI != null) {
+            TP = TI.getValue();
+        }
+        if (AllProject == null || TP == null) {
+            return;
+        }
+        for (int i = 0; i < AllProject.size(); i++) {
+            if (TP.equal(AllProject.get(i))) {
+                CP = AllProject.get(i);
+            }
+        }
+        if (CP == null) {
+            return;
+        }
+        //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
+        List<String> Con = CP.Contributors;
+        boolean Acc = false;
+        for (int i = 0; i < Con.size(); i++) {
+            if (Con.get(i).equals(Owner.getName())) {
+                Acc = true;
+            }
+        }
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP, Acc);
 
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
+
+        fxmlLoader.setController(fileBrowsersController);
+
+        Parent root = null;
+        try {
+            root = (Parent) fxmlLoader.load();
+        } catch (IOException ex) {
+            System.out.println("Error:::: " + ex.getMessage());
+        }
+
+        AnchorPane pane;
+        pane = (AnchorPane) root;
+        roopane.getChildren().setAll(pane);
+    }
+
+    public void setRoopane(AnchorPane roopane) {
+        this.roopane = roopane;
     }
 
     @Override

@@ -15,6 +15,7 @@ import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBranch;
 import client.TabelBrowsers;
+import com.jfoenix.controls.JFXButton;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,6 +41,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JButton;
 
 public class FileBrowsersController implements Initializable {
 
@@ -63,17 +65,27 @@ public class FileBrowsersController implements Initializable {
     @FXML
     private Label idCommit;
 
+    @FXML
+    private JFXButton push;
+
     ViewfolderClass current = null;
+    
+    private boolean Access;
     List<ViewfolderClass> previous = new ArrayList<>();
 
-    public FileBrowsersController(CommonProject Owner) {
+    public FileBrowsersController(CommonProject Owner, boolean Access) {
         this.Owner = Owner;
+        this.Access=Access;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         current = GetMyProject();
         ShowFolder(current);
+        if (!Access) {
+            push.setVisible(false);
+        }
+
     }
 
     private void ShowFolder(ViewfolderClass MyProject) {
@@ -161,14 +173,10 @@ public class FileBrowsersController implements Initializable {
         /// "Master" is temp for try and 1 is temp
         Command command = new GetPull(Owner.NameProject, 1, "Master");
         try {
-
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             SendProject respone = (SendProject) networkInput.readObject();
-
             CreateFolder(respone.ob);
-
             Receive(respone.ob);
 
         } catch (IOException | ClassNotFoundException ex) {
@@ -216,17 +224,13 @@ public class FileBrowsersController implements Initializable {
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
-
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             Respone respone = (Respone) networkInput.readObject();
-
             if (respone.TypeRespone == ResponeType.DONE) {
                 return ((SendProject) respone).ob;
             } else {
                 System.out.println("Error in Project");
-
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(FileBrowsersController.class

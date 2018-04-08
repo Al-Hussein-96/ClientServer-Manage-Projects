@@ -27,7 +27,7 @@
       <JFXButton layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Open" />
       <JFXButton layoutX="550.0" layoutY="428.0" onAction="#btnBack" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Back" />
       <JFXButton layoutX="184.0" layoutY="428.0" onAction="#btnPull" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Pull" />
-      <JFXButton layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Push" />
+      <JFXButton fx:id="push" layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Push" />
       <Label layoutX="66.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="Commit" />
       <Label fx:id="idCommit" layoutX="133.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="number" />
    </children>

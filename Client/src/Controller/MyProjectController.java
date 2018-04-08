@@ -34,7 +34,6 @@ import javafx.util.Callback;
 public class MyProjectController implements Initializable {
 
     private AnchorPane roopane;
-
     @FXML
     private JFXButton open;
     @FXML
@@ -62,7 +61,7 @@ public class MyProjectController implements Initializable {
         }
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
-        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP,true);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
 

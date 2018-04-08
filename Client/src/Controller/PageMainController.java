@@ -36,28 +36,28 @@ public class PageMainController implements Initializable {
 
     @FXML
     void btnmyproject(ActionEvent event) {
-
         try {
-
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
-
             AnchorPane pane = (AnchorPane) fXMLLoader.load();
-
             MyProjectController myProjectController = fXMLLoader.getController();
             myProjectController.setRoopane(roopane);
-
             roopane.getChildren().setAll(pane);
-
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
         }
-
     }
 
     @FXML
     private void btnallproject(ActionEvent event) throws IOException {
-        AnchorPane pane = FXMLLoader.load(getClass().getResource("/FXML/AllProject.fxml"));
-        roopane.getChildren().setAll(pane);
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/AllProject.fxml"));
+            AnchorPane pane = (AnchorPane) fXMLLoader.load();
+            AllProjectController allProjectController = fXMLLoader.getController();
+            allProjectController.setRoopane(roopane);
+            roopane.getChildren().setAll(pane);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage() + "End Message");
+        }
     }
 
     @FXML

@@ -30,7 +30,7 @@ public class ClientHandler extends Thread {
 
     ClientHandler(Socket client) {
         this.client = client;
-        
+
         try {
             output = new ObjectOutputStream(client.getOutputStream());
             input = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
@@ -111,14 +111,12 @@ public class ClientHandler extends Thread {
 
         int idCommit = ((GetPull) command).getIdCommit();
         String BranchName = ((GetPull) command).getBranchName();
-        
+
         String dir = get_Directory_project(idCommit, BranchName, NameProject);
         System.out.println("dir: " + dir);
         ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
         SendProject Rc = new SendProject(ob);
-        
-        
-        
+
         try {
             output.writeObject(Rc);
             output.flush();
@@ -437,6 +435,7 @@ public class ClientHandler extends Thread {
             }
 
         }
+        temp.BranchNames = BranchNames;
         return temp;
     }
 
