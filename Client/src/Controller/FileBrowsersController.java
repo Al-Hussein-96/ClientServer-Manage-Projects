@@ -11,6 +11,7 @@ import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
 import CommonRespone.SendProject;
+import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBranch;
@@ -69,19 +70,24 @@ public class FileBrowsersController implements Initializable {
     private JFXButton push;
 
     ViewfolderClass current = null;
-    
-    private boolean Access;
+
     List<ViewfolderClass> previous = new ArrayList<>();
 
-    public FileBrowsersController(CommonProject Owner, boolean Access) {
+    public FileBrowsersController(CommonProject Owner) {
         this.Owner = Owner;
-        this.Access=Access;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         current = GetMyProject();
         ShowFolder(current);
+        List<String> Con = Owner.Contributors;
+        boolean Access = false;
+        for (int i = 0; i < Con.size(); i++) {
+            if (Con.get(i).equals(PageMainController.Owner.getName())) {
+                Access = true;
+            }
+        }
         if (!Access) {
             push.setVisible(false);
         }

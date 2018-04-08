@@ -61,23 +61,18 @@ public class MyProjectController implements Initializable {
         }
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
-        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP,true);
-
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
-
         fxmlLoader.setController(fileBrowsersController);
-
         Parent root = null;
         try {
             root = (Parent) fxmlLoader.load();
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
         }
-
         AnchorPane pane;
         pane = (AnchorPane) root;
         roopane.getChildren().setAll(pane);
-
     }
 
     public void setRoopane(AnchorPane roopane) {
