@@ -24,6 +24,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -51,6 +53,9 @@ public class Project extends Application {
     public static void main(String[] args) throws IOException {
     //        String s = "Data\\Projects Information\\Java\\1\\New Text Document.txt";
     //        System.out.println("SS: " + s.substring(s.indexOf("Java")));
+    
+
+    
         try {
             host = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {

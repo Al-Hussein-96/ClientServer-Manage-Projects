@@ -1,0 +1,31 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 13, 2018, 3:59:53 AM
+    Author     : Wasem
+*/
+
+.root 
+{
+    -fx-background-color: #DDDDDD;
+
+}
+.cardPane
+{
+    -fx-background-color: white;
+    -fx-background-radius : 8px;
+
+}
+.topPane
+{
+    -fx-background-color: #3196DE
+}
+
+.left
+{
+    -fx-background-color: #303F9F
+}
+

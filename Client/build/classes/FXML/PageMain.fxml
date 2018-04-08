@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Reflection?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #000033;" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PageMainController">
+   <children>
+      <AnchorPane fx:id="roopane" layoutX="202.0" layoutY="33.0" prefHeight="467.0" prefWidth="700.0" styleClass="cardPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <JFXButton cancelButton="true" layoutX="873.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#ffeeee" />
+      <AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="202.0" style="-fx-background-color: #000033;">
+         <children>
+            <Text fill="#ffebeb" layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BEHKN">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="33.0" />
+               </font>
+            </Text>
+            <Group layoutX="-19.0" layoutY="93.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="85.0">
+               <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="17.0" layoutY="5.0" onAction="#brnCreateProject" prefHeight="44.0" prefWidth="207.0" ripplerFill="#776aa8" text="Create Project" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Lighting>
+                           <bumpInput>
+                              <Shadow />
+                           </bumpInput>
+                          
+                        </Lighting>
+                     </effect>
+                  </JFXButton>
+                  <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="16.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../res/new_database-512.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="15.0" layoutY="152.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="135.0">
+               <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-72.0" layoutY="4.0" minWidth="-Infinity" onAction="#btnmyproject" prefHeight="46.0" prefWidth="180.0" ripplerFill="#cf7f19" text="MY Project" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </JFXButton>
+                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-73.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../res/424.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="28.0" layoutY="228.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="185.0">
+               <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-46.0" layoutY="-26.0" onAction="#btnallproject" prefHeight="44.0" prefWidth="183.0" ripplerFill="#776aa8" text="All Projects" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </JFXButton>
+                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-47.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../res/FilesDelieveredIcon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="28.0" layoutY="281.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="235.0">
+               <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Sign Out" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </JFXButton>
+                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-32.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../res/4.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

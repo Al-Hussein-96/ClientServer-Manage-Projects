@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.AllProjectController">
+   <children>
+      <JFXTreeTableView fx:id="TabelView" prefHeight="500.0" prefWidth="700.0" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <JFXButton layoutX="289.0" layoutY="418.0" onAction="#btnOpen" prefHeight="25.0" prefWidth="88.0" stylesheets="@../Css/Button.css" text="Open" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="289.0" AnchorPane.rightAnchor="288.0" AnchorPane.topAnchor="418.0" />
+   </children>
+</AnchorPane>

@@ -13,9 +13,11 @@ import CommonRespone.SendFile;
 import CommonRespone.SendProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
+import client.TabelBranch;
 import client.TabelBrowsers;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -28,11 +30,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class FileBrowsersController implements Initializable {
 
@@ -121,7 +128,7 @@ public class FileBrowsersController implements Initializable {
         } else {
             /**
              * Here Open File in Windows Desktop
-             * 
+             *
              */
             Command command = new GetFile(TI.DiectoryServer);
             try {
@@ -150,36 +157,59 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnPull(ActionEvent event) {
-        Command command = new GetPull(Owner.NameProject, Integer.parseInt(idCommit.getText()),"Mater");
-        /// Not Complete
+
+        /// "Master" is temp for try and 1 is temp
+        Command command = new GetPull(Owner.NameProject, 1, "Master");
         try {
+
             networkOutput.writeObject(command);
             networkOutput.flush();
-            
-            
 
-            int NumberOfFile = networkInput.readInt();
-            for (int i = 0; i < NumberOfFile; i++) {
-                String DirectoryFile = networkInput.readUTF();
-                /// read Directory of File and its Name     
-                FileOutputStream fos = new FileOutputStream(DirectoryFile);
-                SendFile respone;
-                do {
-                    respone = (SendFile) networkInput.readObject();
-                    fos.write(respone.getDataFile());
-                    System.out.println("HE");
-                } while (!respone.isEndOfFile());
-                fos.close();
-            }
+            SendProject respone = (SendProject) networkInput.readObject();
+
+            CreateFolder(respone.ob);
+
+            Receive(respone.ob);
 
         } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("Error in btnPull : " + ex.getMessage());
         }
 
     }
 
     @FXML
     void btnPush(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnBranch(ActionEvent event) {
+        BranchController branchController = new BranchController(Owner.BranchNames);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
+
+        fxmlLoader.setController(branchController);
+
+        Stage stage = new Stage();
+
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    @FXML
+    void btnCommits(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btnContributors(ActionEvent event) {
 
     }
 
@@ -203,5 +233,48 @@ public class FileBrowsersController implements Initializable {
                     .getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    private void CreateFolder(ViewfolderClass ob) {
+        List<NameAndDirectory> Folder = ob.MyFolder;
+
+        for (NameAndDirectory u : Folder) {
+            File folder = new File(u.Directory);
+            folder.mkdir();
+
+            for (ViewfolderClass temp : ob.MyFolderView) {
+                CreateFolder(temp);
+            }
+        }
+
+    }
+
+    private void Receive(ViewfolderClass ob) {
+        for (NameAndDirectory temp : ob.MyFile) {
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(temp.Directory);
+                SendFile respone;
+                do {
+                    respone = (SendFile) networkInput.readObject();
+                    fos.write(respone.getDataFile());
+                } while (!respone.isEndOfFile());
+                fos.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        for (ViewfolderClass temp : ob.MyFolderView) {
+            Receive(temp);
+        }
     }
 }
