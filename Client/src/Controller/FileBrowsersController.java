@@ -11,10 +11,8 @@ import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
 import CommonRespone.SendProject;
-import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.TabelBranch;
 import client.TabelBrowsers;
 import com.jfoenix.controls.JFXButton;
 import java.awt.Desktop;
@@ -34,7 +32,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -42,7 +39,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javax.swing.JButton;
 
 public class FileBrowsersController implements Initializable {
 
@@ -199,13 +195,9 @@ public class FileBrowsersController implements Initializable {
     @FXML
     void btnBranch(ActionEvent event) {
         BranchController branchController = new BranchController(Owner.BranchNames);
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
-
         fxmlLoader.setController(branchController);
-
         Stage stage = new Stage();
-
         try {
             AnchorPane root = (AnchorPane) fxmlLoader.load();
             Scene scene = new Scene(root);
@@ -214,17 +206,38 @@ public class FileBrowsersController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     @FXML
     void btnCommits(ActionEvent event) {
-
+        CommitsController commitsController = new CommitsController(Owner.way);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
+        fxmlLoader.setController(commitsController);
+        Stage stage = new Stage();
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML
     void btnContributors(ActionEvent event) {
-
+        ContributorsController contributorsController = new ContributorsController(Owner.Contributors);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Contributors.fxml"));
+        fxmlLoader.setController(contributorsController);
+        Stage stage = new Stage();
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     ViewfolderClass GetMyProject() {
