@@ -1,6 +1,7 @@
 package severbenkh;
 
 import CommonClass.CommitClass;
+import CommonClass.Contributor;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,8 +17,9 @@ public class branchClass implements Serializable {
     Date lastCommite;
     Project father;
     String branchName;
-
+    String userCreateBranch ; 
     branchClass(Project father, String branchName, String Author) {
+        this.userCreateBranch = Author ; 
         this.branchName = branchName;
         lastCommite = new Date();
         this.father = father;
@@ -29,6 +31,16 @@ public class branchClass implements Serializable {
         System.out.println(Directory);
         CommitClass temp = new CommitClass(branchName, Author, Directory, "", 1);
         way.add(temp);
+        /// add commit to Contributor
+        for(Contributor s : father.Contributors)
+        {
+            if(s.Name.equals(Author))
+            {
+                s.way.add(temp);
+                s.NumberOfCommit++;
+            }
+        }
+        
         /// incres Number Of Version
         File CreateProjectDirectory = new File(projectdirector + "\\" + NumberOfVersion);
         CreateProjectDirectory.mkdir();
@@ -39,6 +51,7 @@ public class branchClass implements Serializable {
 
     /// Create Branch have first num version from another brach
     branchClass(Project father, String branchName, branchClass fatherBranch, int num, String userCreateBranch) {
+        this.userCreateBranch = userCreateBranch;
         this.branchName = branchName;
         this.father = father;
         this.projectdirector = father.ProjectDirectory;
@@ -51,13 +64,13 @@ public class branchClass implements Serializable {
         UsersHowSeeLastUpdate.add(userCreateBranch);
         lastCommite = new Date();
         boolean ok_add = true;
-        for (String s : father.Contributors) {
-            if (s.equals(userCreateBranch)) {
+        for (Contributor s : father.Contributors) {
+            if (s.Name.equals(userCreateBranch)) {
                 ok_add = false;
             }
         }
         if (ok_add) {
-            father.Contributors.add(userCreateBranch);
+            father.Contributors.add(new Contributor(userCreateBranch) ) ;
         }
 
     }
@@ -88,13 +101,18 @@ public class branchClass implements Serializable {
         lastCommite = new Date();
 
         boolean ok_add = true;
-        for (String s : father.Contributors) {
-            if (s.equals(Author)) {
+        for (Contributor s : father.Contributors) {
+            if (s.Name.equals(Author)) {
                 ok_add = false;
+                s.NumberOfCommit++;
+                s.way.add(temp);
             }
         }
         if (ok_add) {
-            father.Contributors.add(Author);
+            Contributor S = new Contributor(Author);
+            S.NumberOfCommit++;
+            S.way.add(temp);
+            father.Contributors.add(S);
         }
         return true;
     }

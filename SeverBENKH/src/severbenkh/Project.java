@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.Contributor;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class Project implements Serializable {
     String NameProject;
     String ProjectDirectory;
     /// Names of users work in project
-    List<String> Contributors = new ArrayList<>();
+    List< Contributor > Contributors = new ArrayList<>();
     int numberOFBranshes;
     int NumberOfVersion;
     List< branchClass> branchListClass = new ArrayList<>();
@@ -32,12 +33,11 @@ public class Project implements Serializable {
         File CreateProjectDirectory = new File(this.ProjectDirectory );
         CreateProjectDirectory.mkdir();
         
-        Contributors.add(Author);
+        Contributors.add(new Contributor(Author));
         NumberOfVersion = 1;
         branchClass branchMaster = new branchClass(this, "Master" , Author);
         branchListClass.add(branchMaster);
         
-
         /// Creat Project File info
         String infoDirectory = this.ProjectDirectory + "\\" + "info";
         try {

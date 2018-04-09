@@ -1,7 +1,10 @@
 package severbenkh;
 
+import CommonClass.CommitClass;
+import CommonClass.CommonBranch;
 import CommonClass.ViewfolderClass;
 import CommonClass.CommonProject;
+import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonCommand.*;
 import CommonRespone.*;
@@ -16,6 +19,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -126,7 +130,7 @@ public class ClientHandler extends Thread {
 
         //// we send folders for client the here send files
         SendFolder(ob);
-
+        
         /// should send some things to know that server finish
         /**
          * here I will Send you <Name Of Project> and <Numbr of Commit> and You
@@ -377,8 +381,8 @@ public class ClientHandler extends Thread {
         List< Project> TempList = getAllProjectInServer();
         for (Project s : TempList) {
             boolean ok = false;
-            for (String t : s.Contributors) {
-                if (t.equals(MyUser)) {
+            for (Contributor t : s.Contributors) {
+                if (t.Name.equals(MyUser)) {
                     ok = true;
                 }
             }
@@ -394,8 +398,8 @@ public class ClientHandler extends Thread {
         List< Project> TempList = getAllProjectInServer();
         for (Project s : TempList) {
             boolean ok = false;
-            for (String t : s.Contributors) {
-                if (t.equals(MyUser)) {
+            for (Contributor t : s.Contributors) {
+                if (t.Name.equals(MyUser)) {
                     ok = true;
                 }
             }
@@ -426,19 +430,24 @@ public class ClientHandler extends Thread {
         temp.id = MyProject.id;
         temp.numberOFBranshes = MyProject.numberOFBranshes;
         temp.DateCreate = MyProject.DateCreate;
-        List<String> BranchNames = new ArrayList<>();
+        List< CommonBranch > BranchNames = new ArrayList<>();
         for (branchClass s : MyProject.branchListClass) {
-            BranchNames.add(s.branchName);
-            System.out.println(temp.way.toString());
-            for (CommonClass.CommitClass t : s.way) {
-                temp.way.add(t);
-            }
-
+            CommonBranch t = Branch_to_CommonBranch(s);
+            BranchNames.add(t);
         }
         temp.BranchNames = BranchNames;
         return temp;
     }
-
+    private CommonBranch Branch_to_CommonBranch(branchClass A)
+    {
+         CommonBranch R = null ; 
+         Date lastCommite = A.lastCommite;
+         String branchName = A.branchName;
+         String userCreateBranch = A.userCreateBranch;
+         List< CommitClass> way = A.way;
+         R = new CommonBranch(lastCommite, branchName, userCreateBranch, way);
+         return R;
+    }
     private void GetBranch(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

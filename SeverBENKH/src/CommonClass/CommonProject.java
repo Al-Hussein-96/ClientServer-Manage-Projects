@@ -12,7 +12,6 @@ public class CommonProject implements Serializable {
     public String NameProject;
     public Date DateCreate;
     public int numberOFBranshes;
-    public List<String> Contributors = new ArrayList<>();
-    public List<String> BranchNames = new ArrayList<>();
-    public List< CommitClass> way = new ArrayList<>();
+    public List<Contributor> Contributors = new ArrayList<>();
+    public List< CommonBranch > BranchNames = new ArrayList<>();
 }
