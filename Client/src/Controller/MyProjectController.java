@@ -1,5 +1,6 @@
 package Controller;
 
+import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
@@ -134,8 +135,12 @@ public class MyProjectController implements Initializable {
         for (int i = 0; i < MyProject.size(); i++) {
 
             CommonProject CP = MyProject.get(i);
+            int numCommit=0;
+            for(CommonBranch t : CP.BranchNames){
+                numCommit+=t.way.size();
+            }
             TabelProject TP = new TabelProject(CP.NameProject, ft.format(CP.DateCreate),
-                    CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(CP.way.size()));
+                    CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(numCommit));
             users.add(TP);
         }
 

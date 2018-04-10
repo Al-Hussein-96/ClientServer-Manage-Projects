@@ -1,5 +1,6 @@
 package Controller;
 
+import CommonClass.Contributor;
 import client.TabelBranch;
 import java.net.URL;
 import java.util.List;
@@ -14,7 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ContributorsController implements Initializable {
 
-    List<String> Contributors;
+    List<Contributor> Contributors;
 
     @FXML
     private TableView<TabelBranch> tabelView;
@@ -22,21 +23,21 @@ public class ContributorsController implements Initializable {
     @FXML
     private TableColumn<TabelBranch, String> C1;
 
-    public ContributorsController(List<String> Contributors) {
+    public ContributorsController(List<Contributor> Contributors) {
         this.Contributors = Contributors;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Size: " + Contributors.size());
-        ObservableList<TabelBranch> list;
-        TabelBranch[] st = new TabelBranch[Contributors.size()];
-        int idx = 0;
-        for (String temp : Contributors) {
-            st[idx] = new TabelBranch(temp);
-        }
-        list = FXCollections.observableArrayList(st);
-        C1.setCellValueFactory(new PropertyValueFactory<>("NameBranch"));
-        tabelView.setItems(list);
+//        System.out.println("Size: " + Contributors.size());
+//        ObservableList<TabelBranch> list;
+//        TabelBranch[] st = new TabelBranch[Contributors.size()];
+//        int idx = 0;
+//        for (String temp : Contributors) {
+//            st[idx] = new TabelBranch(temp);
+//        }
+//        list = FXCollections.observableArrayList(st);
+//        C1.setCellValueFactory(new PropertyValueFactory<>("NameBranch"));
+//        tabelView.setItems(list);
     }
 }

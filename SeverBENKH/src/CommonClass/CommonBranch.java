@@ -1,10 +1,11 @@
 package CommonClass;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CommonBranch {
+public class CommonBranch implements Serializable{
      public List< CommitClass> way = new ArrayList<>();
      public Date lastCommite;
      public String branchName;

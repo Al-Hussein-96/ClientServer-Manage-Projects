@@ -1,5 +1,6 @@
 package Controller;
 
+import CommonClass.CommonBranch;
 import client.TabelBranch;
 import java.net.URL;
 import java.util.List;
@@ -14,7 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class BranchController implements Initializable {
 
-    List<String> NameBranch;
+    List<CommonBranch> NameBranch;
 
     @FXML
     private TableView<TabelBranch> tabelView;
@@ -22,23 +23,22 @@ public class BranchController implements Initializable {
     @FXML
     private TableColumn<TabelBranch, String> C1;
 
-    public BranchController(List<String> NameBranch) {
+    public BranchController(List<CommonBranch> NameBranch) {
         this.NameBranch = NameBranch;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Size: " + NameBranch.size());
-        
-        ObservableList<TabelBranch> list;
-        TabelBranch[] st = new TabelBranch[NameBranch.size()];
-        int idx = 0;
-        for (String temp : NameBranch) {
-            st[idx] = new TabelBranch(temp);
-        }
-        list = FXCollections.observableArrayList(st);
-        C1.setCellValueFactory(new PropertyValueFactory<>("NameBranch"));
-        tabelView.setItems(list);
+//        System.out.println("Size: " + NameBranch.size());
+//
+//        ObservableList<TabelBranch> list;
+//        TabelBranch[] st = new TabelBranch[NameBranch.size()];
+//        int idx = 0;
+//        for (String temp : NameBranch) {
+//            st[idx] = new TabelBranch(temp);
+//        }
+//        list = FXCollections.observableArrayList(st);
+//        C1.setCellValueFactory(new PropertyValueFactory<>("NameBranch"));
+//        tabelView.setItems(list);
     }
-
 }

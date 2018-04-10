@@ -1,6 +1,7 @@
 package Controller;
 
 import CommonClass.CommonProject;
+import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
@@ -77,10 +78,10 @@ public class FileBrowsersController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         current = GetMyProject();
         ShowFolder(current);
-        List<String> Con = Owner.Contributors;
+        List<Contributor> Con = Owner.Contributors;
         boolean Access = false;
         for (int i = 0; i < Con.size(); i++) {
-            if (Con.get(i).equals(PageMainController.Owner.getName())) {
+            if (Con.get(i).Name.equals(PageMainController.Owner.getName())) {
                 Access = true;
             }
         }
@@ -210,7 +211,7 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnCommits(ActionEvent event) {
-        CommitsController commitsController = new CommitsController(Owner.way);
+        CommitsController commitsController = new CommitsController(Owner.BranchNames);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
         Stage stage = new Stage();
