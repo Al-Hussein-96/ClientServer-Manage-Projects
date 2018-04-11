@@ -9,10 +9,10 @@
       <TableView fx:id="tabelView" layoutY="49.0" prefHeight="401.0" prefWidth="650.0">
          <columns>
             <TableColumn fx:id="C1" prefWidth="150.0" text="Author" />
-            <TableColumn fx:id="C2" prefWidth="150.0" text="Date" />
-            <TableColumn fx:id="C3" prefWidth="150.0" text="branchName" />
-            <TableColumn fx:id="C4" prefWidth="100.0" text="Detail" />
-            <TableColumn fx:id="C5" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="C2" prefWidth="150.0" text="Branch Name" />
+            <TableColumn fx:id="C3" prefWidth="100.0" text="ID" />
+            <TableColumn fx:id="C4" prefWidth="150.0" text="Date" />
+            <TableColumn fx:id="C5" prefWidth="100.0" text="Detail" />
          </columns>
       </TableView>
    </children>

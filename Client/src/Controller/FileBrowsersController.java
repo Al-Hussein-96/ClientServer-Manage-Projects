@@ -211,7 +211,7 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnCommits(ActionEvent event) {
-        CommitsController commitsController = new CommitsController(Owner.BranchNames);
+        CommitsController commitsController = new CommitsController(Owner.BranchNames.get(0).way);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
         Stage stage = new Stage();

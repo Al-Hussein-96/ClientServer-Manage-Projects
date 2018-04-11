@@ -1,5 +1,6 @@
 package client;
 
+import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -9,19 +10,26 @@ import javafx.beans.property.StringProperty;
  */
 public class TabelBranch {
 
-    public StringProperty NameBranch;
-    public StringProperty DataCreate;
+    public StringProperty BranchName;
+    public StringProperty UserCreateBranch;
+    public StringProperty LastCommite;
 
-    public TabelBranch(String NameBranch) {
-        this.NameBranch = new SimpleStringProperty(NameBranch);
+    public TabelBranch(String branchName, String userCreateBranch, String lastCommite) {
+        this.BranchName = new SimpleStringProperty(branchName);
+        this.UserCreateBranch = new SimpleStringProperty(userCreateBranch);
+        this.LastCommite = new SimpleStringProperty(lastCommite);
     }
 
-    public StringProperty getNameBranch() {
-        return NameBranch;
+    public String getBranchName() {
+        return BranchName.get();
+    }
+    
+    public String getUserCreateBranch() {
+        return UserCreateBranch.get();
     }
 
-    public StringProperty getDataCreate() {
-        return DataCreate;
+    public String getLastCommite() {
+        return LastCommite.get();
     }
 
 }

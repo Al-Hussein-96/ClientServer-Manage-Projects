@@ -71,12 +71,12 @@ public class AllProjectController implements Initializable {
         Parent root = null;
         try {
             root = (Parent) fxmlLoader.load();
+            AnchorPane pane;
+            pane = (AnchorPane) root;
+            roopane.getChildren().setAll(pane);
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
         }
-        AnchorPane pane;
-        pane = (AnchorPane) root;
-        roopane.getChildren().setAll(pane);
     }
 
     public void setRoopane(AnchorPane roopane) {
@@ -133,13 +133,12 @@ public class AllProjectController implements Initializable {
         });
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
 
-        
         ObservableList<TabelProject> users = FXCollections.observableArrayList();
         for (int i = 0; i < AllProject.size(); i++) {
             CommonProject CP = AllProject.get(i);
-            int numCommit=0;
-            for(CommonBranch t : CP.BranchNames){
-                numCommit+=t.way.size();
+            int numCommit = 0;
+            for (CommonBranch t : CP.BranchNames) {
+                numCommit += t.way.size();
             }
             TabelProject TP = new TabelProject(CP.NameProject, ft.format(CP.DateCreate),
                     CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(numCommit));
