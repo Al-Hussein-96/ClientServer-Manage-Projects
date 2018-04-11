@@ -2,7 +2,7 @@ package client;
 
 import CommonClass.User;
 import CommonCommand.Command;
-import CommonCommand.LOGIN;
+import CommonCommand.GetLOGIN;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import Controller.LoginMainController;
@@ -24,8 +24,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelWriter;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -88,7 +86,7 @@ public class Project extends Application {
 
                 User user = new User(UserName, PassWord);
 
-                Command command = new LOGIN(user);
+                Command command = new GetLOGIN(user);
                 networkOutput.writeObject(command);
                 networkOutput.flush();
                 Respone respone = (Respone) networkInput.readObject();

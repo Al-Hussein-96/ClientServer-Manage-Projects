@@ -38,9 +38,14 @@ public class PageMainController implements Initializable {
     void btnmyproject(ActionEvent event) {
         try {
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
+            
+            MyProjectController myProjectController = new MyProjectController(roopane);
+            
+            fXMLLoader.setController(myProjectController);
+            
             AnchorPane pane = (AnchorPane) fXMLLoader.load();
-            MyProjectController myProjectController = fXMLLoader.getController();
-            myProjectController.setRoopane(roopane);
+            
+            
             roopane.getChildren().setAll(pane);
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");

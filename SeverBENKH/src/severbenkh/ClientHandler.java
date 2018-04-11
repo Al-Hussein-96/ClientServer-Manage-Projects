@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.ResourceManager;
 import CommonClass.CommitClass;
 import CommonClass.CommonBranch;
 import CommonClass.ViewfolderClass;
@@ -95,6 +96,15 @@ public class ClientHandler extends Thread {
                 case GETPULL:
                     SendToGetPull(command);
                     break;
+                case LISTBRANCH:
+                    SendToListBranch(command);
+                    break;
+                case LISTCOMMITS:
+                    SendToListCommits(command);
+                    break;
+                case ListCONTRIBUTORS:
+                    SendToListContributors(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -108,6 +118,56 @@ public class ClientHandler extends Thread {
             }
         }
 
+    }
+
+    private void SendToListContributors(Command command) {
+        String NameProject = ((GetListContributors) command).getNameProject();
+
+        Project project = get_projectClass(NameProject);
+        CommonProject commonProject = Project_to_CommonProject(project);
+
+        Respone respone = new SendListContributors(commonProject.Contributors);
+
+        try {
+            output.writeObject(respone);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void SendToListCommits(Command command) {
+        String NameProject = ((GetListCommits) command).getNameProject();
+        String NameBranch = ((GetListCommits) command).getNameBranch();
+
+        Project project = get_projectClass(NameProject);
+        CommonProject commonproject = Project_to_CommonProject(project);
+
+        //// 0 is temp for NameBranch
+        Respone respone = new SendListCommits(commonproject.BranchNames.get(0).way);
+
+        try {
+            output.writeObject(respone);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void SendToListBranch(Command command) {
+        String NameProject = ((GetListBranch) command).getNameProject();
+
+        Project project = get_projectClass(NameProject);
+        CommonProject commonProject = Project_to_CommonProject(project);
+
+        Respone respone = new SendListBranch(commonProject.BranchNames);
+
+        try {
+            output.writeObject(respone);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void SendToGetPull(Command command) {
@@ -153,7 +213,6 @@ public class ClientHandler extends Thread {
         }
     }
 
-   
     private void GETFILE(Command command) {
         FileInputStream fis = null;
         try {
@@ -190,7 +249,7 @@ public class ClientHandler extends Thread {
         String NameProject = ((GetProject) command).NameProject;
         String dir = get_Directory_project_first_Time("Master", NameProject);
         if (dir == "") {
-           Send_FALIURE();
+            Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             try {
@@ -203,12 +262,11 @@ public class ClientHandler extends Thread {
         }
     }
 
-   
     private void SendToSignUp(Command command) {
         try {
-            boolean ok = SignUpClass.SignUp(((SIGNUP) command).user);
+            boolean ok = SignUpClass.SignUp(((GetSIGNUP) command).user);
             if (ok) {
-                MyUser = ((SIGNUP) command).user.getName();
+                MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
 
                 output.writeObject(new SendStatus(DONE));
@@ -225,10 +283,9 @@ public class ClientHandler extends Thread {
     private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
         try {
-            System.out.println("GOOO");
-            boolean ok = LoginClass.Login(((LOGIN) command).user);
+            boolean ok = LoginClass.Login(((GetLOGIN) command).user);
             if (ok) {
-                MyUser = ((LOGIN) command).user.getName();
+                MyUser = ((GetLOGIN) command).user.getName();
                 output.writeObject(new SendStatus(DONE));
                 output.flush();
             } else {
@@ -245,8 +302,8 @@ public class ClientHandler extends Thread {
             boolean Access;
             String Author = MyUser;
             String ProjectDirectory = SeverBENKH.projectdirectoryName;
-            String NameProject = ((StartProject) command).NameProject;
-            String tempAccess = ((StartProject) command).Access;
+            String NameProject = ((GetStartProject) command).NameProject;
+            String tempAccess = ((GetStartProject) command).Access;
             if ("true".equals(tempAccess)) {
                 Access = true;
             } else {
@@ -409,41 +466,42 @@ public class ClientHandler extends Thread {
         return R;
     }
 
-         private void GetBranch(Command command) {
-     
-             /// Get last Commit in any branch
-            String NameProject = ((GetBranch) command).NameProject;
-            String branchName = ((GetBranch) command).BranchName ;
-            String dir = get_Directory_project_first_Time(branchName, NameProject);
-            if (dir == "") {
-                Send_FALIURE();
-            } else {
-                ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-                try {
-                    SendProject Rc = new SendBranch(ob);
-                    output.writeObject(Rc);
-                    output.flush();
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+    private void GetBranch(Command command) {
+
+        /// Get last Commit in any branch
+        String NameProject = ((GetDataBranch) command).NameProject;
+        String branchName = ((GetDataBranch) command).BranchName;
+        String dir = get_Directory_project_first_Time(branchName, NameProject);
+        if (dir == "") {
+            Send_FALIURE();
+        } else {
+            ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+            try {
+                SendProject Rc = new SendDataBranch(ob);
+                output.writeObject(Rc);
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-     
         }
-        private void Send_FALIURE()
-        {
-            Respone Rc = new SendStatus(ResponeType.FALIURE);
-                try {
-                    output.writeObject(Rc);
-                    output.flush();
-                } catch (IOException ex1) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
-                }
+
+    }
+
+    private void Send_FALIURE() {
+        Respone Rc = new SendStatus(ResponeType.FALIURE);
+        try {
+            output.writeObject(Rc);
+            output.flush();
+        } catch (IOException ex1) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
+    }
+
     private void GetCommits(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-     private Project get_projectClass(String temp) {
+    private Project get_projectClass(String temp) {
         try {
             return (Project) ResourceManager.load(projectdirectoryName + "\\" + temp + "\\" + "info");
         } catch (Exception ex) {
@@ -452,7 +510,7 @@ public class ClientHandler extends Thread {
         return null;
     }
 
-      private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
+    private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
         String dir = "";
         Project myprojecProject = get_projectClass(NameProject);
         for (branchClass br : myprojecProject.branchListClass) {

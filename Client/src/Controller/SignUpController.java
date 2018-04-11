@@ -2,7 +2,7 @@ package Controller;
 
 import CommonClass.User;
 import CommonCommand.Command;
-import CommonCommand.SIGNUP;
+import CommonCommand.GetSIGNUP;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import static client.Project.networkInput;
@@ -72,7 +72,7 @@ public class SignUpController implements Initializable {
             }
 
             User user = new User(UserName, PassWord);
-            Command command = new SIGNUP(user);
+            Command command = new GetSIGNUP(user);
             networkOutput.writeObject(command);
             networkOutput.flush();
            

@@ -1,7 +1,7 @@
 package severbenkh;
 
 import CommonClass.User;
-import static severbenkh.ResourceManager.load;
+import static CommonClass.ResourceManager.load;
 
 public class LoginClass {
 

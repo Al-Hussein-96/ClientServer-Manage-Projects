@@ -1,7 +1,7 @@
 package Controller;
 
 import CommonCommand.Command;
-import CommonCommand.StartProject;
+import CommonCommand.GetStartProject;
 import CommonRespone.Respone;
 import CommonRespone.SendCreateProject;
 import CommonRespone.ResponeType;
@@ -42,7 +42,7 @@ public class CreateProjectController implements Initializable {
     void btnCreate(ActionEvent event) {
         try {
             String path = txtLocation.getText();
-            Command command = new StartProject(txtNameProject.getText(), "true");
+            Command command = new GetStartProject(txtNameProject.getText(), "true");
             networkOutput.writeObject(command);
             networkOutput.flush();
 

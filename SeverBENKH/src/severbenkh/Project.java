@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.ResourceManager;
 import CommonClass.Contributor;
 import java.io.File;
 import java.io.Serializable;

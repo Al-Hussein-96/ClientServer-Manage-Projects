@@ -4,7 +4,7 @@ import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import CommonCommand.MyProject;
+import CommonCommand.GetMyProject;
 import CommonRespone.Respone;
 import CommonRespone.SendMyProject;
 import CommonRespone.ResponeType;
@@ -27,9 +27,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class MyProjectController implements Initializable {
@@ -40,6 +42,10 @@ public class MyProjectController implements Initializable {
     @FXML
     private JFXTreeTableView<TabelProject> TabelView;
     private List< CommonProject> MyProject;
+
+    MyProjectController(AnchorPane roopane) {
+        this.roopane = roopane;
+    }
 
     @FXML
     void btnOpen(ActionEvent event) {
@@ -65,15 +71,17 @@ public class MyProjectController implements Initializable {
         FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
         fxmlLoader.setController(fileBrowsersController);
-        Parent root = null;
+        
+        AnchorPane root = null;
         try {
-            root = (Parent) fxmlLoader.load();
+            root = (AnchorPane) fxmlLoader.load();
+
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
         }
-        AnchorPane pane;
-        pane = (AnchorPane) root;
-        roopane.getChildren().setAll(pane);
+
+        System.out.println("Bug is initlize in FileBrowsersController");
+        roopane.getChildren().setAll(root);
     }
 
     public void setRoopane(AnchorPane roopane) {
@@ -135,9 +143,9 @@ public class MyProjectController implements Initializable {
         for (int i = 0; i < MyProject.size(); i++) {
 
             CommonProject CP = MyProject.get(i);
-            int numCommit=0;
-            for(CommonBranch t : CP.BranchNames){
-                numCommit+=t.way.size();
+            int numCommit = 0;
+            for (CommonBranch t : CP.BranchNames) {
+                numCommit += t.way.size();
             }
             TabelProject TP = new TabelProject(CP.NameProject, ft.format(CP.DateCreate),
                     CP.Author, String.valueOf(CP.Contributors.size()), String.valueOf(numCommit));
@@ -154,7 +162,7 @@ public class MyProjectController implements Initializable {
     private List<CommonProject> GetMyProject() {
 
         try {
-            networkOutput.writeObject(new MyProject());
+            networkOutput.writeObject(new GetMyProject());
             networkOutput.flush();
 
         } catch (IOException ex) {

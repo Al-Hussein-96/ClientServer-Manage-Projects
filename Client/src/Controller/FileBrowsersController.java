@@ -5,14 +5,19 @@ import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
-import CommonCommand.GetBranch;
-import CommonCommand.GetCommits;
+import CommonCommand.GetDataBranch;
 import CommonCommand.GetFile;
+import CommonCommand.GetListBranch;
+import CommonCommand.GetListCommits;
+import CommonCommand.GetListContributors;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
+import CommonRespone.SendListBranch;
+import CommonRespone.SendListCommits;
+import CommonRespone.SendListContributors;
 import CommonRespone.SendProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
@@ -197,7 +202,24 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnBranch(ActionEvent event) {
-        BranchController branchController = new BranchController(this, Owner.BranchNames);
+
+        Command command = new GetListBranch(Owner.NameProject);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+
+        try {
+            respone = (Respone) networkInput.readObject();
+
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+
+        BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
         fxmlLoader.setController(branchController);
         Stage stage = new Stage();
@@ -213,7 +235,24 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnCommits(ActionEvent event) {
-        CommitsController commitsController = new CommitsController(Owner.BranchNames.get(0).way);
+        /// Master is temp
+        Command command = new GetListCommits(Owner.NameProject, "Master");
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+
+        try {
+            respone = (Respone) networkInput.readObject();
+
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+
+        CommitsController commitsController = new CommitsController(((SendListCommits) respone).getListCommit());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
         Stage stage = new Stage();
@@ -229,7 +268,23 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnContributors(ActionEvent event) {
-        ContributorsController contributorsController = new ContributorsController(Owner.Contributors);
+
+        Command command = new GetListContributors(Owner.NameProject);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+
+        ContributorsController contributorsController = new ContributorsController(((SendListContributors) respone).getList());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Contributors.fxml"));
         fxmlLoader.setController(contributorsController);
         Stage stage = new Stage();
@@ -269,7 +324,7 @@ public class FileBrowsersController implements Initializable {
 
     ViewfolderClass GetMyBranch(String BranchName) {
         try {
-            Command command = new GetBranch(Owner.NameProject, BranchName);
+            Command command = new GetDataBranch(Owner.NameProject, BranchName);
             networkOutput.writeObject(command);
             networkOutput.flush();
             Respone respone = (Respone) networkInput.readObject();

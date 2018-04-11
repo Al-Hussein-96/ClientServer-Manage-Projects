@@ -4,7 +4,7 @@ import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import CommonCommand.AllProject;
+import CommonCommand.GetAllProject;
 import CommonRespone.Respone;
 import CommonRespone.SendAllProject;
 import CommonRespone.ResponeType;
@@ -154,7 +154,7 @@ public class AllProjectController implements Initializable {
 
     private List<CommonProject> GetAllProject() {
         try {
-            networkOutput.writeObject(new AllProject());
+            networkOutput.writeObject(new GetAllProject());
             networkOutput.flush();
         } catch (IOException ex) {
             Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);

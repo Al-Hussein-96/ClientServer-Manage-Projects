@@ -1,5 +1,6 @@
 package severbenkh;
 
+import CommonClass.ResourceManager;
 import CommonClass.ViewfolderClass;
 import java.io.File;
 import java.io.FileInputStream;

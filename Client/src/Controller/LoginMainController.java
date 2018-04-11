@@ -2,7 +2,7 @@ package Controller;
 
 import CommonClass.User;
 import CommonCommand.Command;
-import CommonCommand.LOGIN;
+import CommonCommand.GetLOGIN;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendStatus;
@@ -64,7 +64,7 @@ public class LoginMainController implements Initializable {
 
             User user = new User(UserName, PassWord);
 
-            Command command = new LOGIN(user);
+            Command command = new GetLOGIN(user);
             networkOutput.writeObject(command);
             networkOutput.flush();
 
