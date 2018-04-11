@@ -153,32 +153,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
-        String dir = "";
-        Project myprojecProject = get_projectClass(NameProject);
-        for (branchClass br : myprojecProject.branchListClass) {
-            if (br.branchName.equals(BranchName)) /// get Branch
-            {
-                int sz = idCommit - 1;
-                dir = br.way.get(sz).Directory;
-            }
-        }
-        return dir;
-    }
-
-    private String get_Directory_project_first_Time(String BranchName, String NameProject) {
-        String dir = "";
-        Project myprojecProject = get_projectClass(NameProject);
-        for (branchClass br : myprojecProject.branchListClass) {
-            if (br.branchName.equals(BranchName)) /// get Branch
-            {
-                int sz = br.way.size() - 1;
-                dir = br.way.get(sz).Directory;
-            }
-        }
-        return dir;
-    }
-
+   
     private void GETFILE(Command command) {
         FileInputStream fis = null;
         try {
@@ -215,14 +190,7 @@ public class ClientHandler extends Thread {
         String NameProject = ((GetProject) command).NameProject;
         String dir = get_Directory_project_first_Time("Master", NameProject);
         if (dir == "") {
-            Respone Rc = new SendStatus(ResponeType.FALIURE);
-            try {
-                output.writeObject(Rc);
-                output.flush();
-            } catch (IOException ex1) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-
+           Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             try {
@@ -235,15 +203,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private Project get_projectClass(String temp) {
-        try {
-            return (Project) ResourceManager.load(projectdirectoryName + "\\" + temp + "\\" + "info");
-        } catch (Exception ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
+   
     private void SendToSignUp(Command command) {
         try {
             boolean ok = SignUpClass.SignUp(((SIGNUP) command).user);
@@ -449,12 +409,73 @@ public class ClientHandler extends Thread {
         return R;
     }
 
-    private void GetBranch(Command command) {
+         private void GetBranch(Command command) {
+     
+             /// Get last Commit in any branch
+            String NameProject = ((GetBranch) command).NameProject;
+            String branchName = ((GetBranch) command).BranchName ;
+            String dir = get_Directory_project_first_Time(branchName, NameProject);
+            if (dir == "") {
+                Send_FALIURE();
+            } else {
+                ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+                try {
+                    SendProject Rc = new SendBranch(ob);
+                    output.writeObject(Rc);
+                    output.flush();
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+     
+        }
+        private void Send_FALIURE()
+        {
+            Respone Rc = new SendStatus(ResponeType.FALIURE);
+                try {
+                    output.writeObject(Rc);
+                    output.flush();
+                } catch (IOException ex1) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+        }
+    private void GetCommits(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void GetCommits(Command command) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     private Project get_projectClass(String temp) {
+        try {
+            return (Project) ResourceManager.load(projectdirectoryName + "\\" + temp + "\\" + "info");
+        } catch (Exception ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+      private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
+        String dir = "";
+        Project myprojecProject = get_projectClass(NameProject);
+        for (branchClass br : myprojecProject.branchListClass) {
+            if (br.branchName.equals(BranchName)) /// get Branch
+            {
+                int sz = idCommit - 1;
+                dir = br.way.get(sz).Directory;
+            }
+        }
+        return dir;
+    }
+
+    private String get_Directory_project_first_Time(String BranchName, String NameProject) {
+        String dir = "";
+        Project myprojecProject = get_projectClass(NameProject);
+        for (branchClass br : myprojecProject.branchListClass) {
+            if (br.branchName.equals(BranchName)) /// get Branch
+            {
+                int sz = br.way.size() - 1;
+                dir = br.way.get(sz).Directory;
+            }
+        }
+        return dir;
     }
 
 }
