@@ -130,7 +130,7 @@ public class ClientHandler extends Thread {
 
         //// we send folders for client the here send files
         SendFolder(ob);
-        
+
         /// should send some things to know that server finish
         /**
          * here I will Send you <Name Of Project> and <Numbr of Commit> and You
@@ -430,7 +430,7 @@ public class ClientHandler extends Thread {
         temp.id = MyProject.id;
         temp.numberOFBranshes = MyProject.numberOFBranshes;
         temp.DateCreate = MyProject.DateCreate;
-        List< CommonBranch > BranchNames = new ArrayList<>();
+        List< CommonBranch> BranchNames = new ArrayList<>();
         for (branchClass s : MyProject.branchListClass) {
             CommonBranch t = Branch_to_CommonBranch(s);
             BranchNames.add(t);
@@ -438,16 +438,17 @@ public class ClientHandler extends Thread {
         temp.BranchNames = BranchNames;
         return temp;
     }
-    private CommonBranch Branch_to_CommonBranch(branchClass A)
-    {
-         CommonBranch R = null ; 
-         Date lastCommite = A.lastCommite;
-         String branchName = A.branchName;
-         String userCreateBranch = A.userCreateBranch;
-         List< CommitClass> way = A.way;
-         R = new CommonBranch(lastCommite, branchName, userCreateBranch, way);
-         return R;
+
+    private CommonBranch Branch_to_CommonBranch(branchClass A) {
+        CommonBranch R = null;
+        Date lastCommite = A.lastCommite;
+        String branchName = A.branchName;
+        String userCreateBranch = A.userCreateBranch;
+        List< CommitClass> way = A.way;
+        R = new CommonBranch(lastCommite, branchName, userCreateBranch, way);
+        return R;
     }
+
     private void GetBranch(Command command) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

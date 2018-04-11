@@ -1,8 +1,11 @@
 package Controller;
 
 import CommonClass.CommonBranch;
+import CommonClass.CommonProject;
 import client.TabelBranch;
 import client.TabelProject;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTreeTableView;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -10,16 +13,19 @@ import java.util.ResourceBundle;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 public class BranchController implements Initializable {
 
+    FileBrowsersController Father;
     List<CommonBranch> NameBranch;
 
     @FXML
@@ -31,8 +37,30 @@ public class BranchController implements Initializable {
     private TableColumn<TabelBranch, String> C2;
     @FXML
     private TableColumn<TabelBranch, String> C3;
+    @FXML
+    private JFXButton Open;
 
-    public BranchController(List<CommonBranch> NameBranch) {
+    @FXML
+    void btnOpen(ActionEvent event) {
+        TabelBranch TB = tabelView.getSelectionModel().getSelectedItem();
+        CommonBranch CB = null;
+        if (NameBranch == null || TB == null) {
+            return;
+        }
+        for (int i = 0; i < NameBranch.size(); i++) {
+            if (TB.equal(NameBranch.get(i))) {
+                CB = NameBranch.get(i);
+                break;
+            }
+        }
+        if (CB == null) {
+            return;
+        }
+        Father.CreateBranchSelected(CB.branchName);
+    }
+
+    public BranchController(FileBrowsersController Father, List<CommonBranch> NameBranch) {
+        this.Father = Father;
         this.NameBranch = NameBranch;
     }
 

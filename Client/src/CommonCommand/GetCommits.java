@@ -11,10 +11,15 @@ import java.io.Serializable;
  *
  * @author Al-Hussein
  */
-public class GetCommits extends GetProject implements Serializable{
+public class GetCommits extends GetProject implements Serializable {
 
-    public GetCommits(String NameProject) {
-        super(NameProject);
+    public String BranchName;
+    public int IDCommit;
+
+    public GetCommits(String NameProject, String BranchName, int IDCommit) {
+        super(NameProject, CommandType.GETCOMMITS);
+        this.BranchName = BranchName;
+        this.IDCommit = IDCommit;
     }
 
 }

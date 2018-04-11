@@ -5,6 +5,8 @@ import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
+import CommonCommand.GetBranch;
+import CommonCommand.GetCommits;
 import CommonCommand.GetFile;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
@@ -195,7 +197,7 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnBranch(ActionEvent event) {
-        BranchController branchController = new BranchController(Owner.BranchNames);
+        BranchController branchController = new BranchController(this, Owner.BranchNames);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
         fxmlLoader.setController(branchController);
         Stage stage = new Stage();
@@ -244,6 +246,30 @@ public class FileBrowsersController implements Initializable {
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+            Respone respone = (Respone) networkInput.readObject();
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((SendProject) respone).ob;
+            } else {
+                System.out.println("Error in Project");
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FileBrowsersController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public void CreateBranchSelected(String BranchName) {
+        current = GetMyBranch(BranchName);
+        CreateFolder(current);
+        previous.clear();
+    }
+
+    ViewfolderClass GetMyBranch(String BranchName) {
+        try {
+            Command command = new GetBranch(Owner.NameProject, BranchName);
             networkOutput.writeObject(command);
             networkOutput.flush();
             Respone respone = (Respone) networkInput.readObject();

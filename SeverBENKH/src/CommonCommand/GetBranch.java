@@ -15,7 +15,6 @@ public class GetBranch extends GetProject implements Serializable{
     
     public GetBranch(String NameProject) {
         super(NameProject);
-    }
-    
+    }    
     
 }
