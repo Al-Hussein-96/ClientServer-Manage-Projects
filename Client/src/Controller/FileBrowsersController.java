@@ -6,7 +6,7 @@ import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetCommits;
-import CommonCommand.GetDataBranch;
+import CommonCommand.GetBranch;
 import CommonCommand.GetFile;
 import CommonCommand.GetListBranch;
 import CommonCommand.GetListCommits;
@@ -325,7 +325,7 @@ public class FileBrowsersController implements Initializable {
 
     ViewfolderClass GetMyBranch(String BranchName) {
         try {
-            Command command = new GetDataBranch(Owner.NameProject, BranchName);
+            Command command = new GetBranch(Owner.NameProject, BranchName);
             networkOutput.writeObject(command);
             networkOutput.flush();
             Respone respone = (Respone) networkInput.readObject();

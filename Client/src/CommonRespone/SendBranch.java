@@ -12,9 +12,9 @@ import java.io.Serializable;
  *
  * @author Al-Hussein
  */
-public class SendDataBranch extends SendProject implements Serializable{
+public class SendBranch extends SendProject implements Serializable{
 
-    public SendDataBranch(ViewfolderClass ob) {
+    public SendBranch(ViewfolderClass ob) {
         super(ob);
     }
 
