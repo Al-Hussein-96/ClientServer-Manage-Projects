@@ -1,5 +1,8 @@
 package client;
 
+import CommonClass.CommitClass;
+import CommonClass.CommonBranch;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -40,5 +43,16 @@ public class TabelCommit {
     }
     public String getDetail() {
         return Detail.get();
+    }
+    public boolean equal(CommitClass CC) {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+        if (this.Author.get().equals(CC.Author)
+                && this.BranchName.get().equals(CC.branchName) 
+                && this.Id.get().equals(String.valueOf(CC.Id))
+                && this.MyDate.get().equals(ft.format(CC.MyDate))
+                && this.Detail.get().equals(CC.Detail)) {
+            return true;
+        }
+        return false;
     }
 }

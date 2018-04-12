@@ -4,12 +4,14 @@ import CommonClass.CommitClass;
 import CommonClass.CommonBranch;
 import client.TabelBranch;
 import client.TabelCommit;
+import com.jfoenix.controls.JFXButton;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -18,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CommitsController implements Initializable {
 
+    FileBrowsersController Father;
     List<CommitClass> Commits;
 
     @FXML
@@ -34,7 +37,32 @@ public class CommitsController implements Initializable {
     @FXML
     private TableColumn<TabelCommit, String> C5;
 
-    public CommitsController(List<CommitClass> Commits) {
+    @FXML
+    private JFXButton Open;
+
+    @FXML
+    void btnOpen(ActionEvent event) {
+        TabelCommit TC = tabelView.getSelectionModel().getSelectedItem();
+        CommitClass CC = null;
+        if (Commits == null || TC == null) {
+            return;
+        }
+        for (int i = 0; i < Commits.size(); i++) {
+            if (TC.equal(Commits.get(i))) {
+                CC = Commits.get(i);
+                break;
+            }
+        }
+        if (CC == null) {
+            return;
+        }
+        System.out.println("Open Commit " + CC.Id + " in Branch " + CC.branchName + " ....");
+        Father.CreateCommitSelected(CC.branchName,CC.Id);
+        Open.getScene().getWindow().hide();
+    }
+
+    public CommitsController(FileBrowsersController Father, List<CommitClass> Commits) {
+        this.Father = Father;
         this.Commits = Commits;
     }
 
@@ -47,7 +75,7 @@ public class CommitsController implements Initializable {
         int idx = 0;
         for (CommitClass temp : Commits) {
             TabelCommit CC = new TabelCommit(temp.Author, temp.branchName, String.valueOf(temp.Id),
-                     ft.format(temp.MyDate), temp.Detail);
+                    ft.format(temp.MyDate), temp.Detail);
             st[idx++] = CC;
         }
         list = FXCollections.observableArrayList(st);

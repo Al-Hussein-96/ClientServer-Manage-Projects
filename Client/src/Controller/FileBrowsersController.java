@@ -5,6 +5,7 @@ import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
+import CommonCommand.GetCommits;
 import CommonCommand.GetDataBranch;
 import CommonCommand.GetFile;
 import CommonCommand.GetListBranch;
@@ -252,7 +253,7 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Errot in FileBrowsers");
         }
 
-        CommitsController commitsController = new CommitsController(((SendListCommits) respone).getListCommit());
+        CommitsController commitsController = new CommitsController(this,((SendListCommits) respone).getListCommit());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
         Stage stage = new Stage();
@@ -317,14 +318,38 @@ public class FileBrowsersController implements Initializable {
     }
 
     public void CreateBranchSelected(String BranchName) {
-        current = GetMyBranch(BranchName);
-        CreateFolder(current);
         previous.clear();
+        current = GetMyBranch(BranchName);
+        ShowFolder(current);
     }
 
     ViewfolderClass GetMyBranch(String BranchName) {
         try {
             Command command = new GetDataBranch(Owner.NameProject, BranchName);
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+            Respone respone = (Respone) networkInput.readObject();
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((SendProject) respone).ob;
+            } else {
+                System.out.println("Error in Project");
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FileBrowsersController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public void CreateCommitSelected(String BranchName, int ID) {
+        previous.clear();
+        current = GetMyCommit(BranchName, ID);
+        ShowFolder(current);
+    }
+
+    ViewfolderClass GetMyCommit(String BranchName, int ID) {
+        try {
+            Command command = new GetCommits(Owner.NameProject, BranchName, ID);
             networkOutput.writeObject(command);
             networkOutput.flush();
             Respone respone = (Respone) networkInput.readObject();
