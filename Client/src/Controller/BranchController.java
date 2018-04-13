@@ -49,7 +49,9 @@ public class BranchController implements Initializable {
         if (CB == null) {
             return;
         }
+        System.out.println("Open branch " + CB.branchName+" ....");
         Father.CreateBranchSelected(CB.branchName);
+        Open.getScene().getWindow().hide();
     }
 
     public BranchController(FileBrowsersController Father, List<CommonBranch> NameBranch) {
