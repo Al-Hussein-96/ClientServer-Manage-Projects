@@ -1,6 +1,5 @@
 package CommonClass;
 
-import CommonClass.ResourceManager;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,15 +16,17 @@ public class ProjectToUpload implements Serializable {
 
     public String director;
     public int IdLastCommit;
-    public int Projectid;
-    public List<String> Contributors = new ArrayList<>();
+    public String ProjectName;
+    public List<Contributor> Contributors = new ArrayList<>();
     public String BranchName;
 
-    public ProjectToUpload(String director, int IdLastCommit, int Projectid, List<String> Contributors, String BranchName) {
-        this.director = director;
+    public ProjectToUpload(String director, int IdLastCommit, String ProjectName, List<Contributor> Contributors, String BranchName) {
+        this.ProjectName = ProjectName;
+        this.director = director + "\\BEHKN.BEHKN";
         this.IdLastCommit = IdLastCommit;
         this.BranchName = BranchName;
-        for (String s : Contributors) {
+        System.out.println(director+" Branch");
+        for (Contributor s : Contributors) {
             this.Contributors.add(s);
         }
 
@@ -34,7 +35,7 @@ public class ProjectToUpload implements Serializable {
     public void Save() {
         try {
             ResourceManager.save(this, director);
-            Hide(director);
+           /// Hide(director);
         } catch (Exception ex) {
             Logger.getLogger(ProjectToUpload.class.getName()).log(Level.SEVERE, null, ex);
         }

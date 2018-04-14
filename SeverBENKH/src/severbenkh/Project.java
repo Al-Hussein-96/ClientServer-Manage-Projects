@@ -48,6 +48,16 @@ public class Project implements Serializable {
         }
 
     }
+    public void Save()
+    {
+         /// Creat Project File info
+        String infoDirectory = this.ProjectDirectory + "\\" + "info";
+        try {
+            ResourceManager.save(this, infoDirectory);
+        } catch (Exception ex) {
+            Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
     
     

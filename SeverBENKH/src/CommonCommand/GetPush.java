@@ -7,6 +7,7 @@ public class GetPush extends GetProject implements Serializable {
 
     ProjectToUpload hiddenFile;
     String NameFolderSelect;
+    public String CommitUser;
     public GetPush(String NameProject, ProjectToUpload hiddenFile,String NameFolderSelect) {
         super(NameProject, CommandType.GETPUSH);
         this.hiddenFile = hiddenFile;

@@ -123,23 +123,79 @@ public class ClientHandler extends Thread {
         }
 
     }
+    private ProjectToUpload get_ProjectToUpload(String ProjectName , String branchName)
+    {
+        ProjectToUpload temp = null;
+        Project serverproject = get_projectClass(ProjectName);
+        branchClass serverbranch = null;
+        for(branchClass s : serverproject.branchListClass)
+        {
+            if(s.branchName.equals(branchName))
+            {
+                int IdlastCommite = s.way.size()-1;
+                CommitClass R = s.way.get(IdlastCommite);
+                String FileDir = R.Directory;
+                String  MyDir = R.Directory+"\\"+"BEHKN.BEHKN" ; 
+                
+                try {
+                    
+                    temp = (ProjectToUpload)ResourceManager.load(MyDir);
+
+                } catch (Exception ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        }
+        return temp;
+    }
+    private boolean compare_ProjectToUpload(ProjectToUpload server , ProjectToUpload client)
+    {
+        boolean ok = true;
+        if(server.IdLastCommit != client.IdLastCommit)
+        {
+            return false;
+        }
+        return ok;
+    }
    private void SendToGetPush(Command command) {
         String NameProject = ((GetPush) command).NameProject;
-        ProjectToUpload hiddenFile = ((GetPush) command).getHiddenFile();
+        ProjectToUpload clientFile = ((GetPush) command).getHiddenFile();
         String NameFolderSelect = ((GetPush) command).getNameFolderSelect();
 
         /// here must checking if Client Can Push The Project
+        ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName , clientFile.BranchName); 
         
-        
-        
-        Respone respone = new SendStatus(DONE);
-        try {
-            output.writeObject(respone);
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        boolean ok = compare_ProjectToUpload(serverFile , clientFile);
+        Respone respone;
+        if(ok)
+        {
+           respone = new SendStatus(DONE);
+            try {
+                output.writeObject(respone);
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
         }
-
+        else 
+        {
+         /// here send FALIURE
+            
+         respone = new SendStatus(FALIURE);   
+         try {
+               /// user dont have last change
+                output.writeObject(respone);
+                output.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         /// Stop function
+         return ;
+        }
+        
+        
         SendProject newRespone = null;
         try {
             newRespone = (SendProject) input.readObject();
@@ -147,14 +203,65 @@ public class ClientHandler extends Thread {
 
         }
         ResourceManager.ShowViewfolder(newRespone.ob);
-        String NewCommit = String.valueOf(hiddenFile.IdLastCommit + 1);
-        File file = new File(projectdirectoryName + "\\" + NameProject + "\\" + NewCommit);
-        file.mkdir(); /// Create Folder that contain IdCommit
-        File file2 = new File(projectdirectoryName + "\\" + NameProject + "\\" + NewCommit + "\\" + NameFolderSelect);
+        
+        Project serverproject = get_projectClass(clientFile.ProjectName);
+        boolean Done = false;
+        String NewCommitPlace = "" ;   /// String.valueOf(clientFile.IdLastCommit + 1);
+        branchClass targetbranch = null;
+        for(branchClass s : serverproject.branchListClass)
+        {
+            if(s.branchName.equals(clientFile.BranchName))
+            {
+                targetbranch = s;
+                String CommitUser = ((GetPush) command).CommitUser;
+                Done = true;
+                boolean yes = s.addNewVersion(MyUser , CommitUser);
+                if(!yes)
+                {
+                    respone = new SendStatus(FALIURE);   
+                    try {
+                          /// user is not of Contributors
+                           output.writeObject(respone);
+                           output.flush();
+                       } catch (IOException ex) {
+                           Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                    /// Stop function
+                    return ;
+                }
+                int num = s.way.size()-1;
+                NewCommitPlace = s.way.get(num).Directory;
+                
+            }
+        }
+        
+            if(!Done)
+                {
+                    respone = new SendStatus(FALIURE);   
+                    try {
+                          /// not fount branch
+                           output.writeObject(respone);
+                           output.flush();
+                       } catch (IOException ex) {
+                           Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                       }
+                    /// Stop function
+                    return ;
+                }
+        /// Save Change in project Class
+        serverproject.Save();
+
+        File file = new File(NewCommitPlace);
+        if(!file.exists())
+           file.mkdir(); /// Create Folder that contain IdCommit
+        File file2 = new File(NewCommitPlace+ "\\" + NameFolderSelect);
         file2.mkdir(); /// Create Folder that Contain NameOfFolderSelect that Client Select it for Push 
+        
         CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
         Receive(newRespone.ob, file.getPath(),NameFolderSelect);
-
+        /// update_BENKH
+        targetbranch.update_BENKH();
+        
     }
 
     private void CreateFolder(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
@@ -376,10 +483,13 @@ public class ClientHandler extends Thread {
             output.writeObject(new SendStatus(DONE));
             output.flush();
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
-            SendCreateProject Rc = new SendCreateProject(NewProject.id, Author);
-
+            SendCreateProject Rc = new SendCreateProject(NewProject.NameProject, Author);
             output.writeObject(Rc);
             output.flush();
+            
+            //// Here we should send hiddenFile to client 
+            
+            
             System.out.println("SendTpStartProject");
 
         } catch (IOException ex) {

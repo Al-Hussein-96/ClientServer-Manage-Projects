@@ -2,6 +2,7 @@ package severbenkh;
 
 import CommonClass.CommitClass;
 import CommonClass.Contributor;
+import CommonClass.ProjectToUpload;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -44,13 +45,28 @@ public class branchClass implements Serializable {
         /// incres Number Of Version
         File CreateProjectDirectory = new File(projectdirector + "\\" + NumberOfVersion);
         CreateProjectDirectory.mkdir();
-        UsersHowSeeLastUpdate.add(Author);
+        UsersHowSeeLastUpdate.add(Author); 
+       
+        update_BENKH();
         father.NumberOfVersion++;
-
     }
-
+    public void update_BENKH()
+    {
+        String _director = projectdirector + "\\" + father.NumberOfVersion;
+        int _IdLastCommit = way.size()-1;
+        String _ProjectName = father.NameProject;
+        List<Contributor> _Contributors = new ArrayList<>();
+        for(Contributor  s  : father.Contributors)
+        {
+            _Contributors.add(s);
+        }
+        String _BranchName = this.branchName;
+        ProjectToUpload New = new ProjectToUpload(_director , _IdLastCommit , _ProjectName , _Contributors , _BranchName); 
+        New.Save();
+    }
     /// Create Branch have first num version from another brach
     branchClass(Project father, String branchName, branchClass fatherBranch, int num, String userCreateBranch) {
+        /// need fix  /////////////////////////
         this.userCreateBranch = userCreateBranch;
         this.branchName = branchName;
         this.father = father;
@@ -97,7 +113,7 @@ public class branchClass implements Serializable {
         String Directory = projectdirector + "\\" + NumberOfVersion;
         CommitClass temp = new CommitClass(branchName, Author, Directory, Detail, way.size() + 1);
         way.add(temp);
-        father.NumberOfVersion++;
+
         lastCommite = new Date();
 
         boolean ok_add = true;
@@ -114,6 +130,8 @@ public class branchClass implements Serializable {
             S.way.add(temp);
             father.Contributors.add(S);
         }
+        update_BENKH();
+        father.NumberOfVersion++;
         return true;
     }
 

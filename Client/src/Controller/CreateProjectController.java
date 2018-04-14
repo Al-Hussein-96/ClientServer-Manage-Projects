@@ -1,5 +1,6 @@
 package Controller;
 
+import CommonClass.Contributor;
 import CommonClass.ProjectToUpload;
 import CommonCommand.Command;
 import CommonCommand.GetStartProject;
@@ -50,14 +51,15 @@ public class CreateProjectController implements Initializable {
 
             if (response.TypeRespone == ResponeType.DONE) {
                 Respone respone1 = (Respone) networkInput.readObject();
-
-                int IdProject = ((SendCreateProject) respone1).IdProject;
+                
+                String  ProjectName = ((SendCreateProject) respone1).ProjectName;
                 String Author = ((SendCreateProject) respone1).Author;
-                List<String> Contributors = new ArrayList<>();
-                Contributors.add(Author);
+                System.out.println("11111111");
+                /// Here we should get  hiddenFile from Server
 
-                ProjectToUpload hiddenFile = new ProjectToUpload(path + "\\.BENKH", 1, IdProject, Contributors, "Master");
-                hiddenFile.Save();
+//                ProjectToUpload hiddenFile = new ProjectToUpload(path + "\\.BENKH", 1, ProjectName, Contributors, "Master");
+//                hiddenFile.Save();
+                    System.out.println("2222222222");
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error START PROJECT");
