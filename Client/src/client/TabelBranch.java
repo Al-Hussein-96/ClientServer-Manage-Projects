@@ -35,23 +35,11 @@ public class TabelBranch {
     }
 
     public boolean equal(CommonBranch CB) {
-//        System.out.println(this.NameProject.get() + " : " + CP.NameProject);
-//        System.out.println(this.DateCreate.get() + " : " + CP.DateCreate);
-//        System.out.println(this.Author.get() + " : " + CP.Author);
-//        System.out.println(this.NumberOfContributors.get() + " : " + CP.Contributors.size());
-//        int numCommit=0;
-//            for(CommonBranch t : CP.BranchNames){
-//                numCommit+=t.way.size();
-//            }
-//        System.out.println(this.NumberOfCommits.get() + " : " + numCommit);
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
 
-        if (this.BranchName.get().equals(CB.branchName)
-                && this.LastCommite.get().equals(ft.format(CB.lastCommite)) 
-                && this.UserCreateBranch.get().equals(CB.userCreateBranch)) {
-            return true;
-        }
-        return false;
+        return this.BranchName.get().equals(CB.branchName)
+                && this.LastCommite.get().equals(ft.format(CB.lastCommite))
+                && this.UserCreateBranch.get().equals(CB.userCreateBranch);
     }
 }

@@ -49,7 +49,6 @@ public class BranchController implements Initializable {
         if (CB == null) {
             return;
         }
-        System.out.println("Open branch " + CB.branchName+" ....");
         Father.CreateBranchSelected(CB.branchName);
         Open.getScene().getWindow().hide();
     }
@@ -61,14 +60,12 @@ public class BranchController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Size: " + NameBranch.size());
         ObservableList<TabelBranch> list;
         TabelBranch[] st = new TabelBranch[NameBranch.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
         for (CommonBranch temp : NameBranch) {
             st[idx++] = new TabelBranch(temp.branchName, temp.userCreateBranch, ft.format(temp.lastCommite));
-//            System.out.println(temp.branchName + "  " + temp.userCreateBranch + "  " + temp.lastCommite.toString());
         }
         list = FXCollections.observableArrayList(st);
         C1.setCellValueFactory(new PropertyValueFactory<TabelBranch, String>("BranchName"));

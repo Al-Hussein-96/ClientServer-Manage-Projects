@@ -56,7 +56,6 @@ public class CommitsController implements Initializable {
         if (CC == null) {
             return;
         }
-        System.out.println("Open Commit " + CC.Id + " in Branch " + CC.branchName + " ....");
         Father.CreateCommitSelected(CC.branchName,CC.Id);
         Open.getScene().getWindow().hide();
     }
@@ -68,7 +67,6 @@ public class CommitsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Size: " + Commits.size());
         ObservableList<TabelCommit> list;
         TabelCommit[] st = new TabelCommit[Commits.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");

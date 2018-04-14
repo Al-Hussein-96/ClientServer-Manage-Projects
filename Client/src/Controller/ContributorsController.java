@@ -33,7 +33,6 @@ public class ContributorsController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Size: " + Contributors.size());
         ObservableList<TabelContributor> list;
         TabelContributor[] st = new TabelContributor[Contributors.size()];
         int idx = 0;

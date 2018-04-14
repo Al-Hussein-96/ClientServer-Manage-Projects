@@ -1,9 +1,7 @@
 package client;
 
 import CommonClass.CommitClass;
-import CommonClass.CommonBranch;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 

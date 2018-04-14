@@ -1,11 +1,11 @@
 package Controller;
 
+import CommonClass.ProjectToUpload;
 import CommonCommand.Command;
 import CommonCommand.GetStartProject;
 import CommonRespone.Respone;
 import CommonRespone.SendCreateProject;
 import CommonRespone.ResponeType;
-import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXTextField;
@@ -50,15 +50,14 @@ public class CreateProjectController implements Initializable {
 
             if (response.TypeRespone == ResponeType.DONE) {
                 Respone respone1 = (Respone) networkInput.readObject();
-                
+
                 int IdProject = ((SendCreateProject) respone1).IdProject;
                 String Author = ((SendCreateProject) respone1).Author;
-                int lastCommit = 1;
                 List<String> Contributors = new ArrayList<>();
                 Contributors.add(Author);
-               
-                ProjectToUpload Temp = new ProjectToUpload(path + "\\.BENKH", 1, IdProject, Contributors, "Master");
-                Temp.Save();
+
+                ProjectToUpload hiddenFile = new ProjectToUpload(path + "\\.BENKH", 1, IdProject, Contributors, "Master");
+                hiddenFile.Save();
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error START PROJECT");

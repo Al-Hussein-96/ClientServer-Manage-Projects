@@ -7,6 +7,7 @@ import CommonClass.ViewfolderClass;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.ProjectToUpload;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
@@ -15,6 +16,7 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,14 +58,13 @@ public class ClientHandler extends Thread {
             } catch (IOException ex) {
                 System.out.println("Cann't Read Command");
                 break;
-            } catch (Exception ex) {
+            } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             if (command == null) {
                 continue;
             }
-            System.out.println("Command : " + command);
 
             switch (command.TypeCommand) {
                 case SIGNUP:
@@ -105,6 +106,9 @@ public class ClientHandler extends Thread {
                 case ListCONTRIBUTORS:
                     SendToListContributors(command);
                     break;
+                case GETPUSH:
+                    SendToGetPush(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -119,7 +123,91 @@ public class ClientHandler extends Thread {
         }
 
     }
+   private void SendToGetPush(Command command) {
+        String NameProject = ((GetPush) command).NameProject;
+        ProjectToUpload hiddenFile = ((GetPush) command).getHiddenFile();
+        String NameFolderSelect = ((GetPush) command).getNameFolderSelect();
 
+        /// here must checking if Client Can Push The Project
+        
+        
+        
+        Respone respone = new SendStatus(DONE);
+        try {
+            output.writeObject(respone);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SendProject newRespone = null;
+        try {
+            newRespone = (SendProject) input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+
+        }
+        ResourceManager.ShowViewfolder(newRespone.ob);
+        String NewCommit = String.valueOf(hiddenFile.IdLastCommit + 1);
+        File file = new File(projectdirectoryName + "\\" + NameProject + "\\" + NewCommit);
+        file.mkdir(); /// Create Folder that contain IdCommit
+        File file2 = new File(projectdirectoryName + "\\" + NameProject + "\\" + NewCommit + "\\" + NameFolderSelect);
+        file2.mkdir(); /// Create Folder that Contain NameOfFolderSelect that Client Select it for Push 
+        CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
+        Receive(newRespone.ob, file.getPath(),NameFolderSelect);
+
+    }
+
+    private void CreateFolder(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
+        List<NameAndDirectory> Folder = ob.MyFolder;
+
+        for (NameAndDirectory u : Folder) {
+            //// some problem in Directory between Server and Client
+            String temp1 = u.Directory.substring(u.Directory.indexOf(NameFolderSelect));
+            File folder = new File(NewDirectory + "\\" + temp1);
+            folder.mkdir();
+            for (ViewfolderClass temp : ob.MyFolderView) {
+                CreateFolder(temp, NewDirectory, NameFolderSelect);
+            }
+        }
+
+    }
+
+    private void Receive(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
+        for (NameAndDirectory temp : ob.MyFile) {
+            FileOutputStream fos = null;
+            try {
+                String temp1 = temp.Directory.substring(temp.Directory.indexOf(NameFolderSelect));
+
+                System.out.println("Path: " + temp1 + " : " + NewDirectory);
+                fos = new FileOutputStream(NewDirectory + "\\" + temp1);
+                SendFile respone;
+                do {
+                    respone = (SendFile) input.readObject();
+                    fos.write(respone.getDataFile());
+                } while (!respone.isEndOfFile());
+                fos.close();
+            } catch (FileNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException ex) {
+                }
+            }
+
+        }
+        for (ViewfolderClass temp : ob.MyFolderView) {
+            System.out.println("size My File: " + temp.MyFile.size());
+            Receive(temp, NewDirectory, NameFolderSelect);
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     private void SendToListContributors(Command command) {
         String NameProject = ((GetListContributors) command).getNameProject();
 
@@ -177,7 +265,6 @@ public class ClientHandler extends Thread {
         String BranchName = ((GetPull) command).getBranchName();
 
         String dir = get_Directory_project(idCommit, BranchName, NameProject);
-        System.out.println("dir: " + dir);
         ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
         SendProject Rc = new SendProject(ob);
 
@@ -188,19 +275,8 @@ public class ClientHandler extends Thread {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
 
-        //// we send folders for client the here send files
         SendFolder(ob);
 
-        /// should send some things to know that server finish
-        /**
-         * here I will Send you <Name Of Project> and <Numbr of Commit> and You
-         * will Send: 1 - Object OF <SendPull>
-         * 2 - File in order in list in Send Project One by one 1->2->3->....
-         *
-         * @note : maybe you use Function GetFile in Below , Create Temp
-         * Command:(GetFile) and Send it To Function GetFile Below
-         *
-         */
     }
 
     private void SendFolder(ViewfolderClass ob) {
@@ -452,7 +528,7 @@ public class ClientHandler extends Thread {
         /// Get last Commit in master branch
         String NameProject = ((GetProject) command).NameProject;
         String dir = get_Directory_project_first_Time("Master", NameProject);
-        if (dir == "") {
+        if ("".equals(dir)) {
             Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
@@ -503,7 +579,7 @@ public class ClientHandler extends Thread {
         String branchName = ((GetCommits) command).BranchName;
         int id = ((GetCommits) command).IDCommit;
         String dir = get_Directory_project(id, branchName, NameProject);
-        if (dir == "") {
+        if ("".equals(dir)) {
             Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
@@ -551,5 +627,7 @@ public class ClientHandler extends Thread {
         }
         return dir;
     }
+
+ 
 
 }

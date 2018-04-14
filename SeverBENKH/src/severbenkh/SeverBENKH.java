@@ -20,12 +20,9 @@ public class SeverBENKH {
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
 
-    ///  public static String ProjectFileName = projectdirectoryName + "Projects.data";
     public static void main(String[] args) throws IOException {
-        
-        
-        
-        ViewfolderClass vi =  ResourceManager.ViewProject(new File("src"));
+
+        ViewfolderClass vi = ResourceManager.ViewProject(new File("src"));
         ResourceManager.ShowViewfolder(vi);
         initFile();
 
@@ -46,10 +43,10 @@ public class SeverBENKH {
     }
 
     public static int idincreUser(String idFilename) throws FileNotFoundException, IOException {
-
-        FileInputStream id = new FileInputStream(idFilename);
-        int x = id.read();
-        id.close();
+        int x;
+        try (FileInputStream id = new FileInputStream(idFilename)) {
+            x = id.read();
+        }
         FileOutputStream idd = new FileOutputStream(idFilename);
         x++;
         idd.write(x);
@@ -59,9 +56,10 @@ public class SeverBENKH {
 
     public static int idincreProject(String idFileProject) throws FileNotFoundException, IOException {
 
-        FileInputStream id = new FileInputStream(idFileProject);
-        int x = id.read();
-        id.close();
+        int x;
+        try (FileInputStream id = new FileInputStream(idFileProject)) {
+            x = id.read();
+        }
         FileOutputStream idd = new FileOutputStream(idFileProject);
         x++;
         idd.write(x);
@@ -72,25 +70,22 @@ public class SeverBENKH {
     private static void initFile() throws FileNotFoundException, IOException {
 
         File DataFile = new File("Data");
-        if(!DataFile.exists())
-        {
+        if (!DataFile.exists()) {
             DataFile.mkdir();
         }
         // create id Name
         File idFile = new File(idFileName);
         if (!idFile.exists()) {
-            FileOutputStream id = new FileOutputStream(idFile);
-            System.out.print(0);
-            id.write(0);
-            id.close();
+            try (FileOutputStream id = new FileOutputStream(idFile)) {
+                id.write(0);
+            }
         }
         // create id project Name
         File idFileproject = new File(idFileProject);
         if (!idFileproject.exists()) {
-            FileOutputStream id = new FileOutputStream(idFileproject);
-            System.out.print(0);
-            id.write(0);
-            id.close();
+            try (FileOutputStream id = new FileOutputStream(idFileproject)) {
+                id.write(0);
+            }
         }
 
         // create users directory 
@@ -111,21 +106,13 @@ public class SeverBENKH {
     private static boolean ProjectNameAllow(String ProjectName) {
 
         File idFile = new File(projectdirectoryName + "\\" + ProjectName);
-        if (!idFile.exists()) {
-            return true;
-        }
-        return false;
+        return !idFile.exists();
     }
 
     private static boolean UserNameAllow(String UserName) {
 
         File idFile = new File(usersdirectoryName + "\\" + UserName);
-        if (!idFile.exists()) {
-            return true;
-        }
-        return false;
+        return !idFile.exists();
     }
-    
-    
 
 }

@@ -23,21 +23,13 @@ public class TabelProject extends RecursiveTreeObject<TabelProject> {
     }
 
     public boolean equal(CommonProject CP) {
-        System.out.println(this.NameProject.get() + " : " + CP.NameProject);
-        System.out.println(this.DateCreate.get() + " : " + CP.DateCreate);
-        System.out.println(this.Author.get() + " : " + CP.Author);
-        System.out.println(this.NumberOfContributors.get() + " : " + CP.Contributors.size());
-        int numCommit=0;
-            for(CommonBranch t : CP.BranchNames){
-                numCommit+=t.way.size();
-            }
-        System.out.println(this.NumberOfCommits.get() + " : " + numCommit);
-
-        if (this.NameProject.get().equals(String.valueOf(CP.NameProject))
-                && this.Author.get().equals(String.valueOf(CP.Author)) && this.NumberOfContributors.get().equals(String.valueOf(CP.Contributors.size()))
-                && this.NumberOfCommits.get().equals(String.valueOf(numCommit))) {
-            return true;
+        int numCommit = 0;
+        for (CommonBranch t : CP.BranchNames) {
+            numCommit += t.way.size();
         }
-        return false;
+
+        return this.NameProject.get().equals(String.valueOf(CP.NameProject))
+                && this.Author.get().equals(String.valueOf(CP.Author)) && this.NumberOfContributors.get().equals(String.valueOf(CP.Contributors.size()))
+                && this.NumberOfCommits.get().equals(String.valueOf(numCommit));
     }
 }

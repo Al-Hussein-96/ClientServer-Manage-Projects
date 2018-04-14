@@ -3,6 +3,9 @@ package Controller;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.ProjectToUpload;
+import CommonClass.ResourceManager;
+import static CommonClass.ResourceManager.load;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetCommits;
@@ -13,6 +16,7 @@ import CommonCommand.GetListCommits;
 import CommonCommand.GetListContributors;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
+import CommonCommand.GetPush;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
@@ -26,6 +30,7 @@ import client.TabelBrowsers;
 import com.jfoenix.controls.JFXButton;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -47,6 +52,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class FileBrowsersController implements Initializable {
@@ -163,7 +169,6 @@ public class FileBrowsersController implements Initializable {
                 do {
                     respone = (SendFile) networkInput.readObject();
                     fos.write(respone.getDataFile());
-                    System.out.println("HE");
                 } while (!respone.isEndOfFile());
 
                 fos.close();
@@ -198,6 +203,94 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnPush(ActionEvent event) {
+        DirectoryChooser dc = new DirectoryChooser();
+        File selectedFile = dc.showDialog(null);
+
+        System.out.println("MainFolder: " + selectedFile.getName());
+
+        ProjectToUpload hiddenFile = null;
+        for (File file : selectedFile.listFiles()) {
+            if (file.isFile() && file.isHidden() && ".BENKH".equals(file.getName())) {
+                try {
+                    hiddenFile = (ProjectToUpload) load(file.getPath());
+                    break;
+                } catch (Exception ex) {
+                    Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        if (hiddenFile == null) {
+            return;
+        }
+
+        Command command = new GetPush(Owner.NameProject, hiddenFile,selectedFile.getName());
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Respone respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("ERROR in GETPUSH: " + ex.getMessage());
+        }
+
+        if (respone.TypeRespone == ResponeType.DONE) {
+            ViewfolderClass ob = ResourceManager.ViewProject(new File(selectedFile.getPath()));
+            ResourceManager.ShowViewfolder(ob);
+            Respone newRespone = new SendProject(ob);
+            try {
+                networkOutput.writeObject(newRespone);
+                networkOutput.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            SendFolder(ob);
+
+        } else {
+
+        }
+
+    }
+
+    private void SendFolder(ViewfolderClass ob) {
+        for (NameAndDirectory temp : ob.MyFile) {
+            GetFile get = new GetFile(temp.Directory);
+            System.out.println("GetFile");
+            GETFILE(get);
+        }
+        for (ViewfolderClass temp : ob.MyFolderView) {
+            SendFolder(temp);
+        }
+    }
+
+    private void GETFILE(Command command) {
+        FileInputStream fis = null;
+        try {
+            byte[] DataFile = new byte[4096];
+            String dir = ((GetFile) command).getDirectoryFile();
+            File file = new File(dir);
+            NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
+            fis = new FileInputStream(file);
+            long fileSize = file.length();
+
+            int n;
+            while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
+                fileSize -= n;
+                Respone respone = new SendFile(DataFile, fileSize == 0, My);
+                networkOutput.writeObject(respone);
+                networkOutput.flush();
+            }
+        } catch (FileNotFoundException ex) {
+        } catch (IOException ex) {
+        } finally {
+            try {
+                fis.close();
+            } catch (IOException ex) {
+            }
+        }
 
     }
 
@@ -253,7 +346,7 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Errot in FileBrowsers");
         }
 
-        CommitsController commitsController = new CommitsController(this,((SendListCommits) respone).getListCommit());
+        CommitsController commitsController = new CommitsController(this, ((SendListCommits) respone).getListCommit());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
         Stage stage = new Stage();

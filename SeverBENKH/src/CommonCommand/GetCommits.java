@@ -2,9 +2,8 @@ package CommonCommand;
 
 import java.io.Serializable;
 
+public class GetCommits extends GetProject implements Serializable {
 
-public class GetCommits extends GetProject implements Serializable{
-    
     public String BranchName;
     public int IDCommit;
 

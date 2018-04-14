@@ -18,6 +18,10 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -49,9 +53,7 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-    //        String s = "Data\\Projects Information\\Java\\1\\New Text Document.txt";
-    //        System.out.println("SS: " + s.substring(s.indexOf("Java")));
-    
+
 
     
         try {
