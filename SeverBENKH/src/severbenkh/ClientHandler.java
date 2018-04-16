@@ -65,7 +65,8 @@ public class ClientHandler extends Thread {
             if (command == null) {
                 continue;
             }
-
+            /// select the command from client
+            ///  تفسير تعليمات من المستخدم 
             switch (command.TypeCommand) {
                 case SIGNUP:
                     SendToSignUp(command);
@@ -123,79 +124,74 @@ public class ClientHandler extends Thread {
         }
 
     }
-    private ProjectToUpload get_ProjectToUpload(String ProjectName , String branchName)
-    {
+
+    /// get file BENKH form server for this project and this branch 
+    /// جلب ملف البيانات لبرنش معين ضمن مشروع 
+    private ProjectToUpload get_ProjectToUpload(String ProjectName, String branchName) {
         ProjectToUpload temp = null;
+        /// get project class for this project form .info 
         Project serverproject = get_projectClass(ProjectName);
         branchClass serverbranch = null;
-        for(branchClass s : serverproject.branchListClass)
-        {
-            if(s.branchName.equals(branchName))
-            {
-                int IdlastCommite = s.way.size()-1;
+        /// get select branch 
+        for (branchClass s : serverproject.branchListClass) {
+            if (s.branchName.equals(branchName)) {
+                /// get last commit 
+                int IdlastCommite = s.way.size() - 1;
                 CommitClass R = s.way.get(IdlastCommite);
                 String FileDir = R.Directory;
-                String  MyDir = R.Directory+"\\"+"BEHKN.BEHKN" ; 
-                
+                String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
+
                 try {
-                    
-                    temp = (ProjectToUpload)ResourceManager.load(MyDir);
+
+                    temp = (ProjectToUpload) ResourceManager.load(MyDir);
 
                 } catch (Exception ex) {
                     Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         }
         return temp;
     }
-    private boolean compare_ProjectToUpload(ProjectToUpload server , ProjectToUpload client)
-    {
+
+    /// compare two ProjectToUpload append to IdLastCommit
+    private boolean compare_ProjectToUpload(ProjectToUpload server, ProjectToUpload client) {
         boolean ok = true;
-        if(server.IdLastCommit != client.IdLastCommit)
-        {
+        if (server.IdLastCommit != client.IdLastCommit) {
             return false;
         }
         return ok;
     }
-   private void SendToGetPush(Command command) {
+
+    private void SendToGetPush(Command command) {
         String NameProject = ((GetPush) command).NameProject;
+        /// ProjectToUpload from client
         ProjectToUpload clientFile = ((GetPush) command).getHiddenFile();
+        /// important for path 
         String NameFolderSelect = ((GetPush) command).getNameFolderSelect();
 
         /// here must checking if Client Can Push The Project
-        ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName , clientFile.BranchName); 
-        
-        boolean ok = compare_ProjectToUpload(serverFile , clientFile);
+        /// get ProjectToUpload from server
+        ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName, clientFile.BranchName);
+
+        boolean ok = compare_ProjectToUpload(serverFile, clientFile);
         Respone respone;
-        if(ok)
-        {
-           respone = new SendStatus(DONE);
+        if (ok) {
+            respone = new SendStatus(DONE);
             try {
                 output.writeObject(respone);
                 output.flush();
             } catch (IOException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
+
+        } else {
+            /// here send FALIURE
+            /// user dont have last change
+            Send_FALIURE();
+            /// Stop function
+            return;
         }
-        else 
-        {
-         /// here send FALIURE
-            
-         respone = new SendStatus(FALIURE);   
-         try {
-               /// user dont have last change
-                output.writeObject(respone);
-                output.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-         /// Stop function
-         return ;
-        }
-        
-        
         SendProject newRespone = null;
         try {
             newRespone = (SendProject) input.readObject();
@@ -203,67 +199,57 @@ public class ClientHandler extends Thread {
 
         }
         ResourceManager.ShowViewfolder(newRespone.ob);
-        
+
         Project serverproject = get_projectClass(clientFile.ProjectName);
         boolean Done = false;
-        String NewCommitPlace = "" ;   /// String.valueOf(clientFile.IdLastCommit + 1);
+        String NewCommitPlace = "";   /// String.valueOf(clientFile.IdLastCommit + 1);
         branchClass targetbranch = null;
-        for(branchClass s : serverproject.branchListClass)
-        {
-            if(s.branchName.equals(clientFile.BranchName))
-            {
+        for (branchClass s : serverproject.branchListClass) {
+            if (s.branchName.equals(clientFile.BranchName)) {
+                /// get targetbranch to change last commit id , add new commit
                 targetbranch = s;
                 String CommitUser = ((GetPush) command).CommitUser;
                 Done = true;
-                boolean yes = s.addNewVersion(MyUser , CommitUser);
-                if(!yes)
-                {
-                    respone = new SendStatus(FALIURE);   
-                    try {
-                          /// user is not of Contributors
-                           output.writeObject(respone);
-                           output.flush();
-                       } catch (IOException ex) {
-                           Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                       }
+                /// add user commit to branch
+                boolean yes = s.addNewVersion(MyUser, CommitUser);
+                if (!yes) {
+                    /// user is not of Contributors
+                    Send_FALIURE();
                     /// Stop function
-                    return ;
+                    return;
                 }
-                int num = s.way.size()-1;
+                /// get Directory for last commit that user add 
+                int num = s.way.size() - 1;
                 NewCommitPlace = s.way.get(num).Directory;
-                
+
             }
         }
-        
-            if(!Done)
-                {
-                    respone = new SendStatus(FALIURE);   
-                    try {
-                          /// not fount branch
-                           output.writeObject(respone);
-                           output.flush();
-                       } catch (IOException ex) {
-                           Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                       }
-                    /// Stop function
-                    return ;
-                }
-        /// Save Change in project Class
+
+        if (!Done) {
+            /// not fount branch
+            Send_FALIURE();
+            /// Stop function
+            return;
+        }
+        /// Save Change in project Class 
         serverproject.Save();
 
+        /// get directory to receive data from user
         File file = new File(NewCommitPlace);
-        if(!file.exists())
-           file.mkdir(); /// Create Folder that contain IdCommit
-        File file2 = new File(NewCommitPlace+ "\\" + NameFolderSelect);
+        if (!file.exists()) {
+            file.mkdir(); /// Create Folder that contain IdCommit
+        }
+        File file2 = new File(NewCommitPlace + "\\" + NameFolderSelect);
         file2.mkdir(); /// Create Folder that Contain NameOfFolderSelect that Client Select it for Push 
-        
+
         CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
-        Receive(newRespone.ob, file.getPath(),NameFolderSelect);
-        /// update_BENKH
+        Receive(newRespone.ob, file.getPath(), NameFolderSelect);
+        /// update_BENKH 
         targetbranch.update_BENKH();
-        
+
     }
 
+    /// create folders in server for project 
     private void CreateFolder(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
         List<NameAndDirectory> Folder = ob.MyFolder;
 
@@ -279,6 +265,7 @@ public class ClientHandler extends Thread {
 
     }
 
+    /// Receive fils from client for new commit 
     private void Receive(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
@@ -308,13 +295,8 @@ public class ClientHandler extends Thread {
             Receive(temp, NewDirectory, NameFolderSelect);
         }
     }
-    
-    
-    
-    
-    
-    
-    
+
+    ///  send Contributors list to client
     private void SendToListContributors(Command command) {
         String NameProject = ((GetListContributors) command).getNameProject();
 
@@ -331,6 +313,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    ///  send Commits list to client
     private void SendToListCommits(Command command) {
         String NameProject = ((GetListCommits) command).getNameProject();
         String NameBranch = ((GetListCommits) command).getNameBranch();
@@ -349,6 +332,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    ///  send Branch list to client
     private void SendToListBranch(Command command) {
         String NameProject = ((GetListBranch) command).getNameProject();
 
@@ -370,7 +354,7 @@ public class ClientHandler extends Thread {
 
         int idCommit = ((GetPull) command).getIdCommit();
         String BranchName = ((GetPull) command).getBranchName();
-
+        /// get Directory for this commit 
         String dir = get_Directory_project(idCommit, BranchName, NameProject);
         ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
         SendProject Rc = new SendProject(ob);
@@ -381,10 +365,10 @@ public class ClientHandler extends Thread {
         } catch (IOException ex1) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
-
         SendFolder(ob);
 
     }
+    /// Send Folder
 
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
@@ -395,6 +379,7 @@ public class ClientHandler extends Thread {
             SendFolder(temp);
         }
     }
+    //// GET FILE
 
     private void GETFILE(Command command) {
         FileInputStream fis = null;
@@ -427,6 +412,7 @@ public class ClientHandler extends Thread {
 
     }
 
+    /// Sign Up
     private void SendToSignUp(Command command) {
         try {
             boolean ok = SignUpClass.SignUp(((GetSIGNUP) command).user);
@@ -444,6 +430,7 @@ public class ClientHandler extends Thread {
             System.out.println("Error SIGNUP");
         }
     }
+    // Login
 
     private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
@@ -462,6 +449,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// creat project
     private void SendToStartProject(Command command) {
         try {
             boolean Access;
@@ -486,10 +474,8 @@ public class ClientHandler extends Thread {
             SendCreateProject Rc = new SendCreateProject(NewProject.NameProject, Author);
             output.writeObject(Rc);
             output.flush();
-            
+
             //// Here we should send hiddenFile to client 
-            
-            
             System.out.println("SendTpStartProject");
 
         } catch (IOException ex) {
@@ -497,7 +483,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-    /// to see if this name is use before
+    /// to see if this project name is use before
     private boolean CanAddNewProjectToServer(String s) {
         String dir = SeverBENKH.projectdirectoryName;
         File projects = new File(dir);
@@ -511,6 +497,7 @@ public class ClientHandler extends Thread {
         return true;
     }
 
+    /// send list of my project to client
     private void SendToMyProject(Command command) {
         /// for Send To Client
         try {
@@ -530,6 +517,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// send list of all project to client
     private void SendToAllProject(Command command) {
         /// for Send To Client
         try {
@@ -542,6 +530,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// get list of project in server to help GetToAllProject and GetToMyProject
     private List< Project> getAllProjectInServer() {
         List< Project> TempList = new ArrayList<>();
         String projectdirectoryName = SeverBENKH.projectdirectoryName;
@@ -595,6 +584,7 @@ public class ClientHandler extends Thread {
         return AllProject;
     }
 
+    /// get Public project in server 
     private List< CommonProject> GetPublicProject() {
         List< CommonProject> PublicProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
@@ -606,6 +596,7 @@ public class ClientHandler extends Thread {
         return PublicProject;
     }
 
+    /// convert Project to CommonProject
     private CommonProject Project_to_CommonProject(Project MyProject) {
         CommonProject temp = new CommonProject();
         temp.Access = MyProject.Access;
@@ -624,6 +615,7 @@ public class ClientHandler extends Thread {
         return temp;
     }
 
+    /// convert Branch to CommonBranch
     private CommonBranch Branch_to_CommonBranch(branchClass A) {
         CommonBranch R = null;
         Date lastCommite = A.lastCommite;
@@ -634,6 +626,7 @@ public class ClientHandler extends Thread {
         return R;
     }
 
+    /// get project first time
     private void GETPROJECT(Command command) {
         /// Get last Commit in master branch
         String NameProject = ((GetProject) command).NameProject;
@@ -652,6 +645,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// get branch in project 
     private void GetBranch(Command command) {
 
         /// Get last Commit in any branch
@@ -683,6 +677,8 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// re send branch to update commits inside that branch
+    
     private void GetCommits(Command command) {
         /// Get last Commit in any branch
         String NameProject = ((GetCommits) command).NameProject;
@@ -703,6 +699,7 @@ public class ClientHandler extends Thread {
         }
     }
 
+    /// get project class in server form info file 
     private Project get_projectClass(String temp) {
         try {
             return (Project) ResourceManager.load(projectdirectoryName + "\\" + temp + "\\" + "info");
@@ -712,6 +709,8 @@ public class ClientHandler extends Thread {
         return null;
     }
 
+    /// get Directory for select commit in branch in project 
+    
     private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
         String dir = "";
         Project myprojecProject = get_projectClass(NameProject);
@@ -725,6 +724,7 @@ public class ClientHandler extends Thread {
         return dir;
     }
 
+    /// get Directory for last commit in  selcet branch in project 
     private String get_Directory_project_first_Time(String BranchName, String NameProject) {
         String dir = "";
         Project myprojecProject = get_projectClass(NameProject);
@@ -737,7 +737,5 @@ public class ClientHandler extends Thread {
         }
         return dir;
     }
-
- 
 
 }

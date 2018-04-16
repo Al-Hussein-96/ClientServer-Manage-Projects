@@ -35,7 +35,7 @@ public class ProjectToUpload implements Serializable {
     public void Save() {
         try {
             ResourceManager.save(this, director);
-           /// Hide(director);
+            Hide(director);
         } catch (Exception ex) {
             Logger.getLogger(ProjectToUpload.class.getName()).log(Level.SEVERE, null, ex);
         }
