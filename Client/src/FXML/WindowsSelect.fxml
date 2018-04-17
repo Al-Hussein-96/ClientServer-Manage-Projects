@@ -10,7 +10,7 @@
    <children>
       <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css">
          <children>
-            <JFXButton cancelButton="true" layoutX="571.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="29.0" text="X" />
+            <JFXButton cancelButton="true" layoutX="571.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="29.0" text="X" textFill="#fff8f8" />
          </children></AnchorPane>
       <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css">
          <children>

@@ -16,6 +16,6 @@
             <TableColumn fx:id="C5" prefWidth="100.0" text="Detail" />
          </columns>
       </TableView>
-      <JFXButton fx:id="Open" layoutX="250.0" layoutY="410.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Open" />
+      <JFXButton fx:id="Open" layoutX="250.0" layoutY="410.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" stylesheets="@../Css/Button.css" text="Open" />
    </children>
 </AnchorPane>

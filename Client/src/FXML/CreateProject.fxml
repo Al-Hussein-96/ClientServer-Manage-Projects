@@ -12,11 +12,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="422.0" prefWidth="700.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateProjectController">
    <children>
-      <JFXButton buttonType="RAISED" layoutX="524.0" layoutY="338.0" onAction="#btnCreate" prefHeight="42.0" prefWidth="113.0" styleClass="topPane" stylesheets="@../Css/Button.css" text="Create" textFill="#f5efef">
-         <font>
-            <Font name="CoconNextArabic-Light" size="22.0" />
-         </font></JFXButton>
-      <AnchorPane prefHeight="55.0" prefWidth="700.0" styleClass="topPane">
+      <AnchorPane prefHeight="48.0" prefWidth="700.0" styleClass="topPane">
          <children>
             <Text fill="#f2e2e2" layoutX="37.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Project">
                <font>
@@ -30,7 +26,7 @@
             </JFXButton>
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="40.0" layoutY="114.0" opacity="0.84" prefHeight="196.0" prefWidth="606.0" styleClass="cardPane">
+      <AnchorPane layoutX="40.0" layoutY="114.0" opacity="0.84" prefHeight="171.0" prefWidth="606.0" styleClass="cardPane">
          <children>
             <JFXTextField fx:id="txtLocation" alignment="CENTER" focusColor="#0441f8" labelFloat="true" layoutX="212.0" layoutY="98.0" prefHeight="30.0" prefWidth="250.0" promptText="Path of Folder" unFocusColor="#5f00f8">
                <effect>
@@ -72,5 +68,10 @@
             </ImageView>
          </children>
       </AnchorPane>
+      <JFXButton buttonType="RAISED" layoutX="539.0" layoutY="352.0" onAction="#btnCreate" prefHeight="42.0" prefWidth="113.0" styleClass="topPane" stylesheets="@../Css/Button.css" text="Create" textFill="#f5efef">
+         <font>
+            <Font name="CoconNextArabic-Light" size="22.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
