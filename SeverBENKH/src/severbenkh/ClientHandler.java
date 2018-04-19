@@ -140,9 +140,7 @@ public class ClientHandler extends Thread {
                 CommitClass R = s.way.get(IdlastCommite);
                 String FileDir = R.Directory;
                 String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
-
                 try {
-
                     temp = (ProjectToUpload) ResourceManager.load(MyDir);
 
                 } catch (Exception ex) {
@@ -178,13 +176,7 @@ public class ClientHandler extends Thread {
         Respone respone;
         if (ok) {
             respone = new SendStatus(DONE);
-            try {
-                output.writeObject(respone);
-                output.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            Send_Respone(respone);
         } else {
             /// here send FALIURE
             /// user dont have last change
@@ -246,7 +238,10 @@ public class ClientHandler extends Thread {
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
         /// update_BENKH 
         targetbranch.update_BENKH();
-
+        
+        
+        //// here make class to send ProjectToUpload inside it like response 
+        
     }
 
     /// create folders in server for project 
@@ -304,13 +299,7 @@ public class ClientHandler extends Thread {
         CommonProject commonProject = Project_to_CommonProject(project);
 
         Respone respone = new SendListContributors(commonProject.Contributors);
-
-        try {
-            output.writeObject(respone);
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Send_Respone(respone);
     }
 
     ///  send Commits list to client
@@ -323,13 +312,8 @@ public class ClientHandler extends Thread {
 
         //// 0 is temp for NameBranch
         Respone respone = new SendListCommits(commonproject.BranchNames.get(0).way);
-
-        try {
-            output.writeObject(respone);
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Send_Respone(respone);
+       
     }
 
     ///  send Branch list to client
@@ -340,13 +324,7 @@ public class ClientHandler extends Thread {
         CommonProject commonProject = Project_to_CommonProject(project);
 
         Respone respone = new SendListBranch(commonProject.BranchNames);
-
-        try {
-            output.writeObject(respone);
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Send_Respone(respone);
     }
 
     private void SendToGetPull(Command command) {
@@ -358,18 +336,22 @@ public class ClientHandler extends Thread {
         String dir = get_Directory_project(idCommit, BranchName, NameProject);
         ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
         SendProject Rc = new SendProject(ob);
-
-        try {
+        Send_Respone(Rc);
+        SendFolder(ob);
+        
+    }
+    
+    private void Send_Respone(Respone Rc)
+    {
+         try {
             output.writeObject(Rc);
             output.flush();
         } catch (IOException ex1) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
-        SendFolder(ob);
-
+        return ;
     }
     /// Send Folder
-
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
             GetFile get = new GetFile(temp.Directory);
@@ -419,12 +401,10 @@ public class ClientHandler extends Thread {
             if (ok) {
                 MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
-
-                output.writeObject(new SendStatus(DONE));
-                output.flush();
+                Send_Done();
+               
             } else {
-                output.writeObject(new SendStatus(FALIURE));
-                output.flush();
+                Send_FALIURE();
             }
         } catch (IOException ex) {
             System.out.println("Error SIGNUP");
@@ -434,24 +414,17 @@ public class ClientHandler extends Thread {
 
     private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
-        try {
             boolean ok = LoginClass.Login(((GetLOGIN) command).user);
             if (ok) {
                 MyUser = ((GetLOGIN) command).user.getName();
-                output.writeObject(new SendStatus(DONE));
-                output.flush();
+                Send_Done();
             } else {
-                output.writeObject(new SendStatus(FALIURE));
-                output.flush();
+                Send_FALIURE();
             }
-        } catch (IOException ex) {
-            System.out.println("Error LOGIN");
-        }
     }
 
     /// creat project
     private void SendToStartProject(Command command) {
-        try {
             boolean Access;
             String Author = MyUser;
             String ProjectDirectory = SeverBENKH.projectdirectoryName;
@@ -464,23 +437,15 @@ public class ClientHandler extends Thread {
             }
             boolean ok = CanAddNewProjectToServer(NameProject);
             if (!ok) {
-                output.writeObject(new SendStatus(FALIURE));
-                output.flush();
+                Send_FALIURE();
                 return;
             }
-            output.writeObject(new SendStatus(DONE));
-            output.flush();
+            Send_Done();
             Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
-            SendCreateProject Rc = new SendCreateProject(NewProject.NameProject, Author);
-            output.writeObject(Rc);
-            output.flush();
-
-            //// Here we should send hiddenFile to client 
-            System.out.println("SendTpStartProject");
-
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject , "Master");
+             //// Here we send hiddenFile to client 
+            SendCreateProject Rc = new SendCreateProject(BenkhFile);
+            Send_Respone(Rc);  
     }
 
     /// to see if this project name is use before
@@ -500,34 +465,17 @@ public class ClientHandler extends Thread {
     /// send list of my project to client
     private void SendToMyProject(Command command) {
         /// for Send To Client
-        try {
             List< CommonProject> MyProject = GetMyProject();
-
             SendMyProject Rc = new SendMyProject(MyProject);
-            output.writeObject(Rc);
-            output.flush();
-            System.out.println("After");
-        } catch (IOException ex) {
-            try {
-                output.writeObject(new SendStatus(FALIURE));
-                output.flush();
-            } catch (IOException ex1) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
-            }
-        }
+            Send_Respone(Rc);
     }
 
     /// send list of all project to client
     private void SendToAllProject(Command command) {
         /// for Send To Client
-        try {
             List< CommonProject> AllProject = GetAllProject();
             SendAllProject Rc = new SendAllProject(DONE, AllProject);
-            output.writeObject(Rc);
-            output.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Send_Respone(Rc);
     }
 
     /// get list of project in server to help GetToAllProject and GetToMyProject
@@ -635,13 +583,8 @@ public class ClientHandler extends Thread {
             Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-            try {
-                SendProject Rc = new SendProject(ob);
-                output.writeObject(Rc);
-                output.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SendProject Rc = new SendProject(ob);
+            Send_Respone(Rc);      
         }
     }
 
@@ -656,13 +599,8 @@ public class ClientHandler extends Thread {
             Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-            try {
-                SendProject Rc = new SendBranch(ob);
-                output.writeObject(Rc);
-                output.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SendProject Rc = new SendBranch(ob);
+            Send_Respone(Rc);
         }
 
     }
@@ -677,6 +615,15 @@ public class ClientHandler extends Thread {
         }
     }
 
+     private void Send_Done() {
+        Respone Rc = new SendStatus(ResponeType.DONE);
+        try {
+            output.writeObject(Rc);
+            output.flush();
+        } catch (IOException ex1) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
+        }
+    }
     /// re send branch to update commits inside that branch
     
     private void GetCommits(Command command) {
@@ -689,13 +636,8 @@ public class ClientHandler extends Thread {
             Send_FALIURE();
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-            try {
-                SendProject Rc = new SendBranch(ob);
-                output.writeObject(Rc);
-                output.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            SendProject Rc = new SendBranch(ob);
+            Send_Respone(Rc);  
         }
     }
 
