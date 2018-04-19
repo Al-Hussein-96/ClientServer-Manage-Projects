@@ -15,7 +15,7 @@
     <children>
         <AnchorPane layoutY="-1.0" prefHeight="141.0" prefWidth="600.0" styleClass="topPane">
          <children>
-            <JFXButton fx:id="close" cancelButton="true" layoutX="568.0" layoutY="-1.0" onAction="#Close" prefHeight="30.0" prefWidth="32.0" text="X" />
+            <JFXButton fx:id="close" cancelButton="true" layoutX="568.0" layoutY="-1.0" onAction="#Close" prefHeight="30.0" prefWidth="32.0" text="X" textFill="#f8f5f5" />
             <ImageView fx:id="back" fitHeight="20.0" fitWidth="30.0" layoutX="14.0" layoutY="14.0" onMouseClicked="#Back" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/Fleche-gauche.png" />

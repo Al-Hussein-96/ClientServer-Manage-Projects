@@ -4,8 +4,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.Light.Distant?>
+<?import javafx.scene.effect.Lighting?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">   
     <children>
@@ -20,16 +25,35 @@
         </TableView>
         <HBox layoutX="23.0" layoutY="51.0" spacing="100.0">
             <children>
-                <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Branch" />
-                <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Commits" />
-                <JFXButton onAction="#btnContributors" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Contributors" />
+                <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Branch" />
+                <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Commits" />
+                <JFXButton onAction="#btnContributors" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Contributors" />
             </children>
         </HBox>
-        <JFXButton layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Open" />
-        <JFXButton layoutX="550.0" layoutY="428.0" onAction="#btnBack" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Back" />
-        <JFXButton layoutX="184.0" layoutY="428.0" onAction="#btnPull" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Pull" />
-        <JFXButton fx:id="push" layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" text="Push" />
-        <Label layoutX="66.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="Commit" />
-        <Label fx:id="idCommit" layoutX="133.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="number" />
+        <JFXButton layoutX="3.0" layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Open" />
+        <JFXButton layoutX="547.0" layoutY="428.0" onAction="#btnBack" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Back" />
+        <JFXButton layoutX="184.0" layoutY="428.0" onAction="#btnPull" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Pull" />
+        <JFXButton fx:id="push" layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Push" />
+        <Label layoutX="66.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="Commit" textAlignment="CENTER">
+         <font>
+            <Font name="CoconNextArabic-Light" size="16.0" />
+         </font>
+         <effect>
+            <Lighting>
+               <bumpInput>
+                  <Shadow />
+               </bumpInput>
+               <light>
+                  <Light.Distant />
+               </light>
+            </Lighting>
+         </effect></Label>
+        <Label fx:id="idCommit" layoutX="133.0" layoutY="14.0" prefHeight="25.0" prefWidth="61.0" text="Number">
+         <font>
+            <Font name="CoconNextArabic-Light" size="16.0" />
+         </font>
+         <effect>
+            <ColorAdjust />
+         </effect></Label>
     </children>
 </AnchorPane>

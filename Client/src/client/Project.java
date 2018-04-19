@@ -43,7 +43,7 @@ public class Project extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         if (!CheckRememberMe(stage)) {
-            Parent root = FXMLLoader.load(getClass().getResource("/FXML/WindowsSelect.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/FXML/wel.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
