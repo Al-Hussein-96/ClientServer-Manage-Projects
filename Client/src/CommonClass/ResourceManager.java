@@ -39,6 +39,8 @@ public class ResourceManager {
                 MyViewfolder.MyFolderView.add(temp);
 
             } else {
+                if(file.getName().equals("BEHKN.BEHKN"))
+                    continue;
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
                 NameAndDirectory New = new NameAndDirectory(Name, Directory);

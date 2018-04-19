@@ -1,14 +1,18 @@
 package CommonRespone;
 
+import CommonClass.ProjectToUpload;
 import java.io.Serializable;
 
 public class SendCreateProject extends Respone implements Serializable{
-    public String ProjectName ; 
-    public String Author ; 
-    public SendCreateProject(String ProjectName , String Author)
+    ProjectToUpload BenkhFile ; 
+    public SendCreateProject(ProjectToUpload BenkhFile)
     {
         super(ResponeType.DONE);
-        this.ProjectName = ProjectName;
-        this.Author = Author;
+        this.BenkhFile = BenkhFile;
     }
+
+    public ProjectToUpload getBenkhFile() {
+        return BenkhFile;
+    }
+    
 }

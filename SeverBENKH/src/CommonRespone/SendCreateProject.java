@@ -10,4 +10,9 @@ public class SendCreateProject extends Respone implements Serializable{
         super(ResponeType.DONE);
         this.BenkhFile = BenkhFile;
     }
+
+    public ProjectToUpload getBenkhFile() {
+        return BenkhFile;
+    }
+    
 }

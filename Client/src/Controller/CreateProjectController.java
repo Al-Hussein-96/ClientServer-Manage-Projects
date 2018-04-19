@@ -1,7 +1,7 @@
 package Controller;
 
-import CommonClass.Contributor;
 import CommonClass.ProjectToUpload;
+import CommonClass.ResourceManager;
 import CommonCommand.Command;
 import CommonCommand.GetStartProject;
 import CommonRespone.Respone;
@@ -13,9 +13,9 @@ import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -51,18 +51,15 @@ public class CreateProjectController implements Initializable {
 
             if (response.TypeRespone == ResponeType.DONE) {
                 Respone respone1 = (Respone) networkInput.readObject();
-                
-                String  ProjectName = ((SendCreateProject) respone1).ProjectName;
-                String Author = ((SendCreateProject) respone1).Author;
-                System.out.println("11111111");
-                /// Here we should get  hiddenFile from Server
 
-//                ProjectToUpload hiddenFile = new ProjectToUpload(path + "\\.BENKH", 1, ProjectName, Contributors, "Master");
-//                hiddenFile.Save();
-                    System.out.println("2222222222");
+                ProjectToUpload hiddenFile = ((SendCreateProject) respone1).getBenkhFile();
+    
+                /// save File in directory of Project
+                ResourceManager.save(hiddenFile, path + "\\" + "BEHKN.BEHKN");
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error START PROJECT");
+        } catch (Exception ex) {
         }
     }
 

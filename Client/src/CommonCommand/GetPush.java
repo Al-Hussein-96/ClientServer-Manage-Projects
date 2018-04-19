@@ -7,11 +7,13 @@ public class GetPush extends GetProject implements Serializable {
 
     ProjectToUpload hiddenFile;
     String NameFolderSelect;
-    public String CommitUser;
-    public GetPush(String NameProject, ProjectToUpload hiddenFile,String NameFolderSelect) {
+    public String CommentUser;
+
+    public GetPush(String NameProject, ProjectToUpload hiddenFile, String NameFolderSelect,String CommentUser) {
         super(NameProject, CommandType.GETPUSH);
         this.hiddenFile = hiddenFile;
         this.NameFolderSelect = NameFolderSelect;
+        this.CommentUser = CommentUser;
     }
 
     public ProjectToUpload getHiddenFile() {
@@ -21,6 +23,5 @@ public class GetPush extends GetProject implements Serializable {
     public String getNameFolderSelect() {
         return NameFolderSelect;
     }
-    
-    
+
 }

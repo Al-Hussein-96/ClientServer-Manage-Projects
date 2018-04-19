@@ -11,7 +11,6 @@ import CommonClass.ProjectToUpload;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
-import static CommonRespone.ResponeType.FALIURE;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -126,7 +125,6 @@ public class ClientHandler extends Thread {
     }
 
     /// get file BENKH form server for this project and this branch 
-    /// جلب ملف البيانات لبرنش معين ضمن مشروع 
     private ProjectToUpload get_ProjectToUpload(String ProjectName, String branchName) {
         ProjectToUpload temp = null;
         /// get project class for this project form .info 
@@ -200,10 +198,10 @@ public class ClientHandler extends Thread {
             if (s.branchName.equals(clientFile.BranchName)) {
                 /// get targetbranch to change last commit id , add new commit
                 targetbranch = s;
-                String CommitUser = ((GetPush) command).CommitUser;
+                String CommentUser = ((GetPush) command).CommentUser;
                 Done = true;
                 /// add user commit to branch
-                boolean yes = s.addNewVersion(MyUser, CommitUser);
+                boolean yes = s.addNewVersion(MyUser, CommentUser);
                 if (!yes) {
                     /// user is not of Contributors
                     Send_FALIURE();
@@ -267,7 +265,6 @@ public class ClientHandler extends Thread {
             try {
                 String temp1 = temp.Directory.substring(temp.Directory.indexOf(NameFolderSelect));
 
-                System.out.println("Path: " + temp1 + " : " + NewDirectory);
                 fos = new FileOutputStream(NewDirectory + "\\" + temp1);
                 SendFile respone;
                 do {
@@ -286,7 +283,6 @@ public class ClientHandler extends Thread {
 
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
-            System.out.println("size My File: " + temp.MyFile.size());
             Receive(temp, NewDirectory, NameFolderSelect);
         }
     }

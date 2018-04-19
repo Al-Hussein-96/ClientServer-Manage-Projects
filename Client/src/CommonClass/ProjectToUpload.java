@@ -25,11 +25,9 @@ public class ProjectToUpload implements Serializable {
         this.director = director + "\\BEHKN.BEHKN";
         this.IdLastCommit = IdLastCommit;
         this.BranchName = BranchName;
-        System.out.println(director+" Branch");
         for (Contributor s : Contributors) {
             this.Contributors.add(s);
         }
-
     }
 
     public void Save() {

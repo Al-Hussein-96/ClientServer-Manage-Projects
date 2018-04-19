@@ -120,6 +120,9 @@ public class FileBrowsersController implements Initializable {
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).Name;
+            if (s1.equals("BEHKN.BEHKN")) {
+                continue;
+            }
             st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size());
             String Dir = MyFile.get(i).Directory;
             st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
@@ -203,96 +206,23 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnPush(ActionEvent event) {
-        DirectoryChooser dc = new DirectoryChooser();
-        File selectedFile = dc.showDialog(null);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PushProject.fxml"));
 
-        System.out.println("MainFolder: " + selectedFile.getName());
-
-        ProjectToUpload hiddenFile = null;
-        for (File file : selectedFile.listFiles()) {
-            if (file.isFile() && file.isHidden() && ".BENKH".equals(file.getName())) {
-                try {
-                    hiddenFile = (ProjectToUpload) load(file.getPath());
-                    break;
-                } catch (Exception ex) {
-                    Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        if (hiddenFile == null) {
-            return;
-        }
-
-        Command command = new GetPush(Owner.NameProject, hiddenFile,selectedFile.getName());
+        Stage stage = new Stage();
         try {
-            networkOutput.writeObject(command);
-            networkOutput.flush();
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            PushProjectController pushProjectController = fxmlLoader.getController();
+            pushProjectController.setNameProject(Owner.NameProject);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
         } catch (IOException ex) {
-            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Respone respone = null;
-        try {
-            respone = (Respone) networkInput.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println("ERROR in GETPUSH: " + ex.getMessage());
-        }
-
-        if (respone.TypeRespone == ResponeType.DONE) {
-            ViewfolderClass ob = ResourceManager.ViewProject(new File(selectedFile.getPath()));
-            ResourceManager.ShowViewfolder(ob);
-            Respone newRespone = new SendProject(ob);
-            try {
-                networkOutput.writeObject(newRespone);
-                networkOutput.flush();
-            } catch (IOException ex) {
-                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            SendFolder(ob);
-
-        } else {
-
+            System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
 
     }
 
-    private void SendFolder(ViewfolderClass ob) {
-        for (NameAndDirectory temp : ob.MyFile) {
-            GetFile get = new GetFile(temp.Directory);
-            System.out.println("GetFile");
-            GETFILE(get);
-        }
-        for (ViewfolderClass temp : ob.MyFolderView) {
-            SendFolder(temp);
-        }
-    }
 
-    private void GETFILE(Command command) {
-        FileInputStream fis = null;
-        try {
-            byte[] DataFile = new byte[4096];
-            String dir = ((GetFile) command).getDirectoryFile();
-            File file = new File(dir);
-            NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
-            fis = new FileInputStream(file);
-            long fileSize = file.length();
-
-            int n;
-            while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
-                fileSize -= n;
-                Respone respone = new SendFile(DataFile, fileSize == 0, My);
-                networkOutput.writeObject(respone);
-                networkOutput.flush();
-            }
-        } catch (FileNotFoundException ex) {
-        } catch (IOException ex) {
-        } finally {
-            try {
-                fis.close();
-            } catch (IOException ex) {
-            }
-        }
-
-    }
 
     @FXML
     void btnBranch(ActionEvent event) {
