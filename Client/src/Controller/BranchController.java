@@ -1,12 +1,22 @@
 package Controller;
 
 import CommonClass.CommonBranch;
+import CommonCommand.Command;
+import CommonCommand.GetAddBranch;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
+import static client.Project.networkInput;
+import static client.Project.networkOutput;
 import client.TabelBranch;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextField;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +42,9 @@ public class BranchController implements Initializable {
     private TableColumn<TabelBranch, String> C3;
     @FXML
     private JFXButton Open;
+    
+       @FXML
+    private JFXTextField BranchName;
 
     @FXML
     void btnOpen(ActionEvent event) {
@@ -51,6 +64,40 @@ public class BranchController implements Initializable {
         }
         Father.CreateBranchSelected(CB.branchName);
         Open.getScene().getWindow().hide();
+    }
+
+    @FXML
+    void btnAdd(ActionEvent event) {
+        if(BranchName.getText() != null)
+        {
+            Command command = new GetAddBranch(Father.Owner.NameProject, BranchName.getText());
+            
+            try {
+                networkOutput.writeObject(command);
+                networkOutput.flush();
+                
+                Respone respone = (Respone) networkInput.readObject();
+                
+                if(respone.TypeRespone == ResponeType.DONE)
+                {
+                    /// here Update Tabel With NewBranch Or Back To FileBrowsers
+                    
+                }
+                else
+                {
+                    
+                    
+                }
+
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(BranchController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            
+            
+            
+            
+        }
     }
 
     public BranchController(FileBrowsersController Father, List<CommonBranch> NameBranch) {

@@ -109,6 +109,12 @@ public class ClientHandler extends Thread {
                 case GETPUSH:
                     SendToGetPush(command);
                     break;
+                case ADDBRANCH:
+                    SendToAddBranch(command);
+                    break;
+                case ADDCONTRIBUTOR:
+                    SendToAddContributor(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -122,6 +128,22 @@ public class ClientHandler extends Thread {
             }
         }
 
+    }
+
+    private void SendToAddContributor(Command command) {
+        /**
+         * Check if Client Can Add Contributor With Name ..... and Respone with
+         * Done Or Failure
+         */
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void SendToAddBranch(Command command) {
+        /**
+         * Check if Client Can Add Branch With Name ..... and Respone with Done
+         * Or Failure
+         */
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /// get file BENKH form server for this project and this branch 
@@ -236,10 +258,8 @@ public class ClientHandler extends Thread {
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
         /// update_BENKH 
         targetbranch.update_BENKH();
-        
-        
+
         //// here make class to send ProjectToUpload inside it like response 
-        
     }
 
     /// create folders in server for project 
@@ -309,7 +329,7 @@ public class ClientHandler extends Thread {
         //// 0 is temp for NameBranch
         Respone respone = new SendListCommits(commonproject.BranchNames.get(0).way);
         Send_Respone(respone);
-       
+
     }
 
     ///  send Branch list to client
@@ -334,19 +354,19 @@ public class ClientHandler extends Thread {
         SendProject Rc = new SendProject(ob);
         Send_Respone(Rc);
         SendFolder(ob);
-        
+
     }
-    
-    private void Send_Respone(Respone Rc)
-    {
-         try {
+
+    private void Send_Respone(Respone Rc) {
+        try {
             output.writeObject(Rc);
             output.flush();
         } catch (IOException ex1) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
-        return ;
+        return;
     }
+
     /// Send Folder
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
@@ -398,7 +418,7 @@ public class ClientHandler extends Thread {
                 MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
                 Send_Done();
-               
+
             } else {
                 Send_FALIURE();
             }
@@ -410,38 +430,38 @@ public class ClientHandler extends Thread {
 
     private void SendToLogin(Command command) {
         System.out.println("SendToLogin");
-            boolean ok = LoginClass.Login(((GetLOGIN) command).user);
-            if (ok) {
-                MyUser = ((GetLOGIN) command).user.getName();
-                Send_Done();
-            } else {
-                Send_FALIURE();
-            }
+        boolean ok = LoginClass.Login(((GetLOGIN) command).user);
+        if (ok) {
+            MyUser = ((GetLOGIN) command).user.getName();
+            Send_Done();
+        } else {
+            Send_FALIURE();
+        }
     }
 
     /// creat project
     private void SendToStartProject(Command command) {
-            boolean Access;
-            String Author = MyUser;
-            String ProjectDirectory = SeverBENKH.projectdirectoryName;
-            String NameProject = ((GetStartProject) command).NameProject;
-            String tempAccess = ((GetStartProject) command).Access;
-            if ("true".equals(tempAccess)) {
-                Access = true;
-            } else {
-                Access = false;
-            }
-            boolean ok = CanAddNewProjectToServer(NameProject);
-            if (!ok) {
-                Send_FALIURE();
-                return;
-            }
-            Send_Done();
-            Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
-            ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject , "Master");
-             //// Here we send hiddenFile to client 
-            SendCreateProject Rc = new SendCreateProject(BenkhFile);
-            Send_Respone(Rc);  
+        boolean Access;
+        String Author = MyUser;
+        String ProjectDirectory = SeverBENKH.projectdirectoryName;
+        String NameProject = ((GetStartProject) command).NameProject;
+        String tempAccess = ((GetStartProject) command).Access;
+        if ("true".equals(tempAccess)) {
+            Access = true;
+        } else {
+            Access = false;
+        }
+        boolean ok = CanAddNewProjectToServer(NameProject);
+        if (!ok) {
+            Send_FALIURE();
+            return;
+        }
+        Send_Done();
+        Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
+        ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
+        //// Here we send hiddenFile to client 
+        SendCreateProject Rc = new SendCreateProject(BenkhFile);
+        Send_Respone(Rc);
     }
 
     /// to see if this project name is use before
@@ -461,17 +481,17 @@ public class ClientHandler extends Thread {
     /// send list of my project to client
     private void SendToMyProject(Command command) {
         /// for Send To Client
-            List< CommonProject> MyProject = GetMyProject();
-            SendMyProject Rc = new SendMyProject(MyProject);
-            Send_Respone(Rc);
+        List< CommonProject> MyProject = GetMyProject();
+        SendMyProject Rc = new SendMyProject(MyProject);
+        Send_Respone(Rc);
     }
 
     /// send list of all project to client
     private void SendToAllProject(Command command) {
         /// for Send To Client
-            List< CommonProject> AllProject = GetAllProject();
-            SendAllProject Rc = new SendAllProject(DONE, AllProject);
-            Send_Respone(Rc);
+        List< CommonProject> AllProject = GetAllProject();
+        SendAllProject Rc = new SendAllProject(DONE, AllProject);
+        Send_Respone(Rc);
     }
 
     /// get list of project in server to help GetToAllProject and GetToMyProject
@@ -580,7 +600,7 @@ public class ClientHandler extends Thread {
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendProject(ob);
-            Send_Respone(Rc);      
+            Send_Respone(Rc);
         }
     }
 
@@ -611,7 +631,7 @@ public class ClientHandler extends Thread {
         }
     }
 
-     private void Send_Done() {
+    private void Send_Done() {
         Respone Rc = new SendStatus(ResponeType.DONE);
         try {
             output.writeObject(Rc);
@@ -621,7 +641,7 @@ public class ClientHandler extends Thread {
         }
     }
     /// re send branch to update commits inside that branch
-    
+
     private void GetCommits(Command command) {
         /// Get last Commit in any branch
         String NameProject = ((GetCommits) command).NameProject;
@@ -633,7 +653,7 @@ public class ClientHandler extends Thread {
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendBranch(ob);
-            Send_Respone(Rc);  
+            Send_Respone(Rc);
         }
     }
 
@@ -648,7 +668,6 @@ public class ClientHandler extends Thread {
     }
 
     /// get Directory for select commit in branch in project 
-    
     private String get_Directory_project(int idCommit, String BranchName, String NameProject) {
         String dir = "";
         Project myprojecProject = get_projectClass(NameProject);

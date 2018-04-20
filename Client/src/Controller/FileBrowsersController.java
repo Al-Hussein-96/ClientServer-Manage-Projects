@@ -3,9 +3,6 @@ package Controller;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
-import CommonClass.ProjectToUpload;
-import CommonClass.ResourceManager;
-import static CommonClass.ResourceManager.load;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetCommits;
@@ -16,7 +13,6 @@ import CommonCommand.GetListCommits;
 import CommonCommand.GetListContributors;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
-import CommonCommand.GetPush;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
@@ -30,7 +26,6 @@ import client.TabelBrowsers;
 import com.jfoenix.controls.JFXButton;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -52,7 +47,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class FileBrowsersController implements Initializable {
@@ -308,7 +302,7 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Errot in FileBrowsers");
         }
 
-        ContributorsController contributorsController = new ContributorsController(((SendListContributors) respone).getList());
+        ContributorsController contributorsController = new ContributorsController(((SendListContributors) respone).getList(),Owner.NameProject);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Contributors.fxml"));
         fxmlLoader.setController(contributorsController);
         Stage stage = new Stage();

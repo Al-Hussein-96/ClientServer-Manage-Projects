@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,6 +15,8 @@
             <TableColumn fx:id="C3" prefWidth="200.0" text="Last Commite" />
         </columns>
       </TableView>
-      <JFXButton fx:id="Open" layoutX="250.0" layoutY="410.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #AAAAAA;" stylesheets="@../Css/Button.css" text="Open" />
+      <JFXButton fx:id="Open" layoutX="468.0" layoutY="410.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Open" />
+      <JFXButton layoutX="199.0" layoutY="410.0" onAction="#btnAdd" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Add" />
+      <JFXTextField fx:id="BranchName" layoutX="8.0" layoutY="410.0" />
    </children>
 </AnchorPane>
