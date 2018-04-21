@@ -54,6 +54,7 @@ public class ClientHandler extends Thread {
         do {
             try {
                 command = (Command) input.readObject();
+                System.out.println("command: " + command.toString());
             } catch (IOException ex) {
                 System.out.println("Cann't Read Command");
                 break;
@@ -257,11 +258,14 @@ public class ClientHandler extends Thread {
         CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
         /// update_BENKH 
-        targetbranch.update_BENKH();
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
-        //// Here we send hiddenFile to client 
-        SendCreateProject Rc = new SendCreateProject(BenkhFile);
-        Send_Respone(Rc);
+        try {
+            //// Here we send hiddenFile to client
+            output.writeObject(BenkhFile);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /// create folders in server for project 

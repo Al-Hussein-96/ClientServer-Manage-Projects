@@ -61,6 +61,7 @@ public class branchClass implements Serializable {
             _Contributors.add(s);
         }
         String _BranchName = this.branchName;
+        System.out.println("_director: " + _director);
         ProjectToUpload New = new ProjectToUpload(_director , _IdLastCommit , _ProjectName , _Contributors , _BranchName); 
         New.Save();
     }

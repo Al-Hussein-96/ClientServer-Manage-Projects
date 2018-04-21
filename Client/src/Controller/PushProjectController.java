@@ -58,9 +58,11 @@ public class PushProjectController implements Initializable {
         }
         ProjectToUpload hiddenFile = null;
         for (File file : selectedFile.listFiles()) {
+            System.out.println("file : " + file);
             if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
                 try {
                     hiddenFile = (ProjectToUpload) load(file.getPath());
+                    file.delete();
                     break;
                 } catch (Exception ex) {
 
@@ -84,6 +86,7 @@ public class PushProjectController implements Initializable {
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("ERROR in GETPUSH: " + ex.getMessage());
         }
+        System.out.println("Respone For Push: " + respone.TypeRespone);
 
         if (respone.TypeRespone == ResponeType.DONE) {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(selectedFile.getPath()));
@@ -96,6 +99,16 @@ public class PushProjectController implements Initializable {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
             SendFolder(ob);
+            
+            try {
+                ProjectToUpload BenkhFile = (ProjectToUpload)networkInput.readObject();
+                System.out.println("Path HiddenFile: " + Path.getText());
+                ResourceManager.save(BenkhFile, Path.getText()+ "\\" + "BEHKN.BEHKN");
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else {
 
@@ -105,7 +118,7 @@ public class PushProjectController implements Initializable {
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
             GetFile get = new GetFile(temp.Directory);
-
+            System.out.println("SendFolder: " + temp.Directory);
             GETFILE(get);
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
