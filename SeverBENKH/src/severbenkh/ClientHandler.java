@@ -258,8 +258,10 @@ public class ClientHandler extends Thread {
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
         /// update_BENKH 
         targetbranch.update_BENKH();
-
-        //// here make class to send ProjectToUpload inside it like response 
+        ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
+        //// Here we send hiddenFile to client 
+        SendCreateProject Rc = new SendCreateProject(BenkhFile);
+        Send_Respone(Rc);
     }
 
     /// create folders in server for project 

@@ -111,6 +111,8 @@ public class branchClass implements Serializable {
         UsersHowSeeLastUpdate.add(Author);
         int NumberOfVersion = father.NumberOfVersion;
         String Directory = projectdirector + "\\" + NumberOfVersion;
+        File CreateProjectDirectory = new File(Directory);
+        CreateProjectDirectory.mkdir();
         CommitClass temp = new CommitClass(branchName, Author, Directory, Detail, way.size() + 1);
         way.add(temp);
 
