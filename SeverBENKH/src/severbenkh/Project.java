@@ -48,6 +48,22 @@ public class Project implements Serializable {
         }
 
     }
+    public void add_Contributor(String user)
+    {
+        boolean ok = false;
+        for(Contributor s : Contributors)
+        {
+            if(s.Name.equals(user))
+            {
+                ok = true;
+            }
+        }
+        if(!ok)
+        {
+            Contributor New = new Contributor(user);
+            Contributors.add(New);
+        }
+    }
     public void Save()
     {
          /// Creat Project File info

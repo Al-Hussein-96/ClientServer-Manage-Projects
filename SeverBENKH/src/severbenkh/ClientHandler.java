@@ -132,19 +132,41 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToAddContributor(Command command) {
-        /**
-         * Check if Client Can Add Contributor With Name ..... and Respone with
-         * Done Or Failure
-         */
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     String NameProject = ((GetAddContributor)command ).NameProject;
+     Project Myproject =  get_projectClass(NameProject);
+     String UserName = ((GetAddContributor)command ).getUserName();
+     Myproject.add_Contributor(UserName);
+     Myproject.Save();
+     Send_Done();
     }
 
     private void SendToAddBranch(Command command) {
-        /**
-         * Check if Client Can Add Branch With Name ..... and Respone with Done
-         * Or Failure
-         */
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+     
+      ///  GetAddBranch
+    String NameProject = ((GetAddBranch)command).NameProject ; 
+    String BranchName = ((GetAddBranch)command).BranchName;
+    String BranchFather = ((GetAddBranch)command).BranchFather;
+    int idCommit = ((GetAddBranch)command).idCommit;
+    Project Myproject =  get_projectClass(NameProject);
+    branchClass BranchFather_class = null ;
+    boolean ok = true;
+    for(branchClass s : Myproject.branchListClass)
+    {
+        if(s.branchName.equals(BranchName))
+        {
+            /// there is branch same name 
+            Send_FALIURE();
+            return ;
+        }
+        if(s.branchName.equals(BranchFather))
+        {
+            BranchFather_class = s;
+        }
+    }
+    
+    branchClass New = new branchClass(Myproject , BranchName , BranchFather_class , idCommit , MyUser);
+    Myproject.branchListClass.add(New);
+    Send_Done();
     }
 
     /// get file BENKH form server for this project and this branch 

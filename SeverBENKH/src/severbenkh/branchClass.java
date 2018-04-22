@@ -89,13 +89,28 @@ public class branchClass implements Serializable {
         if (ok_add) {
             father.Contributors.add(new Contributor(userCreateBranch) ) ;
         }
+        /// here we should copy file from last directory 
+   ///     copy_File_for_branch();
+        update_BENKH();
+        father.NumberOfVersion++;
 
     }
-
+    private void copy_File_for_branch(String form_director , String to_director)
+    {
+        
+    }
     boolean UserCanaddNewVersion(String user) {
         for (String temp : UsersHowSeeLastUpdate) {
             if (temp.equals(user)) {
-                return true;
+                //// here we should know if he is Contributor;
+                for(Contributor s : father.Contributors)
+                {
+                    if(s.Name.equals(user))
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
         return false;
