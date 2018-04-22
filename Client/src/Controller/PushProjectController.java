@@ -58,7 +58,6 @@ public class PushProjectController implements Initializable {
         }
         ProjectToUpload hiddenFile = null;
         for (File file : selectedFile.listFiles()) {
-            System.out.println("file : " + file);
             if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
                 try {
                     hiddenFile = (ProjectToUpload) load(file.getPath());
@@ -99,11 +98,11 @@ public class PushProjectController implements Initializable {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
             SendFolder(ob);
-            
+
             try {
-                ProjectToUpload BenkhFile = (ProjectToUpload)networkInput.readObject();
+                ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
                 System.out.println("Path HiddenFile: " + Path.getText());
-                ResourceManager.save(BenkhFile, Path.getText()+ "\\" + "BEHKN.BEHKN");
+                ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
@@ -138,8 +137,9 @@ public class PushProjectController implements Initializable {
 
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
+                long tmp = fileSize;
                 fileSize -= n;
-                Respone respone = new SendFile(DataFile, fileSize == 0, My);
+                Respone respone = new SendFile(DataFile, fileSize == 0, My, tmp);
                 networkOutput.writeObject(respone);
                 networkOutput.flush();
             }

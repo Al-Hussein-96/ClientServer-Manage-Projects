@@ -6,13 +6,15 @@ public class SendFile extends Respone {
 
     public byte[] DataFile;
     boolean EndOfFile;
+    long NumberOfByte;
     NameAndDirectory My;
 
-    public SendFile(byte source[], boolean EndOfFile, NameAndDirectory My) {
+    public SendFile(byte source[], boolean EndOfFile, NameAndDirectory My,long NumberOfByte) {
         super(ResponeType.DONE);
         this.My = My;
         DataFile = copyFullArrayUsingClone(source);
         this.EndOfFile = EndOfFile;
+        this.NumberOfByte = NumberOfByte;
 
     }
 
@@ -31,4 +33,9 @@ public class SendFile extends Respone {
     public boolean isEndOfFile() {
         return EndOfFile;
     }
+
+    public long getNumberOfByte() {
+        return NumberOfByte;
+    }
+     
 }

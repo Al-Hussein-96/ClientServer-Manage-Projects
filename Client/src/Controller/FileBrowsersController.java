@@ -50,38 +50,38 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class FileBrowsersController implements Initializable {
-
+    
     CommonProject Owner;
-
+    
     @FXML
     private TableView<TabelBrowsers> tabelView;
-
+    
     @FXML
     private TableColumn<TabelBrowsers, String> ImageIcon;
-
+    
     @FXML
     private TableColumn<TabelBrowsers, String> Name;
-
+    
     @FXML
     private TableColumn<TabelBrowsers, String> DataModified;
-
+    
     @FXML
     private TableColumn<TabelBrowsers, String> Size;
-
+    
     @FXML
     private Label idCommit;
-
+    
     @FXML
     private JFXButton push;
-
+    
     ViewfolderClass current = null;
-
+    
     List<ViewfolderClass> previous = new ArrayList<>();
-
+    
     public FileBrowsersController(CommonProject Owner) {
         this.Owner = Owner;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         current = GetMyProject();
@@ -96,9 +96,9 @@ public class FileBrowsersController implements Initializable {
         if (!Access) {
             push.setVisible(false);
         }
-
+        
     }
-
+    
     private void ShowFolder(ViewfolderClass MyProject) {
         tabelView.getItems().clear();
         List<  NameAndDirectory> MyFile = MyProject.MyFile;
@@ -127,7 +127,7 @@ public class FileBrowsersController implements Initializable {
         DataModified.setCellValueFactory(new PropertyValueFactory<>("DataModified"));
         tabelView.setItems(list);
     }
-
+    
     @FXML
     void btnBack(ActionEvent event) throws IOException {
         if (previous.size() > 0) {
@@ -138,7 +138,7 @@ public class FileBrowsersController implements Initializable {
             // HER THE FIRST PAGE
         }
     }
-
+    
     @FXML
     void btnOpen(ActionEvent event) {
         List< ViewfolderClass> MyFolderView = current.MyFolderView;
@@ -160,26 +160,26 @@ public class FileBrowsersController implements Initializable {
             try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-
+                
                 FileOutputStream fos = new FileOutputStream(TI.getName());
                 SendFile respone;
                 do {
                     respone = (SendFile) networkInput.readObject();
                     fos.write(respone.getDataFile());
                 } while (!respone.isEndOfFile());
-
+                
                 fos.close();
-
+                
                 File file = new File(TI.getName());
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(file);
             } catch (IOException | ClassNotFoundException ex) {
                 System.out.println("Error in GetFile " + ex.getMessage());
             }
-
+            
         }
     }
-
+    
     @FXML
     void btnPull(ActionEvent event) {
 
@@ -191,17 +191,17 @@ public class FileBrowsersController implements Initializable {
             SendProject respone = (SendProject) networkInput.readObject();
             CreateFolder(respone.ob);
             Receive(respone.ob);
-
+            
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("Error in btnPull : " + ex.getMessage());
         }
-
+        
     }
-
+    
     @FXML
     void btnPush(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PushProject.fxml"));
-
+        
         Stage stage = new Stage();
         try {
             AnchorPane root = (AnchorPane) fxmlLoader.load();
@@ -213,14 +213,12 @@ public class FileBrowsersController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
-
+        
     }
-
-
-
+    
     @FXML
     void btnBranch(ActionEvent event) {
-
+        
         Command command = new GetListBranch(Owner.NameProject);
         try {
             networkOutput.writeObject(command);
@@ -229,14 +227,14 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Error: btnBranch");
         }
         Respone respone = null;
-
+        
         try {
             respone = (Respone) networkInput.readObject();
-
+            
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Errot in FileBrowsers");
         }
-
+        
         BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
         fxmlLoader.setController(branchController);
@@ -250,7 +248,7 @@ public class FileBrowsersController implements Initializable {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @FXML
     void btnCommits(ActionEvent event) {
         /// Master is temp
@@ -262,14 +260,14 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Error: btnBranch");
         }
         Respone respone = null;
-
+        
         try {
             respone = (Respone) networkInput.readObject();
-
+            
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Errot in FileBrowsers");
         }
-
+        
         CommitsController commitsController = new CommitsController(this, ((SendListCommits) respone).getListCommit());
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Commits.fxml"));
         fxmlLoader.setController(commitsController);
@@ -283,10 +281,10 @@ public class FileBrowsersController implements Initializable {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     @FXML
     void btnContributors(ActionEvent event) {
-
+        
         Command command = new GetListContributors(Owner.NameProject);
         try {
             networkOutput.writeObject(command);
@@ -295,14 +293,14 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Error: btnBranch");
         }
         Respone respone = null;
-
+        
         try {
             respone = (Respone) networkInput.readObject();
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Errot in FileBrowsers");
         }
-
-        ContributorsController contributorsController = new ContributorsController(((SendListContributors) respone).getList(),Owner.NameProject);
+        
+        ContributorsController contributorsController = new ContributorsController(((SendListContributors) respone).getList(), Owner.NameProject);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Contributors.fxml"));
         fxmlLoader.setController(contributorsController);
         Stage stage = new Stage();
@@ -315,7 +313,7 @@ public class FileBrowsersController implements Initializable {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
@@ -333,13 +331,13 @@ public class FileBrowsersController implements Initializable {
         }
         return null;
     }
-
+    
     public void CreateBranchSelected(String BranchName) {
         previous.clear();
         current = GetMyBranch(BranchName);
         ShowFolder(current);
     }
-
+    
     ViewfolderClass GetMyBranch(String BranchName) {
         try {
             Command command = new GetBranch(Owner.NameProject, BranchName);
@@ -357,13 +355,13 @@ public class FileBrowsersController implements Initializable {
         }
         return null;
     }
-
+    
     public void CreateCommitSelected(String BranchName, int ID) {
         previous.clear();
         current = GetMyCommit(BranchName, ID);
         ShowFolder(current);
     }
-
+    
     ViewfolderClass GetMyCommit(String BranchName, int ID) {
         try {
             Command command = new GetCommits(Owner.NameProject, BranchName, ID);
@@ -381,21 +379,21 @@ public class FileBrowsersController implements Initializable {
         }
         return null;
     }
-
+    
     private void CreateFolder(ViewfolderClass ob) {
         List<NameAndDirectory> Folder = ob.MyFolder;
-
+        
         for (NameAndDirectory u : Folder) {
             File folder = new File(u.Directory);
             folder.mkdir();
-
+            
             for (ViewfolderClass temp : ob.MyFolderView) {
                 CreateFolder(temp);
             }
         }
-
+        
     }
-
+    
     private void Receive(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
@@ -404,7 +402,8 @@ public class FileBrowsersController implements Initializable {
                 SendFile respone;
                 do {
                     respone = (SendFile) networkInput.readObject();
-                    fos.write(respone.getDataFile());
+//                    fos.write(respone.getDataFile());
+                    fos.write(respone.getDataFile(), 0, (int) Math.min(4096,respone.getNumberOfByte()));
                 } while (!respone.isEndOfFile());
                 fos.close();
             } catch (FileNotFoundException ex) {
@@ -418,7 +417,7 @@ public class FileBrowsersController implements Initializable {
                     Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+            
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
             Receive(temp);

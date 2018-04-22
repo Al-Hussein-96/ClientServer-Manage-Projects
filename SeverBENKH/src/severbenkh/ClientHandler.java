@@ -132,41 +132,38 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToAddContributor(Command command) {
-     String NameProject = ((GetAddContributor)command ).NameProject;
-     Project Myproject =  get_projectClass(NameProject);
-     String UserName = ((GetAddContributor)command ).getUserName();
-     Myproject.add_Contributor(UserName);
-     Myproject.Save();
-     Send_Done();
+        String NameProject = ((GetAddContributor) command).NameProject;
+        Project Myproject = get_projectClass(NameProject);
+        String UserName = ((GetAddContributor) command).getUserName();
+        Myproject.add_Contributor(UserName);
+        Myproject.Save();
+        Send_Done();
     }
 
     private void SendToAddBranch(Command command) {
-     
-      ///  GetAddBranch
-    String NameProject = ((GetAddBranch)command).NameProject ; 
-    String BranchName = ((GetAddBranch)command).BranchName;
-    String BranchFather = ((GetAddBranch)command).BranchFather;
-    int idCommit = ((GetAddBranch)command).idCommit;
-    Project Myproject =  get_projectClass(NameProject);
-    branchClass BranchFather_class = null ;
-    boolean ok = true;
-    for(branchClass s : Myproject.branchListClass)
-    {
-        if(s.branchName.equals(BranchName))
-        {
-            /// there is branch same name 
-            Send_FALIURE();
-            return ;
+
+        ///  GetAddBranch
+        String NameProject = ((GetAddBranch) command).NameProject;
+        String BranchName = ((GetAddBranch) command).BranchName;
+        String BranchFather = ((GetAddBranch) command).BranchFather;
+        int idCommit = ((GetAddBranch) command).idCommit;
+        Project Myproject = get_projectClass(NameProject);
+        branchClass BranchFather_class = null;
+        boolean ok = true;
+        for (branchClass s : Myproject.branchListClass) {
+            if (s.branchName.equals(BranchName)) {
+                /// there is branch same name 
+                Send_FALIURE();
+                return;
+            }
+            if (s.branchName.equals(BranchFather)) {
+                BranchFather_class = s;
+            }
         }
-        if(s.branchName.equals(BranchFather))
-        {
-            BranchFather_class = s;
-        }
-    }
-    
-    branchClass New = new branchClass(Myproject , BranchName , BranchFather_class , idCommit , MyUser);
-    Myproject.branchListClass.add(New);
-    Send_Done();
+
+        branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
+        Myproject.branchListClass.add(New);
+        Send_Done();
     }
 
     /// get file BENKH form server for this project and this branch 
@@ -283,6 +280,7 @@ public class ClientHandler extends Thread {
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
         try {
             //// Here we send hiddenFile to client
+            System.out.println("Send BenkhFile:");
             output.writeObject(BenkhFile);
             output.flush();
         } catch (IOException ex) {
@@ -312,12 +310,12 @@ public class ClientHandler extends Thread {
             FileOutputStream fos = null;
             try {
                 String temp1 = temp.Directory.substring(temp.Directory.indexOf(NameFolderSelect));
-
                 fos = new FileOutputStream(NewDirectory + "\\" + temp1);
                 SendFile respone;
                 do {
                     respone = (SendFile) input.readObject();
-                    fos.write(respone.getDataFile());
+                    //    fos.write(respone.getDataFile());
+                    fos.write(respone.getDataFile(), 0, (int) Math.min(respone.getNumberOfByte(), 4096));
                 } while (!respone.isEndOfFile());
                 fos.close();
             } catch (FileNotFoundException ex) {
@@ -419,8 +417,9 @@ public class ClientHandler extends Thread {
 
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
+                long tmp = fileSize;
                 fileSize -= n;
-                Respone respone = new SendFile(DataFile, fileSize == 0, My);
+                Respone respone = new SendFile(DataFile, fileSize == 0, My, tmp);
                 output.writeObject(respone);
                 output.flush();
             }
