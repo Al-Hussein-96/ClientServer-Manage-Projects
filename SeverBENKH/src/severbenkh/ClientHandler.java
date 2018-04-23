@@ -28,28 +28,28 @@ import java.util.logging.Logger;
 import static severbenkh.SeverBENKH.projectdirectoryName;
 
 public class ClientHandler extends Thread {
-
+    
     public static String MyUser;
     private Socket client;
     private ObjectInputStream input;
     private ObjectOutputStream output;
-
+    
     ClientHandler(Socket client) {
         this.client = client;
-
+        
         try {
             output = new ObjectOutputStream(client.getOutputStream());
             input = new ObjectInputStream(new BufferedInputStream(client.getInputStream()));
-
+            
         } catch (IOException ex) {
             System.out.println("Error in  Constucte");
         }
-
+        
     }
-
+    
     @Override
     public void run() {
-
+        
         Command command = null;
         do {
             try {
@@ -61,7 +61,7 @@ public class ClientHandler extends Thread {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
-
+            
             if (command == null) {
                 continue;
             }
@@ -117,9 +117,9 @@ public class ClientHandler extends Thread {
                     SendToAddContributor(command);
                     break;
             }
-
+            
         } while (!command.equals("Stop"));
-
+        
         if (client != null) {
             try {
                 System.out.println("Closing connection...");
@@ -128,9 +128,9 @@ public class ClientHandler extends Thread {
                 System.out.println("Unable to disconnect");
             }
         }
-
+        
     }
-
+    
     private void SendToAddContributor(Command command) {
         String NameProject = ((GetAddContributor) command).NameProject;
         Project Myproject = get_projectClass(NameProject);
@@ -139,7 +139,7 @@ public class ClientHandler extends Thread {
         Myproject.Save();
         Send_Done();
     }
-
+    
     private void SendToAddBranch(Command command) {
 
         ///  GetAddBranch
@@ -160,7 +160,7 @@ public class ClientHandler extends Thread {
                 BranchFather_class = s;
             }
         }
-
+        
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
         Send_Done();
@@ -177,15 +177,16 @@ public class ClientHandler extends Thread {
             if (s.branchName.equals(branchName)) {
                 /// get last commit 
                 int IdlastCommite = s.way.size() - 1;
-                CommitClass R = s.way.get(IdlastCommite);
-                String FileDir = R.Directory;
-                String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
-                try {
-                    temp = (ProjectToUpload) ResourceManager.load(MyDir);
-
-                } catch (Exception ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                temp = s.BENKH_File.get(IdlastCommite);
+//                CommitClass R = s.way.get(IdlastCommite);
+//                String FileDir = R.Directory;
+//                String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
+//                try {
+//                    temp = (ProjectToUpload) ResourceManager.load(MyDir);
+//
+//                } catch (Exception ex) {
+//                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+//                }
 
             }
         }
@@ -200,7 +201,7 @@ public class ClientHandler extends Thread {
         }
         return ok;
     }
-
+    
     private void SendToGetPush(Command command) {
         String NameProject = ((GetPush) command).NameProject;
         /// ProjectToUpload from client
@@ -211,7 +212,7 @@ public class ClientHandler extends Thread {
         /// here must checking if Client Can Push The Project
         /// get ProjectToUpload from server
         ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName, clientFile.BranchName);
-
+        
         boolean ok = compare_ProjectToUpload(serverFile, clientFile);
         Respone respone;
         if (ok) {
@@ -228,10 +229,10 @@ public class ClientHandler extends Thread {
         try {
             newRespone = (SendProject) input.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-
+            
         }
         ResourceManager.ShowViewfolder(newRespone.ob);
-
+        
         Project serverproject = get_projectClass(clientFile.ProjectName);
         boolean Done = false;
         String NewCommitPlace = "";   /// String.valueOf(clientFile.IdLastCommit + 1);
@@ -253,10 +254,10 @@ public class ClientHandler extends Thread {
                 /// get Directory for last commit that user add 
                 int num = s.way.size() - 1;
                 NewCommitPlace = s.way.get(num).Directory;
-
+                
             }
         }
-
+        
         if (!Done) {
             /// not fount branch
             Send_FALIURE();
@@ -291,7 +292,7 @@ public class ClientHandler extends Thread {
     /// create folders in server for project 
     private void CreateFolder(ViewfolderClass ob, String NewDirectory, String NameFolderSelect) {
         List<NameAndDirectory> Folder = ob.MyFolder;
-
+        
         for (NameAndDirectory u : Folder) {
             //// some problem in Directory between Server and Client
             String temp1 = u.Directory.substring(u.Directory.indexOf(NameFolderSelect));
@@ -301,7 +302,7 @@ public class ClientHandler extends Thread {
                 CreateFolder(temp, NewDirectory, NameFolderSelect);
             }
         }
-
+        
     }
 
     /// Receive fils from client for new commit 
@@ -326,7 +327,7 @@ public class ClientHandler extends Thread {
                 } catch (IOException ex) {
                 }
             }
-
+            
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
             Receive(temp, NewDirectory, NameFolderSelect);
@@ -336,10 +337,10 @@ public class ClientHandler extends Thread {
     ///  send Contributors list to client
     private void SendToListContributors(Command command) {
         String NameProject = ((GetListContributors) command).getNameProject();
-
+        
         Project project = get_projectClass(NameProject);
         CommonProject commonProject = Project_to_CommonProject(project);
-
+        
         Respone respone = new SendListContributors(commonProject.Contributors);
         Send_Respone(respone);
     }
@@ -348,30 +349,30 @@ public class ClientHandler extends Thread {
     private void SendToListCommits(Command command) {
         String NameProject = ((GetListCommits) command).getNameProject();
         String NameBranch = ((GetListCommits) command).getNameBranch();
-
+        
         Project project = get_projectClass(NameProject);
         CommonProject commonproject = Project_to_CommonProject(project);
 
         //// 0 is temp for NameBranch
         Respone respone = new SendListCommits(commonproject.BranchNames.get(0).way);
         Send_Respone(respone);
-
+        
     }
 
     ///  send Branch list to client
     private void SendToListBranch(Command command) {
         String NameProject = ((GetListBranch) command).getNameProject();
-
+        
         Project project = get_projectClass(NameProject);
         CommonProject commonProject = Project_to_CommonProject(project);
-
+        
         Respone respone = new SendListBranch(commonProject.BranchNames);
         Send_Respone(respone);
     }
-
+    
     private void SendToGetPull(Command command) {
         String NameProject = ((GetPull) command).NameProject;
-
+        
         int idCommit = ((GetPull) command).getIdCommit();
         String BranchName = ((GetPull) command).getBranchName();
         /// get Directory for this commit 
@@ -380,9 +381,40 @@ public class ClientHandler extends Thread {
         SendProject Rc = new SendProject(ob);
         Send_Respone(Rc);
         SendFolder(ob);
-
+        
+        Project temp = get_projectClass(NameProject);
+        
+        ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
+        
+        try {
+            output.writeObject(BENHKFile);
+            output.flush();
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
-
+    
+    private ProjectToUpload Get_BENKH(String NameProject, String BranchName, int idCommit) {
+        ProjectToUpload temp = null;
+        
+        Project project = get_projectClass(NameProject);
+        
+        branchClass br = null;
+        
+        for (branchClass u : project.branchListClass) {
+            if (u.branchName.equals(BranchName)) {
+                br = u;
+                break;
+            }
+        }
+        
+        temp = br.BENKH_File.get(idCommit - 1);
+        
+        return temp;
+    }
+    
     private void Send_Respone(Respone Rc) {
         try {
             output.writeObject(Rc);
@@ -414,7 +446,7 @@ public class ClientHandler extends Thread {
             NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
             fis = new FileInputStream(file);
             long fileSize = file.length();
-
+            
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
                 long tmp = fileSize;
@@ -434,7 +466,7 @@ public class ClientHandler extends Thread {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
     }
 
     /// Sign Up
@@ -445,7 +477,7 @@ public class ClientHandler extends Thread {
                 MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
                 Send_Done();
-
+                
             } else {
                 Send_FALIURE();
             }
@@ -540,7 +572,7 @@ public class ClientHandler extends Thread {
         }
         return TempList;
     }
-
+    
     private List< CommonProject> GetMyProject() {
         List< CommonProject> MyProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
@@ -557,7 +589,7 @@ public class ClientHandler extends Thread {
         }
         return MyProject;
     }
-
+    
     private List< CommonProject> GetAllProject() {
         List< CommonProject> AllProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();
@@ -628,6 +660,7 @@ public class ClientHandler extends Thread {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendProject(ob);
             Send_Respone(Rc);
+            
         }
     }
 
@@ -645,9 +678,9 @@ public class ClientHandler extends Thread {
             SendProject Rc = new SendBranch(ob);
             Send_Respone(Rc);
         }
-
+        
     }
-
+    
     private void Send_FALIURE() {
         Respone Rc = new SendStatus(ResponeType.FALIURE);
         try {
@@ -657,7 +690,7 @@ public class ClientHandler extends Thread {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex1);
         }
     }
-
+    
     private void Send_Done() {
         Respone Rc = new SendStatus(ResponeType.DONE);
         try {
@@ -721,5 +754,5 @@ public class ClientHandler extends Thread {
         }
         return dir;
     }
-
+    
 }

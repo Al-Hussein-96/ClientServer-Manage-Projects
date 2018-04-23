@@ -53,12 +53,12 @@ public class CreateProjectController implements Initializable {
                 Respone respone1 = (Respone) networkInput.readObject();
 
                 ProjectToUpload hiddenFile = ((SendCreateProject) respone1).getBenkhFile();
-    
+
                 /// save File in directory of Project
                 ResourceManager.save(hiddenFile, path + "\\" + "BEHKN.BEHKN");
             }
         } catch (IOException | ClassNotFoundException ex) {
-            System.out.println("Error START PROJECT");
+            System.out.println("Error START PROJECT: " + ex.getMessage());
         } catch (Exception ex) {
         }
     }

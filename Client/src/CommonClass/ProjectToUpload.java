@@ -28,16 +28,15 @@ public class ProjectToUpload implements Serializable {
         for (Contributor s : Contributors) {
             this.Contributors.add(s);
         }
+
     }
 
-    public void Save() {
-        try {
-            ResourceManager.save(this, director);
-           /// Hide(director);
-        } catch (Exception ex) {
-            Logger.getLogger(ProjectToUpload.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    @Override
+    public ProjectToUpload clone() throws CloneNotSupportedException {
+        return (ProjectToUpload) super.clone(); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
     private void Hide(String director) {
         try {

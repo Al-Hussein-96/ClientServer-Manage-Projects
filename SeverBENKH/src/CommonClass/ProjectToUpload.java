@@ -31,14 +31,12 @@ public class ProjectToUpload implements Serializable {
 
     }
 
-    public void Save() {
-        try {
-            ResourceManager.save(this, director);
-            Hide(director);
-        } catch (Exception ex) {
-            Logger.getLogger(ProjectToUpload.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    @Override
+    public ProjectToUpload clone() throws CloneNotSupportedException {
+        return (ProjectToUpload) super.clone(); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
 
     private void Hide(String director) {
         try {

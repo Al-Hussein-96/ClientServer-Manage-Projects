@@ -42,8 +42,8 @@ public class BranchController implements Initializable {
     private TableColumn<TabelBranch, String> C3;
     @FXML
     private JFXButton Open;
-    
-       @FXML
+
+    @FXML
     private JFXTextField BranchName;
 
     @FXML
@@ -68,35 +68,28 @@ public class BranchController implements Initializable {
 
     @FXML
     void btnAdd(ActionEvent event) {
-        if(BranchName.getText() != null)
-        {
-            Command command = new GetAddBranch(Father.Owner.NameProject, BranchName.getText());
-            
+        if (BranchName.getText() != null) {
+
+            /*  here must get CurrentBranch from GUI and LastId in CurrentBranch */
+            Command command = new GetAddBranch(Father.Owner.NameProject, BranchName.getText(), "hdfgdf", 1);
+
             try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-                
+
                 Respone respone = (Respone) networkInput.readObject();
-                
-                if(respone.TypeRespone == ResponeType.DONE)
-                {
+
+                if (respone.TypeRespone == ResponeType.DONE) {
                     /// here Update Tabel With NewBranch Or Back To FileBrowsers
-                    
-                }
-                else
-                {
-                    
-                    
+
+                } else {
+
                 }
 
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(BranchController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            
-            
-            
-            
         }
     }
 

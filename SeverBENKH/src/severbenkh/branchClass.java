@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class branchClass implements Serializable {
 
@@ -15,12 +17,14 @@ public class branchClass implements Serializable {
     String projectdirector;
     /// list of user download last Version
     List<String> UsersHowSeeLastUpdate = new ArrayList<>();
+    List<ProjectToUpload> BENKH_File = new ArrayList<>();
     Date lastCommite;
     Project father;
     String branchName;
-    String userCreateBranch ; 
+    String userCreateBranch;
+
     branchClass(Project father, String branchName, String Author) {
-        this.userCreateBranch = Author ; 
+        this.userCreateBranch = Author;
         this.branchName = branchName;
         lastCommite = new Date();
         this.father = father;
@@ -33,41 +37,37 @@ public class branchClass implements Serializable {
         CommitClass temp = new CommitClass(branchName, Author, Directory, "", 1);
         way.add(temp);
         /// add commit to Contributor
-        for(Contributor s : father.Contributors)
-        {
-            if(s.Name.equals(Author))
-            {
+        for (Contributor s : father.Contributors) {
+            if (s.Name.equals(Author)) {
                 s.way.add(temp);
                 s.NumberOfCommit++;
             }
         }
-        
+
         /// incres Number Of Version
         File CreateProjectDirectory = new File(projectdirector + "\\" + NumberOfVersion);
         CreateProjectDirectory.mkdir();
-        UsersHowSeeLastUpdate.add(Author); 
-       
+        UsersHowSeeLastUpdate.add(Author);
+
         update_BENKH();
         father.NumberOfVersion++;
     }
-    public void update_BENKH()
-    {
+
+    public void update_BENKH() {
         String _director = projectdirector + "\\" + father.NumberOfVersion;
-        int _IdLastCommit = way.size()-1;
+        int _IdLastCommit = way.size() - 1;
         String _ProjectName = father.NameProject;
         List<Contributor> _Contributors = new ArrayList<>();
-        for(Contributor  s  : father.Contributors)
-        {
+        for (Contributor s : father.Contributors) {
             _Contributors.add(s);
         }
         String _BranchName = this.branchName;
-        System.out.println("_director: " + _director);
-        ProjectToUpload New = new ProjectToUpload(_director , _IdLastCommit , _ProjectName , _Contributors , _BranchName); 
-        New.Save();
+        ProjectToUpload New = new ProjectToUpload(_director, _IdLastCommit, _ProjectName, _Contributors, _BranchName);
+        BENKH_File.add(New);
     }
+
     /// Create Branch have first num version from another brach
     branchClass(Project father, String branchName, branchClass fatherBranch, int num, String userCreateBranch) {
-        /// need fix  /////////////////////////
         this.userCreateBranch = userCreateBranch;
         this.branchName = branchName;
         this.father = father;
@@ -76,8 +76,17 @@ public class branchClass implements Serializable {
             CommitClass temp = fatherBranch.way.get(i);
             temp.branchName = branchName;
             way.add(temp);
+            ProjectToUpload temp2 = null;
+            try {
+                temp2 = fatherBranch.BENKH_File.get(i).clone();
+            } catch (CloneNotSupportedException ex) {
+                System.out.println("Error in Clone Clone: " + ex.getMessage());
+            }
+
+            temp2.BranchName = branchName;
+            this.BENKH_File.add(temp2);
         }
-        
+
         UsersHowSeeLastUpdate.add(userCreateBranch);
         lastCommite = new Date();
         boolean ok_add = true;
@@ -87,26 +96,21 @@ public class branchClass implements Serializable {
             }
         }
         if (ok_add) {
-            father.Contributors.add(new Contributor(userCreateBranch) ) ;
+            father.Contributors.add(new Contributor(userCreateBranch));
         }
         /// here we should copy file from last directory 
-   ///     copy_File_for_branch();
-        update_BENKH();
-        father.NumberOfVersion++;
+        ///     copy_File_for_branch();
+
+        father.Save();
 
     }
-    private void copy_File_for_branch(String form_director , String to_director)
-    {
-        
-    }
+
     boolean UserCanaddNewVersion(String user) {
         for (String temp : UsersHowSeeLastUpdate) {
             if (temp.equals(user)) {
                 //// here we should know if he is Contributor;
-                for(Contributor s : father.Contributors)
-                {
-                    if(s.Name.equals(user))
-                    {
+                for (Contributor s : father.Contributors) {
+                    if (s.Name.equals(user)) {
                         return true;
                     }
                 }
@@ -117,6 +121,12 @@ public class branchClass implements Serializable {
     }
 
     /// not complet
+    /**
+     *
+     * @param Author
+     * @param Detail Comment Of User for this Commit
+     * @return
+     */
     boolean addNewVersion(String Author, String Detail) {
         boolean Can = UserCanaddNewVersion(Author);
         if (!Can) {
