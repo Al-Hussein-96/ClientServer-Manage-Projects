@@ -210,8 +210,8 @@ public class FileBrowsersController implements Initializable {
             CreateFolder(respone.ob, selectedFile.getPath() + "\\");
             Receive(respone.ob, selectedFile.getPath() + "\\");
 
-            Respone respone1 = (Respone) networkInput.readObject();
-            ProjectToUpload hiddenFile = ((SendCreateProject) respone1).getBenkhFile();
+            
+            ProjectToUpload hiddenFile = (ProjectToUpload) networkInput.readObject();
             try {
                 /// save File in directory of Project
                 ResourceManager.save(hiddenFile, selectedFile.getPath() + "\\" + "BEHKN.BEHKN");
