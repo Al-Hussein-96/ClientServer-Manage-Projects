@@ -62,7 +62,7 @@ public class BranchController implements Initializable {
         if (CB == null) {
             return;
         }
-        Father.CreateBranchSelected(CB.branchName);
+        Father.CreateBranchSelected(CB.branchName,CB.way.get(CB.way.size()-1).Id);
         Open.getScene().getWindow().hide();
     }
 

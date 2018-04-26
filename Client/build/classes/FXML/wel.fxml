@@ -81,7 +81,7 @@
             <Glow />
          </effect>
       </Line>
-      <JFXButton fx:id="btn" buttonType="RAISED" focusTraversable="false" layoutX="248.0" layoutY="142.0" onAction="#btn" prefHeight="75.0" prefWidth="202.0" text="BEHKN" textFill="#3402e8">
+      <JFXButton fx:id="btn" buttonType="RAISED" focusTraversable="false" layoutX="243.0" layoutY="128.0" onAction="#btn" prefHeight="111.0" prefWidth="217.0" text="BEHKN" textFill="#3402e8">
          <font>
             <Font name="CoconNextArabic-Light" size="48.0" />
          </font></JFXButton>
