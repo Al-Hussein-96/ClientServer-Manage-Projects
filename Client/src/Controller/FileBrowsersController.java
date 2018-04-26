@@ -5,6 +5,8 @@ import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.ProjectToUpload;
+import CommonClass.ResourceManager;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetCommits;
@@ -17,6 +19,7 @@ import CommonCommand.GetProject;
 import CommonCommand.GetPull;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import CommonRespone.SendCreateProject;
 import CommonRespone.SendFile;
 import CommonRespone.SendListBranch;
 import CommonRespone.SendListCommits;
@@ -50,6 +53,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.DirectoryChooser;
 
 public class FileBrowsersController implements Initializable {
 
@@ -191,15 +195,30 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnPull(ActionEvent event) {
-
+        DirectoryChooser dc = new DirectoryChooser();
+        File selectedFile = dc.showDialog(null);
+        if (selectedFile == null) {
+            return;
+        }
+        String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
         /// "Master" is temp for try and 1 is temp
-        Command command = new GetPull(Owner.NameProject, 1, "Master");
+        Command command = new GetPull(Owner.NameProject, Integer.parseInt(Commit), Branch);
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();
             SendProject respone = (SendProject) networkInput.readObject();
-            CreateFolder(respone.ob);
-            Receive(respone.ob);
+            CreateFolder(respone.ob, selectedFile.getPath() + "\\");
+            Receive(respone.ob, selectedFile.getPath() + "\\");
+
+            Respone respone1 = (Respone) networkInput.readObject();
+            ProjectToUpload hiddenFile = ((SendCreateProject) respone1).getBenkhFile();
+            try {
+                /// save File in directory of Project
+                ResourceManager.save(hiddenFile, selectedFile.getPath() + "\\" + "BEHKN.BEHKN");
+            } catch (Exception ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Done Pull project.");
 
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("Error in btnPull : " + ex.getMessage());
@@ -335,7 +354,7 @@ public class FileBrowsersController implements Initializable {
         return null;
     }
 
-    public void CreateBranchSelected(String BranchName,int ID) {
+    public void CreateBranchSelected(String BranchName, int ID) {
         previous.clear();
         current = GetMyBranch(BranchName);
         if (current != null) {
@@ -391,25 +410,28 @@ public class FileBrowsersController implements Initializable {
         return null;
     }
 
-    private void CreateFolder(ViewfolderClass ob) {
+    private void CreateFolder(ViewfolderClass ob, String path) {
         List<NameAndDirectory> Folder = ob.MyFolder;
-
         for (NameAndDirectory u : Folder) {
-            File folder = new File(u.Directory);
+            String tem = new String(u.Directory);
+            tem = tem.substring(30);
+            File folder = new File(path + tem);
             folder.mkdir();
 
             for (ViewfolderClass temp : ob.MyFolderView) {
-                CreateFolder(temp);
+                CreateFolder(temp, path);
             }
         }
 
     }
 
-    private void Receive(ViewfolderClass ob) {
+    private void Receive(ViewfolderClass ob, String path) {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
             try {
-                fos = new FileOutputStream(temp.Directory);
+                String tem = new String(temp.Directory);
+                tem = tem.substring(30);
+                fos = new FileOutputStream(path + tem);
                 SendFile respone;
                 do {
                     respone = (SendFile) networkInput.readObject();
@@ -431,7 +453,7 @@ public class FileBrowsersController implements Initializable {
 
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
-            Receive(temp);
+            Receive(temp, path);
         }
     }
 }

@@ -372,7 +372,6 @@ public class ClientHandler extends Thread {
     
     private void SendToGetPull(Command command) {
         String NameProject = ((GetPull) command).NameProject;
-        
         int idCommit = ((GetPull) command).getIdCommit();
         String BranchName = ((GetPull) command).getBranchName();
         /// get Directory for this commit 
@@ -381,19 +380,14 @@ public class ClientHandler extends Thread {
         SendProject Rc = new SendProject(ob);
         Send_Respone(Rc);
         SendFolder(ob);
-        
         Project temp = get_projectClass(NameProject);
-        
         ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
-        
         try {
             output.writeObject(BENHKFile);
             output.flush();
-            
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        } 
     }
     
     private ProjectToUpload Get_BENKH(String NameProject, String BranchName, int idCommit) {
