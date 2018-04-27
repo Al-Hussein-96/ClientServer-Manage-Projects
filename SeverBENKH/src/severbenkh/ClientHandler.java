@@ -457,6 +457,9 @@ public class ClientHandler extends Thread {
                 output.writeObject(respone);
                 output.flush();
             }
+            Respone respone = new SendFile(DataFile, fileSize == 0, My, 0);
+            output.writeObject(respone);
+            output.flush();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

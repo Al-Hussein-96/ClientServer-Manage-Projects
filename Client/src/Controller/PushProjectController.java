@@ -134,7 +134,6 @@ public class PushProjectController implements Initializable {
             NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
             fis = new FileInputStream(file);
             long fileSize = file.length();
-
             int n;
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
                 long tmp = fileSize;
@@ -143,6 +142,9 @@ public class PushProjectController implements Initializable {
                 networkOutput.writeObject(respone);
                 networkOutput.flush();
             }
+            Respone respone = new SendFile(DataFile, fileSize == 0, My, 0);
+            networkOutput.writeObject(respone);
+            networkOutput.flush();
         } catch (FileNotFoundException ex) {
         } catch (IOException ex) {
         } finally {
