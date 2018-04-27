@@ -101,6 +101,8 @@ public class LoginMainController implements Initializable {
         try {
             username.getScene().getWindow().hide();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PageMain.fxml"));
+            
+                        
             Parent root = (Parent) fxmlLoader.load();
             PageMainController mainPageController = fxmlLoader.getController();
             mainPageController.setOwner(new User(username.getText(), password.getText()));

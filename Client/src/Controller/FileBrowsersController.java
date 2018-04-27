@@ -7,6 +7,7 @@ import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
 import CommonClass.ProjectToUpload;
 import CommonClass.ResourceManager;
+import CommonClass.User;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetCommits;
@@ -19,7 +20,6 @@ import CommonCommand.GetProject;
 import CommonCommand.GetPull;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
-import CommonRespone.SendCreateProject;
 import CommonRespone.SendFile;
 import CommonRespone.SendListBranch;
 import CommonRespone.SendListCommits;
@@ -49,6 +49,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import com.jfoenix.controls.JFXButton;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -56,6 +58,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.DirectoryChooser;
 
 public class FileBrowsersController implements Initializable {
+
+    User user;
 
     CommonProject Owner;
 
@@ -87,12 +91,22 @@ public class FileBrowsersController implements Initializable {
 
     List<ViewfolderClass> previous = new ArrayList<>();
 
-    public FileBrowsersController(CommonProject Owner) {
+    public FileBrowsersController(CommonProject Owner, User user) {
         this.Owner = Owner;
+        this.user = user;
+    }
+
+    public void setOwner(CommonProject Owner) {
+        this.Owner = Owner;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("OK");
         List< CommonBranch> listB = Owner.BranchNames;
         List< CommitClass> listC = listB.get(listB.size() - 1).way;
         idBranch.setText("Branch : " + listB.get(listB.size() - 1).branchName);
@@ -102,7 +116,7 @@ public class FileBrowsersController implements Initializable {
         List<Contributor> Con = Owner.Contributors;
         boolean Access = false;
         for (int i = 0; i < Con.size(); i++) {
-            if (Con.get(i).Name.equals(PageMainController.Owner.getName())) {
+            if (Con.get(i).Name.equals(user.getName())) {
                 Access = true;
             }
         }
@@ -210,7 +224,6 @@ public class FileBrowsersController implements Initializable {
             CreateFolder(respone.ob, selectedFile.getPath() + "\\");
             Receive(respone.ob, selectedFile.getPath() + "\\");
 
-            
             ProjectToUpload hiddenFile = (ProjectToUpload) networkInput.readObject();
             try {
                 /// save File in directory of Project
@@ -413,9 +426,10 @@ public class FileBrowsersController implements Initializable {
     private void CreateFolder(ViewfolderClass ob, String path) {
         List<NameAndDirectory> Folder = ob.MyFolder;
         for (NameAndDirectory u : Folder) {
-            String tem = new String(u.Directory);
-            tem = tem.substring(30);
-            File folder = new File(path + tem);
+            String tem = u.Directory;
+            Path dir = Paths.get(tem);
+
+            File folder = new File(path + dir.subpath(4, dir.getNameCount())); //// cur from (four slash --> end)
             folder.mkdir();
 
             for (ViewfolderClass temp : ob.MyFolderView) {
@@ -429,9 +443,9 @@ public class FileBrowsersController implements Initializable {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
             try {
-                String tem = new String(temp.Directory);
-                tem = tem.substring(30);
-                fos = new FileOutputStream(path + tem);
+                String tem = temp.Directory;
+                Path dir = Paths.get(tem);
+                fos = new FileOutputStream(path + dir.subpath(4, dir.getNameCount()));
                 SendFile respone;
                 do {
                     respone = (SendFile) networkInput.readObject();

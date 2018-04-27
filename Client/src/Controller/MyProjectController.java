@@ -2,6 +2,7 @@ package Controller;
 
 import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
+import CommonClass.User;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import CommonCommand.GetMyProject;
@@ -26,16 +27,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class MyProjectController implements Initializable {
 
+    User user;
     private AnchorPane roopane;
     @FXML
     private JFXButton open;
@@ -43,8 +42,9 @@ public class MyProjectController implements Initializable {
     private JFXTreeTableView<TabelProject> TabelView;
     private List< CommonProject> MyProject;
 
-    MyProjectController(AnchorPane roopane) {
+    MyProjectController(AnchorPane roopane, User user) {
         this.roopane = roopane;
+        this.user = user;
     }
 
     @FXML
@@ -68,17 +68,19 @@ public class MyProjectController implements Initializable {
         }
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
-        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP);
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP, user);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
-        fxmlLoader.setController(fileBrowsersController);
+
+         fxmlLoader.setController(fileBrowsersController);
         AnchorPane root = null;
         try {
             root = (AnchorPane) fxmlLoader.load();
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
         }
-        System.out.println("Bug is initlize in FileBrowsersController");
+        System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
         roopane.getChildren().setAll(root);
+
     }
 
     public void setRoopane(AnchorPane roopane) {

@@ -75,7 +75,6 @@ public class SignUpController implements Initializable {
             Command command = new GetSIGNUP(user);
             networkOutput.writeObject(command);
             networkOutput.flush();
-           
 
             Respone response = (Respone) networkInput.readObject();
             if (response.TypeRespone == ResponeType.DONE) {
@@ -109,6 +108,8 @@ public class SignUpController implements Initializable {
             back.getScene().getWindow().hide();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PageMain.fxml"));
             Parent root = (Parent) fxmlLoader.load();
+            PageMainController mainPageController = fxmlLoader.getController();
+            mainPageController.setOwner(new User(username.getText(), password.getText()));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.initStyle(StageStyle.TRANSPARENT);

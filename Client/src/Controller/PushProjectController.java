@@ -12,7 +12,6 @@ import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
 import CommonRespone.SendProject;
-import static Controller.PageMainController.Owner;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXTextField;

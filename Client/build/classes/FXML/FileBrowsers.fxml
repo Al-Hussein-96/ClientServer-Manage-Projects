@@ -35,25 +35,27 @@
         <JFXButton layoutX="184.0" layoutY="428.0" onAction="#btnPull" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Pull" />
         <JFXButton fx:id="push" layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Push" />
         <Label fx:id="idCommit" layoutX="275.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" text="Commit : " textAlignment="CENTER">
-         <font>
-            <Font name="CoconNextArabic-Light" size="16.0" />
-         </font>
-         <effect>
-            <Lighting>
-               <bumpInput>
-                  <Shadow />
-               </bumpInput>
-               <light>
-                  <Light.Distant />
-               </light>
-            </Lighting>
-         </effect></Label>
+            <font>
+                <Font name="CoconNextArabic-Light" size="16.0" />
+            </font>
+            <effect>
+                <Lighting>
+                    <bumpInput>
+                        <Shadow />
+                    </bumpInput>
+<!--                    <light>
+                        <Light.Distant />
+                    </light>-->
+                </Lighting>
+            </effect>
+        </Label>
         <Label fx:id="idBranch" layoutX="23.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" text="Branch : ">
-         <font>
-            <Font name="CoconNextArabic-Light" size="16.0" />
-         </font>
-         <effect>
-            <ColorAdjust />
-         </effect></Label>
+            <font>
+                <Font name="CoconNextArabic-Light" size="16.0" />
+            </font>
+            <effect>
+                <ColorAdjust />
+            </effect>
+        </Label>
     </children>
 </AnchorPane>

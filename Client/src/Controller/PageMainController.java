@@ -21,7 +21,7 @@ import javafx.stage.StageStyle;
 
 public class PageMainController implements Initializable {
 
-    static User Owner;
+    User Owner;
 
     @FXML
     private AnchorPane roopane;
@@ -38,9 +38,9 @@ public class PageMainController implements Initializable {
     void btnmyproject(ActionEvent event) {
         try {
             FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
-            MyProjectController myProjectController = new MyProjectController(roopane);
+            MyProjectController myProjectController = new MyProjectController(roopane, Owner);
             fXMLLoader.setController(myProjectController);
-            AnchorPane pane = (AnchorPane) fXMLLoader.load();            
+            AnchorPane pane = (AnchorPane) fXMLLoader.load();
             roopane.getChildren().setAll(pane);
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
@@ -54,6 +54,7 @@ public class PageMainController implements Initializable {
             AnchorPane pane = (AnchorPane) fXMLLoader.load();
             AllProjectController allProjectController = fXMLLoader.getController();
             allProjectController.setRoopane(roopane);
+            allProjectController.setUser(Owner);
             roopane.getChildren().setAll(pane);
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
@@ -78,6 +79,7 @@ public class PageMainController implements Initializable {
     }
 
     public void setOwner(User Owner) {
+        System.out.println(Owner.getName() + " : " + Owner.getPassword());
         this.Owner = Owner;
     }
 
