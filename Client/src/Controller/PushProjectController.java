@@ -99,6 +99,7 @@ public class PushProjectController implements Initializable {
             SendFolder(ob);
 
             try {
+                System.out.println("Path HiddenFile: " + Path.getText());
                 ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
                 System.out.println("Path HiddenFile: " + Path.getText());
                 ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
