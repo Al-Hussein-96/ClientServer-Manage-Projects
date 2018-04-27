@@ -187,16 +187,14 @@ public class FileBrowsersController implements Initializable {
             try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-
                 FileOutputStream fos = new FileOutputStream(TI.getName());
                 SendFile respone;
                 do {
                     respone = (SendFile) networkInput.readObject();
-                    fos.write(respone.getDataFile());
+//                    fos.write(respone.getDataFile());
+                    fos.write(respone.getDataFile(), 0, (int) Math.min(4096, respone.getNumberOfByte()));
                 } while (!respone.isEndOfFile());
-
                 fos.close();
-
                 File file = new File(TI.getName());
                 Desktop desktop = Desktop.getDesktop();
                 desktop.open(file);
@@ -428,10 +426,8 @@ public class FileBrowsersController implements Initializable {
         for (NameAndDirectory u : Folder) {
             String tem = u.Directory;
             Path dir = Paths.get(tem);
-
             File folder = new File(path + dir.subpath(4, dir.getNameCount())); //// cur from (four slash --> end)
             folder.mkdir();
-
             for (ViewfolderClass temp : ob.MyFolderView) {
                 CreateFolder(temp, path);
             }
