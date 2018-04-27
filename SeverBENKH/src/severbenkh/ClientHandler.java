@@ -450,6 +450,11 @@ public class ClientHandler extends Thread {
             long fileSize = file.length();
 
             int n;
+            if (fileSize == 0) {
+                Respone respone = new SendFile(DataFile, fileSize == 0, My, 0);
+                output.writeObject(respone);
+                output.flush();
+            }
             while (fileSize > 0 && (n = fis.read(DataFile, 0, (int) Math.min(4096, fileSize))) != -1) {
                 long tmp = fileSize;
                 fileSize -= n;
@@ -457,9 +462,6 @@ public class ClientHandler extends Thread {
                 output.writeObject(respone);
                 output.flush();
             }
-            Respone respone = new SendFile(DataFile, fileSize == 0, My, 0);
-            output.writeObject(respone);
-            output.flush();
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
