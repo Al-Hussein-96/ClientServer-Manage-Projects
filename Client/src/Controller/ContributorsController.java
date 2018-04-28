@@ -54,7 +54,7 @@ public class ContributorsController implements Initializable {
             Respone respone = (Respone) networkInput.readObject();
             if (respone.TypeRespone == ResponeType.DONE) {
                 //// Update Tabel
-                System.out.println("Done Add Con.");
+                System.out.println("Done Add Contributor.");
                 NameContributors.getScene().getWindow().hide();
             }
         } catch (IOException | ClassNotFoundException ex) {

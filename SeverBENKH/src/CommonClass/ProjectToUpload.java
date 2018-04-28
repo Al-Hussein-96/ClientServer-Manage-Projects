@@ -32,8 +32,15 @@ public class ProjectToUpload implements Serializable {
     }
 
     @Override
-    public ProjectToUpload clone() throws CloneNotSupportedException {
-        return (ProjectToUpload) super.clone(); //To change body of generated methods, choose Tools | Templates.
+    public ProjectToUpload clone() {
+        String director=new  String(this.director);
+        int IdLastCommit = this.IdLastCommit;
+        String ProjectName=new String(this.ProjectName);
+        String BranchName =new String(this.BranchName);
+        List<Contributor> C=new ArrayList<>(Contributors);
+        
+        ProjectToUpload PTU = new ProjectToUpload(director, IdLastCommit, ProjectName, C, BranchName);
+        return PTU;
     }
     
     

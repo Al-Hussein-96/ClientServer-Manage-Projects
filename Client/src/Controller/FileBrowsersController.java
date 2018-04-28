@@ -249,10 +249,10 @@ public class FileBrowsersController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();
-            String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
-            CommonBranch CB = Owner.BranchNames.get(Owner.BranchNames.size()-1);
-            int ID=CB.way.get(CB.way.size()-1).Id;
-            CreateCommitSelected(Branch,ID+1);
+//            String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
+//            CommonBranch CB = Owner.BranchNames.get(Owner.BranchNames.size() - 1);
+//            int ID = CB.way.get(CB.way.size() - 1).Id;
+//            CreateCommitSelected(Branch, ID + 1);
         } catch (IOException ex) {
             System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
@@ -277,7 +277,8 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Errot in FileBrowsers");
         }
 
-        BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch());
+        String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
+        BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch(),Branch);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
         fxmlLoader.setController(branchController);
         Stage stage = new Stage();

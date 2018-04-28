@@ -165,6 +165,7 @@ public class ClientHandler extends Thread {
 
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
+        Myproject.Save();
         Send_Done();
     }
 

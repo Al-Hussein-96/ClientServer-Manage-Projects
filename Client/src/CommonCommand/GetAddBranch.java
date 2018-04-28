@@ -9,7 +9,7 @@ public class GetAddBranch extends GetProject implements Serializable {
     public int idCommit;
 
     public GetAddBranch(String NameProject, String BranchName, String BranchFather, int idCommit) {
-        super(NameProject);
+        super(NameProject,CommandType.ADDBRANCH);
         this.BranchName = BranchName;
         this.BranchFather = BranchFather;
         this.idCommit = idCommit;

@@ -75,12 +75,7 @@ public class branchClass implements Serializable {
             temp.branchName = branchName;
             way.add(temp);
             ProjectToUpload temp2 = null;
-            try {
-                temp2 = fatherBranch.BENKH_File.get(i).clone();
-            } catch (CloneNotSupportedException ex) {
-                System.out.println("Error in Clone Clone: " + ex.getMessage());
-            }
-
+            temp2 = fatherBranch.BENKH_File.get(i).clone();
             temp2.BranchName = branchName;
             this.BENKH_File.add(temp2);
         }

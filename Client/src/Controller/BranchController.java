@@ -30,6 +30,7 @@ public class BranchController implements Initializable {
 
     FileBrowsersController Father;
     List<CommonBranch> NameBranch;
+    String CurrBranch;
 
     @FXML
     private TableView<TabelBranch> tabelView;
@@ -62,7 +63,7 @@ public class BranchController implements Initializable {
         if (CB == null) {
             return;
         }
-        Father.CreateBranchSelected(CB.branchName,CB.way.get(CB.way.size()-1).Id);
+        Father.CreateBranchSelected(CB.branchName, CB.way.get(CB.way.size() - 1).Id);
         Open.getScene().getWindow().hide();
     }
 
@@ -71,21 +72,25 @@ public class BranchController implements Initializable {
         if (BranchName.getText() != null) {
 
             /*  here must get CurrentBranch from GUI and LastId in CurrentBranch */
-            Command command = new GetAddBranch(Father.Owner.NameProject, BranchName.getText(), "hdfgdf", 1);
-
+            CommonBranch CB = null;
+            for (CommonBranch temp : NameBranch) {
+                if (temp.branchName.equals(CurrBranch)) {
+                    CB = temp;
+                    break;
+                }
+            }
+            Command command = new GetAddBranch(Father.Owner.NameProject, BranchName.getText(), CB.branchName, CB.way.get(CB.way.size() - 1).Id);
             try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-
                 Respone respone = (Respone) networkInput.readObject();
-
                 if (respone.TypeRespone == ResponeType.DONE) {
                     /// here Update Tabel With NewBranch Or Back To FileBrowsers
-
+                    System.out.println("Done Add Branch.");
+                    BranchName.getScene().getWindow().hide();
                 } else {
 
                 }
-
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(BranchController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -93,9 +98,10 @@ public class BranchController implements Initializable {
         }
     }
 
-    public BranchController(FileBrowsersController Father, List<CommonBranch> NameBranch) {
+    public BranchController(FileBrowsersController Father, List<CommonBranch> NameBranch, String CurrBranch) {
         this.Father = Father;
         this.NameBranch = NameBranch;
+        this.CurrBranch = CurrBranch;
     }
 
     @Override
@@ -104,6 +110,7 @@ public class BranchController implements Initializable {
         TabelBranch[] st = new TabelBranch[NameBranch.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
+        System.out.println("Size = " + NameBranch.size());
         for (CommonBranch temp : NameBranch) {
             st[idx++] = new TabelBranch(temp.branchName, temp.userCreateBranch, ft.format(temp.lastCommite));
         }
