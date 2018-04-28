@@ -104,6 +104,8 @@ public class PushProjectController implements Initializable {
                 ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
                 System.out.println("Path HiddenFile: " + Path.getText());
                 ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
+                Path.getScene().getWindow().hide();
+                
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {

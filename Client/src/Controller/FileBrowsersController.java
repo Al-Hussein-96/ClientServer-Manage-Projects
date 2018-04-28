@@ -249,6 +249,10 @@ public class FileBrowsersController implements Initializable {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();
+            String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
+            CommonBranch CB = Owner.BranchNames.get(Owner.BranchNames.size()-1);
+            int ID=CB.way.get(CB.way.size()-1).Id;
+            CreateCommitSelected(Branch,ID+1);
         } catch (IOException ex) {
             System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
@@ -289,8 +293,8 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnCommits(ActionEvent event) {
-        /// Master is temp
-        Command command = new GetListCommits(Owner.NameProject, "Master");
+        String Branch = idBranch.getText().substring(9);
+        Command command = new GetListCommits(Owner.NameProject, Branch);
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();

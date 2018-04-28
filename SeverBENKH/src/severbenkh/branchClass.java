@@ -16,7 +16,6 @@ public class branchClass implements Serializable {
     List< CommitClass> way = new ArrayList<>();
     String projectdirector;
     /// list of user download last Version
-    List<String> UsersHowSeeLastUpdate = new ArrayList<>();
     List<ProjectToUpload> BENKH_File = new ArrayList<>();
     Date lastCommite;
     Project father;
@@ -47,7 +46,6 @@ public class branchClass implements Serializable {
         /// incres Number Of Version
         File CreateProjectDirectory = new File(projectdirector + "\\" + NumberOfVersion);
         CreateProjectDirectory.mkdir();
-        UsersHowSeeLastUpdate.add(Author);
 
         update_BENKH();
         father.NumberOfVersion++;
@@ -87,7 +85,6 @@ public class branchClass implements Serializable {
             this.BENKH_File.add(temp2);
         }
 
-        UsersHowSeeLastUpdate.add(userCreateBranch);
         lastCommite = new Date();
         boolean ok_add = true;
         for (Contributor s : father.Contributors) {
@@ -106,15 +103,9 @@ public class branchClass implements Serializable {
     }
 
     boolean UserCanaddNewVersion(String user) {
-        for (String temp : UsersHowSeeLastUpdate) {
-            if (temp.equals(user)) {
-                //// here we should know if he is Contributor;
-                for (Contributor s : father.Contributors) {
-                    if (s.Name.equals(user)) {
-                        return true;
-                    }
-                }
-                return false;
+        for (Contributor s : father.Contributors) {
+            if (s.Name.equals(user)) {
+                return true;
             }
         }
         return false;
@@ -133,8 +124,6 @@ public class branchClass implements Serializable {
             return false;
         }
         /// update Version
-        UsersHowSeeLastUpdate.clear();
-        UsersHowSeeLastUpdate.add(Author);
         int NumberOfVersion = father.NumberOfVersion;
         String Directory = projectdirector + "\\" + NumberOfVersion;
         File CreateProjectDirectory = new File(Directory);
