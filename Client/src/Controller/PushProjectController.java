@@ -72,6 +72,7 @@ public class PushProjectController implements Initializable {
         }
 
         Command command = new GetPush(NameProject, hiddenFile, selectedFile.getName(), Comment.getText());
+//        System.out.println("");
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();

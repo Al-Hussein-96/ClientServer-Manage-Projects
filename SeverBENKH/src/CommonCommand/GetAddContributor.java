@@ -7,7 +7,7 @@ public class GetAddContributor extends GetProject implements Serializable {
     String UserName;
 
     public GetAddContributor(String NameProject, String UserName) {
-        super(NameProject);
+        super(NameProject,CommandType.ADDCONTRIBUTOR);
         this.UserName = UserName;
     }
 

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,20 +47,20 @@ public class ContributorsController implements Initializable {
          * Add New Contributors
          */
         Command command = new GetAddContributor(NameProject, NameContributors.getText());
-
+        System.out.println(NameProject+"  "+NameContributors.getText());
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             Respone respone = (Respone) networkInput.readObject();
-
             if (respone.TypeRespone == ResponeType.DONE) {
                 //// Update Tabel
+                System.out.println("Done Add Con.");
+                NameContributors.getScene().getWindow().hide();
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ContributorsController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     @FXML
@@ -78,7 +79,7 @@ public class ContributorsController implements Initializable {
         TabelContributor[] st = new TabelContributor[Contributors.size()];
         int idx = 0;
         for (Contributor temp : Contributors) {
-            st[idx] = new TabelContributor(temp.Name, String.valueOf(temp.NumberOfCommit));
+            st[idx++] = new TabelContributor(temp.Name, String.valueOf(temp.NumberOfCommit));
         }
         list = FXCollections.observableArrayList(st);
         C1.setCellValueFactory(new PropertyValueFactory<>("Name"));
