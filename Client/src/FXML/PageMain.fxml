@@ -80,6 +80,23 @@
             </Group>
             <Group layoutX="28.0" layoutY="281.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="235.0">
                <children>
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onAction="#MyPage" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="My Page" textFill="#00edbc">
+                     <font>
+                        <Font name="CoconNextArabic-Light" size="20.0" />
+                     </font>
+                     <effect>
+                        <Reflection />
+                     </effect>
+                  </JFXButton>
+                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-32.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../res/4.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Group>
+            <Group layoutX="38.0" layoutY="291.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
+               <children>
                   <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Sign Out" textFill="#00edbc">
                      <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />

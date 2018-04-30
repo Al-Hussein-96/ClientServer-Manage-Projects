@@ -36,6 +36,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class AllProjectController implements Initializable {
+
     User user;
 
     private AnchorPane roopane;
@@ -67,7 +68,7 @@ public class AllProjectController implements Initializable {
         }
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
-        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP,user);
+        FileBrowsersController fileBrowsersController = new FileBrowsersController(CP, user);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
         fxmlLoader.setController(fileBrowsersController);
         Parent root = null;
@@ -88,8 +89,6 @@ public class AllProjectController implements Initializable {
     public void setUser(User user) {
         this.user = user;
     }
-    
-    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

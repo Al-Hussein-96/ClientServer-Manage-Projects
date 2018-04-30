@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../src/Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.UserInterfaceController">
+    <children>
+        <AnchorPane layoutX="35.0" layoutY="50.0" prefHeight="400.0" prefWidth="630.0" styleClass="topPane" />
+        <AnchorPane layoutX="90.0" layoutY="85.0" prefHeight="331.0" prefWidth="546.0" styleClass="cardPane">
+            <children>
+                <ImageView fitHeight="169.0" fitWidth="230.0" layoutX="72.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../res/arrow2.JPG" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="112.0" fitWidth="144.0" layoutX="39.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../res/Personal.png" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="89.0" fitWidth="132.0" layoutX="259.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../res/arrow3.JPG" />
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="315.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../res/arrow.JPG" />
+                    </image>
+                </ImageView>
+                <Ellipse fill="#d9dcdd" layoutX="275.0" layoutY="185.0" radiusX="66.0" radiusY="27.0" stroke="#1190da" strokeType="INSIDE" strokeWidth="4.0" />
+                <Label fx:id="NameUser" layoutX="234.0" layoutY="172.0" text="NameUser" textFill="#6108f2">
+                    <font>
+                        <Font name="CoconNextArabic-Light" size="17.0" />
+                    </font>
+                </Label>
+                <Group />
+                <JFXTextField focusColor="#1b41b5" labelFloat="true" layoutX="381.0" layoutY="57.0" prefHeight="31.0" prefWidth="153.0" text="Email_Old" unFocusColor="#29c4cd">
+                    <font>
+                        <Font name="CoconNextArabic-Light" size="17.0" />
+                    </font>
+                </JFXTextField>
+                <Label layoutX="332.0" layoutY="63.0" text="Email:" textFill="#1814e4">
+                    <font>
+                        <Font name="CoconNextArabic-Light" size="17.0" />
+                    </font>
+                </Label>
+                <JFXTextField focusColor="#1b41b5" labelFloat="true" layoutX="388.0" layoutY="232.0" prefHeight="31.0" prefWidth="145.0" text="Date_Old" unFocusColor="#29c4cd">
+                    <font>
+                        <Font name="CoconNextArabic-Light" size="17.0" />
+                    </font>
+                </JFXTextField>
+                <Label layoutX="348.0" layoutY="238.0" text="Date:" textFill="#3b14c6">
+                    <font>
+                        <Font name="CoconNextArabic-Light" size="17.0" />
+                    </font>
+                </Label>
+                <JFXButton layoutX="27.0" layoutY="217.0" stylesheets="@../src/Css/Button.css" text="Projects" />
+                <JFXButton layoutX="31.0" layoutY="274.0" stylesheets="@../src/Css/Button.css" text="Contributors" />
+                <JFXButton layoutX="232.0" layoutY="286.0" prefHeight="31.0" prefWidth="85.0" stylesheets="@../src/Css/Button.css" text="Done" />
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

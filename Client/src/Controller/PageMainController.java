@@ -62,6 +62,20 @@ public class PageMainController implements Initializable {
     }
 
     @FXML
+    private void MyPage(ActionEvent event) {
+        try {
+            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/UserInterface.fxml"));
+            AnchorPane pane = (AnchorPane) fXMLLoader.load();
+            UserInterfaceController userInterfaceController = fXMLLoader.getController();
+            userInterfaceController.setRoopane(roopane);
+            userInterfaceController.setUser(Owner);
+            roopane.getChildren().setAll(pane);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage() + "End Message");
+        }
+    }
+
+    @FXML
     private void SignOut(MouseEvent event) {
         try {
             roopane.getScene().getWindow().hide();
