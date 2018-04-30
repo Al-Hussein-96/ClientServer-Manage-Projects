@@ -295,6 +295,7 @@ public class FileBrowsersController implements Initializable {
     @FXML
     void btnCommits(ActionEvent event) {
         String Branch = idBranch.getText().substring(9);
+        System.out.println(Branch + "Need : ");
         Command command = new GetListCommits(Owner.NameProject, Branch);
         try {
             networkOutput.writeObject(command);

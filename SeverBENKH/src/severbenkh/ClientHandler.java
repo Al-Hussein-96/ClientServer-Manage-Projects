@@ -166,6 +166,7 @@ public class ClientHandler extends Thread {
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
         Myproject.Save();
+        
         Send_Done();
     }
 
@@ -361,9 +362,21 @@ public class ClientHandler extends Thread {
 
         Project project = get_projectClass(NameProject);
         CommonProject commonproject = Project_to_CommonProject(project);
-
+        int id = -1;
+        int cnt = 0;
+        for(branchClass s : project.branchListClass)
+        {
+            if(s.branchName.equals(NameBranch))
+            {
+                id = cnt;
+                break;
+            }
+            cnt++;
+        }
+        if(id == -1)
+            Send_FALIURE();
         //// 0 is temp for NameBranch
-        Respone respone = new SendListCommits(commonproject.BranchNames.get(0).way);
+        Respone respone = new SendListCommits(commonproject.BranchNames.get(id).way);
         Send_Respone(respone);
 
     }
@@ -678,6 +691,7 @@ public class ClientHandler extends Thread {
         /// Get last Commit in any branch
         String NameProject = ((GetBranch) command).NameProject;
         String branchName = ((GetBranch) command).BranchName;
+        System.out.println(branchName + "Get ");
         String dir = get_Directory_project_first_Time(branchName, NameProject);
         if ("".equals(dir)) {
             Send_FALIURE();

@@ -71,9 +71,9 @@ public class branchClass implements Serializable {
         this.father = father;
         this.projectdirector = father.ProjectDirectory;
         for (int i = 0; i < num; i++) {
-            CommitClass temp = fatherBranch.way.get(i);
+            CommitClass temp = fatherBranch.way.get(i).clone();
             temp.branchName = branchName;
-            way.add(temp);
+            this.way.add(temp);
             ProjectToUpload temp2 = null;
             temp2 = fatherBranch.BENKH_File.get(i).clone();
             temp2.BranchName = branchName;
