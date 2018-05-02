@@ -15,7 +15,7 @@
    <children>
       <AnchorPane fx:id="roopane" layoutX="202.0" layoutY="33.0" prefHeight="467.0" prefWidth="700.0" styleClass="cardPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="203.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
       <JFXButton cancelButton="true" layoutX="873.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#ffeeee" />
-      <AnchorPane minWidth="-Infinity" prefHeight="500.0" prefWidth="202.0" style="-fx-background-color: #000033;">
+      <AnchorPane layoutX="1.0" minWidth="-Infinity" prefHeight="500.0" prefWidth="202.0" style="-fx-background-color: #000033;">
          <children>
             <Text fill="#ffebeb" layoutX="42.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BEHKN">
                <font>
@@ -80,7 +80,7 @@
             </Group>
             <Group layoutX="28.0" layoutY="281.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="235.0">
                <children>
-                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onAction="#MyPage" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="My Page" textFill="#00edbc">
+                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-26.0" layoutY="-26.0" onAction="#btnProfile" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="My Profile" textFill="#00edbc">
                      <font>
                         <Font name="CoconNextArabic-Light" size="20.0" />
                      </font>
@@ -88,30 +88,40 @@
                         <Reflection />
                      </effect>
                   </JFXButton>
-                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-32.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-26.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../res/4.png" />
                      </image>
                   </ImageView>
                </children>
             </Group>
-            <Group layoutX="38.0" layoutY="291.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0">
-               <children>
-                  <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-31.0" layoutY="-30.0" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Sign Out" textFill="#00edbc">
-                     <font>
-                        <Font name="CoconNextArabic-Light" size="20.0" />
-                     </font>
-                     <effect>
-                        <Reflection />
-                     </effect>
-                  </JFXButton>
-                  <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="-32.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../res/4.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </Group>
+            <Group layoutX="38.0" layoutY="291.0" opacity="0.99" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="285.0" />
+            <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="8.0" layoutY="343.0" onMouseClicked="#SignOut" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Sign Out" textFill="#00edbc">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="20.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXButton>
+            <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="12.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/4.png" />
+               </image>
+            </ImageView>
+            <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-2.0" layoutY="297.0" onAction="#btnUsers" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Users" textFill="#00edbc">
+               <font>
+                  <Font name="CoconNextArabic-Light" size="20.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXButton>
+            <ImageView fitHeight="32.0" fitWidth="34.0" layoutX="15.0" layoutY="302.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/4.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

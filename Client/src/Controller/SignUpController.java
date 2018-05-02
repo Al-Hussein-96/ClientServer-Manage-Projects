@@ -49,6 +49,9 @@ public class SignUpController implements Initializable {
     @FXML
     private JFXCheckBox RememberMe;
 
+    @FXML
+    private JFXTextField email;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //       JFXDepthManager.setDepth(cardpanal, 2);
@@ -66,12 +69,14 @@ public class SignUpController implements Initializable {
             String UserName = username.getText();
             String PassWord = password.getText();
             String Password_Confirmation = password_confirmation.getText();
+            String Email = email.getText();
             if (!PassWord.equals(Password_Confirmation)) {
                 System.out.println("Mismatch");
                 return;
             }
 
             User user = new User(UserName, PassWord);
+            user.setEmail(Email);
             Command command = new GetSIGNUP(user);
             networkOutput.writeObject(command);
             networkOutput.flush();

@@ -1,12 +1,15 @@
 package CommonClass;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
 
     private String Name;
     private String Password;
     private int Id;
+    String Email;
+    Date DateCreate;
 
     public User(String Name, String Password) {
         this.Name = Name;
@@ -36,5 +39,21 @@ public class User implements Serializable {
     public void setId(int Id) {
         this.Id = Id;
     }
+
+    public void setEmail(String Email) {
+        this.Email = Email;   }
+
+    public void setDateCreate(Date DateCreate) {
+        this.DateCreate = DateCreate;   }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public Date getDateCreate() {
+        return DateCreate;
+    }
+    
+    
 
 }

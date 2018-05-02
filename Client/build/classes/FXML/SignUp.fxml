@@ -29,7 +29,7 @@
                         <Image url="@../res/download.png" />
                     </image>
                 </ImageView>
-                <JFXTextField fx:id="username" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="120.0" layoutY="104.0" promptText="Enter Your Name" unFocusColor="#234ad7" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="120.0">
+                <JFXTextField fx:id="username" alignment="CENTER" focusColor="#b54393" labelFloat="true" layoutX="10.0" layoutY="104.0" promptText="Enter Your Name" unFocusColor="#234ad7" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="230.0">
                     <font>
                         <Font name="CoconNextArabic-Light" size="16.0" />
                     </font>
@@ -69,6 +69,7 @@
                <effect>
                   <Reflection />
                </effect></JFXCheckBox>
+            <JFXTextField layoutX="244.0" layoutY="104.0" promptText="Enter Your Email" />
             </children>
         </AnchorPane>
     </children>

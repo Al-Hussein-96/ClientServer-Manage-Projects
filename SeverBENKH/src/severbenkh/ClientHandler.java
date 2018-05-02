@@ -68,7 +68,6 @@ public class ClientHandler extends Thread {
                 continue;
             }
             /// select the command from client
-            ///  تفسير تعليمات من المستخدم 
             switch (command.TypeCommand) {
                 case SIGNUP:
                     SendToSignUp(command);
@@ -118,6 +117,13 @@ public class ClientHandler extends Thread {
                 case ADDCONTRIBUTOR:
                     SendToAddContributor(command);
                     break;
+
+                case GETLISTUSER:
+                    SendToListUsers(command);
+                    break;
+                case GETPROFILE:
+                    SendToProfile(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -131,6 +137,14 @@ public class ClientHandler extends Thread {
             }
         }
 
+    }
+
+    private void SendToListUsers(Command command) {
+        /// here must Create Respone of (SendListUser) and SendIt
+    }
+
+    private void SendToProfile(Command command) {
+        /// here you will recive Class  (GetProfile) that Contain Users and You Must Create Respone With SendProfile and Send it
     }
 
     private void SendToAddContributor(Command command) {
@@ -166,7 +180,7 @@ public class ClientHandler extends Thread {
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
         Myproject.Save();
-        
+
         Send_Done();
     }
 
@@ -364,17 +378,16 @@ public class ClientHandler extends Thread {
         CommonProject commonproject = Project_to_CommonProject(project);
         int id = -1;
         int cnt = 0;
-        for(branchClass s : project.branchListClass)
-        {
-            if(s.branchName.equals(NameBranch))
-            {
+        for (branchClass s : project.branchListClass) {
+            if (s.branchName.equals(NameBranch)) {
                 id = cnt;
                 break;
             }
             cnt++;
         }
-        if(id == -1)
+        if (id == -1) {
             Send_FALIURE();
+        }
         //// 0 is temp for NameBranch
         Respone respone = new SendListCommits(commonproject.BranchNames.get(id).way);
         Send_Respone(respone);

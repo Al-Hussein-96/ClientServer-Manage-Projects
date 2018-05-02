@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane prefHeight="115.0" prefWidth="700.0" style="-fx-background-color: #1D202F;">
+         <children>
+            <HBox layoutX="200.0" layoutY="60.0" spacing="20.0">
+               <children>
+                  <JFXButton onAction="#btnProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Projects" />
+                  <JFXButton onAction="#btnContributorProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Contributor" />
+                  <JFXButton prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Followers" />
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/user-512.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="CENTER" layoutX="175.0" layoutY="201.0">
+         <children>
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="UserName" />
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="Date Create" />
+            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="Email" />
+         </children>
+      </VBox>
+      <VBox layoutX="308.0" layoutY="211.0" spacing="20.0">
+         <children>
+            <Text fx:id="UserName" strokeType="OUTSIDE" strokeWidth="0.0" text="Mohammad">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" text="m.alhussein.96@gmail.com">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

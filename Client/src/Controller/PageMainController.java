@@ -1,9 +1,21 @@
 package Controller;
 
+import CommonClass.Profile;
 import CommonClass.User;
+import CommonCommand.Command;
+import CommonCommand.GetListUser;
+import CommonCommand.GetProfile;
+import CommonRespone.Respone;
+import CommonRespone.ResponeType;
+import CommonRespone.SendListUser;
+import CommonRespone.SendProfile;
+import static client.Project.networkInput;
+import static client.Project.networkOutput;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,17 +74,63 @@ public class PageMainController implements Initializable {
     }
 
     @FXML
-    private void MyPage(ActionEvent event) {
+    private void btnProfile(ActionEvent event) {
         try {
-            FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/UserInterface.fxml"));
-            AnchorPane pane = (AnchorPane) fXMLLoader.load();
-            UserInterfaceController userInterfaceController = fXMLLoader.getController();
-            userInterfaceController.setRoopane(roopane);
-            userInterfaceController.setUser(Owner);
-            roopane.getChildren().setAll(pane);
-        } catch (IOException ex) {
+            /// this for Display MyProfile Only without Edit
+            Command command = new GetProfile(Owner.getName());
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+
+            Respone respone = (Respone) networkInput.readObject();
+            Profile InfoProfile = ((SendProfile) respone).getProfile();
+
+            if (respone.TypeRespone == ResponeType.DONE) {
+                System.out.println("Respone For GetProfile is Done ");
+
+//                ProfileController profileController = new ProfileController();
+//
+//                profileController.setRoopane(roopane);
+//                profileController.setProfile(InfoProfile);
+//
+//                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
+//                AnchorPane pane = (AnchorPane) fXMLLoader.load();
+//                fXMLLoader.setController(profileController);
+//
+//                roopane.getChildren().setAll(pane);
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
+        } 
+    }
+
+    @FXML
+    void btnUsers(ActionEvent event) {
+        Command command = new GetListUser();
+
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+
+            SendListUser respone = (SendListUser) networkInput.readObject();
+
+            if (respone.TypeRespone == ResponeType.DONE) {
+                System.out.println("Respone For GetListUsers is Done ");
+//                List<User> ListUser = new ArrayList<>(respone.getListUser());
+//                UserController userController = new UserController(ListUser, roopane);
+//
+//                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Users.fxml"));
+//                AnchorPane pane = (AnchorPane) fXMLLoader.load();
+//                fXMLLoader.setController(userController);
+//
+//                roopane.getChildren().setAll(pane);
+
+            }
+
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(PageMainController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     @FXML
@@ -93,7 +151,6 @@ public class PageMainController implements Initializable {
     }
 
     public void setOwner(User Owner) {
-        System.out.println(Owner.getName() + " : " + Owner.getPassword());
         this.Owner = Owner;
     }
 
