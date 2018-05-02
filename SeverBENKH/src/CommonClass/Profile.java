@@ -1,9 +1,10 @@
 package CommonClass;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Profile {
+public class Profile implements Serializable{
     User user;
 
     List<CommonProject> OwnProject = new ArrayList<>();

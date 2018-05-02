@@ -109,7 +109,7 @@
                   <Image url="@../res/4.png" />
                </image>
             </ImageView>
-            <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-2.0" layoutY="297.0" onAction="#btnProfile" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Users" textFill="#00edbc">
+            <JFXButton buttonType="RAISED" graphicTextGap="10.0" layoutX="-2.0" layoutY="297.0" onAction="#btnUsers" prefHeight="44.0" prefWidth="163.0" ripplerFill="#776aa8" text="Users" textFill="#00edbc">
                <font>
                   <Font name="CoconNextArabic-Light" size="20.0" />
                </font>

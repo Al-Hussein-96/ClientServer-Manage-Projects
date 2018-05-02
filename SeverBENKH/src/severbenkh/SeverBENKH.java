@@ -1,14 +1,21 @@
 package severbenkh;
 
+import CommonClass.Profile;
 import CommonClass.ResourceManager;
+import CommonClass.User;
 import CommonClass.ViewfolderClass;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SeverBENKH {
 
@@ -19,7 +26,7 @@ public class SeverBENKH {
     public static String idFileProject = "Data\\id.Project";
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
-
+    public static String list_user_in_server = "Data\\Users Information\\All-User.data";
     public static void main(String[] args) throws IOException {
 
         ViewfolderClass vi = ResourceManager.ViewProject(new File("src"));
@@ -69,6 +76,7 @@ public class SeverBENKH {
 
     private static void initFile() throws FileNotFoundException, IOException {
 
+        
         File DataFile = new File("Data");
         if (!DataFile.exists()) {
             DataFile.mkdir();
@@ -101,6 +109,17 @@ public class SeverBENKH {
             projectDir.mkdir();
 
         }
+        File temp = new File(list_user_in_server);
+        if(!temp.exists())
+        {
+            List<User> t = new ArrayList<>();
+            try {
+                ResourceManager.save((Serializable) t, list_user_in_server);
+            } catch (Exception ex) {
+                Logger.getLogger(SeverBENKH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     private static boolean ProjectNameAllow(String ProjectName) {
