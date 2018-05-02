@@ -69,7 +69,7 @@
                <effect>
                   <Reflection />
                </effect></JFXCheckBox>
-            <JFXTextField layoutX="244.0" layoutY="104.0" promptText="Enter Your Email" />
+            <JFXTextField fx:id="email" layoutX="244.0" layoutY="104.0" promptText="Enter Your Email" />
             </children>
         </AnchorPane>
     </children>
