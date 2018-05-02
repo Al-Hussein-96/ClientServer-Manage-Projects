@@ -3,9 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/GetProfile.java</file>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonClass/Profile.java</file>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
+=======
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/branchClass.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/CommandType.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/SeverBENKH.java</file>
+>>>>>>> b2ad12b55302068ee195227295a710d5126ca980
         </group>
     </open-files>
 </project-private>

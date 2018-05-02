@@ -44,6 +44,8 @@ public class Project extends Application {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.initStyle(StageStyle.TRANSPARENT);
+
+
             stage.show();
             stage.setResizable(false);
         }

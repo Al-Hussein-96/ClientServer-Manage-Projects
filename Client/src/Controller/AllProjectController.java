@@ -43,12 +43,12 @@ public class AllProjectController implements Initializable {
     @FXML
     private JFXButton open;
     @FXML
-    private JFXTreeTableView<TabelProject> TabelView;
+    private JFXTreeTableView<TabelProject> tabelview;
     private List< CommonProject> AllProject;
 
     @FXML
     void btnOpen(ActionEvent event) {
-        TreeItem<TabelProject> TI = TabelView.getSelectionModel().getSelectedItem();
+        TreeItem<TabelProject> TI = tabelview.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
         TabelProject TP = null;
         if (TI != null) {
@@ -154,9 +154,9 @@ public class AllProjectController implements Initializable {
 //        users.add(new TabelProject("IT", "2018", "Moaz", "5", "23"));
 
         final TreeItem<TabelProject> root = new RecursiveTreeItem<>(users, RecursiveTreeObject::getChildren);
-        TabelView.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
-        TabelView.setRoot(root);
-        TabelView.setShowRoot(false);
+        tabelview.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
+        tabelview.setRoot(root);
+        tabelview.setShowRoot(false);
     }
 
     private List<CommonProject> GetAllProject() {

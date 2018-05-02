@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -77,6 +78,7 @@ public class SignUpController implements Initializable {
 
             User user = new User(UserName, PassWord);
             user.setEmail(Email);
+            user.setDateCreate(new Date());
             Command command = new GetSIGNUP(user);
             networkOutput.writeObject(command);
             networkOutput.flush();

@@ -7,7 +7,9 @@ import CommonClass.ViewfolderClass;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.Profile;
 import CommonClass.ProjectToUpload;
+import CommonClass.User;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
@@ -19,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,7 +30,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static severbenkh.SeverBENKH.list_user_in_server;
 import static severbenkh.SeverBENKH.projectdirectoryName;
+import static severbenkh.SeverBENKH.usersdirectoryName;
 
 public class ClientHandler extends Thread {
 
@@ -140,13 +145,51 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToListUsers(Command command) {
-        /// here must Create Respone of (SendListUser) and SendIt
+        try {
+            List < User > temp = (List < User > )ResourceManager.load(list_user_in_server);
+            SendListUser Rc = new SendListUser(temp);
+            Send_Respone(Rc);
+            /// here must Create Respone of (SendListUser) and SendIt
+        } catch (Exception ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void SendToProfile(Command command) {
-        /// here you will recive Class  (GetProfile) that Contain Users and You Must Create Respone With SendProfile and Send it
+        String user = ((GetProfile)command).getUserName();
+        Profile temp =  get_profile(user);
+        Respone respone = new SendProfile(temp);
+        Send_Respone(respone);
     }
 
+    private User get_information(String user)
+    {
+        User temp = null;
+        String directoryname = SeverBENKH.usersdirectoryName + "\\" + user;
+        String userFileName = directoryname + "\\" + user + "information file.data";
+        try {
+            temp = (User) ResourceManager.load(userFileName);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return temp;
+    }
+    private Profile get_profile(String user)
+    {
+        Profile  temp = null;
+        User NewUser = get_information(user);
+        List < CommonProject > ContributorProject = GetUserProject(user);
+        List<CommonProject> OwnProject = new ArrayList<>();
+        for(CommonProject t : ContributorProject)
+        {
+            if(t.Author.equals(user))
+            {
+                OwnProject.add(t);
+            }
+        }
+        temp = new Profile(NewUser, OwnProject, ContributorProject);
+        return temp;
+    }
     private void SendToAddContributor(Command command) {
         String NameProject = ((GetAddContributor) command).NameProject;
         Project Myproject = get_projectClass(NameProject);
@@ -511,7 +554,7 @@ public class ClientHandler extends Thread {
                 MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
                 Send_Done();
-
+         
             } else {
                 Send_FALIURE();
             }
@@ -607,6 +650,22 @@ public class ClientHandler extends Thread {
         return TempList;
     }
 
+    private List< CommonProject> GetUserProject(String user) {
+        List< CommonProject> MyProject = new ArrayList<>();
+        List< Project> TempList = getAllProjectInServer();
+        for (Project s : TempList) {
+            boolean ok = false;
+            for (Contributor t : s.Contributors) {
+                if (t.Name.equals(user)) {
+                    ok = true;
+                }
+            }
+            if (ok) {
+                MyProject.add(Project_to_CommonProject(s));
+            }
+        }
+        return MyProject;
+    }
     private List< CommonProject> GetMyProject() {
         List< CommonProject> MyProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();

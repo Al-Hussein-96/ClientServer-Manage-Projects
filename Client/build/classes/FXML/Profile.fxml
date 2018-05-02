@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane prefHeight="115.0" prefWidth="700.0" style="-fx-background-color: #1D202F;">
@@ -44,7 +43,7 @@
                   <Insets />
                </VBox.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017">
+            <Text fx:id="DateCreate" strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017">
                <VBox.margin>
                   <Insets />
                </VBox.margin>

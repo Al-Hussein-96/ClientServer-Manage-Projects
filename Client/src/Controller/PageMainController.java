@@ -85,23 +85,24 @@ public class PageMainController implements Initializable {
             Profile InfoProfile = ((SendProfile) respone).getProfile();
 
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Respone For GetProfile is Done ");
+                System.out.println("Respone For GetProfile is Done " + InfoProfile.getOwnProject().size());
 
-//                ProfileController profileController = new ProfileController();
-//
-//                profileController.setRoopane(roopane);
-//                profileController.setProfile(InfoProfile);
-//
-//                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
-//                AnchorPane pane = (AnchorPane) fXMLLoader.load();
-//                fXMLLoader.setController(profileController);
-//
-//                roopane.getChildren().setAll(pane);
+                ProfileController profileController = new ProfileController();
+
+                profileController.setRoopane(roopane);
+                profileController.setProfile(InfoProfile);
+
+                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
+                fXMLLoader.setController(profileController);
+
+                AnchorPane pane = (AnchorPane) fXMLLoader.load();
+
+                roopane.getChildren().setAll(pane);
             }
 
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
-        } 
+        }
     }
 
     @FXML
@@ -115,15 +116,18 @@ public class PageMainController implements Initializable {
             SendListUser respone = (SendListUser) networkInput.readObject();
 
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Respone For GetListUsers is Done ");
-//                List<User> ListUser = new ArrayList<>(respone.getListUser());
-//                UserController userController = new UserController(ListUser, roopane);
-//
-//                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Users.fxml"));
-//                AnchorPane pane = (AnchorPane) fXMLLoader.load();
-//                fXMLLoader.setController(userController);
-//
-//                roopane.getChildren().setAll(pane);
+                System.out.println("Respone For GetListUsers is Done " + respone.getListUser().size());
+
+                List<User> ListUser = new ArrayList<>(respone.getListUser());
+                UserController userController = new UserController(ListUser, roopane);
+
+                FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Users.fxml"));
+                fXMLLoader.setController(userController);
+
+                AnchorPane pane = (AnchorPane) fXMLLoader.load();
+
+                System.out.println("Hello World");
+                roopane.getChildren().setAll(pane);
 
             }
 
