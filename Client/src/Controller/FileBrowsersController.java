@@ -240,7 +240,6 @@ public class FileBrowsersController implements Initializable {
     @FXML
     void btnPush(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PushProject.fxml"));
-
         Stage stage = new Stage();
         try {
             AnchorPane root = (AnchorPane) fxmlLoader.load();
@@ -269,10 +268,8 @@ public class FileBrowsersController implements Initializable {
             System.out.println("Error: btnBranch");
         }
         Respone respone = null;
-
         try {
             respone = (Respone) networkInput.readObject();
-
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Errot in FileBrowsers");
         }

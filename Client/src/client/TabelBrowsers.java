@@ -18,21 +18,26 @@ public class TabelBrowsers {
         this.Name = new SimpleStringProperty(Name);
         this.Type = type;
         this.id = id;
+        this.DataModified = new SimpleStringProperty("");
+        this.Size = new SimpleStringProperty("");
+        this.Description = new SimpleStringProperty("");
+        this.DiectoryServer = new String("");
+
         //     this.Description = new SimpleStringProperty(Description);
     }
 
     public String getName() {
         return Name.get();
     }
-    
+
     public String getDataModified() {
         return DataModified.get();
     }
-    
+
     public String getSize() {
         return Size.get();
     }
-    
+
     public String getDescription() {
         return Description.get();
     }
@@ -40,7 +45,5 @@ public class TabelBrowsers {
     public void setDiectoryServer(String DiectoryServer) {
         this.DiectoryServer = DiectoryServer;
     }
-    
-    
 
 }
