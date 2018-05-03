@@ -9,6 +9,7 @@ import CommonRespone.SendCreateProject;
 import CommonRespone.ResponeType;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 import java.io.File;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 
 public class CreateProjectController implements Initializable {
@@ -28,6 +30,8 @@ public class CreateProjectController implements Initializable {
 
     @FXML
     private JFXTextField txtLocation;
+    @FXML
+    private JFXCheckBox PrivateProject;
 
     @FXML
     void btnBrowsers(ActionEvent event) {
@@ -43,12 +47,11 @@ public class CreateProjectController implements Initializable {
     void btnCreate(ActionEvent event) {
         try {
             String path = txtLocation.getText();
-            Command command = new GetStartProject(txtNameProject.getText(), "true");
+            String Access=PrivateProject.isSelected()?"false":"true";
+            Command command = new GetStartProject(txtNameProject.getText(), Access);
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             Respone response = (Respone) networkInput.readObject();
-
             if (response.TypeRespone == ResponeType.DONE) {
                 Respone respone1 = (Respone) networkInput.readObject();
                 ProjectToUpload hiddenFile = ((SendCreateProject) respone1).getBenkhFile();
@@ -63,7 +66,6 @@ public class CreateProjectController implements Initializable {
         }
     }
 
-    @FXML
     void Close(ActionEvent event) {
     }
 

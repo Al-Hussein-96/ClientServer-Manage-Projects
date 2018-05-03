@@ -42,7 +42,7 @@
 }
 
 .table-row-cell:selected {
-    -fx-background-color: #99ff00;
+    -fx-background-color: #005797;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
 }

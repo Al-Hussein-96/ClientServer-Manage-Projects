@@ -24,6 +24,18 @@ public class TabelBrowsers {
     public String getName() {
         return Name.get();
     }
+    
+    public String getDataModified() {
+        return DataModified.get();
+    }
+    
+    public String getSize() {
+        return Size.get();
+    }
+    
+    public String getDescription() {
+        return Description.get();
+    }
 
     public void setDiectoryServer(String DiectoryServer) {
         this.DiectoryServer = DiectoryServer;

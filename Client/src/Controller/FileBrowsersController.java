@@ -128,8 +128,8 @@ public class FileBrowsersController implements Initializable {
 
     private void ShowFolder(ViewfolderClass MyProject) {
         tabelView.getItems().clear();
-        List<  NameAndDirectory> MyFile = MyProject.MyFile;
-        List<  NameAndDirectory> MyFolder = MyProject.MyFolder;
+        List< NameAndDirectory> MyFile = MyProject.MyFile;
+        List< NameAndDirectory> MyFolder = MyProject.MyFolder;
         ObservableList<TabelBrowsers> list;
         int LengthTable = MyFile.size() + MyFolder.size();
         TabelBrowsers[] st = new TabelBrowsers[LengthTable];

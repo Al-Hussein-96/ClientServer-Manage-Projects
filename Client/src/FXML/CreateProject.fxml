@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.effect.Reflection?>
@@ -61,6 +62,14 @@
                   <Image url="@../res/folder-browser-find-path-512.png" />
                </image>
             </ImageView>
+            <JFXCheckBox fx:id="PrivateProject" layoutX="246.0" layoutY="220.0" text="Private Project" unCheckedColor="#0f58dd" underline="true">
+               <font>
+                  <Font name="Cocon-Light" size="15.0" />
+               </font>
+               <effect>
+                  <Reflection />
+               </effect>
+            </JFXCheckBox>
          </children>
       </AnchorPane>
       <JFXButton buttonType="RAISED" layoutX="533.0" layoutY="399.0" onAction="#btnCreate" prefHeight="42.0" prefWidth="113.0" styleClass="topPane" stylesheets="@../Css/Button.css" text="Create" textFill="#f5efef">
