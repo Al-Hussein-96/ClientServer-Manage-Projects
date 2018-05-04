@@ -144,7 +144,7 @@ public class ClientHandler extends Thread {
 
     private void SendToListUsers(Command command) {
         try {
-            List < User > temp = (List < User > )ResourceManager.load(list_user_in_server);
+            List< User> temp = (List< User>) ResourceManager.load(list_user_in_server);
             SendListUser Rc = new SendListUser(temp);
             Send_Respone(Rc);
             /// here must Create Respone of (SendListUser) and SendIt
@@ -154,14 +154,13 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToProfile(Command command) {
-        String user = ((GetProfile)command).getUserName();
-        Profile temp =  get_profile(user);
+        String user = ((GetProfile) command).getUserName();
+        Profile temp = get_profile(user);
         Respone respone = new SendProfile(temp);
         Send_Respone(respone);
     }
 
-    private User get_information(String user)
-    {
+    private User get_information(String user) {
         User temp = null;
         String directoryname = SeverBENKH.usersdirectoryName + "\\" + user;
         String userFileName = directoryname + "\\" + user + "information file.data";
@@ -172,22 +171,21 @@ public class ClientHandler extends Thread {
         }
         return temp;
     }
-    private Profile get_profile(String user)
-    {
-        Profile  temp = null;
+
+    private Profile get_profile(String user) {
+        Profile temp = null;
         User NewUser = get_information(user);
-        List < CommonProject > ContributorProject = GetUserProject(user);
-        List<CommonProject> OwnProject = new ArrayList<>();
-        for(CommonProject t : ContributorProject)
-        {
-            if(t.Author.equals(user))
-            {
+        List< CommonProject> ContributorProject = GetUserProject(user);
+        List< CommonProject> OwnProject = new ArrayList<>();
+        for (CommonProject t : ContributorProject) {
+            if (t.Author.equals(user)) {
                 OwnProject.add(t);
             }
         }
         temp = new Profile(NewUser, OwnProject, ContributorProject);
         return temp;
     }
+
     private void SendToAddContributor(Command command) {
         String NameProject = ((GetAddContributor) command).NameProject;
         Project Myproject = get_projectClass(NameProject);
@@ -552,7 +550,7 @@ public class ClientHandler extends Thread {
                 MyUser = ((GetSIGNUP) command).user.getName();
                 System.out.println("Ok");
                 Send_Done();
-         
+
             } else {
                 Send_FALIURE();
             }
@@ -664,6 +662,7 @@ public class ClientHandler extends Thread {
         }
         return MyProject;
     }
+
     private List< CommonProject> GetMyProject() {
         List< CommonProject> MyProject = new ArrayList<>();
         List< Project> TempList = getAllProjectInServer();

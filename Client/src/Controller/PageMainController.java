@@ -42,7 +42,6 @@ public class PageMainController implements Initializable {
     void brnCreateProject(ActionEvent event) throws IOException {
         FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/CreateProject.fxml"));
         AnchorPane pane = fXMLLoader.load();//FXMLLoader.load(getClass().getResource("/FXML/CreateProject.fxml"));
-
         roopane.getChildren().setAll(pane);
     }
 
@@ -80,26 +79,18 @@ public class PageMainController implements Initializable {
             Command command = new GetProfile(Owner.getName());
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             Respone respone = (Respone) networkInput.readObject();
             Profile InfoProfile = ((SendProfile) respone).getProfile();
-
             if (respone.TypeRespone == ResponeType.DONE) {
                 System.out.println("Respone For GetProfile is Done " + InfoProfile.getOwnProject().size());
-
                 ProfileController profileController = new ProfileController();
-
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);
-
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
                 fXMLLoader.setController(profileController);
-
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();
-
                 roopane.getChildren().setAll(pane);
             }
-
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
         }

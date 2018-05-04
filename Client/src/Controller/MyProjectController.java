@@ -71,7 +71,7 @@ public class MyProjectController implements Initializable {
         FileBrowsersController fileBrowsersController = new FileBrowsersController(CP, user);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
 
-         fxmlLoader.setController(fileBrowsersController);
+        fxmlLoader.setController(fileBrowsersController);
         AnchorPane root = null;
         try {
             root = (AnchorPane) fxmlLoader.load();

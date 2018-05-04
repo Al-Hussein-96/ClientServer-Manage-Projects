@@ -22,6 +22,26 @@ public class TabelProject extends RecursiveTreeObject<TabelProject> {
         this.NumberOfCommits = new SimpleStringProperty(NumberOfCommits);
     }
 
+    public String getNameProject() {
+        return NameProject.get();
+    }
+
+    public String getDateCreate() {
+        return DateCreate.get();
+    }
+
+    public String getAuthor() {
+        return Author.get();
+    }
+    
+    public String getNumberOfContributors() {
+        return NumberOfContributors.get();
+    }
+    
+    public String getNumberOfCommits() {
+        return NumberOfCommits.get();
+    }
+
     public boolean equal(CommonProject CP) {
         int numCommit = 0;
         for (CommonBranch t : CP.BranchNames) {
@@ -29,7 +49,8 @@ public class TabelProject extends RecursiveTreeObject<TabelProject> {
         }
 
         return this.NameProject.get().equals(String.valueOf(CP.NameProject))
-                && this.Author.get().equals(String.valueOf(CP.Author)) && this.NumberOfContributors.get().equals(String.valueOf(CP.Contributors.size()))
+                && this.Author.get().equals(String.valueOf(CP.Author)) 
+                && this.NumberOfContributors.get().equals(String.valueOf(CP.Contributors.size()))
                 && this.NumberOfCommits.get().equals(String.valueOf(numCommit));
     }
 }

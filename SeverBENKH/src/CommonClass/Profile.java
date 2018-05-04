@@ -18,7 +18,7 @@ public class Profile implements Serializable{
         }
 
         for (CommonProject u : ContributorProject) {
-            this.OwnProject.add(u);
+            this.ContributorProject.add(u);
         }
     }
 
