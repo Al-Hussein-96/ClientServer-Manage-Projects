@@ -29,6 +29,7 @@
     -fx-text-fill: white;
 }
 
+
 .table-row-cell{
     -fx-background-color: -fx-table-cell-border-color, #616161;
     -fx-background-insets: 0, 0 0 1 0;
@@ -45,6 +46,9 @@
     -fx-background-color: #005797;
     -fx-background-insets: 0;
     -fx-background-radius: 1;
+}
+.table-row-cell:empty{
+    -fx-background-color: #ff6666;
 }
 
 .table-view > .virtual-flow > .scroll-bar:vertical,

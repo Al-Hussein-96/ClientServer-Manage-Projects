@@ -25,12 +25,15 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class LoginMainController implements Initializable {
 
@@ -72,6 +75,25 @@ public class LoginMainController implements Initializable {
             if (respone.TypeRespone == ResponeType.DONE) {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);
+                /**
+                 * *
+                 */
+                Notifications notification = Notifications.create()
+                        .title("Login")
+                        .text("Done Login")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
+            } else {
+                ////
+                Notifications notification = Notifications.create()
+                        .title("Login")
+                        .text("Can't Login")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
             }
 
         } catch (IOException ex) {
@@ -101,8 +123,7 @@ public class LoginMainController implements Initializable {
         try {
             username.getScene().getWindow().hide();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PageMain.fxml"));
-            
-                        
+
             Parent root = (Parent) fxmlLoader.load();
             PageMainController mainPageController = fxmlLoader.getController();
             mainPageController.setOwner(new User(username.getText(), password.getText()));

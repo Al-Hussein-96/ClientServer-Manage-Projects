@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import javafx.geometry.Pos;
+import org.controlsfx.control.Notifications;
 
 public class ResourceManager {
 

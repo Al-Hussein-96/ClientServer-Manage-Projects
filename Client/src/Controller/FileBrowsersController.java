@@ -52,10 +52,13 @@ import com.jfoenix.controls.JFXButton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class FileBrowsersController implements Initializable {
 
@@ -229,10 +232,25 @@ public class FileBrowsersController implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("Done Pull project.");
+            /*****/
+            Notifications notification = Notifications.create()
+                    .title("Pull Project")
+                    .text("Done Pull Project")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showConfirm();
 
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("Error in btnPull : " + ex.getMessage());
+            Notifications notification = Notifications.create()
+                    .title("Pull Project")
+                    .text("Can't Pull Project")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showError();
+
         }
 
     }
@@ -275,7 +293,7 @@ public class FileBrowsersController implements Initializable {
         }
 
         String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
-        BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch(),Branch);
+        BranchController branchController = new BranchController(this, ((SendListBranch) respone).getListbranch(), Branch);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Branch.fxml"));
         fxmlLoader.setController(branchController);
         Stage stage = new Stage();

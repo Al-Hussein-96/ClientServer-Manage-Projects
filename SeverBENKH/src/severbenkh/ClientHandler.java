@@ -34,7 +34,7 @@ import static severbenkh.SeverBENKH.projectdirectoryName;
 
 public class ClientHandler extends Thread {
 
-    public  String MyUser;
+    public String MyUser;
     private Socket client;
     private ObjectInputStream input;
     private ObjectOutputStream output;

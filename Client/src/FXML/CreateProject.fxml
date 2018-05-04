@@ -72,7 +72,7 @@
             </JFXCheckBox>
          </children>
       </AnchorPane>
-      <JFXButton buttonType="RAISED" layoutX="533.0" layoutY="399.0" onAction="#btnCreate" prefHeight="42.0" prefWidth="113.0" styleClass="topPane" stylesheets="@../Css/Button.css" text="Create" textFill="#f5efef">
+      <JFXButton fx:id="btnCreate" buttonType="RAISED" layoutX="533.0" layoutY="399.0" onAction="#btnCreate" prefHeight="42.0" prefWidth="113.0" styleClass="topPane" stylesheets="@../Css/Button.css" text="Create" textFill="#f5efef">
          <font>
             <Font name="CoconNextArabic-Light" size="22.0" />
          </font>

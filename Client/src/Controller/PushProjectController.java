@@ -26,7 +26,10 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class PushProjectController implements Initializable {
 
@@ -70,7 +73,7 @@ public class PushProjectController implements Initializable {
         if (hiddenFile == null) {
             return;
         }
-        System.out.println(NameProject+"  "+hiddenFile+"  "+selectedFile.getName()+"  "+Comment.getText());
+        System.out.println(NameProject + "  " + hiddenFile + "  " + selectedFile.getName() + "  " + Comment.getText());
         Command command = new GetPush(NameProject, hiddenFile, selectedFile.getName(), Comment.getText());
         try {
             networkOutput.writeObject(command);
@@ -104,14 +107,30 @@ public class PushProjectController implements Initializable {
                 System.out.println("Path HiddenFile: " + Path.getText());
                 ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
                 Path.getScene().getWindow().hide();
-                
+
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (Exception ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            /****/
+            Notifications notification = Notifications.create()
+                    .title("Push Project")
+                    .text("Done Push Project")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showConfirm();
 
         } else {
+            /*****/
+            Notifications notification = Notifications.create()
+                    .title("Push Project")
+                    .text("Can't Push Project")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showError();
 
         }
     }
