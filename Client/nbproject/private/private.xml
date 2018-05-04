@@ -3,15 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/AllProjectController.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/client/Project.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/UserController.java</file>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/PageMainController.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonClass/Profile.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonCommand/GetProfile.java</file>
-=======
-            <file>file:/D:/ClientServer-Manage-Projects/Client/src/Controller/CommitsController.java</file>
-            <file>file:/D:/ClientServer-Manage-Projects/Client/src/client/Project.java</file>
-            <file>file:/D:/ClientServer-Manage-Projects/Client/src/Controller/FileBrowsersController.java</file>
->>>>>>> b2ad12b55302068ee195227295a710d5126ca980
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Css/StyleTabel.css</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Css/StyletreeTableview.css</file>
         </group>
     </open-files>
 </project-private>

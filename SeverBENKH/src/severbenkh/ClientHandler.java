@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,11 +31,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static severbenkh.SeverBENKH.list_user_in_server;
 import static severbenkh.SeverBENKH.projectdirectoryName;
-import static severbenkh.SeverBENKH.usersdirectoryName;
 
 public class ClientHandler extends Thread {
 
-    public static String MyUser;
+    public  String MyUser;
     private Socket client;
     private ObjectInputStream input;
     private ObjectOutputStream output;
