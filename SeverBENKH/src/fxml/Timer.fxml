@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="253.0" prefWidth="453.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.141" fx:controller="Controller.TimerController">
+   <children>
+      <Label fx:id="sc1" layoutX="375.0" layoutY="22.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="sc2" layoutX="323.0" layoutY="24.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="mi1" layoutX="243.0" layoutY="25.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="mi2" layoutX="191.0" layoutY="25.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="ho1" layoutX="94.0" layoutY="25.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="ho2" layoutX="42.0" layoutY="25.0" text="0">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label layoutX="159.0" layoutY="15.0" text=":">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <Label layoutX="297.0" layoutY="15.0" text=":">
+         <font>
+            <Font size="96.0" />
+         </font>
+      </Label>
+      <JFXButton layoutX="330.0" layoutY="185.0" onAction="#start" prefHeight="34.0" prefWidth="90.0" style="-fx-background-color: #CCCCCC;" text="Start">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="49.0" layoutY="185.0" onAction="#stop" prefHeight="34.0" prefWidth="90.0" style="-fx-background-color: #CCCCCC;" text="Stop">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

@@ -16,37 +16,56 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public class SeverBENKH {
+public class SeverBENKH extends Application {
 
-    private static ServerSocket serverSocket;
-    private static final int PORT = 4321;
+    public static ServerSocket serverSocket;
+    public static final int PORT = 4321;
 
     public static String idFileName = "Data\\id.Name";
     public static String idFileProject = "Data\\id.Project";
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Timer.fxml"));
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+      //  stage.initStyle(StageStyle.TRANSPARENT);
+
+        stage.show();
+        stage.setResizable(false);
+    }
+
     public static void main(String[] args) throws IOException {
 
         ViewfolderClass vi = ResourceManager.ViewProject(new File("src"));
         ResourceManager.ShowViewfolder(vi);
         initFile();
+        
+        launch(args);
 
-        try {
-            serverSocket = new ServerSocket(PORT);
-        } catch (IOException ex) {
-            System.out.println("Unable to Connect to Port");
-            System.exit(1);
-        }
-        do {
-            Socket client = serverSocket.accept();
-            System.out.println("New Client Accepted");
-
-            ClientHandler handler = new ClientHandler(client);
-            handler.start();
-        } while (true);
-
+//        try {
+//            serverSocket = new ServerSocket(PORT);
+//        } catch (IOException ex) {
+//            System.out.println("Unable to Connect to Port");
+//            System.exit(1);
+//        }
+//        do {
+//            Socket client = serverSocket.accept();
+//            System.out.println("New Client Accepted");
+//
+//            ClientHandler handler = new ClientHandler(client);
+//            handler.start();
+//        } while (true);
     }
 
     public static int idincreUser(String idFilename) throws FileNotFoundException, IOException {
@@ -76,7 +95,6 @@ public class SeverBENKH {
 
     private static void initFile() throws FileNotFoundException, IOException {
 
-        
         File DataFile = new File("Data");
         if (!DataFile.exists()) {
             DataFile.mkdir();
@@ -110,8 +128,7 @@ public class SeverBENKH {
 
         }
         File temp = new File(list_user_in_server);
-        if(!temp.exists())
-        {
+        if (!temp.exists()) {
             List<User> t = new ArrayList<>();
             try {
                 ResourceManager.save((Serializable) t, list_user_in_server);
@@ -119,7 +136,7 @@ public class SeverBENKH {
                 Logger.getLogger(SeverBENKH.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
     }
 
     private static boolean ProjectNameAllow(String ProjectName) {

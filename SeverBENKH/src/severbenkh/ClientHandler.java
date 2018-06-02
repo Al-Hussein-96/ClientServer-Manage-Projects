@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static severbenkh.SeverBENKH.list_user_in_server;
 import static severbenkh.SeverBENKH.projectdirectoryName;
+import static severbenkh.SeverBENKH.serverSocket;
 
 public class ClientHandler extends Thread {
 
@@ -39,7 +41,7 @@ public class ClientHandler extends Thread {
     private ObjectInputStream input;
     private ObjectOutputStream output;
 
-    ClientHandler(Socket client) {
+    public ClientHandler(Socket client) {
         this.client = client;
 
         try {
@@ -57,6 +59,9 @@ public class ClientHandler extends Thread {
 
         Command command = null;
         do {
+            if(serverSocket.isClosed())
+                break;
+            
             try {
                 command = (Command) input.readObject();
                 System.out.println("command: " + command.toString());
