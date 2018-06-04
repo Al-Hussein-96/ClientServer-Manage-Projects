@@ -13,6 +13,10 @@ import CommonClass.User;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
+import EventClass.Event_AddBranch;
+import EventClass.Event_AddCommit;
+import EventClass.Event_AddContributor;
+import EventClass.Event_Class;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -197,6 +201,8 @@ public class ClientHandler extends Thread {
         String UserName = ((GetAddContributor) command).getUserName();
         Myproject.add_Contributor(UserName);
         Myproject.Save();
+        Event_Class Ev = new Event_AddContributor(MyUser, NameProject, new Date(), UserName);
+        addNewEvent(Ev);
         Send_Done();
     }
 
@@ -224,10 +230,16 @@ public class ClientHandler extends Thread {
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
         Myproject.Save();
-
+        
+        Event_Class Ev = new Event_AddBranch(MyUser ,NameProject ,new Date() ,BranchName);
+        addNewEvent(Ev);
         Send_Done();
     }
-
+    /// need code
+    private void addNewEvent(Event_Class Ev)
+    {
+        
+    }
     /// get file BENKH form server for this project and this branch 
     private ProjectToUpload get_ProjectToUpload(String ProjectName, String branchName) {
         ProjectToUpload temp = null;
@@ -299,6 +311,7 @@ public class ClientHandler extends Thread {
         boolean Done = false;
         String NewCommitPlace = "";   /// String.valueOf(clientFile.IdLastCommit + 1);
         branchClass targetbranch = null;
+        CommitClass CommitUserCreate  = null; 
         for (branchClass s : serverproject.branchListClass) {
             if (s.branchName.equals(clientFile.BranchName)) {
                 /// get targetbranch to change last commit id , add new commit
@@ -306,8 +319,8 @@ public class ClientHandler extends Thread {
                 String CommentUser = ((GetPush) command).CommentUser;
                 Done = true;
                 /// add user commit to branch
-                boolean yes = s.addNewVersion(MyUser, CommentUser);
-                if (!yes) {
+                CommitUserCreate = s.addNewVersion(MyUser, CommentUser);
+                if (CommitUserCreate.equals(null)) {
                     /// user is not of Contributors
                     Send_FALIURE();
                     /// Stop function
@@ -351,6 +364,10 @@ public class ClientHandler extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        Event_Class Ev = new Event_AddCommit(MyUser, NameProject, new Date(), CommitUserCreate);
+        addNewEvent(Ev);
     }
 
     /// create folders in server for project 

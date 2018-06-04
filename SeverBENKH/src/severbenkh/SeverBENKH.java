@@ -33,6 +33,7 @@ public class SeverBENKH extends Application {
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
+    public static String EventDirectory = "Data\\Events";
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -127,6 +128,13 @@ public class SeverBENKH extends Application {
             projectDir.mkdir();
 
         }
+        
+         // create Event directory
+        File EventDir = new File(EventDirectory);
+        if (!EventDir.exists()) {
+            EventDir.mkdir();
+        }
+        
         File temp = new File(list_user_in_server);
         if (!temp.exists()) {
             List<User> t = new ArrayList<>();

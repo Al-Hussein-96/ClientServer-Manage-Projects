@@ -113,10 +113,10 @@ public class branchClass implements Serializable {
      * @param Detail Comment Of User for this Commit
      * @return
      */
-    boolean addNewVersion(String Author, String Detail) {
+    CommitClass addNewVersion(String Author, String Detail) {
         boolean Can = UserCanaddNewVersion(Author);
         if (!Can) {
-            return false;
+            return null;
         }
         /// update Version
         int NumberOfVersion = father.NumberOfVersion;
@@ -144,7 +144,7 @@ public class branchClass implements Serializable {
         }
         update_BENKH();
         father.NumberOfVersion++;
-        return true;
+        return temp;
     }
 
 }
