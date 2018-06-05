@@ -35,7 +35,9 @@ public class ResourceManager {
             if (isDirectory) {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
-                NameAndDirectory New = new NameAndDirectory(Name, Directory);
+                long size = file.length();
+                long DateModified = file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name, size, DateModified, Directory);
                 MyViewfolder.MyFolder.add(New);
                 File tempFolder = new File(MyDirectory + "\\" + file.getName());
                 ViewfolderClass temp = ViewProject(tempFolder);
@@ -44,7 +46,9 @@ public class ResourceManager {
             } else {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
-                NameAndDirectory New = new NameAndDirectory(Name, Directory);
+                long size = file.length();
+                long DateModified = file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name, size, DateModified, Directory);
                 MyViewfolder.MyFile.add(New);
             }
         }
@@ -61,12 +65,16 @@ public class ResourceManager {
             if (isDirectory) {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
-                NameAndDirectory New = new NameAndDirectory(Name, Directory);
+                long size = file.length();
+                long DateModified=file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name,size,DateModified, Directory);
                 MyViewfolder.MyFolder.add(New);
             } else {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
-                NameAndDirectory New = new NameAndDirectory(Name, Directory);
+                long size = file.length();
+                long DateModified=file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name,size,DateModified, Directory);
                 MyViewfolder.MyFile.add(New);
             }
         }

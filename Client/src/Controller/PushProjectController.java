@@ -152,7 +152,7 @@ public class PushProjectController implements Initializable {
             byte[] DataFile = new byte[4096];
             String dir = ((GetFile) command).getDirectoryFile();
             File file = new File(dir);
-            NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
+            NameAndDirectory My = new NameAndDirectory(file.getName(),file.length(),file.lastModified(), dir);
             fis = new FileInputStream(file);
             long fileSize = file.length();
             int n;

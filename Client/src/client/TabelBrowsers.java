@@ -9,7 +9,7 @@ public class TabelBrowsers {
     public boolean Type;
     public ImageView ImageIcon;
     public SimpleStringProperty Name;
-    public SimpleStringProperty DataModified;
+    public SimpleStringProperty DateModified;
     public SimpleStringProperty Size;
     public SimpleStringProperty Description;
     public String DiectoryServer;
@@ -18,7 +18,7 @@ public class TabelBrowsers {
         this.Name = new SimpleStringProperty(Name);
         this.Type = type;
         this.id = id;
-        this.DataModified = new SimpleStringProperty("");
+        this.DateModified = new SimpleStringProperty("");
         this.Size = new SimpleStringProperty("");
         this.Description = new SimpleStringProperty("");
         this.DiectoryServer = new String("");
@@ -30,8 +30,8 @@ public class TabelBrowsers {
         return Name.get();
     }
 
-    public String getDataModified() {
-        return DataModified.get();
+    public String getDateModified() {
+        return DateModified.get();
     }
 
     public String getSize() {
@@ -46,4 +46,11 @@ public class TabelBrowsers {
         this.DiectoryServer = DiectoryServer;
     }
 
+    public void setSize(String size) {
+         this.Size = new SimpleStringProperty(size);
+    }
+    
+    public void setDateModified(String dateModified) {
+         this.DateModified = new SimpleStringProperty(dateModified);
+    }
 }

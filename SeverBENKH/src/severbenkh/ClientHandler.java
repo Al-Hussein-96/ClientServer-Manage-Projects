@@ -213,6 +213,16 @@ public class ClientHandler extends Thread {
         String UserName = ((GetAddContributor) command).getUserName();
         List< User> AllUsers = null;
         boolean UserNameExists = false;
+        boolean MyUserInContributors = false;
+        for (Contributor C : Myproject.Contributors) {
+            if (C.Name.equals(MyUser)) {
+                MyUserInContributors = true;
+            }
+        }
+        if (!MyUserInContributors) {
+            Send_FALIURE();
+            return;
+        }
         // check if the username exists
         try {
             AllUsers = (List< User>) ResourceManager.load(list_user_in_server);
@@ -247,7 +257,16 @@ public class ClientHandler extends Thread {
         int idCommit = ((GetAddBranch) command).idCommit;
         Project Myproject = get_projectClass(NameProject);
         branchClass BranchFather_class = null;
-        boolean ok = true;
+        boolean MyUserInContributors = false;
+        for (Contributor C : Myproject.Contributors) {
+            if (C.Name.equals(MyUser)) {
+                MyUserInContributors = true;
+            }
+        }
+        if (!MyUserInContributors) {
+            Send_FALIURE();
+            return;
+        }
         for (branchClass s : Myproject.branchListClass) {
             if (s.branchName.equals(BranchName)) {
                 /// there is branch same name 
@@ -565,7 +584,9 @@ public class ClientHandler extends Thread {
             byte[] DataFile = new byte[4096];
             String dir = ((GetFile) command).getDirectoryFile();
             File file = new File(dir);
-            NameAndDirectory My = new NameAndDirectory(file.getName(), dir);
+            long size = file.length();
+            long DateModified = file.lastModified();
+            NameAndDirectory My = new NameAndDirectory(file.getName(), size, DateModified, dir);
             fis = new FileInputStream(file);
             long fileSize = file.length();
 

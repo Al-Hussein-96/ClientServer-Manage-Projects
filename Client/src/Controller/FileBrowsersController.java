@@ -51,6 +51,8 @@ import javafx.stage.Stage;
 import com.jfoenix.controls.JFXButton;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -130,6 +132,7 @@ public class FileBrowsersController implements Initializable {
     }
 
     private void ShowFolder(ViewfolderClass MyProject) {
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         tabelView.getItems().clear();
         List< NameAndDirectory> MyFile = MyProject.MyFile;
         List< NameAndDirectory> MyFolder = MyProject.MyFolder;
@@ -141,6 +144,11 @@ public class FileBrowsersController implements Initializable {
             st[i] = new TabelBrowsers(s1, true, i);
             String Dir = MyFolder.get(i).Directory;
             st[i].setDiectoryServer(Dir);  //// need it for open File
+            String size = "";
+            st[i].setSize(size);
+            Date date = new Date(MyFolder.get(i).DateModified);
+            String DateModified = ft.format(date);
+            st[i].setDateModified(DateModified);
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).Name;
@@ -150,11 +158,20 @@ public class FileBrowsersController implements Initializable {
             st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size());
             String Dir = MyFile.get(i).Directory;
             st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
+            long temp = MyFile.get(i).Size / 1024;
+            if (MyFile.get(i).Size % 1024 != 0) {
+                temp++;
+            }
+            String size = String.valueOf(temp + " KB ");
+            st[i + MyFolder.size()].setSize(size);
+            Date date = new Date(MyFile.get(i).DateModified);
+            String DateModified = ft.format(date);
+            st[i + MyFolder.size()].setDateModified(DateModified);
         }
         list = FXCollections.observableArrayList(st);
         Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
         Size.setCellValueFactory(new PropertyValueFactory<>("Size"));
-        DataModified.setCellValueFactory(new PropertyValueFactory<>("DataModified"));
+        DataModified.setCellValueFactory(new PropertyValueFactory<>("DateModified"));
         tabelView.setItems(list);
     }
 
@@ -232,7 +249,9 @@ public class FileBrowsersController implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /*****/
+            /**
+             * **
+             */
             Notifications notification = Notifications.create()
                     .title("Pull Project")
                     .text("Done Pull Project")
