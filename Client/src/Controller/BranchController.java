@@ -23,9 +23,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class BranchController implements Initializable {
 
@@ -89,8 +92,21 @@ public class BranchController implements Initializable {
                     /// here Update Tabel With NewBranch Or Back To FileBrowsers
                     System.out.println("Done Add Branch.");
                     BranchName.getScene().getWindow().hide();
+                    Notifications notification = Notifications.create()
+                            .title("Add Branch")
+                            .text("Done Add Branch.")
+                            .graphic(null)
+                            .hideAfter(Duration.seconds(2))
+                            .position(Pos.CENTER);
+                    notification.showConfirm();
                 } else {
-
+                    Notifications notification = Notifications.create()
+                            .title("Add Branch")
+                            .text("Can't Add Branch.")
+                            .graphic(null)
+                            .hideAfter(Duration.seconds(2))
+                            .position(Pos.CENTER);
+                    notification.showConfirm();
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(BranchController.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,9 +21,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 public class ContributorsController implements Initializable {
 
@@ -56,6 +59,23 @@ public class ContributorsController implements Initializable {
                 //// Update Tabel
                 System.out.println("Done Add Contributor.");
                 NameContributors.getScene().getWindow().hide();
+                
+                Notifications notification = Notifications.create()
+                        .title("Add Contributor")
+                        .text("Done Add Contributor.")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
+            }
+            else{
+                Notifications notification = Notifications.create()
+                        .title("Add Contributor")
+                        .text("Can't Add Contributor")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ContributorsController.class.getName()).log(Level.SEVERE, null, ex);

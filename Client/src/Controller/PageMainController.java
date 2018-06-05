@@ -110,7 +110,7 @@ public class PageMainController implements Initializable {
                 System.out.println("Respone For GetListUsers is Done " + respone.getListUser().size());
 
                 List<User> ListUser = new ArrayList<>(respone.getListUser());
-                UserController userController = new UserController(ListUser, roopane);
+                UserController userController = new UserController(ListUser,Owner,roopane);
 
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Users.fxml"));
                 fXMLLoader.setController(userController);

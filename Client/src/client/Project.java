@@ -53,32 +53,7 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 0) {
-            String s = args[0];
 
-            File F = new File("D:\\New folder\\temp.txt");
-            BufferedWriter writer;
-            try {
-                writer = new BufferedWriter(new FileWriter(F));
-                writer.write(s);
-                writer.newLine();
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            File F = new File("D:\\New folder\\temp.txt");
-            BufferedWriter writer;
-            try {
-                writer = new BufferedWriter(new FileWriter(F));
-                writer.write("Mohammad : " + args.length);
-                writer.newLine();
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
         try {
             host = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {

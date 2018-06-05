@@ -1,6 +1,5 @@
 package Controller;
 
-import CommonClass.CommonBranch;
 import CommonClass.Profile;
 import CommonClass.User;
 import CommonCommand.Command;
@@ -10,11 +9,9 @@ import CommonRespone.ResponeType;
 import CommonRespone.SendProfile;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
-import client.TabelBranch;
 import client.TabelUsers;
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -38,11 +35,13 @@ public class UserController implements Initializable {
     @FXML
     private TableColumn<TabelUsers, String> c1;
 
+    User MyUser;
     List<User> ListUser;
     AnchorPane roopane;
 
-    public UserController(List<User> ListUser, AnchorPane roopane) {
+    public UserController(List<User> ListUser,User MyUser, AnchorPane roopane) {
         this.ListUser = ListUser;
+        this.MyUser=MyUser;
         this.roopane = roopane;
 
     }
@@ -87,6 +86,7 @@ public class UserController implements Initializable {
 
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);
+                profileController.setUser(MyUser);
 
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
                 fXMLLoader.setController(profileController);

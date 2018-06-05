@@ -1,7 +1,7 @@
 package Controller;
 
-import CommonClass.Profile;
 import CommonClass.User;
+import CommonClass.Profile;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -17,9 +17,9 @@ import javafx.stage.Stage;
 
 public class ProfileController implements Initializable {
 
+    private User MyUser;
     private Profile profile;
     private AnchorPane roopane;
-
     @FXML
     private Text UserName;
 
@@ -33,7 +33,7 @@ public class ProfileController implements Initializable {
     void btnContributorProject(ActionEvent event) {
         //// here we have List Of Proeject Contributors in profile we send it to new fxml and display it
         FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/ProejectContributorsInProfile.fxml"));
-        ProejectContributorsInProfileController proejectContributorsInProfile = new ProejectContributorsInProfileController(roopane,profile.getUser(),profile.getContributorProject());
+        ProejectContributorsInProfileController proejectContributorsInProfile = new ProejectContributorsInProfileController(roopane, MyUser, profile.getContributorProject());
         fXMLLoader.setController(proejectContributorsInProfile);
         Stage stage = new Stage();
         AnchorPane pane = null;
@@ -51,7 +51,7 @@ public class ProfileController implements Initializable {
     void btnProject(ActionEvent event) {
         //// here we have List Of Proeject Own in profile we send it to new fxml and display it
         FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/ProejectContributorsInProfile.fxml"));
-        ProejectContributorsInProfileController proejectContributorsInProfile = new ProejectContributorsInProfileController(roopane,profile.getUser(),profile.getOwnProject());
+        ProejectContributorsInProfileController proejectContributorsInProfile = new ProejectContributorsInProfileController(roopane, MyUser, profile.getOwnProject());
         fXMLLoader.setController(proejectContributorsInProfile);
         Stage stage = new Stage();
         AnchorPane pane = null;
@@ -81,6 +81,10 @@ public class ProfileController implements Initializable {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public void setUser(User MyUser) {
+        this.MyUser = MyUser;
     }
 
 }

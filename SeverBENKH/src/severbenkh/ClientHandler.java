@@ -63,9 +63,10 @@ public class ClientHandler extends Thread {
 
         Command command = null;
         do {
-            if(serverSocket.isClosed())
+            if (serverSocket.isClosed()) {
                 break;
-            
+            }
+
             try {
                 command = (Command) input.readObject();
                 System.out.println("command: " + command.toString());
@@ -184,10 +185,21 @@ public class ClientHandler extends Thread {
     private Profile get_profile(String user) {
         Profile temp = null;
         User NewUser = get_information(user);
-        List< CommonProject> ContributorProject = GetUserProject(user);
+        List< CommonProject> AllContributorProject = GetUserProject(user);
+        List< CommonProject> ContributorProject = new ArrayList<>();
         List< CommonProject> OwnProject = new ArrayList<>();
-        for (CommonProject t : ContributorProject) {
-            if (t.Author.equals(user)) {
+        for (CommonProject t : AllContributorProject) {
+            boolean MyUserInContributor = false;
+            for (Contributor C : t.Contributors) {
+                if (C.Name.equals(MyUser)) {
+                    MyUserInContributor = true;
+                    break;
+                }
+            }
+            if (t.Access || MyUserInContributor) {
+                ContributorProject.add(t);
+            }
+            if (t.Author.equals(user) && (t.Access || MyUserInContributor)) {
                 OwnProject.add(t);
             }
         }
@@ -199,11 +211,31 @@ public class ClientHandler extends Thread {
         String NameProject = ((GetAddContributor) command).NameProject;
         Project Myproject = get_projectClass(NameProject);
         String UserName = ((GetAddContributor) command).getUserName();
-        Myproject.add_Contributor(UserName);
-        Myproject.Save();
-        Event_Class Ev = new Event_AddContributor(MyUser, NameProject, new Date(), UserName);
-        addNewEvent(Ev);
-        Send_Done();
+        List< User> AllUsers = null;
+        boolean UserNameExists = false;
+        // check if the username exists
+        try {
+            AllUsers = (List< User>) ResourceManager.load(list_user_in_server);
+        } catch (Exception ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (AllUsers != null) {
+            for (User u : AllUsers) {
+                if (u.getName().equals(UserName)) {
+                    UserNameExists = true;
+                    break;
+                }
+            }
+            if (UserNameExists) {
+                Myproject.add_Contributor(UserName);
+                Myproject.Save();
+                Event_Class Ev = new Event_AddContributor(MyUser, NameProject, new Date(), UserName);
+                addNewEvent(Ev);
+                Send_Done();
+                return;
+            }
+        }
+        Send_FALIURE();
     }
 
     private void SendToAddBranch(Command command) {
@@ -230,16 +262,17 @@ public class ClientHandler extends Thread {
         branchClass New = new branchClass(Myproject, BranchName, BranchFather_class, idCommit, MyUser);
         Myproject.branchListClass.add(New);
         Myproject.Save();
-        
-        Event_Class Ev = new Event_AddBranch(MyUser ,NameProject ,new Date() ,BranchName);
+
+        Event_Class Ev = new Event_AddBranch(MyUser, NameProject, new Date(), BranchName);
         addNewEvent(Ev);
         Send_Done();
     }
+
     /// need code
-    private void addNewEvent(Event_Class Ev)
-    {
-        
+    private void addNewEvent(Event_Class Ev) {
+
     }
+
     /// get file BENKH form server for this project and this branch 
     private ProjectToUpload get_ProjectToUpload(String ProjectName, String branchName) {
         ProjectToUpload temp = null;
@@ -311,7 +344,7 @@ public class ClientHandler extends Thread {
         boolean Done = false;
         String NewCommitPlace = "";   /// String.valueOf(clientFile.IdLastCommit + 1);
         branchClass targetbranch = null;
-        CommitClass CommitUserCreate  = null; 
+        CommitClass CommitUserCreate = null;
         for (branchClass s : serverproject.branchListClass) {
             if (s.branchName.equals(clientFile.BranchName)) {
                 /// get targetbranch to change last commit id , add new commit
@@ -320,7 +353,7 @@ public class ClientHandler extends Thread {
                 Done = true;
                 /// add user commit to branch
                 CommitUserCreate = s.addNewVersion(MyUser, CommentUser);
-                if (CommitUserCreate.equals(null)) {
+                if (CommitUserCreate == null) {
                     /// user is not of Contributors
                     Send_FALIURE();
                     /// Stop function
@@ -364,8 +397,7 @@ public class ClientHandler extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
+
         Event_Class Ev = new Event_AddCommit(MyUser, NameProject, new Date(), CommitUserCreate);
         addNewEvent(Ev);
     }

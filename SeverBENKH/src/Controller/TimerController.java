@@ -85,7 +85,7 @@ public class TimerController implements Initializable {
         ho2.setText("0");
 
         try {
-            if (!serverSocket.isClosed()) {
+            if (serverSocket != null && !serverSocket.isClosed()) {
                 serverSocket.close();
             }
         } catch (IOException ex) {
