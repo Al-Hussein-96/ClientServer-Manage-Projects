@@ -128,6 +128,11 @@ public class FileBrowsersController implements Initializable {
         if (!Access) {
             push.setVisible(false);
         }
+        tabelView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
 
     }
 
@@ -188,6 +193,10 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open() {
         List< ViewfolderClass> MyFolderView = current.MyFolderView;
         TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();
         if (TI == null || MyFolderView == null) {

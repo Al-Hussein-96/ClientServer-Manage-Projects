@@ -48,6 +48,10 @@ public class AllProjectController implements Initializable {
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open(){
         TreeItem<TabelProject> TI = tabelview.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
         TabelProject TP = null;
@@ -81,7 +85,6 @@ public class AllProjectController implements Initializable {
             System.out.println("Error:::: " + ex.getMessage());
         }
     }
-
     public void setRoopane(AnchorPane roopane) {
         this.roopane = roopane;
     }
@@ -157,6 +160,11 @@ public class AllProjectController implements Initializable {
         tabelview.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
         tabelview.setRoot(root);
         tabelview.setShowRoot(false);
+        tabelview.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 
     private List<CommonProject> GetAllProject() {

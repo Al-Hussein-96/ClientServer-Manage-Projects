@@ -49,6 +49,10 @@ public class MyProjectController implements Initializable {
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+    
+    void doubleClick_Open(){
         TreeItem<TabelProject> TI = TabelView.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
         TabelProject TP = null;
@@ -80,9 +84,7 @@ public class MyProjectController implements Initializable {
         }
         System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
         roopane.getChildren().setAll(root);
-
     }
-
     public void setRoopane(AnchorPane roopane) {
         this.roopane = roopane;
     }
@@ -156,6 +158,12 @@ public class MyProjectController implements Initializable {
         TabelView.getColumns().setAll(nameProject, dataCreate, author, numberOfContributors, numberOfCommits);
         TabelView.setRoot(root);
         TabelView.setShowRoot(false);
+
+        TabelView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 
     private List<CommonProject> GetMyProject() {

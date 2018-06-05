@@ -1,4 +1,4 @@
- package Controller;
+package Controller;
 
 import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
@@ -47,6 +47,10 @@ public class ProejectContributorsInProfileController implements Initializable {
 
     @FXML
     private void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open() {
         TabelProject TP = tabelView.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
         if (Myproject == null || TP == null) {
@@ -105,6 +109,12 @@ public class ProejectContributorsInProfileController implements Initializable {
         C4.setCellValueFactory(new PropertyValueFactory<TabelProject, String>("NumberOfContributors"));
         C5.setCellValueFactory(new PropertyValueFactory<TabelProject, String>("NumberOfCommits"));
         tabelView.setItems(list);
+
+        tabelView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 
 }

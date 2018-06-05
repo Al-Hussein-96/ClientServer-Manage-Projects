@@ -53,6 +53,10 @@ public class BranchController implements Initializable {
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open(){
         TabelBranch TB = tabelView.getSelectionModel().getSelectedItem();
         CommonBranch CB = null;
         if (NameBranch == null || TB == null) {
@@ -70,7 +74,6 @@ public class BranchController implements Initializable {
         Father.CreateBranchSelected(CB.branchName, CB.way.get(CB.way.size() - 1).Id);
         Open.getScene().getWindow().hide();
     }
-
     @FXML
     void btnAdd(ActionEvent event) {
         if (BranchName.getText() != null) {
@@ -136,5 +139,10 @@ public class BranchController implements Initializable {
         C2.setCellValueFactory(new PropertyValueFactory<TabelBranch, String>("UserCreateBranch"));
         C3.setCellValueFactory(new PropertyValueFactory<TabelBranch, String>("LastCommite"));
         tabelView.setItems(list);
+        tabelView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 }

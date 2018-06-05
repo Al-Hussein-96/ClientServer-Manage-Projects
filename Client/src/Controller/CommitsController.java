@@ -42,6 +42,10 @@ public class CommitsController implements Initializable {
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open() {
         TabelCommit TC = tabelView.getSelectionModel().getSelectedItem();
         CommitClass CC = null;
         if (Commits == null || TC == null) {
@@ -56,7 +60,7 @@ public class CommitsController implements Initializable {
         if (CC == null) {
             return;
         }
-        Father.CreateCommitSelected(CC.branchName,CC.Id);
+        Father.CreateCommitSelected(CC.branchName, CC.Id);
         Open.getScene().getWindow().hide();
     }
 
@@ -83,6 +87,11 @@ public class CommitsController implements Initializable {
         C4.setCellValueFactory(new PropertyValueFactory<>("MyDate"));
         C5.setCellValueFactory(new PropertyValueFactory<>("Detail"));
         tabelView.setItems(list);
+        tabelView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 
 }

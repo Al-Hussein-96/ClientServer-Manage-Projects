@@ -39,9 +39,9 @@ public class UserController implements Initializable {
     List<User> ListUser;
     AnchorPane roopane;
 
-    public UserController(List<User> ListUser,User MyUser, AnchorPane roopane) {
+    public UserController(List<User> ListUser, User MyUser, AnchorPane roopane) {
         this.ListUser = ListUser;
-        this.MyUser=MyUser;
+        this.MyUser = MyUser;
         this.roopane = roopane;
 
     }
@@ -61,12 +61,20 @@ public class UserController implements Initializable {
         list = FXCollections.observableArrayList(st);
         c1.setCellValueFactory(new PropertyValueFactory<TabelUsers, String>("UserName"));
         tabelview.setItems(list);
-        
 
+        tabelview.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                doubleClick_Open();
+            }
+        });
     }
 
     @FXML
     void btnOpen(ActionEvent event) {
+        doubleClick_Open();
+    }
+
+    void doubleClick_Open() {
         TabelUsers TB = tabelview.getSelectionModel().getSelectedItem();
         if (TB == null) {
             return;
@@ -99,7 +107,6 @@ public class UserController implements Initializable {
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
 }
