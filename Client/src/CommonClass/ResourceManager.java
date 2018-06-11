@@ -23,6 +23,13 @@ public class ResourceManager {
         }
     }
 
+    public static ViewDiff_folderClass ViewDiffProject(File CommitOne , File CommitTwo)
+    {
+        ViewDiff_folderClass MyViewdiff_folder = new ViewDiff_folderClass();
+        //// need code
+     return MyViewdiff_folder;   
+    }
+    
     public static ViewfolderClass ViewProject(File NameFolder) {
 
         ViewfolderClass MyViewfolder = new ViewfolderClass();

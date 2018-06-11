@@ -10,6 +10,7 @@ import CommonClass.NameAndDirectory;
 import CommonClass.Profile;
 import CommonClass.ProjectToUpload;
 import CommonClass.User;
+import CommonClass.ViewDiff_folderClass;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
@@ -137,6 +138,9 @@ public class ClientHandler extends Thread {
                 case GETPROFILE:
                     SendToProfile(command);
                     break;
+                case GetDiffrent:
+                    SendToGetDiffrent(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -151,7 +155,7 @@ public class ClientHandler extends Thread {
         }
 
     }
-
+    
     private void SendToListUsers(Command command) {
         try {
             List< User> temp = (List< User>) ResourceManager.load(list_user_in_server);
@@ -879,6 +883,27 @@ public class ClientHandler extends Thread {
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendBranch(ob);
+            Send_Respone(Rc);
+        }
+    }
+    private void SendToGetDiffrent(Command command)
+    {
+        String NameProject = ((Get_Diff_Two_Commit) command).NameProject;
+        String branchName = ((Get_Diff_Two_Commit) command).BranchName;
+        int IDCommitOne = ((Get_Diff_Two_Commit) command).IDCommitOne;
+        int IDCommitTwo = ((Get_Diff_Two_Commit) command).IDCommitTwo;
+        String dir1 = get_Directory_project(IDCommitOne, branchName, NameProject);
+        String dir2 = get_Directory_project(IDCommitTwo, branchName, NameProject);
+        
+        if ("".equals(dir1)) {
+            Send_FALIURE();
+        } 
+        else if ("".equals(dir2)) {
+            Send_FALIURE();
+        }
+        else {
+            ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1) , new File(dir2));
+            Send_Diff_Two_Commit Rc = new Send_Diff_Two_Commit(ob);
             Send_Respone(Rc);
         }
     }
