@@ -23,12 +23,12 @@ public class ResourceManager {
         }
     }
 
-    public static ViewDiff_folderClass ViewDiffProject(File CommitOne , File CommitTwo)
-    {
+    public static ViewDiff_folderClass ViewDiffProject(File CommitOne, File CommitTwo) {
         ViewDiff_folderClass MyViewdiff_folder = new ViewDiff_folderClass();
         //// need code
-     return MyViewdiff_folder;   
+        return MyViewdiff_folder;
     }
+
     /// this get list of files and folders inside folder
     public static ViewfolderClass ViewProject(File NameFolder) {
 
@@ -72,15 +72,15 @@ public class ResourceManager {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
                 long size = file.length();
-                long DateModified=file.lastModified();
-                NameAndDirectory New = new NameAndDirectory(Name,size,DateModified, Directory);
+                long DateModified = file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name, size, DateModified, Directory);
                 MyViewfolder.MyFolder.add(New);
             } else {
                 String Directory = MyDirectory + "\\" + file.getName();
                 String Name = file.getName();
                 long size = file.length();
-                long DateModified=file.lastModified();
-                NameAndDirectory New = new NameAndDirectory(Name,size,DateModified, Directory);
+                long DateModified = file.lastModified();
+                NameAndDirectory New = new NameAndDirectory(Name, size, DateModified, Directory);
                 MyViewfolder.MyFile.add(New);
             }
         }

@@ -1,5 +1,6 @@
 package client;
 
+import CommonClass.StateType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.ImageView;
 
@@ -13,8 +14,9 @@ public class TabelBrowsers {
     public SimpleStringProperty Size;
     public SimpleStringProperty Description;
     public String DiectoryServer;
+    public StateType State;
 
-    public TabelBrowsers(String Name, boolean type, int id) {
+    public TabelBrowsers(String Name, boolean type, int id,StateType State) {
         this.Name = new SimpleStringProperty(Name);
         this.Type = type;
         this.id = id;
@@ -22,6 +24,7 @@ public class TabelBrowsers {
         this.Size = new SimpleStringProperty("");
         this.Description = new SimpleStringProperty("");
         this.DiectoryServer = new String("");
+        this.State = State;
 
         //     this.Description = new SimpleStringProperty(Description);
     }
@@ -53,4 +56,9 @@ public class TabelBrowsers {
     public void setDateModified(String dateModified) {
          this.DateModified = new SimpleStringProperty(dateModified);
     }
+
+    public StateType getState() {
+        return State;
+    }
+    
 }

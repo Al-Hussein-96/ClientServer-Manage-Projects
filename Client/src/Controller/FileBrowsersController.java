@@ -5,11 +5,14 @@ import CommonClass.CommonBranch;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.NameAndDirectoryAndState;
 import CommonClass.ProjectToUpload;
 import CommonClass.ResourceManager;
 import CommonClass.User;
+import CommonClass.ViewDiff_folderClass;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
+import CommonCommand.CommandType;
 import CommonCommand.GetCommits;
 import CommonCommand.GetBranch;
 import CommonCommand.GetFile;
@@ -18,6 +21,7 @@ import CommonCommand.GetListCommits;
 import CommonCommand.GetListContributors;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
+import CommonCommand.Get_Diff_Two_Commit;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
@@ -25,6 +29,7 @@ import CommonRespone.SendListBranch;
 import CommonRespone.SendListCommits;
 import CommonRespone.SendListContributors;
 import CommonRespone.SendProject;
+import CommonRespone.Send_Diff_Two_Commit;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBrowsers;
@@ -57,6 +62,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
@@ -137,6 +143,7 @@ public class FileBrowsersController implements Initializable {
     }
 
     private void ShowFolder(ViewfolderClass MyProject) {
+        System.out.println("ShowFolder");
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         tabelView.getItems().clear();
         List< NameAndDirectory> MyFile = MyProject.MyFile;
@@ -146,7 +153,7 @@ public class FileBrowsersController implements Initializable {
         TabelBrowsers[] st = new TabelBrowsers[LengthTable];
         for (int i = 0; i < MyFolder.size(); i++) {
             String s1 = MyFolder.get(i).Name;
-            st[i] = new TabelBrowsers(s1, true, i);
+            st[i] = new TabelBrowsers(s1, true, i, null);
             String Dir = MyFolder.get(i).Directory;
             st[i].setDiectoryServer(Dir);  //// need it for open File
             String size = "";
@@ -160,7 +167,7 @@ public class FileBrowsersController implements Initializable {
             if (s1.equals("BEHKN.BEHKN")) {
                 continue;
             }
-            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size());
+            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size(), null);
             String Dir = MyFile.get(i).Directory;
             st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
             long temp = MyFile.get(i).Size / 1024;
@@ -396,6 +403,40 @@ public class FileBrowsersController implements Initializable {
         }
     }
 
+    @FXML
+    void btnDiffTo(ActionEvent event) {
+        System.out.println("Diff To");
+        
+        String Branch = idBranch.getText().substring(9);
+        System.out.println(Branch + "Need : ");
+        Command command = new GetListCommits(Owner.NameProject, Branch);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+        DiffToController DiffToController = new DiffToController(this, ((SendListCommits) respone).getListCommit(),Integer.valueOf(idCommit.getText().charAt(9)-'0'));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/DiffTo.fxml"));
+        fxmlLoader.setController(DiffToController);
+        Stage stage = new Stage();
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
@@ -444,12 +485,106 @@ public class FileBrowsersController implements Initializable {
 
     public void CreateCommitSelected(String BranchName, int ID) {
         previous.clear();
-        current = GetMyCommit(BranchName, ID);
+        //ViewDiff_folderClass CurrentDiff = GetMyCommitDiff(BranchName, ID);
+        ViewfolderClass CurrentDiff = GetMyCommit(BranchName, ID);
+
         if (current != null) {
-            ShowFolder(current);
+          //  ShowFolderWithDiff(CurrentDiff);
+            ShowFolder(CurrentDiff);
             idBranch.setText("Branch : " + BranchName);
             idCommit.setText("Commit : " + ID);
         }
+    }
+
+    private ViewDiff_folderClass GetMyCommitDiff(String BranchName, int ID) {
+        /// we will remove First Comment from GUI and this problem will fix
+        if (ID == 1) {
+            return null;
+        }
+
+        Command command = new Get_Diff_Two_Commit(CommandType.GetDiffrent, Owner.NameProject, BranchName, ID, ID - 1);
+        try {
+
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+
+            Respone respone = (Send_Diff_Two_Commit) networkInput.readObject();
+
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((Send_Diff_Two_Commit) respone).ob;
+            } else {
+                return null;
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    /// this Show Folder for Color Folder and File 
+    private void ShowFolderWithDiff(ViewDiff_folderClass MyProject) {
+        System.out.println("ShowFolderWithDiff");
+
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
+        tabelView.getItems().clear();
+        List< NameAndDirectoryAndState> MyFile = MyProject.MyFile;
+        List< NameAndDirectoryAndState> MyFolder = MyProject.MyFolder;
+        ObservableList<TabelBrowsers> list;
+        int LengthTable = MyFile.size() + MyFolder.size();
+        TabelBrowsers[] st = new TabelBrowsers[LengthTable];
+        for (int i = 0; i < MyFolder.size(); i++) {
+            String s1 = MyFolder.get(i).MyFile.Name;
+            st[i] = new TabelBrowsers(s1, true, i, MyFolder.get(i).MyState);
+            String Dir = MyFolder.get(i).MyFile.Directory;
+            st[i].setDiectoryServer(Dir);  //// need it for open File
+            String size = "";
+            st[i].setSize(size);
+            Date date = new Date(MyFolder.get(i).MyFile.DateModified);
+            String DateModified = ft.format(date);
+            st[i].setDateModified(DateModified);
+        }
+        for (int i = 0; i < MyFile.size(); i++) {
+            String s1 = MyFile.get(i).MyFile.Name;
+            if (s1.equals("BEHKN.BEHKN")) {
+                continue;
+            }
+            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size(), MyFolder.get(i).MyState);
+            String Dir = MyFile.get(i).MyFile.Directory;
+            st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
+            long temp = MyFile.get(i).MyFile.Size / 1024;
+            if (MyFile.get(i).MyFile.Size % 1024 != 0) {
+                temp++;
+            }
+            String size = String.valueOf(temp + " KB ");
+            st[i + MyFolder.size()].setSize(size);
+            Date date = new Date(MyFile.get(i).MyFile.DateModified);
+            String DateModified = ft.format(date);
+            st[i + MyFolder.size()].setDateModified(DateModified);
+        }
+        list = FXCollections.observableArrayList(st);
+        Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        Size.setCellValueFactory(new PropertyValueFactory<>("Size"));
+        DataModified.setCellValueFactory(new PropertyValueFactory<>("DateModified"));
+        tabelView.setItems(list);
+
+        /// this for Color The Files
+        tabelView.setRowFactory((param) -> new TableRow<TabelBrowsers>() {
+            @Override
+            public void updateItem(TabelBrowsers item, boolean empty) {
+                // super.updateItem(item, empty);
+                System.out.println("item: " + item);
+                if (item == null) {
+                    System.out.println("Null");
+                } else //    if (item.getState() != null) 
+                {
+//                    TabelBrowsers x = item;
+//
+//                    System.out.println(item.getAge());
+                    setStyle("-fx-background-color: yellow");
+                }
+            }
+        }
+        );
     }
 
     ViewfolderClass GetMyCommit(String BranchName, int ID) {
@@ -515,4 +650,5 @@ public class FileBrowsersController implements Initializable {
             Receive(temp, path);
         }
     }
+
 }

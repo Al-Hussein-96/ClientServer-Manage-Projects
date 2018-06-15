@@ -56,5 +56,6 @@
                 <ColorAdjust />
             </effect>
         </Label>
+      <JFXButton layoutX="523.0" layoutY="7.0" onAction="#btnDiffTo" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Diff To" />
     </children>
 </AnchorPane>
