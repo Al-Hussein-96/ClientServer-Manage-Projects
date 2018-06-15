@@ -1,6 +1,8 @@
 package CommonClass;
 
-public class NameAndDirectoryAndState {
+import java.io.Serializable;
+
+public class NameAndDirectoryAndState implements Serializable{
     public NameAndDirectory MyFile ;
     /// if State is change then we should get the two Files to compare  them
     public NameAndDirectory OldFile = null;

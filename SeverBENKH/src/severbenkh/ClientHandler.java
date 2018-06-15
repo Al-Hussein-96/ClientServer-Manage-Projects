@@ -902,6 +902,7 @@ public class ClientHandler extends Thread {
             Send_FALIURE();
         }
         else {
+            System.out.println("dir1 : " + dir1 + " :: " + "dir2 : " + dir2);
             ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1) , new File(dir2));
             Send_Diff_Two_Commit Rc = new Send_Diff_Two_Commit(ob);
             Send_Respone(Rc);
