@@ -1,5 +1,6 @@
 package Different;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringsComparator {
@@ -10,186 +11,180 @@ public class StringsComparator {
     /**
      * Temporary variables.
      */
-    private final int[] vDown;
-    private final int[] vUp;
+    private int[][] trace;
+    int Delete;
+    int Insert;
 
     public StringsComparator(List<String> left, List<String> right) {
         this.left = left;
         this.right = right;
-
-        final int size = left.size() + right.size() + 2;
-        vDown = new int[size];
-        vUp = new int[size];
+        this.Delete = this.Insert = 0;
+        final int size = left.size() + right.size() + 5;
+        trace = new int[size][2 * size];
     }
 
     public Diff<String> getScript() {
         final Diff<String> script = new Diff<>();
-        buildScript(0, left.size(), 0, right.size(), script);
+        buildScript(script);
         return script;
     }
 
-    /**
-     * Build an edit script.
-     *
-     * @param start1 the begin of the first sequence to be compared
-     * @param end1 the end of the first sequence to be compared
-     * @param start2 the begin of the second sequence to be compared
-     * @param end2 the end of the second sequence to be compared
-     * @param script the edited script
-     */
-    private void buildScript(final int start1, final int end1, final int start2, final int end2, final Diff<String> script) {
-        final Snake middle = getMiddleSnake(start1, end1, start2, end2);
+    private void buildScript(final Diff<String> script) {
+        trace = shortest_edit();
+//        int n = left.size();
+//        int m = right.size();
+//        int max = n + m;
+//        for (int d = 0; d <= max; ++d) {
+//            boolean bo = false;
+//            for (int k = -d; k <= d; k += 2) {
+//                int x = trace[d][k + max];
+//                int y = x - k;
+//                System.out.print(x + "  ");
+//                if (x == n && y == m) {
+//                    bo = true;
+//                    break;
+//                }
+//            }
+//            if (bo) {
+//                break;
+//            }
+//            System.out.println("");
+//        }
 
-        if (middle == null || middle.getStart() == end1 && middle.getDiag() == end1 - end2 || middle.getEnd() == start1 && middle.getDiag() == start1 - start2) {
-
-            int i = start1;
-            int j = start2;
-            while (i < end1 || j < end2) {
-                if (i < end1 && j < end2 && left.get(i).equals(right.get(j))) {
-                    script.append(new NoChange<>(left.get(i)));
-                    ++i;
-                    ++j;
-                } else {
-                    if (end1 - start1 > end2 - start2) {
-                        script.append(new Delete<>(left.get(i)));
-                        ++i;
-                    } else {
-                        script.append(new Insert<>(right.get(j)));
-                        ++j;
-                    }
+        List<ArrayList<Integer>> track = backtrack();
+        System.out.println("size = " + track.size());
+        for (int i = track.size() - 1; i >= 0; i--) {
+            ArrayList<Integer> pair = track.get(i);
+            int x = pair.get(0);
+            int y = pair.get(1);
+            System.out.print(x + "  " + y + "  ");
+            if (i != track.size() - 1) {
+                int prev_x = track.get(i + 1).get(0);
+                int prev_y = track.get(i + 1).get(1);
+                if (x == prev_x + 1 && y == prev_y + 1) {
+                    // * No Change
+//                    System.out.print("No Change  "+ left.get(prev_x));
+                    script.append(new NoChange<String>(left.get(prev_x)));
+                } else if (x == prev_x + 1) {
+                    // * Delete
+//                    System.out.print("Delete  "+ left.get(prev_x));
+                    script.append(new Delete<>(left.get(prev_x)));
+                } else if (y == prev_y + 1) {
+                    // * Insert
+//                    System.out.print("Insert  "+ right.get(prev_y));
+                    script.append(new Insert<>(right.get(prev_y)));
                 }
             }
-
-        } else {
-
-            buildScript(start1, middle.getStart(), start2, middle.getStart() - middle.getDiag(), script);
-            for (int i = middle.getStart(); i < middle.getEnd(); ++i) {
-                script.append(new NoChange<String>(left.get(i)));
-            }
-            buildScript(middle.getEnd(), end1, middle.getEnd() - middle.getDiag(), end2, script);
+            System.out.println("");
         }
     }
 
-    private Snake getMiddleSnake(int start1, int end1, int start2, int end2) {
+    private List<ArrayList<Integer>> backtrack() {
+        List<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> pair = new ArrayList<Integer>();
+        int n = left.size();
+        int m = right.size();
+        int max = n + m;
+        int x = n, y = m;
+        int D = 0;
+        for (int d = 0; d <= max; ++d) {
+            boolean bo = false;
+            for (int k = -d; k <= d; k += 2) {
+                int u = trace[d][k + max];
+                int v = x - k;
+                if (u == n && v == m) {
+                    D = d;
+                    bo = true;
+                    break;
+                }
+            }
+            if (bo) {
+                break;
+            }
+        }
+        System.out.println("The Differents = " + D + "\nx = " + x + ", y = " + y);
+        int prev_k, prev_x, prev_y;
+        while (x != trace[0][max] || y != trace[0][max]) {
+            pair = new ArrayList<>();
+            pair.add(x);
+            pair.add(y);
+            res.add(pair);
+            int k = x - y;
+            if (k == -D || k != D && trace[D - 1][k - 1 + max] < trace[D - 1][k + 1 + max]) {
+                prev_k = k + 1;
+            } else {
+                prev_k = k - 1;
+            }
+            prev_x = trace[D - 1][prev_k + max];
+            prev_y = prev_x - prev_k;
+            while (x > prev_x && y > prev_y) {
+
+                x--;
+                y--;
+                pair = new ArrayList<>();
+                pair.add(x);
+                pair.add(y);
+                res.add(pair);
+            }
+            if (x != prev_x) {
+                x--;
+            }
+            if (y != prev_y) {
+                y--;
+            }
+            D--;
+        }
+        pair = new ArrayList<>();
+        pair.add(x);
+        pair.add(y);
+        res.add(pair);
+
+        while (x > 0 && y > 0) {
+            x--;
+            y--;
+            pair = new ArrayList<>();
+            pair.add(x);
+            pair.add(y);
+            res.add(pair);
+        }
+        return res;
+    }
+
+    private int[][] shortest_edit() {
         // Myers Algorithm
         // Initialisations
-        final int m = end1 - start1;
-        final int n = end2 - start2;
-        if (m == 0 || n == 0) {
-            return null;
-        }
+        int n = left.size();
+        int m = right.size();
+        int max = n + m;
 
-        final int delta = m - n;
-        final int sum = n + m;
-        final int offset = (sum % 2 == 0 ? sum : sum + 1) / 2;
-        vDown[1 + offset] = start1;
-        vUp[1 + offset] = end1 + 1;
+        int[][] tracetemp = new int[max + 5][2 * max + 5];
+        int[] v = new int[2 * max + 5];
+        v[1 + max] = 0;
 
-        for (int d = 0; d <= offset; ++d) {
-            // Down
+        int x = 0, y = 0;
+        for (int d = 0; d <= max; ++d) {
             for (int k = -d; k <= d; k += 2) {
-                // First step
-
-                final int i = k + offset;
-                if (k == -d || k != d && vDown[i - 1] < vDown[i + 1]) {
-                    vDown[i] = vDown[i + 1];
+                if (k == -d || k != d && v[k - 1 + max] < v[k + 1 + max]) {
+                    x = v[k + 1 + max];
                 } else {
-                    vDown[i] = vDown[i - 1] + 1;
+                    x = v[k - 1 + max] + 1;
                 }
 
-                int x = vDown[i];
-                int y = x - start1 + start2 - k;
+                y = x - k;
 
-                while (x < end1 && y < end2 && left.get(x).equals(right.get(y))) {
-                    vDown[i] = ++x;
+                while (x < n && y < m && left.get(x).equals(right.get(y))) {
+                    ++x;
                     ++y;
                 }
-                // Second step
-                if (delta % 2 != 0 && delta - d <= k && k <= delta + d) {
-                    if (vUp[i - delta] <= vDown[i]) {
-                        return buildSnake(vUp[i - delta], k + start1 - start2, end1, end2);
-                    }
-                }
-            }
-
-            // Up
-            for (int k = delta - d; k <= delta + d; k += 2) {
-                // First step
-                final int i = k + offset - delta;
-                if (k == delta - d || k != delta + d && vUp[i + 1] <= vUp[i - 1]) {
-                    vUp[i] = vUp[i + 1] - 1;
-                } else {
-                    vUp[i] = vUp[i - 1];
-                }
-
-                int x = vUp[i] - 1;
-                int y = x - start1 + start2 - k;
-                while (x >= start1 && y >= start2 && left.get(x).equals(right.get(y))) {
-                    vUp[i] = x--;
-                    y--;
-                }
-                // Second step
-                if (delta % 2 == 0 && -d <= k && k <= d) {
-                    if (vUp[i] <= vDown[i + delta]) {
-                        return buildSnake(vUp[i], k + start1 - start2, end1, end2);
-                    }
+                v[k + max] = x;
+                tracetemp[d][k + max] = x;
+                if (x >= n && y >= m) {
+                    return tracetemp;
                 }
             }
         }
 
-        // this should not happen
-        throw new RuntimeException("Internal Error");
-    }
-
-    /**
-     * Build a snake.
-     *
-     * @param start the value of the start of the snake
-     * @param diag the value of the diagonal of the snake
-     * @param end1 the value of the end of the first sequence to be compared
-     * @param end2 the value of the end of the second sequence to be compared
-     * @return the snake built
-     */
-    private Snake buildSnake(final int start, final int diag, final int end1, final int end2) {
-        int end = start;
-        while (end - diag < end2 && end < end1 && left.get(end).equals(right.get(end - diag))) {
-            ++end;
-        }
-        return new Snake(start, end, diag);
-    }
-
-    /**
-     * This class is a simple placeholder to hold the end part of a path under
-     * construction in a {@link StringsComparator StringsComparator}.
-     */
-    private static class Snake {
-
-        private final int start;
-
-        private final int end;
-
-        /**
-         * Diagonal number.
-         */
-        private final int diag;
-
-        public Snake(final int start, final int end, final int diag) {
-            this.start = start;
-            this.end = end;
-            this.diag = diag;
-        }
-
-        public int getStart() {
-            return start;
-        }
-
-        public int getEnd() {
-            return end;
-        }
-
-        public int getDiag() {
-            return diag;
-        }
+        return null;
     }
 
 }
