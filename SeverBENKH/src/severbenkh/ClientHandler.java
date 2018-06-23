@@ -7,8 +7,10 @@ import CommonClass.ViewfolderClass;
 import CommonClass.CommonProject;
 import CommonClass.Contributor;
 import CommonClass.NameAndDirectory;
+import CommonClass.NameAndDirectoryAndState;
 import CommonClass.Profile;
 import CommonClass.ProjectToUpload;
+import static CommonClass.StateType.NoChange;
 import CommonClass.User;
 import CommonClass.ViewDiff_folderClass;
 import CommonCommand.*;
@@ -331,7 +333,38 @@ public class ClientHandler extends Thread {
         }
         return ok;
     }
-
+    private NameAndDirectoryAndState NameAndDirectoryAndState_to_NameAndDirectory(NameAndDirectory temp)
+    {
+        NameAndDirectoryAndState My = null;
+        My.MyState = NoChange;
+        My.MyFile = temp;
+        return My;
+    }
+    private  ViewDiff_folderClass ViewfolderClass_to_ViewDiff_folderClass(ViewfolderClass temp)
+    {
+        ViewDiff_folderClass My = new ViewDiff_folderClass();
+        /// NameAndDirectoryAndState
+        for(NameAndDirectory R:temp.MyFile)
+        {
+            NameAndDirectoryAndState T ; 
+            T = NameAndDirectoryAndState_to_NameAndDirectory(R);
+            My.MyFile.add(T);
+        }
+        for(NameAndDirectory R:temp.MyFolder)
+        {
+            NameAndDirectoryAndState T ; 
+            T = NameAndDirectoryAndState_to_NameAndDirectory(R);
+            My.MyFolder.add(T);
+        }
+        
+        for(ViewfolderClass R:temp.MyFolderView)
+        {
+            ViewDiff_folderClass T ; 
+            T = ViewfolderClass_to_ViewDiff_folderClass(R);
+            My.MyFolderView.add(T);
+        }
+        return My;
+    }
     private void SendToGetPush(Command command) {
         String NameProject = ((GetPush) command).NameProject;
         /// ProjectToUpload from client
@@ -485,8 +518,7 @@ public class ClientHandler extends Thread {
         Send_Respone(respone);
     }
 
-    ///  send Commits list to client
-    private void SendToListCommits(Command command) {
+      private void SendToListCommits(Command command) {
         String NameProject = ((GetListCommits) command).getNameProject();
         String NameBranch = ((GetListCommits) command).getNameBranch();
 
