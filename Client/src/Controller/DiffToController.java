@@ -60,7 +60,7 @@ public class DiffToController implements Initializable {
         }
         
         
-        Father.CreateCommitSelected(CC.branchName, CC.Id);
+        Father.CreateCommitSelected(CC.branchName,CommitIdShow, CC.Id);
         Open.getScene().getWindow().hide();
     }
 

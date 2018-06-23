@@ -125,7 +125,7 @@ public class FileBrowsersController implements Initializable {
         List< CommitClass> listC = listB.get(listB.size() - 1).way;
         idBranch.setText("Branch : " + listB.get(listB.size() - 1).branchName);
         idCommit.setText("Commit : " + listC.get(listC.size() - 1).Id);
-        current = getViewDiff( GetMyProject() );
+        current = getViewDiff(GetMyProject());
         ShowFolderWithDiff(current);
         List<Contributor> Con = Owner.Contributors;
         boolean Access = false;
@@ -142,23 +142,25 @@ public class FileBrowsersController implements Initializable {
                 doubleClick_Open();
             }
         });
+
         tabelView.setRowFactory((param) -> new TableRow<TabelBrowsers>() {
 
             @Override
             public void updateItem(TabelBrowsers item, boolean empty) {
                 super.updateItem(item, empty);
                 System.out.println("item: " + item);
+                setStyle("-fx-background-color: white");
+
                 if (item == null) {
                     System.out.println("Null");
                 } else if (ShowDiff) {
 
 //                    TabelBrowsers x = item;
-                    setStyle("-fx-background-color: none");
                     System.out.println(item.getState());
                     if (null != item.getState()) {
                         switch (item.getState()) {
                             case Add:
-                                setStyle("-fx-background-color: yellow");
+                                setStyle("-fx-background-color: green");
                                 break;
                             case Delete:
                                 setStyle("-fx-background-color: red");
@@ -175,6 +177,8 @@ public class FileBrowsersController implements Initializable {
             }
         }
         );
+
+        tabelView.setStyle("-fx-selection-bar-non-focused: #009fff");
 
     }
 
@@ -521,7 +525,7 @@ public class FileBrowsersController implements Initializable {
 
     public void CreateBranchSelected(String BranchName, int ID) {
         previous.clear();
-        current = getViewDiff( GetMyBranch(BranchName) );
+        current = getViewDiff(GetMyBranch(BranchName));
         if (current != null) {
             ShowFolderWithDiff(current);
             idBranch.setText("Branch : " + BranchName);
@@ -547,26 +551,26 @@ public class FileBrowsersController implements Initializable {
         return null;
     }
 
-    public void CreateCommitSelected(String BranchName, int ID) {
+    public void CreateCommitSelected(String BranchName, int FR_ID, int SC_ID) {
         previous.clear();
-        current = GetMyCommitDiff(BranchName, ID);
+        current = GetMyCommitDiff(BranchName, FR_ID, SC_ID);
         // ViewfolderClass CurrentDiff = GetMyCommit(BranchName, ID);
 
         if (current != null) {
             ShowFolderWithDiff(current);
             //  ShowFolder(CurrentDiff);
             idBranch.setText("Branch : " + BranchName);
-            idCommit.setText("Commit : " + ID);
+            idCommit.setText("Commit : " + FR_ID);
         }
     }
 
-    private ViewDiff_folderClass GetMyCommitDiff(String BranchName, int ID) {
+    private ViewDiff_folderClass GetMyCommitDiff(String BranchName, int FR_ID, int SC_ID) {
         /// we will remove First Comment from GUI and this problem will fix
-        if (ID == 1) {
+        if (FR_ID == 1) {
             return null;
         }
 
-        Command command = new Get_Diff_Two_Commit(CommandType.GetDiffrent, Owner.NameProject, BranchName, ID - 1, ID);
+        Command command = new Get_Diff_Two_Commit(CommandType.GetDiffrent, Owner.NameProject, BranchName, SC_ID, FR_ID);
         try {
 
             networkOutput.writeObject(command);

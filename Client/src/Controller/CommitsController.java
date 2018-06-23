@@ -60,8 +60,8 @@ public class CommitsController implements Initializable {
         if (CC == null) {
             return;
         }
-        
-        Father.CreateCommitSelected(CC.branchName, CC.Id);
+
+        Father.CreateCommitSelected(CC.branchName, CC.Id, CC.Id - 1);
         Open.getScene().getWindow().hide();
     }
 
@@ -77,7 +77,7 @@ public class CommitsController implements Initializable {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
         for (CommitClass temp : Commits) {
-            
+
             TabelCommit CC = new TabelCommit(temp.Author, temp.branchName, String.valueOf(temp.Id),
                     ft.format(temp.MyDate), temp.Detail);
             st[idx++] = CC;
