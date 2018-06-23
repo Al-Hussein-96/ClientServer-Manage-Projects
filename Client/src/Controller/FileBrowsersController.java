@@ -101,9 +101,9 @@ public class FileBrowsersController implements Initializable {
     @FXML
     private Label idBranch;
 
-    ViewfolderClass current = null;
+    ViewDiff_folderClass current = null;
 
-    List<ViewfolderClass> previous = new ArrayList<>();
+    List<ViewDiff_folderClass> previous = new ArrayList<>();
 
     public FileBrowsersController(CommonProject Owner, User user) {
         this.Owner = Owner;
@@ -125,8 +125,8 @@ public class FileBrowsersController implements Initializable {
         List< CommitClass> listC = listB.get(listB.size() - 1).way;
         idBranch.setText("Branch : " + listB.get(listB.size() - 1).branchName);
         idCommit.setText("Commit : " + listC.get(listC.size() - 1).Id);
-        current = GetMyProject();
-        ShowFolder(current);
+        current = getViewDiff( GetMyProject() );
+        ShowFolderWithDiff(current);
         List<Contributor> Con = Owner.Contributors;
         boolean Access = false;
         for (int i = 0; i < Con.size(); i++) {
@@ -178,6 +178,34 @@ public class FileBrowsersController implements Initializable {
 
     }
 
+    private ViewDiff_folderClass getViewDiff(ViewfolderClass VF) {
+
+        ViewDiff_folderClass VD = new ViewDiff_folderClass();
+
+        List<  NameAndDirectoryAndState> MyFile = new ArrayList<>();
+        List<  NameAndDirectoryAndState> MyFolder = new ArrayList<>();
+        List< ViewDiff_folderClass> MyFolderView = new ArrayList<>();
+
+        for (NameAndDirectory temp : VF.MyFile) {
+            NameAndDirectoryAndState t = new NameAndDirectoryAndState(temp, null, null);
+            MyFile.add(t);
+        }
+        int i = 0;
+        for (NameAndDirectory temp : VF.MyFolder) {
+            NameAndDirectoryAndState t = new NameAndDirectoryAndState(temp, null, null);
+            MyFolder.add(t);
+
+            ViewDiff_folderClass tt = getViewDiff(VF.MyFolderView.get(i));
+            MyFolderView.add(tt);
+            i++;
+        }
+        VD.MyFile = MyFile;
+        VD.MyFolder = MyFolder;
+        VD.MyFolderView = MyFolderView;
+        VD.MyState = StateType.NoChange;
+        return VD;
+    }
+
     private void ShowFolder(ViewfolderClass MyProject) {
         System.out.println("ShowFolder");
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
@@ -227,7 +255,7 @@ public class FileBrowsersController implements Initializable {
     void btnBack(ActionEvent event) throws IOException {
         if (previous.size() > 0) {
             current = previous.get(previous.size() - 1);
-            ShowFolder(current);
+            ShowFolderWithDiff(current);
             previous.remove(previous.size() - 1);
         } else {
             // HER THE FIRST PAGE
@@ -240,7 +268,7 @@ public class FileBrowsersController implements Initializable {
     }
 
     void doubleClick_Open() {
-        List< ViewfolderClass> MyFolderView = current.MyFolderView;
+        List< ViewDiff_folderClass> MyFolderView = current.MyFolderView;
         TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();
         if (TI == null || MyFolderView == null) {
             return;
@@ -249,7 +277,7 @@ public class FileBrowsersController implements Initializable {
             int index = TI.id;
             previous.add(current);
             current = MyFolderView.get(index);
-            ShowFolder(current);
+            ShowFolderWithDiff(current);
         } else {
             /**
              * Here Open File in Windows Desktop
@@ -493,9 +521,9 @@ public class FileBrowsersController implements Initializable {
 
     public void CreateBranchSelected(String BranchName, int ID) {
         previous.clear();
-        current = GetMyBranch(BranchName);
+        current = getViewDiff( GetMyBranch(BranchName) );
         if (current != null) {
-            ShowFolder(current);
+            ShowFolderWithDiff(current);
             idBranch.setText("Branch : " + BranchName);
             idCommit.setText("Commit : " + ID);
         }
@@ -521,11 +549,11 @@ public class FileBrowsersController implements Initializable {
 
     public void CreateCommitSelected(String BranchName, int ID) {
         previous.clear();
-        ViewDiff_folderClass CurrentDiff = GetMyCommitDiff(BranchName, ID);
+        current = GetMyCommitDiff(BranchName, ID);
         // ViewfolderClass CurrentDiff = GetMyCommit(BranchName, ID);
 
         if (current != null) {
-            ShowFolderWithDiff(CurrentDiff);
+            ShowFolderWithDiff(current);
             //  ShowFolder(CurrentDiff);
             idBranch.setText("Branch : " + BranchName);
             idCommit.setText("Commit : " + ID);
@@ -584,7 +612,7 @@ public class FileBrowsersController implements Initializable {
             if (s1.equals("BEHKN.BEHKN")) {
                 continue;
             }
-            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size(), MyFolder.get(i).MyState);
+            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size(), MyFile.get(i).MyState);
             String Dir = MyFile.get(i).MyFile.Directory;
             st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
             long temp = MyFile.get(i).MyFile.Size / 1024;

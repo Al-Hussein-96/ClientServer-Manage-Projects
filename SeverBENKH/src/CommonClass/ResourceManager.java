@@ -76,7 +76,7 @@ public class ResourceManager {
 
                 MyViewdiff_folder.MyFolder.add(New);
                 File tempFolder = new File(MyDirectory + "\\" + file.getName());
-                ViewDiff_folderClass temp = ViewDiffProject_del(tempFolder);
+                ViewDiff_folderClass temp = ViewDiffProject_add(tempFolder);
                 MyViewdiff_folder.MyFolderView.add(temp);
 
             } else {
@@ -119,6 +119,7 @@ public class ResourceManager {
                 }
             }
             if (isfound == false) {
+                MyViewdiff_folder.MyState = StateType.Change;
                 if (isDirectoryOne) {
                     String Directory1 = DirectoryOne + "\\" + file1.getName();
                     String Name = file1.getName();
@@ -199,7 +200,7 @@ public class ResourceManager {
             }
             /// file add
             if (isfound == false) {
-
+                MyViewdiff_folder.MyState = StateType.Change;
                 if (isDirectoryTwo) {
                     String Directory2 = DirectoryTwo + "\\" + file.getName();
                     String Name = file.getName();

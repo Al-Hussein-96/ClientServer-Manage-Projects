@@ -155,7 +155,7 @@ public class ClientHandler extends Thread {
         }
 
     }
-    
+
     private void SendToListUsers(Command command) {
         try {
             List< User> temp = (List< User>) ResourceManager.load(list_user_in_server);
@@ -886,24 +886,22 @@ public class ClientHandler extends Thread {
             Send_Respone(Rc);
         }
     }
-    private void SendToGetDiffrent(Command command)
-    {
+
+    private void SendToGetDiffrent(Command command) {
         String NameProject = ((Get_Diff_Two_Commit) command).NameProject;
         String branchName = ((Get_Diff_Two_Commit) command).BranchName;
         int IDCommitOne = ((Get_Diff_Two_Commit) command).IDCommitOne;
         int IDCommitTwo = ((Get_Diff_Two_Commit) command).IDCommitTwo;
         String dir1 = get_Directory_project(IDCommitOne, branchName, NameProject);
         String dir2 = get_Directory_project(IDCommitTwo, branchName, NameProject);
-        
+
         if ("".equals(dir1)) {
             Send_FALIURE();
-        } 
-        else if ("".equals(dir2)) {
+        } else if ("".equals(dir2)) {
             Send_FALIURE();
-        }
-        else {
+        } else {
             System.out.println("dir1 : " + dir1 + " :: " + "dir2 : " + dir2);
-            ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1) , new File(dir2));
+            ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
             Send_Diff_Two_Commit Rc = new Send_Diff_Two_Commit(ob);
             Send_Respone(Rc);
         }

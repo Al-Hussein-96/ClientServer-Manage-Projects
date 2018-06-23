@@ -9,5 +9,5 @@ public class ViewDiff_folderClass implements Serializable{
     public StateType MyState = NoChange; 
     public List <  NameAndDirectoryAndState > MyFile = new ArrayList<>();
     public List <  NameAndDirectoryAndState > MyFolder = new ArrayList<>();
-    public List < ViewDiff_folderClass > MyFolderView = new ArrayList<>();;
+    public List < ViewDiff_folderClass > MyFolderView = new ArrayList<>();
 }
