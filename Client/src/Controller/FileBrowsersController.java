@@ -72,6 +72,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
@@ -566,8 +567,9 @@ public class FileBrowsersController implements Initializable {
             } catch (IOException | ClassNotFoundException ex) {
                 System.out.println("Errot in FileBrowsers");
             }
+            Diff Difference = null;
             if (respone != null && respone.TypeRespone == ResponeType.DONE) {
-                Diff Difference = ((SendDiffFile) respone).Difference;
+                Difference = ((SendDiffFile) respone).Difference;
                 for (Changes change : Difference.getChanges()) {
                     if (change instanceof Insert) {
                         System.out.print("Insert : ");
@@ -584,6 +586,22 @@ public class FileBrowsersController implements Initializable {
                         System.out.println(change.getObject());
                     }
                 }
+            }
+            if (Difference == null) {
+                return;
+            }
+
+            DisplayDiffController displayDiffController = new DisplayDiffController(this, Difference);
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/DisplayDiff.fxml"));
+            fxmlLoader.setController(displayDiffController);
+            Stage stage = new Stage();
+            try {
+                BorderPane root = (BorderPane) fxmlLoader.load();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.showAndWait();
+            } catch (IOException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
