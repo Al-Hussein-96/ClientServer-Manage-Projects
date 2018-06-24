@@ -16,6 +16,7 @@ import CommonClass.ViewDiff_folderClass;
 import CommonCommand.*;
 import CommonRespone.*;
 import static CommonRespone.ResponeType.DONE;
+import Different.*;
 import EventClass.Event_AddBranch;
 import EventClass.Event_AddCommit;
 import EventClass.Event_AddContributor;
@@ -28,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -160,17 +160,48 @@ public class ClientHandler extends Thread {
         }
 
     }
+
     /**
-     * here must get Two File and Find Different , Fill List and Send it To Client
-     * DirFile1 : Directory Of File1 On Server
-     * DirFile2 : Directory Of File2 On Server
-     * @param command 
+     * here must get Two File and Find Different , Fill List and Send it To
+     * Client DirFile1 : Directory Of File1 On Server DirFile2 : Directory Of
+     * File2 On Server
+     *
+     * @param command
      */
     private void SendToGetDiffFile(Command command) {
         System.out.println("Hello Wolrd SendToGetDiffFile");
-        System.out.println("DirFile1: " + ((GetDiffFile)command).DirFile1);
-        System.out.println("DirFile2: " + ((GetDiffFile)command).DirFile2);
-        
+        System.out.println("DirFile1: " + ((GetDiffFile) command).DirFile1);
+        System.out.println("DirFile2: " + ((GetDiffFile) command).DirFile2);
+        String Dir1 = ((GetDiffFile) command).DirFile1;
+        String Dir2 = ((GetDiffFile) command).DirFile2;
+        System.out.println("DirNew : " + Dir1 + "\nDirOld : " + Dir2);
+        Myers01 Myers = new Myers01(Dir1, Dir2);
+        Diff Difference = Myers.getDiff();
+
+        for (Changes change : Difference.getChanges()) {
+            if (change instanceof Insert) {
+                System.out.print("Insert : ");
+            }
+            if (change instanceof Delete) {
+                System.out.print("Delete : ");
+            }
+            if (change instanceof NoChange) {
+                System.out.print("NoChange : ");
+            }
+            if ("".equals(change.getObject().trim())) {
+                System.out.println("NEW LINE");
+            } else {
+                System.out.println(change.getObject());
+            }
+        }
+        /**
+         * Difference is List<Changes> where Changes is abstract class and have
+         * three child (Delete , Insert , NoChange) where everyone is String
+         * equals to the line
+         *
+         */
+        SendDiffFile send = new SendDiffFile(Difference);
+        Send_Respone(send);
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -23,59 +23,34 @@ public class StringsComparator {
         trace = new int[size][2 * size];
     }
 
-    public Diff<String> getScript() {
-        final Diff<String> script = new Diff<>();
+    public Diff getScript() {
+        final Diff script = new Diff();
         buildScript(script);
         return script;
     }
 
-    private void buildScript(final Diff<String> script) {
+    private void buildScript(final Diff script) {
         trace = shortest_edit();
-//        int n = left.size();
-//        int m = right.size();
-//        int max = n + m;
-//        for (int d = 0; d <= max; ++d) {
-//            boolean bo = false;
-//            for (int k = -d; k <= d; k += 2) {
-//                int x = trace[d][k + max];
-//                int y = x - k;
-//                System.out.print(x + "  ");
-//                if (x == n && y == m) {
-//                    bo = true;
-//                    break;
-//                }
-//            }
-//            if (bo) {
-//                break;
-//            }
-//            System.out.println("");
-//        }
-
         List<ArrayList<Integer>> track = backtrack();
-        System.out.println("size = " + track.size());
+//        System.out.println("size = " + track.size());
         for (int i = track.size() - 1; i >= 0; i--) {
             ArrayList<Integer> pair = track.get(i);
             int x = pair.get(0);
             int y = pair.get(1);
-            System.out.print(x + "  " + y + "  ");
             if (i != track.size() - 1) {
                 int prev_x = track.get(i + 1).get(0);
                 int prev_y = track.get(i + 1).get(1);
                 if (x == prev_x + 1 && y == prev_y + 1) {
                     // * No Change
-//                    System.out.print("No Change  "+ left.get(prev_x));
-                    script.append(new NoChange<String>(left.get(prev_x)));
+                    script.append(new NoChange(left.get(prev_x)));
                 } else if (x == prev_x + 1) {
                     // * Delete
-//                    System.out.print("Delete  "+ left.get(prev_x));
-                    script.append(new Delete<>(left.get(prev_x)));
+                    script.append(new Delete(left.get(prev_x)));
                 } else if (y == prev_y + 1) {
                     // * Insert
-//                    System.out.print("Insert  "+ right.get(prev_y));
-                    script.append(new Insert<>(right.get(prev_y)));
+                    script.append(new Insert(right.get(prev_y)));
                 }
             }
-            System.out.println("");
         }
     }
 
@@ -102,7 +77,7 @@ public class StringsComparator {
                 break;
             }
         }
-        System.out.println("The Differents = " + D + "\nx = " + x + ", y = " + y);
+//        System.out.println("The Differents = " + D + "\nx = " + x + ", y = " + y);
         int prev_k, prev_x, prev_y;
         while (x != trace[0][max] || y != trace[0][max]) {
             pair = new ArrayList<>();
@@ -183,7 +158,6 @@ public class StringsComparator {
                 }
             }
         }
-
         return null;
     }
 

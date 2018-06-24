@@ -26,12 +26,18 @@ import CommonCommand.GetPull;
 import CommonCommand.Get_Diff_Two_Commit;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import CommonRespone.SendDiffFile;
 import CommonRespone.SendFile;
 import CommonRespone.SendListBranch;
 import CommonRespone.SendListCommits;
 import CommonRespone.SendListContributors;
 import CommonRespone.SendProject;
 import CommonRespone.Send_Diff_Two_Commit;
+import Different.Changes;
+import Different.Delete;
+import Different.Diff;
+import Different.Insert;
+import Different.NoChange;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBrowsers;
@@ -539,19 +545,46 @@ public class FileBrowsersController implements Initializable {
 
             System.out.println("DirFile1 : " + DirFile1 + " DirFile2 : " + DirFile2);
             Command command = new GetDiffFile(DirFile1, DirFile2);
-            
-          /**
-           * @here must receive Respone : SendDiffFile , inside it must Contain List , every Element one Line from File and State
-           * */
+
+            /**
+             * @here must receive Respone : SendDiffFile , inside it must
+             * Contain List , every Element one Line from File and State
+             *
+             */
             try {
 
                 networkOutput.writeObject(command);
                 networkOutput.flush();
-               
+
             } catch (IOException ex) {
                 System.out.println("Error in GetFile " + ex.getMessage());
             }
 
+            Respone respone = null;
+            try {
+                respone = (Respone) networkInput.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println("Errot in FileBrowsers");
+            }
+            if (respone != null && respone.TypeRespone == ResponeType.DONE) {
+                Diff Difference = ((SendDiffFile) respone).Difference;
+                for (Changes change : Difference.getChanges()) {
+                    if (change instanceof Insert) {
+                        System.out.print("Insert : ");
+                    }
+                    if (change instanceof Delete) {
+                        System.out.print("Delete : ");
+                    }
+                    if (change instanceof NoChange) {
+                        System.out.print("NoChange : ");
+                    }
+                    if ("".equals(change.getObject().trim())) {
+                        System.out.println("NEW LINE");
+                    } else {
+                        System.out.println(change.getObject());
+                    }
+                }
+            }
         }
 
     }
