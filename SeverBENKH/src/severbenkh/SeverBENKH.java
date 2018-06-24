@@ -30,6 +30,7 @@ public class SeverBENKH extends Application {
 
     public static String idFileName = "Data\\id.Name";
     public static String idFileProject = "Data\\id.Project";
+    public static String idFileEvent = "Data\\id.Event";
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
@@ -80,6 +81,28 @@ public class SeverBENKH extends Application {
         x--;
         return x;
     }
+    
+    public static int idincreEvent() throws FileNotFoundException, IOException {
+        String idFilename = idFileEvent;
+        int x;
+        try (FileInputStream id = new FileInputStream(idFilename)) {
+            x = id.read();
+        }
+        FileOutputStream idd = new FileOutputStream(idFilename);
+        x++;
+        idd.write(x);
+        x--;
+        System.out.println("Event "+x);
+        return x;
+    }
+    public static int getIdLastEvent() throws FileNotFoundException, IOException {
+        String idFilename = idFileEvent;
+        int x;
+        try (FileInputStream id = new FileInputStream(idFilename)) {
+            x = id.read();
+        }
+        return x;
+    }
 
     public static int idincreProject(String idFileProject) throws FileNotFoundException, IOException {
 
@@ -105,6 +128,14 @@ public class SeverBENKH extends Application {
         if (!idFile.exists()) {
             try (FileOutputStream id = new FileOutputStream(idFile)) {
                 id.write(0);
+            }
+        }
+        
+        // create id Event
+        File idEvent = new File(idFileEvent);
+        if (!idEvent.exists()) {
+            try (FileOutputStream id = new FileOutputStream(idEvent)) {
+                id.write(1);
             }
         }
         // create id project Name

@@ -1,7 +1,9 @@
 package CommonClass;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class User implements Serializable {
 
@@ -10,7 +12,48 @@ public class User implements Serializable {
     private int Id;
     String Email;
     Date DateCreate;
+    private int LastEventSee = 0;
+    public void Update_Last_Event_See(int x)
+    {
+        LastEventSee = x;
+    }
+    public int get_Last_Event_See()
+    {
+        return LastEventSee;
+    }
+    private List < String > MyFollow = new ArrayList<>();
 
+    public  void add_Follow(String ProjectName)
+    {
+        boolean found = false;
+        for(String s : MyFollow)
+        {
+            if(s.equals(ProjectName))
+            {
+                found = true;
+            }
+        }
+        if(!found)
+        {
+            MyFollow.add(ProjectName);
+        }
+    }
+    public  void delete_Follow(String ProjectName)
+    {
+        List < String > temp = new ArrayList<>();
+        for(String s : MyFollow)
+        {
+            if(!s.equals(ProjectName))
+            {
+                temp.add(s);
+            }
+        }
+        MyFollow = temp;
+    }
+    public  List < String > getMyFollow()
+    {
+        return MyFollow;
+    }
     public User(String Name, String Password) {
         this.Name = Name;
         this.Password = Password;
