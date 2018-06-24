@@ -143,6 +143,9 @@ public class ClientHandler extends Thread {
                 case GetDiffrent:
                     SendToGetDiffrent(command);
                     break;
+                case GetDiffFile:
+                    SendToGetDiffFile(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -156,6 +159,19 @@ public class ClientHandler extends Thread {
             }
         }
 
+    }
+    /**
+     * here must get Two File and Find Different , Fill List and Send it To Client
+     * DirFile1 : Directory Of File1 On Server
+     * DirFile2 : Directory Of File2 On Server
+     * @param command 
+     */
+    private void SendToGetDiffFile(Command command) {
+        System.out.println("Hello Wolrd SendToGetDiffFile");
+        System.out.println("DirFile1: " + ((GetDiffFile)command).DirFile1);
+        System.out.println("DirFile2: " + ((GetDiffFile)command).DirFile2);
+        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     private void SendToListUsers(Command command) {
@@ -333,38 +349,36 @@ public class ClientHandler extends Thread {
         }
         return ok;
     }
-    private NameAndDirectoryAndState NameAndDirectoryAndState_to_NameAndDirectory(NameAndDirectory temp)
-    {
+
+    private NameAndDirectoryAndState NameAndDirectoryAndState_to_NameAndDirectory(NameAndDirectory temp) {
         NameAndDirectoryAndState My = null;
         My.MyState = NoChange;
         My.MyFile = temp;
         return My;
     }
-    private  ViewDiff_folderClass ViewfolderClass_to_ViewDiff_folderClass(ViewfolderClass temp)
-    {
+
+    private ViewDiff_folderClass ViewfolderClass_to_ViewDiff_folderClass(ViewfolderClass temp) {
         ViewDiff_folderClass My = new ViewDiff_folderClass();
         /// NameAndDirectoryAndState
-        for(NameAndDirectory R:temp.MyFile)
-        {
-            NameAndDirectoryAndState T ; 
+        for (NameAndDirectory R : temp.MyFile) {
+            NameAndDirectoryAndState T;
             T = NameAndDirectoryAndState_to_NameAndDirectory(R);
             My.MyFile.add(T);
         }
-        for(NameAndDirectory R:temp.MyFolder)
-        {
-            NameAndDirectoryAndState T ; 
+        for (NameAndDirectory R : temp.MyFolder) {
+            NameAndDirectoryAndState T;
             T = NameAndDirectoryAndState_to_NameAndDirectory(R);
             My.MyFolder.add(T);
         }
-        
-        for(ViewfolderClass R:temp.MyFolderView)
-        {
-            ViewDiff_folderClass T ; 
+
+        for (ViewfolderClass R : temp.MyFolderView) {
+            ViewDiff_folderClass T;
             T = ViewfolderClass_to_ViewDiff_folderClass(R);
             My.MyFolderView.add(T);
         }
         return My;
     }
+
     private void SendToGetPush(Command command) {
         String NameProject = ((GetPush) command).NameProject;
         /// ProjectToUpload from client
@@ -518,7 +532,7 @@ public class ClientHandler extends Thread {
         Send_Respone(respone);
     }
 
-      private void SendToListCommits(Command command) {
+    private void SendToListCommits(Command command) {
         String NameProject = ((GetListCommits) command).getNameProject();
         String NameBranch = ((GetListCommits) command).getNameBranch();
 

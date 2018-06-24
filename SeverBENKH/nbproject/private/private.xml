@@ -3,11 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/SeverBENKH/src/CommonClass/ResourceManager.java</file>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/SeverBENKH/src/Different/Myers01.java</file>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/SeverBENKH/src/Different/StringsComparator.java</file>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/SeverBENKH/src/Different/Diff.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/Get_Diff_Two_Commit.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/CommandType.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/Different/Myers01.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonRespone/SendDiffFile.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/GetDiffFile.java</file>
+            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
         </group>
     </open-files>
 </project-private>

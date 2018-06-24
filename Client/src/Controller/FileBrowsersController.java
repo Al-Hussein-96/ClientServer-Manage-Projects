@@ -16,6 +16,7 @@ import CommonCommand.Command;
 import CommonCommand.CommandType;
 import CommonCommand.GetCommits;
 import CommonCommand.GetBranch;
+import CommonCommand.GetDiffFile;
 import CommonCommand.GetFile;
 import CommonCommand.GetListBranch;
 import CommonCommand.GetListCommits;
@@ -505,6 +506,56 @@ public class FileBrowsersController implements Initializable {
 
     }
 
+    @FXML
+    void btnDisplayDiff(ActionEvent event) {
+        List< ViewDiff_folderClass> MyFolderView = current.MyFolderView;
+
+        TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();
+        if (TI == null || MyFolderView == null) {
+            return;
+        }
+        if (TI.Type) {
+            /// not File Do nothing
+
+        } else {
+            /**
+             * Here Open File in Windows Desktop
+             *
+             */
+            String DirFile1 = null, DirFile2 = null;
+            for (int i = 0; i < current.MyFile.size(); i++) {
+                if ((current.MyFile.get(i).MyFile.Name).equals(TI.Name.get())) {
+                    if (current.MyFile.get(i).MyState == StateType.NoChange) {
+                        return;
+                    }
+                    DirFile1 = current.MyFile.get(i).MyFile.Directory;
+                    DirFile2 = current.MyFile.get(i).OldFile.Directory;
+                    break;
+                }
+            }
+            if (DirFile1 == null) {
+                return;
+            }
+
+            System.out.println("DirFile1 : " + DirFile1 + " DirFile2 : " + DirFile2);
+            Command command = new GetDiffFile(DirFile1, DirFile2);
+            
+          /**
+           * @here must receive Respone : SendDiffFile , inside it must Contain List , every Element one Line from File and State
+           * */
+            try {
+
+                networkOutput.writeObject(command);
+                networkOutput.flush();
+               
+            } catch (IOException ex) {
+                System.out.println("Error in GetFile " + ex.getMessage());
+            }
+
+        }
+
+    }
+
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
@@ -613,6 +664,10 @@ public class FileBrowsersController implements Initializable {
         }
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).MyFile.Name;
+            if (MyFile.get(i).OldFile != null) {
+                System.out.println("Here Current File: " + MyFile.get(i).MyFile.Directory);
+                System.out.println("Here Old File: " + MyFile.get(i).OldFile.Directory);
+            }
             if (s1.equals("BEHKN.BEHKN")) {
                 continue;
             }
