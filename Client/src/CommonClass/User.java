@@ -13,47 +13,42 @@ public class User implements Serializable {
     String Email;
     Date DateCreate;
     private int LastEventSee = 0;
-    public void Update_Last_Event_See(int x)
-    {
+    private List< String> MyFollow = new ArrayList<>();
+
+    public void Update_Last_Event_See(int x) {
         LastEventSee = x;
     }
-    public int get_Last_Event_See()
-    {
+
+    public int get_Last_Event_See() {
         return LastEventSee;
     }
-    private List < String > MyFollow = new ArrayList<>();
 
-    public  void add_Follow(String ProjectName)
-    {
+    public void add_Follow(String ProjectName) {
         boolean found = false;
-        for(String s : MyFollow)
-        {
-            if(s.equals(ProjectName))
-            {
+        for (String s : MyFollow) {
+            if (s.equals(ProjectName)) {
                 found = true;
             }
         }
-        if(!found)
-        {
+        if (!found) {
             MyFollow.add(ProjectName);
         }
     }
-    public  void delete_Follow(String ProjectName)
-    {
-        List < String > temp = new ArrayList<>();
-        for(String s : MyFollow)
-        {
-            if(!s.equals(ProjectName))
-            {
+
+    public void delete_Follow(String ProjectName) {
+        List< String> temp = new ArrayList<>();
+        for (String s : MyFollow) {
+            if (!s.equals(ProjectName)) {
                 temp.add(s);
             }
         }
         MyFollow = temp;
     }
-    public  List < String > getMyFollow()
-    {
+
+    public List< String> getMyFollow() {
         return MyFollow;
     }
+
     public User(String Name, String Password) {
         this.Name = Name;
         this.Password = Password;
@@ -84,10 +79,12 @@ public class User implements Serializable {
     }
 
     public void setEmail(String Email) {
-        this.Email = Email;   }
+        this.Email = Email;
+    }
 
     public void setDateCreate(Date DateCreate) {
-        this.DateCreate = DateCreate;   }
+        this.DateCreate = DateCreate;
+    }
 
     public String getEmail() {
         return Email;
@@ -96,7 +93,5 @@ public class User implements Serializable {
     public Date getDateCreate() {
         return DateCreate;
     }
-    
-    
 
 }
