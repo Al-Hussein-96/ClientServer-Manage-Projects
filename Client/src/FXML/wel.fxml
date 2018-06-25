@@ -5,12 +5,23 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="703.0" style="-fx-background-color: abcde1;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WelController">
    <children>
-      <ImageView fitHeight="149.0" fitWidth="423.0" layoutX="27.0" layoutY="100.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" rotate="-20.6">
+      <ImageView fitHeight="532.0" fitWidth="703.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/Untitled-1.jpg" />
+         </image>
+      </ImageView>
+      <Circle fill="WHITE" layoutX="105.0" layoutY="173.0" radius="90.0" stroke="#135128" strokeType="INSIDE" strokeWidth="3.0" />
+      <Circle fill="WHITE" layoutX="354.0" layoutY="66.0" radius="85.0" stroke="#135128" strokeType="INSIDE" strokeWidth="3.0" />
+      <Circle fill="WHITE" layoutX="606.0" layoutY="172.0" radius="71.0" stroke="#135128" strokeType="INSIDE" strokeWidth="3.0" />
+      <ImageView fitHeight="162.0" fitWidth="150.0" layoutX="26.0" layoutY="100.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" rotate="-20.6">
          <image>
             <Image url="@../res/16-512.png" />
          </image>
@@ -20,16 +31,21 @@
             <Image url="@../res/1173-200_1.png" />
          </image>
       </ImageView>
-      <Line endX="100.0" layoutX="620.0" layoutY="179.0" opacity="0.27" rotate="45.0" startX="-100.0" />
-      <Line endX="100.0" layoutX="614.0" layoutY="173.0" opacity="0.27" rotate="-45.0" startX="-100.0" />
-      <Line endX="100.0" layoutX="109.0" layoutY="161.0" opacity="0.27" rotate="45.0" startX="-100.0" stroke="#eb0505" />
-      <Line endX="100.0" fill="#e8051c" layoutX="102.0" layoutY="171.0" opacity="0.27" rotate="-45.0" startX="-100.0" stroke="#eb0b0b" />
+      <ImageView fitHeight="143.0" fitWidth="133.0" layoutX="419.0" layoutY="243.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/software-developer-data-analysis-coding-computer-programing-3f74270a556602e0-512x512.png" />
+         </image>
+      </ImageView>
+      <Line endX="100.0" layoutX="575.0" layoutY="172.0" opacity="0.27" rotate="45.0" startX="-40.0" stroke="#393939" strokeWidth="5.0" />
+      <Line endX="100.0" layoutX="571.0" layoutY="173.0" opacity="0.27" rotate="-45.0" startX="-30.0" stroke="#393939" strokeWidth="5.0" />
+      <Line endX="100.0" fill="#0373ab" layoutX="100.0" layoutY="157.0" opacity="0.4" rotate="45.0" startX="-70.0" stroke="#393939" strokeWidth="5.0" />
+      <Line endX="100.0" fill="#0373ab" layoutX="86.0" layoutY="172.0" opacity="0.4" rotate="-45.0" startX="-72.0" stroke="#393939" strokeWidth="5.0" />
       <ImageView fitHeight="143.0" fitWidth="133.0" layoutX="284.0" layoutY="-1.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../res/img_534539.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="67.0" fitWidth="72.0" layoutX="418.0" layoutY="36.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="67.0" fitWidth="72.0" layoutX="431.0" layoutY="36.0" opacity="0.4" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../res/teachers-icon-7.png" />
          </image>
@@ -39,8 +55,8 @@
             <Image url="@../res/C-Programming-Language.jpg" />
          </image>
       </ImageView>
-      <Line endX="100.0" layoutX="354.0" layoutY="57.0" rotate="45.0" startX="-100.0" />
-      <Line endX="100.0" layoutX="348.0" layoutY="67.0" rotate="-45.0" startX="-100.0" />
+      <Line endX="100.0" layoutX="345.0" layoutY="68.0" opacity="0.4" rotate="-45.0" startX="-70.0" stroke="#393939" strokeWidth="5.0" />
+      <Line endX="100.0" layoutX="344.0" layoutY="61.0" opacity="0.4" rotate="45.0" startX="-65.0" stroke="#393939" strokeWidth="5.0" />
       <ImageView fitHeight="143.0" fitWidth="133.0" layoutX="6.0" layoutY="289.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../res/94088-200.png" />
@@ -56,34 +72,69 @@
             <Image url="@../res/Coding-512.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="143.0" fitWidth="133.0" layoutX="369.0" layoutY="225.0" opacity="0.61" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../res/software-developer-data-analysis-coding-computer-programing-3f74270a556602e0-512x512.png" />
-         </image>
-      </ImageView>
-      <Line cache="true" endX="200.0" fill="#a12872c2" layoutX="343.0" layoutY="396.0" opacity="0.49" startX="-250.0" stroke="#2a00ebfa" strokeMiterLimit="11.0" strokeType="OUTSIDE">
+      <Line cache="true" endX="200.0" fill="#a12872c2" layoutX="343.0" layoutY="396.0" opacity="0.49" startX="-250.0" strokeMiterLimit="11.0" strokeType="OUTSIDE">
          <effect>
             <Glow />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#002bff" />
+                  <Stop color="#e505a7" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Line>
-      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="419.0" layoutY="375.0" opacity="0.49" rotate="-90.0" startX="-20.0" stroke="#2a00ebfa" strokeMiterLimit="11.0" strokeType="OUTSIDE">
+      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="460.0" layoutY="382.0" opacity="0.49" rotate="-90.0" startX="-5.0" strokeMiterLimit="11.0" strokeType="OUTSIDE">
          <effect>
             <Glow />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#002bff" />
+                  <Stop color="#e505a7" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Line>
-      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="283.0" layoutY="419.0" opacity="0.49" rotate="90.0" startX="-20.0" stroke="#2a00ebfa" strokeMiterLimit="11.0" strokeType="OUTSIDE">
+      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="283.0" layoutY="419.0" opacity="0.49" rotate="90.0" startX="-20.0" strokeMiterLimit="11.0" strokeType="OUTSIDE">
          <effect>
             <Glow />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#002bff" />
+                  <Stop color="#e505a7" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Line>
-      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="409.0" layoutY="299.0" opacity="0.49" rotate="90.0" startX="-170.0" stroke="#2a00ebfa" strokeMiterLimit="11.0" strokeType="OUTSIDE">
+      <Line cache="true" endX="24.0" fill="#a12872c2" layoutX="382.0" layoutY="335.0" opacity="0.49" rotate="90.0" startX="-100.0" strokeMiterLimit="11.0" strokeType="OUTSIDE">
          <effect>
             <Glow />
          </effect>
+         <stroke>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#002bff" />
+                  <Stop color="#e505a7" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </stroke>
       </Line>
-      <JFXButton fx:id="btn" buttonType="RAISED" focusTraversable="false" layoutX="243.0" layoutY="128.0" onAction="#btn" prefHeight="111.0" prefWidth="217.0" text="BEHKN" textFill="#3402e8">
+      <JFXButton fx:id="btn" buttonType="RAISED" focusTraversable="false" layoutX="223.0" layoutY="187.0" onAction="#btn" prefHeight="111.0" prefWidth="217.0" text="BEHKN">
          <font>
             <Font name="CoconNextArabic-Light" size="48.0" />
-         </font></JFXButton>
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop color="#0037ff" />
+                  <Stop color="#139a0b" offset="1.0" />
+               </stops>
+            </LinearGradient>
+         </textFill></JFXButton>
    </children>
 </AnchorPane>

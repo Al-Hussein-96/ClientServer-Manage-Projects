@@ -13,8 +13,8 @@ and open the template in the editor.
     -fx-font-weight:bold;
     -fx-background-color: white ;
     -fx-background-radius: 22;
-    -fx-text-fill: #3196DE;
-    -fx-border-color:  #3196DE;
+    -fx-text-fill: black;
+    -fx-border-color:  #98FB98;
     -fx-border-radius: 22;
     -fx-border-width: 3;
     
@@ -23,10 +23,10 @@ and open the template in the editor.
 .button:hover
 {
     -fx-font-weight:bold;
-    -fx-background-color:  #3196DE;
+    -fx-background-color:  #98FB98;
     -fx-background-radius: 40;
     -fx-text-fill: white;
-    -fx-border-color:  #3196DE;
+    -fx-border-color:  #98FB98;
     -fx-border-radius: 22;
     -fx-border-width: 3;
     
@@ -37,10 +37,10 @@ and open the template in the editor.
 .button:pressed
 {
     -fx-font-weight:bold;
-    -fx-background-color:  #3196DE;
+    -fx-background-color:  #98FB98;
     -fx-background-radius: 40;
     -fx-text-fill: white;
-    -fx-border-color:  #3196DE;
+    -fx-border-color:  #98FB98;
     -fx-border-radius: 20;
     -fx-border-width: 3;
     -fx-rotate: 10;

@@ -8,8 +8,13 @@
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.WindowsSelectController">
    <children>
-      <AnchorPane prefHeight="141.0" prefWidth="600.0" styleClass="topPane" stylesheets="@style.css">
+      <AnchorPane prefHeight="400.0" prefWidth="600.0">
          <children>
+            <ImageView fitHeight="400.0" fitWidth="608.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/winsel1.jpg" />
+               </image>
+            </ImageView>
             <JFXButton cancelButton="true" layoutX="571.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="29.0" text="X" textFill="#fff8f8" />
          </children></AnchorPane>
       <AnchorPane layoutX="84.0" layoutY="51.0" prefHeight="314.0" prefWidth="433.0" styleClass="cardPane" stylesheets="@style.css">
@@ -24,7 +29,7 @@
                   <URL value="@../Css/style.css" />
                   <URL value="@../Css/Button.css" />
                </stylesheets></JFXButton>
-            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="102.0" fitWidth="116.0" layoutX="51.0" layoutY="66.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/Sign_Up-512.png" />
                </image>

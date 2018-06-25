@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.CreateProjectController">
    <children>
-      <AnchorPane prefHeight="48.0" prefWidth="700.0" styleClass="topPane">
+      <AnchorPane prefHeight="48.0" prefWidth="700.0" style="-fx-background-color: #66CC99;">
          <children>
             <Text fill="#f2e2e2" layoutX="37.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Project">
                <font>
@@ -24,12 +24,12 @@
       </AnchorPane>
       <AnchorPane layoutX="40.0" layoutY="114.0" opacity="0.84" prefHeight="255.0" prefWidth="606.0" styleClass="cardPane">
          <children>
-            <JFXTextField fx:id="txtLocation" alignment="CENTER" focusColor="#0441f8" labelFloat="true" layoutX="212.0" layoutY="145.0" prefHeight="30.0" prefWidth="250.0" promptText="Path of Folder" unFocusColor="#5f00f8">
+            <JFXTextField fx:id="txtLocation" alignment="CENTER" focusColor="#0441f8" labelFloat="true" layoutX="212.0" layoutY="145.0" prefHeight="30.0" prefWidth="250.0" promptText="Path of Folder" unFocusColor="#04c541">
                <effect>
                   <Reflection />
                </effect>
             </JFXTextField>
-            <JFXTextField fx:id="txtNameProject" alignment="CENTER" focusColor="#0441f8" labelFloat="true" layoutX="49.0" layoutY="62.0" prefHeight="30.0" prefWidth="250.0" promptText="Name Of Project" unFocusColor="#5f00f8">
+            <JFXTextField fx:id="txtNameProject" alignment="CENTER" focusColor="#09f59b" labelFloat="true" layoutX="49.0" layoutY="62.0" prefHeight="30.0" prefWidth="250.0" promptText="Name Of Project" unFocusColor="#04c541">
                <effect>
                   <Reflection />
                </effect>
@@ -49,7 +49,7 @@
                   <Image url="@../res/folder-browser-find-path-512.png" />
                </image>
             </ImageView>
-            <JFXButton buttonType="RAISED" layoutX="513.0" layoutY="144.0" onAction="#btnBrowsers" prefHeight="38.0" prefWidth="79.0" text="Browsers" textFill="#3918da">
+            <JFXButton buttonType="RAISED" layoutX="513.0" layoutY="144.0" onAction="#btnBrowsers" prefHeight="38.0" prefWidth="79.0" text="Browsers" textFill="#04c541">
                <font>
                   <Font name="CoconNextArabic-Light" size="14.0" />
                </font>
@@ -62,7 +62,7 @@
                   <Image url="@../res/folder-browser-find-path-512.png" />
                </image>
             </ImageView>
-            <JFXCheckBox fx:id="PrivateProject" layoutX="246.0" layoutY="220.0" text="Private Project" unCheckedColor="#0f58dd" underline="true">
+            <JFXCheckBox fx:id="PrivateProject" layoutX="246.0" layoutY="220.0" text="Private Project" unCheckedColor="#04c541" underline="true">
                <font>
                   <Font name="Cocon-Light" size="15.0" />
                </font>

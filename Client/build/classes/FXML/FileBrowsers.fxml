@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">   
     <children>
-        <TableView fx:id="tabelView" focusTraversable="false" layoutY="100.0" prefHeight="328.0" prefWidth="700.0">
+        <TableView fx:id="tabelView" layoutY="100.0" prefHeight="328.0" prefWidth="700.0" stylesheets="@../Css/StyleTabel.css">
             <columns>
                 <TableColumn fx:id="ImageIcon" prefWidth="38.0" text="I" />
                 <TableColumn fx:id="Name" prefWidth="112.0" text="Name" />
@@ -22,12 +22,11 @@
                 <TableColumn prefWidth="269.0" text="Description" />
             </columns>
         </TableView>
-        <HBox layoutX="23.0" layoutY="51.0" spacing="25.0">
+        <HBox layoutX="23.0" layoutY="51.0" spacing="100.0">
             <children>
                 <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Branch" />
                 <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Commits" />
                 <JFXButton onAction="#btnContributors" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Contributors" />
-            <JFXButton onAction="#btnDisplayDiff" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Diplay Diff" />
             </children>
         </HBox>
         <JFXButton layoutX="3.0" layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Open" />
