@@ -412,15 +412,17 @@ public class ClientHandler extends Thread {
                 break;
             }
         }
+        System.out.println("ID last event user = "+Id_last_Event);
         int lastEvent = 0;
         try {
             lastEvent = SeverBENKH.getIdLastEvent();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("last = "+lastEvent);
         List< String> MyFollowProject = get_MyFollow_Project(user);
         List< Event_Class> MyEvent = new ArrayList<>();
-        for (int i = Id_last_Event + 1; i <= lastEvent; i++) {
+        for (int i = Id_last_Event + 1; i < lastEvent; i++) {
             Event_Class Ev = get_Event(i);
             for (String s : MyFollowProject) {
                 if (s.equals(Ev.ProjectName)) {
@@ -429,7 +431,7 @@ public class ClientHandler extends Thread {
                 }
             }
         }
-        Update_User_Last_Event_See(user, lastEvent);
+        Update_User_Last_Event_See(user, lastEvent-1);
         return MyEvent;
     }
 
