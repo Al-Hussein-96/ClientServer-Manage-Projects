@@ -12,7 +12,5 @@ public class Event_AddCommit extends Event_Class implements Serializable{
     {
         super(Author,ProjectName,date);
         this.NewCommit = NewCommit;
-        
-        
     }
 }

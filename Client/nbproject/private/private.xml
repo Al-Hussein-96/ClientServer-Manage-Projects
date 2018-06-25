@@ -3,14 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/DisplayDiffController.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonCommand/GetDiffFile.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/FileBrowsersController.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/MyProjectController.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonRespone/SendDiffFile.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/client/TextFileReader.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonCommand/GetCommits.java</file>
-            <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/CommonCommand/CommandType.java</file>
+            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/Client/src/CommonCommand/GetLOGIN.java</file>
+            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/Client/src/client/Project.java</file>
+            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/Client/src/CommonCommand/Command.java</file>
+            <file>file:/C:/Users/Moaz/Desktop/New%20folder/ClientServer-Manage-Projects/Client/src/CommonClass/User.java</file>
         </group>
     </open-files>
 </project-private>

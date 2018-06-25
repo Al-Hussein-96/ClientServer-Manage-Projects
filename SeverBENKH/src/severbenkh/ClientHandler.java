@@ -134,7 +134,6 @@ public class ClientHandler extends Thread {
                 case ADDCONTRIBUTOR:
                     SendToAddContributor(command);
                     break;
-
                 case GETLISTUSER:
                     SendToListUsers(command);
                     break;
@@ -147,6 +146,9 @@ public class ClientHandler extends Thread {
                 case GetDiffFile:
                     SendToGetDiffFile(command);
                     break;
+
+                case GetNewEvent:
+                    SendToGetNewEvent(command);
             }
 
         } while (!command.equals("Stop"));
@@ -160,6 +162,16 @@ public class ClientHandler extends Thread {
             }
         }
 
+    }
+
+    private void SendToGetNewEvent(Command command) {
+        List<Event_Class> NewEvent = get_NewEvent();
+
+        System.out.println("Size = "+NewEvent.size());
+
+        
+        Respone res = new SendNewEvent(NewEvent);
+        Send_Respone(res);
     }
 
     /**
@@ -206,16 +218,15 @@ public class ClientHandler extends Thread {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void set_list_user_in_server(List< User> temp)
-    {
+    private void set_list_user_in_server(List< User> temp) {
         try {
-            ResourceManager.save((Serializable) temp,list_user_in_server);
+            ResourceManager.save((Serializable) temp, list_user_in_server);
         } catch (Exception ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private List< User> get_list_user_in_server()
-    {
+
+    private List< User> get_list_user_in_server() {
         List< User> temp = null;
         try {
             temp = (List< User>) ResourceManager.load(list_user_in_server);
@@ -224,6 +235,7 @@ public class ClientHandler extends Thread {
         }
         return temp;
     }
+
     private void SendToListUsers(Command command) {
         try {
             List< User> temp = get_list_user_in_server();
@@ -359,35 +371,29 @@ public class ClientHandler extends Thread {
         Send_Done();
     }
 
-    private void add_follow_to_User(String user, String Project)
-    {
-        List < User > ServerUser = get_list_user_in_server();
-        for(User temp : ServerUser)
-        {
-            if(temp.getName().equals(user))
-            {
+    private void add_follow_to_User(String user, String Project) {
+        List< User> ServerUser = get_list_user_in_server();
+        for (User temp : ServerUser) {
+            if (temp.getName().equals(user)) {
                 temp.add_Follow(Project);
             }
         }
         set_list_user_in_server(ServerUser);
     }
-    private void delete_follow_to_User(String user , String Project)
-    {
-        List < User > ServerUser = get_list_user_in_server();
-        for(User temp : ServerUser)
-        {
-            if(temp.getName().equals(user))
-            {
+
+    private void delete_follow_to_User(String user, String Project) {
+        List< User> ServerUser = get_list_user_in_server();
+        for (User temp : ServerUser) {
+            if (temp.getName().equals(user)) {
                 temp.delete_Follow(Project);
             }
         }
         set_list_user_in_server(ServerUser);
     }
-    
-    private Event_Class get_Event(int id)
-    {
-        Event_Class Ev  = null ;
-        String dir = SeverBENKH.EventDirectory+"\\"+id;
+
+    private Event_Class get_Event(int id) {
+        Event_Class Ev = null;
+        String dir = SeverBENKH.EventDirectory + "\\" + id;
         try {
             Ev = (Event_Class) ResourceManager.load(dir);
         } catch (Exception ex) {
@@ -395,59 +401,62 @@ public class ClientHandler extends Thread {
         }
         return Ev;
     }
-    private List < Event_Class >  get_NewEvent(String user , int Id_last_Event)
-    {
+
+    private List< Event_Class> get_NewEvent() {
+        String user = MyUser;
+        List< User> T = get_list_user_in_server();
+        int Id_last_Event = 0;
+        for (User s : T) {
+            if (s.getName().equals(user)) {
+                Id_last_Event = s.get_Last_Event_See();
+                break;
+            }
+        }
         int lastEvent = 0;
         try {
             lastEvent = SeverBENKH.getIdLastEvent();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        List < String > MyFollowProject = get_MyFollow_Project(user); 
-        List < Event_Class > MyEvent = new ArrayList<>();
-        for(int i = Id_last_Event+1;i<=lastEvent;i++)
-        {
+        List< String> MyFollowProject = get_MyFollow_Project(user);
+        List< Event_Class> MyEvent = new ArrayList<>();
+        for (int i = Id_last_Event + 1; i <= lastEvent; i++) {
             Event_Class Ev = get_Event(i);
-            for(String s : MyFollowProject)
-            {
-                if(s.equals(Ev.ProjectName))
-                {
+            for (String s : MyFollowProject) {
+                if (s.equals(Ev.ProjectName)) {
                     MyEvent.add(Ev);
                     break;
                 }
             }
         }
-        Update_User_Last_Event_See(user,lastEvent);
+        Update_User_Last_Event_See(user, lastEvent);
         return MyEvent;
     }
-    private void Update_User_Last_Event_See(String user , int id)
-    {
-        List < User > ServerUser = get_list_user_in_server();
-        for(User temp : ServerUser)
-        {
-            if(temp.getName().equals(user))
-            {
+
+    private void Update_User_Last_Event_See(String user, int id) {
+        List< User> ServerUser = get_list_user_in_server();
+        for (User temp : ServerUser) {
+            if (temp.getName().equals(user)) {
                 temp.Update_Last_Event_See(id);
             }
         }
         set_list_user_in_server(ServerUser);
     }
-    private List < String > get_MyFollow_Project(String user)
-    {
-        List < User > ServerUser = get_list_user_in_server();
-        for(User temp : ServerUser)
-        {
-            if(temp.getName().equals(user))
-            {
+
+    private List< String> get_MyFollow_Project(String user) {
+        List< User> ServerUser = get_list_user_in_server();
+        for (User temp : ServerUser) {
+            if (temp.getName().equals(user)) {
                 return temp.getMyFollow();
             }
         }
         return null;
     }
+
     private void addNewEvent(Event_Class Ev) {
-        try {   
+        try {
             int Id = SeverBENKH.idincreEvent();
-            String dir = SeverBENKH.EventDirectory+"\\"+Id;
+            String dir = SeverBENKH.EventDirectory + "\\" + Id;
             ResourceManager.save(Ev, dir);
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -859,8 +868,13 @@ public class ClientHandler extends Thread {
         Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
         //// Here we send hiddenFile to client 
+        
         SendCreateProject Rc = new SendCreateProject(BenkhFile);
         Send_Respone(Rc);
+        
+        /// Her i set the new project in My follow and must add to every contribut add
+        add_follow_to_User(MyUser, NameProject);
+        //
     }
 
     /// to see if this project name is use before
