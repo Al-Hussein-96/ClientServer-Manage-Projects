@@ -5,46 +5,55 @@ import Different.Delete;
 import Different.Diff;
 import Different.Insert;
 import Different.NoChange;
+import client.LineCode;
 import client.TextFileReader;
 import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import org.fxmisc.richtext.InlineCssTextArea;
-import sun.security.pkcs11.wrapper.Constants;
 
 public class DisplayDiffController implements Initializable {
-
+    
     Diff Difference;
     FileBrowsersController Father;
     @FXML
-    private TextField urlTextField;
+    private TableView<LineCode> table;
+    
     @FXML
-
-    //  private TextArea linesTextArea;
-    InlineCssTextArea linesTextArea = new InlineCssTextArea();
-
-    private Future<List<String>> future;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
-    private TextFileReader reader = new TextFileReader();
-
+    private TableColumn<LineCode, String> line;
+    
+    @FXML
+    private TableColumn<LineCode, String> state;
+    
+    @FXML
+    private TableColumn<LineCode, String> text;
+    
     DisplayDiffController(FileBrowsersController aThis, Diff Difference) {
         this.Father = aThis;
         this.Difference = Difference;
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
@@ -52,76 +61,68 @@ public class DisplayDiffController implements Initializable {
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(DisplayDiffController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-
-    @FXML
-    public void choose(ActionEvent event) {
-        System.out.println("FOOOO");
-        FileChooser dc = new FileChooser();
-        dc.showOpenDialog(null);
-        File selectedFile = dc.getInitialDirectory();
-
-        if (selectedFile != null) {
-            urlTextField.setText(selectedFile.getPath());
-        }
+    
+//        text.setCellFactory((param) -> new TableCell<LineCode, String>() {
+//            @Override
+//            protected void updateItem(String item, boolean empty) {
+//              //  super.updateItem(item, empty); //To change body of generated methods, choose Tools | Templates.
+//                if (item == null || empty) {
+//              //      setText(null);
+//                    //setStyle("");
+//                } else {
+////                    int rowIndex = getTableRow().getIndex();
+////                    String valueInSecondaryCell = getTableView().getItems().get(rowIndex).getState();
+////                    if (valueInSecondaryCell.equals("+")) {
+////                        setStyle("-fx-background-color: #8d95a0; -fx-border-color: black;"); //Set the style in the first cell based on the value of the second cell
+////                    } else {
+////                        setStyle("-fx-background-color: green; -fx-border-color: black;");
+////                    }
+//                    
+//                }
+//            }
+//            
+//        });
+        
     }
 
 //D:\My Project\DisplayText\2.fxml
     @FXML
     @SuppressWarnings("NestedAssignment")
     public void showFileLines() throws InterruptedException, ExecutionException {
-
-//        future = executorService.submit(new Callable<List<String>>() {
-//            public List<String> call() throws Exception {
-//                System.out.println("GET");
-//                return reader.read(new File(DisplayDiffController.this.urlTextField.getText()));
-//            }
-//        });
-//        List<String> lines = future.get();
-//        executorService.shutdownNow();
-        linesTextArea.clear();
-        linesTextArea.setStyle("-fx-font-size: 1em;");
-
+        
+        ObservableList<LineCode> list;
+        LineCode[] st = new LineCode[Difference.getChanges().size()];
+        
         for (int i = 0; i < Difference.getChanges().size(); i++) {
             Changes change = Difference.getChanges().get(i);
             if (change instanceof Insert) {
-                linesTextArea.appendText(change.getObject() + " " + i);
-                linesTextArea.setStyle(i, "-fx-fill: yellow;");
+                st[i] = new LineCode(String.valueOf(i + 1), "+", change.getObject());
+
 //                        System.out.print("Insert : ");
             }
             if (change instanceof Delete) {
-                linesTextArea.appendText(change.getObject() + " " + i);
-                linesTextArea.setStyle(i, "-fx-fill: red; -fx-background-color: yellow ;");
+                st[i] = new LineCode(String.valueOf(i + 1), "-", change.getObject());
 //                        System.out.print("Delete : ");
             }
             if (change instanceof NoChange) {
-                linesTextArea.appendText(change.getObject() + " " + i);
 //                        System.out.print("NoChange : ");
-                linesTextArea.setStyle(i, "-fx-fill: black;");
+                st[i] = new LineCode(String.valueOf(i + 1), "o", change.getObject());
             }
             if (!change.getObject().trim().equals("")) {
-                linesTextArea.appendText("\n");
             }
-//                    if ("".equals(change.getObject().trim())) {
-//                        System.out.println("NEW LINE");
-//                    } else {
-//                        System.out.println(change.getObject());
-//                    }
+            
         }
+        line.setStyle("-fx-alignment: CENTER");
+        state.setStyle("-fx-alignment: CENTER");
 
-//        for (String line : lines) {
-//            linesTextArea.appendText(line);
-//            if (!line.equals(Constants.NEWLINE)) {
-//                linesTextArea.appendText("\n");
-//            }
-//
-//        }
-        System.out.println(linesTextArea.getText().split("\n").length);
-//        linesTextArea.setStyle(5, "-fx-fill: yellow;");
-//        linesTextArea.setStyle(6, "-fx-fill: yellow;");
-//
-//        linesTextArea.setStyle(7, "-fx-fill: yellow;");
-
+        //  text.setStyle("-fx-background-color: yellow;");
+        // text.setStyle("-fx-background-color:  #111111;");
+        list = FXCollections.observableArrayList(st);
+        line.setCellValueFactory(new PropertyValueFactory<>("line"));
+        state.setCellValueFactory(new PropertyValueFactory<>("state"));
+        text.setCellValueFactory(new PropertyValueFactory<>("text"));
+        
+        table.setItems(list);
+        
     }
 }

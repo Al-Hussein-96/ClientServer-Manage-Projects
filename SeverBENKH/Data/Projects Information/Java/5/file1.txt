@@ -1,0 +1,30 @@
+public void CreateCommitSelected(String BranchName, int FR_ID, int SC_ID) {
+        previous.clear();
+        current = GetMyCommitDiff(BranchName, FR_ID, SC_ID);
+        // ViewfolderClass CurrentDiff = GetMyCommit(BranchName, ID);
+
+        if (current != null) {
+            ShowFolderWithDiff(current);
+            //  ShowFolder(CurrentDiff);
+            idBranch.setText("Branch : " + BranchName);
+            idCommit.setText("Commit : " + FR_ID);
+        }
+}
+
+ViewfolderClass GetMyBranch(String BranchName) {
+        try {
+            Command command = new GetBranch(Owner.NameProject, BranchName);
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+            Respone respone = (Respone) networkInput.readObject();
+            if (respone.TypeRespone == ResponeType.DONE) {
+                return ((SendProject) respone).ob;
+            } else {
+                System.out.println("Error in Project");
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(FileBrowsersController.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+}
