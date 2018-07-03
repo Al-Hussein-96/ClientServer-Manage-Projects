@@ -175,6 +175,9 @@ public class ResourceManager {
                         New.MyState = temp.MyState;
                         MyViewdiff_folder.MyFolder.add(New);
                         MyViewdiff_folder.MyFolderView.add(temp);
+                        if(!New.MyState.equals(NoChange))
+                        MyViewdiff_folder.MyState = Change;
+                        
                     } else if (isFileOne && isFileTwo) {
                         isfound = true;
                         String Directory1 = DirectoryOne + "\\" + file1.getName();

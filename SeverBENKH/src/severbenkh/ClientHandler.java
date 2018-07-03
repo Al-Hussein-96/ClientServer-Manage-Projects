@@ -75,7 +75,7 @@ public class ClientHandler extends Thread {
                 command = (Command) input.readObject();
                 System.out.println("command: " + command.toString());
             } catch (IOException ex) {
-                System.out.println("Cann't Read Command");
+                System.out.println("Cann't Read Command: " + ex.getMessage());
                 break;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
