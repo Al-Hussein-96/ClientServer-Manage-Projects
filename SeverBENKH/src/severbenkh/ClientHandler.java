@@ -168,35 +168,22 @@ public class ClientHandler extends Thread {
 
     private void SendToGetMerge(Command command) {
         //// here must be Merge Files
-
-//        String NameProject = ((GetMerge) command).getNameProject();
-//        Project temp = get_projectClass(NameProject);
-//        int idCommit = 0;
-//        String BranchName = ((GetMerge) command).getBranchFirst();
-//        for (branchClass u : temp.branchListClass) {
-//            if (u.branchName.equals(BranchName)) {
-//                idCommit = u.way.size() - 1;
-//                break;
-//            }
-//        }
-//
-//        /// get Directory for this commit 
-//        String dir = get_Directory_project(idCommit, BranchName, NameProject);
-//        ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-//        
-//        System.out.println("DIR : " + dir);
-//        
-//        SendProject Rc = new SendProject(ob);
-//        Send_Respone(Rc);
-//        SendFolder(ob);
-//       
-//        ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
-//        try {
-//            output.writeObject(BENHKFile);
-//            output.flush();
-//        } catch (IOException ex) {
-//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        String NameProject = ((GetMerge) command).getNameProject();
+        String BranchFirst = ((GetMerge)command).getBranchFirst();
+        String BranchSecond = ((GetMerge)command).getBranchSecond();
+        String dir1  = get_Directory_project_first_Time(BranchFirst, NameProject);
+        String dir2  = get_Directory_project_first_Time(BranchSecond, NameProject);
+        ViewfolderClass ob = ResourceManager.MergeProject(new File(dir1) , new File(dir2));
+        SendProject Rc = new SendProject(ob);
+        Send_Respone(Rc);
+        SendFolder(ob);
+        ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
+        try {
+            output.writeObject(BENHKFile);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -514,16 +501,6 @@ public class ClientHandler extends Thread {
                 /// get last commit 
                 int IdlastCommite = s.way.size() - 1;
                 temp = s.BENKH_File.get(IdlastCommite);
-//                CommitClass R = s.way.get(IdlastCommite);
-//                String FileDir = R.Directory;
-//                String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
-//                try {
-//                    temp = (ProjectToUpload) ResourceManager.load(MyDir);
-//
-//                } catch (Exception ex) {
-//                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-
             }
         }
         return temp;
