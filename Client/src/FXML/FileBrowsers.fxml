@@ -24,10 +24,11 @@
         </TableView>
         <HBox layoutX="23.0" layoutY="51.0" spacing="10.0">
             <children>
-                <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Branch" />
-                <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Commits" />
-                <JFXButton onAction="#btnContributors" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Contributors" />
-            <JFXButton onAction="#btnDisplayDiff" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Display" />
+                <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Branch" />
+                <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Commits" />
+                <JFXButton onAction="#btnContributors" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Contributors" />
+            <JFXButton onAction="#btnDisplayDiff" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Display" />
+            <JFXButton onAction="#btnMerge" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Merge" />
             </children>
         </HBox>
         <JFXButton layoutX="3.0" layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Open" />

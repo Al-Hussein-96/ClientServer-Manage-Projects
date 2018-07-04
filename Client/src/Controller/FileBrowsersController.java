@@ -607,6 +607,37 @@ public class FileBrowsersController implements Initializable {
 
     }
 
+    @FXML
+    void btnMerge(ActionEvent event) {
+        Command command = new GetListBranch(Owner.NameProject);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+
+        String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
+        BranchMergeController branchController = new BranchMergeController(this, ((SendListBranch) respone).getListbranch(), Branch);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/BranchMerge.fxml"));
+        fxmlLoader.setController(branchController);
+        Stage stage = new Stage();
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     ViewfolderClass GetMyProject() {
         try {
             Command command = new GetProject(Owner.NameProject);
@@ -762,7 +793,7 @@ public class FileBrowsersController implements Initializable {
         return null;
     }
 
-    private void CreateFolder(ViewfolderClass ob, String path) {
+    public void CreateFolder(ViewfolderClass ob, String path) {
         List<NameAndDirectory> Folder = ob.MyFolder;
         for (NameAndDirectory u : Folder) {
             String tem = u.Directory;
@@ -776,7 +807,7 @@ public class FileBrowsersController implements Initializable {
 
     }
 
-    private void Receive(ViewfolderClass ob, String path) {
+    public void Receive(ViewfolderClass ob, String path) {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
             try {

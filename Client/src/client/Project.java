@@ -57,7 +57,7 @@ public class Project extends Application {
             System.out.println("\nHost ID not foun!");
             System.exit(1);
         }
-        socket = new Socket("192.168.", PORT);
+        socket = new Socket(host, PORT);
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         networkInput = new ObjectInputStream(socket.getInputStream());
 

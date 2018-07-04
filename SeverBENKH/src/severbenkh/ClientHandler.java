@@ -149,6 +149,8 @@ public class ClientHandler extends Thread {
 
                 case GetNewEvent:
                     SendToGetNewEvent(command);
+                case GETMERGE:
+                    SendToGetMerge(command);
             }
 
         } while (!command.equals("Stop"));
@@ -164,12 +166,45 @@ public class ClientHandler extends Thread {
 
     }
 
+    private void SendToGetMerge(Command command) {
+        //// here must be Merge Files
+
+//        String NameProject = ((GetMerge) command).getNameProject();
+//        Project temp = get_projectClass(NameProject);
+//        int idCommit = 0;
+//        String BranchName = ((GetMerge) command).getBranchFirst();
+//        for (branchClass u : temp.branchListClass) {
+//            if (u.branchName.equals(BranchName)) {
+//                idCommit = u.way.size() - 1;
+//                break;
+//            }
+//        }
+//
+//        /// get Directory for this commit 
+//        String dir = get_Directory_project(idCommit, BranchName, NameProject);
+//        ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+//        
+//        System.out.println("DIR : " + dir);
+//        
+//        SendProject Rc = new SendProject(ob);
+//        Send_Respone(Rc);
+//        SendFolder(ob);
+//       
+//        ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
+//        try {
+//            output.writeObject(BENHKFile);
+//            output.flush();
+//        } catch (IOException ex) {
+//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+
+    }
+
     private void SendToGetNewEvent(Command command) {
         List<Event_Class> NewEvent = get_NewEvent();
 
-        System.out.println("Size = "+NewEvent.size());
+        System.out.println("Size = " + NewEvent.size());
 
-        
         Respone res = new SendNewEvent(NewEvent);
         Send_Respone(res);
     }
@@ -412,14 +447,14 @@ public class ClientHandler extends Thread {
                 break;
             }
         }
-        System.out.println("ID last event user = "+Id_last_Event);
+        System.out.println("ID last event user = " + Id_last_Event);
         int lastEvent = 0;
         try {
             lastEvent = SeverBENKH.getIdLastEvent();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("last = "+lastEvent);
+        System.out.println("last = " + lastEvent);
         List< String> MyFollowProject = get_MyFollow_Project(user);
         List< Event_Class> MyEvent = new ArrayList<>();
         for (int i = Id_last_Event + 1; i < lastEvent; i++) {
@@ -431,7 +466,7 @@ public class ClientHandler extends Thread {
                 }
             }
         }
-        Update_User_Last_Event_See(user, lastEvent-1);
+        Update_User_Last_Event_See(user, lastEvent - 1);
         return MyEvent;
     }
 
@@ -870,10 +905,10 @@ public class ClientHandler extends Thread {
         Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
         //// Here we send hiddenFile to client 
-        
+
         SendCreateProject Rc = new SendCreateProject(BenkhFile);
         Send_Respone(Rc);
-        
+
         /// Her i set the new project in My follow and must add to every contribut add
         add_follow_to_User(MyUser, NameProject);
         //
