@@ -173,10 +173,12 @@ public class ClientHandler extends Thread {
         String BranchSecond = ((GetMerge)command).getBranchSecond();
         String dir1  = get_Directory_project_first_Time(BranchFirst, NameProject);
         String dir2  = get_Directory_project_first_Time(BranchSecond, NameProject);
-        ViewfolderClass ob = ResourceManager.MergeProject(new File(dir1) , new File(dir2));
-        SendProject Rc = new SendProject(ob);
+        ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
+       
+        SendProject_Merge Rc = new SendProject_Merge(ob);
         Send_Respone(Rc);
         SendFolder(ob);
+        
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
         try {
             output.writeObject(BENHKFile);
@@ -780,7 +782,19 @@ public class ClientHandler extends Thread {
         }
         return;
     }
-
+    
+     /// Send Folder for merge
+    private void SendFolder(ViewDiff_folderClass ob) {
+        for (NameAndDirectoryAndState temp : ob.MyFile) {
+            GetFile get = new GetFile(temp.MyFile.Directory);
+            GETFILE(get);
+            //// if there is old file then  (merge file need )
+        }
+        for (ViewDiff_folderClass temp : ob.MyFolderView) {
+            SendFolder(temp);
+        }
+    }
+    
     /// Send Folder
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
