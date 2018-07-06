@@ -15,7 +15,7 @@ public class User implements Serializable {
     private int LastEventSee = 0;
     public void Update_Last_Event_See(int x)
     {
-        LastEventSee = x;
+//        LastEventSee = x;
     }
     public int get_Last_Event_See()
     {
