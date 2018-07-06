@@ -91,7 +91,8 @@ public class ResourceManager {
         }
         return MyViewdiff_folder;
     }
-
+    
+    
     /// double bytes = file.length();
     public static ViewDiff_folderClass ViewDiffProject(File CommitOne, File CommitTwo) {
         System.out.println("CommitOne : " + CommitOne);
@@ -230,7 +231,7 @@ public class ResourceManager {
 
         return MyViewdiff_folder;
     }
-
+ 
     /// this get list of files and folders inside folder
     public static ViewfolderClass ViewProject(File NameFolder) {
 
@@ -297,5 +298,17 @@ public class ResourceManager {
         for (NameAndDirectory f : G.MyFolder) {
             System.out.println("File : " + f.Name + " " + f.Directory);
         }
+    }
+    
+    /// need code
+    public static void MergeFile(String targetDir , File file1 , File file2)
+    {
+        
+    }
+    /// need Code
+    public static ViewfolderClass MergeProject(File Project1 , File Project2)
+    {
+        ViewfolderClass ob = null;
+        return ob;
     }
 }

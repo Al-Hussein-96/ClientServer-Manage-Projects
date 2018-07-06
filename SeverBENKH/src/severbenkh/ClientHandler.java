@@ -168,35 +168,24 @@ public class ClientHandler extends Thread {
 
     private void SendToGetMerge(Command command) {
         //// here must be Merge Files
-
-//        String NameProject = ((GetMerge) command).getNameProject();
-//        Project temp = get_projectClass(NameProject);
-//        int idCommit = 0;
-//        String BranchName = ((GetMerge) command).getBranchFirst();
-//        for (branchClass u : temp.branchListClass) {
-//            if (u.branchName.equals(BranchName)) {
-//                idCommit = u.way.size() - 1;
-//                break;
-//            }
-//        }
-//
-//        /// get Directory for this commit 
-//        String dir = get_Directory_project(idCommit, BranchName, NameProject);
-//        ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-//        
-//        System.out.println("DIR : " + dir);
-//        
-//        SendProject Rc = new SendProject(ob);
-//        Send_Respone(Rc);
-//        SendFolder(ob);
-//       
-//        ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
-//        try {
-//            output.writeObject(BENHKFile);
-//            output.flush();
-//        } catch (IOException ex) {
-//            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        String NameProject = ((GetMerge) command).getNameProject();
+        String BranchFirst = ((GetMerge)command).getBranchFirst();
+        String BranchSecond = ((GetMerge)command).getBranchSecond();
+        String dir1  = get_Directory_project_first_Time(BranchFirst, NameProject);
+        String dir2  = get_Directory_project_first_Time(BranchSecond, NameProject);
+        ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
+       
+        SendProject_Merge Rc = new SendProject_Merge(ob);
+        Send_Respone(Rc);
+        SendFolder(ob);
+        
+        ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
+        try {
+            output.writeObject(BENHKFile);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -514,16 +503,6 @@ public class ClientHandler extends Thread {
                 /// get last commit 
                 int IdlastCommite = s.way.size() - 1;
                 temp = s.BENKH_File.get(IdlastCommite);
-//                CommitClass R = s.way.get(IdlastCommite);
-//                String FileDir = R.Directory;
-//                String MyDir = R.Directory + "\\" + "BEHKN.BEHKN";
-//                try {
-//                    temp = (ProjectToUpload) ResourceManager.load(MyDir);
-//
-//                } catch (Exception ex) {
-//                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-
             }
         }
         return temp;
@@ -803,7 +782,19 @@ public class ClientHandler extends Thread {
         }
         return;
     }
-
+    
+     /// Send Folder for merge
+    private void SendFolder(ViewDiff_folderClass ob) {
+        for (NameAndDirectoryAndState temp : ob.MyFile) {
+            GetFile get = new GetFile(temp.MyFile.Directory);
+            GETFILE(get);
+            //// if there is old file then  (merge file need )
+        }
+        for (ViewDiff_folderClass temp : ob.MyFolderView) {
+            SendFolder(temp);
+        }
+    }
+    
     /// Send Folder
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {

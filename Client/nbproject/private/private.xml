@@ -2,6 +2,7 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/FXML/BranchMerge.fxml</file>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/client/Project.java</file>
@@ -11,5 +12,8 @@
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/FXML/Branch.fxml</file>
             <file>file:/D:/ITE%202017/المشروع%201/ClientServer-Manage-Projects/Client/src/Controller/BranchController.java</file>
         </group>
+=======
+        <group/>
+>>>>>>> 7d9a1722f33943d3828320a54bed7fa4c068f439
     </open-files>
 </project-private>
