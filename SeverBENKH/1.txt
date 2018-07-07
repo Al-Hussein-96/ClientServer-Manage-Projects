@@ -1,42 +1,14 @@
-System.out.println("ShowFolder");
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
-        tabelView.getItems().clear();
-        List< NameAndDirectory> MyFile = MyProject.MyFile;
-        List< NameAndDirectory> MyFolder = MyProject.MyFolder;
-        ObservableList<TabelBrowsers> list;
-        int LengthTable = MyFile.size() + MyFolder.size();
-        TabelBrowsers[] st = new TabelBrowsers[LengthTable];
-        for (int i = 0; i < MyFolder.size(); i++) {
-            String s1 = MyFolder.get(i).Name;
-            st[i] = new TabelBrowsers(s1, true, i, null);
-            String Dir = MyFolder.get(i).Directory;
-            st[i].setDiectoryServer(Dir);  //// need it for open File
-            String size = "";
-            st[i].setSize(size);
-            Date date = new Date(MyFolder.get(i).DateModified);
-            String DateModified = ft.format(date);
-            st[i].setDateModified(DateModified);
-        }
-        for (int i = 0; i < MyFile.size(); i++) {
-            String s1 = MyFile.get(i).Name;
-            if (s1.equals("BEHKN.BEHKN")) {
-                continue;
-            }
-            st[i + MyFolder.size()] = new TabelBrowsers(s1, false, i + MyFolder.size(), null);
-            String Dir = MyFile.get(i).Directory;
-            st[i + MyFolder.size()].setDiectoryServer(Dir); //// need it for open File
-            long temp = MyFile.get(i).Size / 1024;
-            if (MyFile.get(i).Size % 1024 != 0) {
-                temp++;
-            }
-            String size = String.valueOf(temp + " KB ");
-            st[i + MyFolder.size()].setSize(size);
-            Date date = new Date(MyFile.get(i).DateModified);
-            String DateModified = ft.format(date);
-            st[i + MyFolder.size()].setDateModified(DateModified);
-        }
-        list = FXCollections.observableArrayList(st);
-        Name.setCellValueFactory(new PropertyValueFactory<>("Name"));
-        Size.setCellValueFactory(new PropertyValueFactory<>("Size"));
-        DataModified.setCellValueFactory(new PropertyValueFactory<>("DateModified"));
-        tabelView.setItems(list);
+void Chunk_copy(Chunk *src, size_t src_start, Chunk *dst, size_t dst_start, size_t n)
+{
+    if (!Chunk_bounds_check(src, src_start, n)) return;
+    if (!Chunk_bounds_check(dst, dst_start, n)) return;
+
+    memcpy(dst->data + dst_start, src->data + src_start, n);
+}
+
+int Chunk_bounds_check(Chunk *chunk, size_t start, size_t n)
+{
+    if (chunk == NULL) return 0;
+
+    return start <= chunk->length && n <= chunk->length - start;
+}
