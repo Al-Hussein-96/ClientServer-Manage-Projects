@@ -170,19 +170,47 @@ public class ClientHandler extends Thread {
         }
 
     }
-
+    private String get_Base(String NameProject,String BranchFirst ,String BranchSecond)
+    {
+        String dir = null;
+        while(true)
+        {
+             branchClass br1 =  get_BranchClass_in_Project(NameProject,BranchFirst);
+             branchClass br2 =  get_BranchClass_in_Project(NameProject,BranchSecond);
+             if(br1.branchName.equals(br2.branchName))
+             {
+                 int X = br1.CommitFather;
+                 if(br2.CommitFather < X)
+                     X = br2.CommitFather;
+                 dir = get_Directory_project(X,br1.branchName,NameProject);
+                 break;
+             }
+             if(br1.BranchLevel < br2.BranchLevel)
+             {
+                 BranchFirst = br1.BranchFather;
+             }
+             else 
+             {
+                 BranchSecond = br2.BranchFather;
+             }
+        }
+        return dir;
+    }
     private void SendToGetMerge(Command command) {
         //// here must be Merge Files
         String NameProject = ((GetMerge) command).getNameProject();
         String BranchFirst = ((GetMerge)command).getBranchFirst();
         String BranchSecond = ((GetMerge)command).getBranchSecond();
+        /// BranchFirst = BranchSecond need code
         String dir1  = get_Directory_project_first_Time(BranchFirst, NameProject);
         String dir2  = get_Directory_project_first_Time(BranchSecond, NameProject);
+        String Base  = get_Base(NameProject,BranchFirst,BranchSecond);
+        
         ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
        
         SendProject_Merge Rc = new SendProject_Merge(ob);
         Send_Respone(Rc);
-        SendFolder(ob);
+        SendFolder(ob , Base);
         
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
         try {
@@ -803,14 +831,28 @@ public class ClientHandler extends Thread {
     }
     
      /// Send Folder for merge
-    private void SendFolder(ViewDiff_folderClass ob) {
+    private void SendFolder(ViewDiff_folderClass ob , String Base) {
         for (NameAndDirectoryAndState temp : ob.MyFile) {
             GetFile get = new GetFile(temp.MyFile.Directory);
             GETFILE(get);
             //// if there is old file then  (merge file need )
+            
+            
+            /// Here we Have three directory 
+            /// 1 - Base  = Base+"\\"+temp.MyFile.Name
+            /// 2 - first = temp.MyFile.Directory;
+            /// 3 - secound = temp.OldFile.Directory;
+            
+            String dir1 = Base+"\\"+temp.MyFile.Name;
+            String dir2 = temp.MyFile.Directory;
+            String dir3 = temp.OldFile.Directory;
+            
         }
+        int cnt = 0;
         for (ViewDiff_folderClass temp : ob.MyFolderView) {
-            SendFolder(temp);
+            String F = ob.MyFolder.get(cnt).MyFile.Name;
+            SendFolder(temp,Base+"\\"+F);
+            cnt++;
         }
     }
     
@@ -1156,6 +1198,19 @@ public class ClientHandler extends Thread {
         }
     }
 
+    private branchClass get_BranchClass_in_Project(String NameProject,String BranchName)
+    {
+        Project Pr= get_projectClass(NameProject);
+        for(branchClass temp :  Pr.branchListClass)
+        {
+            if(temp.branchName.equals(BranchName))
+            {
+                return temp;
+            }
+            
+        }
+        return null;
+    }
     /// get project class in server form info file 
     private Project get_projectClass(String temp) {
         try {

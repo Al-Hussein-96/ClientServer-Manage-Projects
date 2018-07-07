@@ -21,10 +21,16 @@ public class branchClass implements Serializable {
     Project father;
     String branchName;
     String userCreateBranch;
-
+    /// for merge
+    public int BranchLevel = 0;
+    String BranchFather = null;
+    int CommitFather = 0;
     branchClass(Project father, String branchName, String Author) {
         this.userCreateBranch = Author;
         this.branchName = branchName;
+        /// for merge
+        this.BranchFather = branchName;
+        
         lastCommite = new Date();
         this.father = father;
         this.projectdirector = father.ProjectDirectory;
@@ -32,6 +38,9 @@ public class branchClass implements Serializable {
         System.out.println("Here Error : ");
         System.out.println(projectdirector);
         String Directory = this.projectdirector + "\\" + NumberOfVersion;
+        // for merge
+        this.CommitFather = 1;
+        
         System.out.println(Directory);
         CommitClass temp = new CommitClass(branchName, Author, Directory, "", 1);
         way.add(temp);
@@ -68,6 +77,10 @@ public class branchClass implements Serializable {
     branchClass(Project father, String branchName, branchClass fatherBranch, int num, String userCreateBranch) {
         this.userCreateBranch = userCreateBranch;
         this.branchName = branchName;
+        /// for merge
+        this.BranchLevel = fatherBranch.BranchLevel+1;
+        this.BranchFather = fatherBranch.branchName;
+        
         this.father = father;
         this.projectdirector = father.ProjectDirectory;
         for (int i = 0; i < num; i++) {
@@ -78,6 +91,9 @@ public class branchClass implements Serializable {
             temp2 = fatherBranch.BENKH_File.get(i).clone();
             temp2.BranchName = branchName;
             this.BENKH_File.add(temp2);
+            /// for merge /// final one is the father
+            if(i == num-1)
+              this.CommitFather = temp.Id;
         }
 
         lastCommite = new Date();
