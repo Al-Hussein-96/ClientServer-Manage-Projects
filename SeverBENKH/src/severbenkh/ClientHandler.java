@@ -149,8 +149,13 @@ public class ClientHandler extends Thread {
 
                 case GetNewEvent:
                     SendToGetNewEvent(command);
+                    break;
                 case GETMERGE:
                     SendToGetMerge(command);
+                    break;
+                case Follow_Project:
+                    SendToFollow(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -395,6 +400,20 @@ public class ClientHandler extends Thread {
         Send_Done();
     }
 
+    private void SendToFollow(Command command)
+    {
+        String ProjectName = ((FollowProject)command).ProjectName;
+        boolean isFollow = ((FollowProject)command).Follow;
+        if(isFollow)
+        {
+            add_follow_to_User(MyUser,ProjectName);
+        }
+        else 
+        {
+            delete_follow_to_User(MyUser,ProjectName);
+        }
+        Send_Done();
+    }
     private void add_follow_to_User(String user, String Project) {
         List< User> ServerUser = get_list_user_in_server();
         for (User temp : ServerUser) {

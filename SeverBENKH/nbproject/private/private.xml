@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder%20(2)/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
-            <file>file:/C:/Users/Moaz/Desktop/New%20folder%20(2)/ClientServer-Manage-Projects/SeverBENKH/src/Merge/Merge.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/CommandType.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonCommand/GetMerge.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonRespone/SendProject_Merge.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonClass/ResourceManager.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/SeverBENKH.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/CommonRespone/SendProject.java</file>
+            <file>file:/D:/ClientServer-Manage-Projects/SeverBENKH/src/severbenkh/ClientHandler.java</file>
         </group>
     </open-files>
 </project-private>
