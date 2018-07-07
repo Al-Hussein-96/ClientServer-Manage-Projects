@@ -13,6 +13,7 @@ import CommonCommand.GetMerge;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendProject;
+import CommonRespone.SendProject_Merge;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBranch;
@@ -89,7 +90,7 @@ public class BranchMergeController implements Initializable {
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();
-            SendProject respone = (SendProject) networkInput.readObject();
+            SendProject_Merge respone = (SendProject_Merge) networkInput.readObject();
 
             if (respone.TypeRespone == ResponeType.DONE) {
                 System.out.println("Size Respone : " + respone.ob.MyFile.size());

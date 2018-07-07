@@ -807,6 +807,20 @@ public class FileBrowsersController implements Initializable {
 
     }
 
+    public void CreateFolder(ViewDiff_folderClass ob, String path) {
+        List<NameAndDirectoryAndState> Folder = ob.MyFolder;
+        for (NameAndDirectoryAndState u : Folder) {
+            String tem = u.MyFile.Directory;
+            Path dir = Paths.get(tem);
+            File folder = new File(path + dir.subpath(4, dir.getNameCount())); //// cur from (four slash --> end)
+            folder.mkdir();
+            for (ViewDiff_folderClass temp : ob.MyFolderView) {
+                CreateFolder(temp, path);
+            }
+        }
+
+    }
+
     public void Receive(ViewfolderClass ob, String path) {
         for (NameAndDirectory temp : ob.MyFile) {
             FileOutputStream fos = null;
@@ -835,6 +849,38 @@ public class FileBrowsersController implements Initializable {
 
         }
         for (ViewfolderClass temp : ob.MyFolderView) {
+            Receive(temp, path);
+        }
+    }
+
+    public void Receive(ViewDiff_folderClass ob, String path) {
+        for (NameAndDirectoryAndState temp : ob.MyFile) {
+            FileOutputStream fos = null;
+            try {
+                String tem = temp.MyFile.Directory;
+                Path dir = Paths.get(tem);
+                fos = new FileOutputStream(path + dir.subpath(4, dir.getNameCount()));
+                SendFile respone;
+                do {
+                    respone = (SendFile) networkInput.readObject();
+//                    fos.write(respone.getDataFile());
+                    fos.write(respone.getDataFile(), 0, (int) Math.min(4096, respone.getNumberOfByte()));
+                } while (!respone.isEndOfFile());
+                fos.close();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    fos.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        for (ViewDiff_folderClass temp : ob.MyFolderView) {
             Receive(temp, path);
         }
     }
