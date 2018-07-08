@@ -8,8 +8,10 @@ import Different.Myers01;
 import static Different.Myers01.read;
 import Different.NoChange;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +20,8 @@ import sun.security.pkcs11.wrapper.Constants;
 public class Merge {
 
     String Name_a = "a", Name_b = "b";
-    List<String> MergingList=new ArrayList<>();
-    
+    List<String> MergingList = new ArrayList<>();
+
     public Merge(String Original, String FirstBranch, String SecondBranch) {
         List<String> listOrg = read(new File(Original));
         List<String> listFr = read(new File(FirstBranch));
@@ -39,6 +41,8 @@ public class Merge {
         tt.MergingLists();
         MergingList = tt.getMergingList();
         System.out.println(MergingList);
+        
+   //     write(MergingList, new File("4.txt"));
 
     }
 
@@ -51,7 +55,7 @@ public class Merge {
     }
 
     public static void main(String[] args) {
-        Merge m = new Merge("1.txt", "2.txt", "3.txt");
+   //            Merge m = new Merge("1.txt", "2.txt", "3.txt");
     }
 
     public static List<String> read(File file) {
@@ -75,4 +79,21 @@ public class Merge {
         return lines;
     }
 
+    public static void write(List<String> Lines, File file) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+            for (String line : Lines) {
+                bw.write(line);
+                bw.newLine();
+            }
+
+            bw.close();
+        } catch (IOException ex) {
+        }
+    }
+
+    public List<String> getMergingList() {
+        return MergingList;
+    }
 }

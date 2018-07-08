@@ -35,13 +35,15 @@ public class SeverBENKH extends Application {
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
     public static String EventDirectory = "Data\\Events";
+    public static String emptyFile = "Data\\empty.txt";
+    public static String tempFile = "Data\\temp.txt";
 
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Timer.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
-      //  stage.initStyle(StageStyle.TRANSPARENT);
+        //  stage.initStyle(StageStyle.TRANSPARENT);
 
         stage.show();
         stage.setResizable(false);
@@ -52,7 +54,7 @@ public class SeverBENKH extends Application {
         ViewfolderClass vi = ResourceManager.ViewProject(new File("src"));
         ResourceManager.ShowViewfolder(vi);
         initFile();
-        
+
         launch(args);
 
 //        try {
@@ -81,7 +83,7 @@ public class SeverBENKH extends Application {
         x--;
         return x;
     }
-    
+
     public static int idincreEvent() throws FileNotFoundException, IOException {
         String idFilename = idFileEvent;
         int x;
@@ -92,9 +94,10 @@ public class SeverBENKH extends Application {
         x++;
         idd.write(x);
         x--;
-        System.out.println("Event "+x);
+        System.out.println("Event " + x);
         return x;
     }
+
     public static int getIdLastEvent() throws FileNotFoundException, IOException {
         String idFilename = idFileEvent;
         int x;
@@ -130,7 +133,7 @@ public class SeverBENKH extends Application {
                 id.write(0);
             }
         }
-        
+
         // create id Event
         File idEvent = new File(idFileEvent);
         if (!idEvent.exists()) {
@@ -143,6 +146,20 @@ public class SeverBENKH extends Application {
         if (!idFileproject.exists()) {
             try (FileOutputStream id = new FileOutputStream(idFileproject)) {
                 id.write(0);
+            }
+        }
+
+        // create empty File
+        File EmptyFile = new File(emptyFile);
+        if (!EmptyFile.exists()) {
+            try (FileOutputStream File = new FileOutputStream(EmptyFile)) {
+            }
+        }
+
+        // create temp File
+        File TempFile = new File(tempFile);
+        if (!TempFile.exists()) {
+            try (FileOutputStream File = new FileOutputStream(tempFile)) {
             }
         }
 
@@ -159,13 +176,13 @@ public class SeverBENKH extends Application {
             projectDir.mkdir();
 
         }
-        
-         // create Event directory
+
+        // create Event directory
         File EventDir = new File(EventDirectory);
         if (!EventDir.exists()) {
             EventDir.mkdir();
         }
-        
+
         File temp = new File(list_user_in_server);
         if (!temp.exists()) {
             List<User> t = new ArrayList<>();

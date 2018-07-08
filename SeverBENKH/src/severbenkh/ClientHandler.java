@@ -21,6 +21,7 @@ import EventClass.Event_AddBranch;
 import EventClass.Event_AddCommit;
 import EventClass.Event_AddContributor;
 import EventClass.Event_Class;
+import Merge.Merge;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -170,48 +171,45 @@ public class ClientHandler extends Thread {
         }
 
     }
-    private String get_Base(String NameProject,String BranchFirst ,String BranchSecond)
-    {
+
+    private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
-        while(true)
-        {
-             branchClass br1 =  get_BranchClass_in_Project(NameProject,BranchFirst);
-             branchClass br2 =  get_BranchClass_in_Project(NameProject,BranchSecond);
-             if(br1.branchName.equals(br2.branchName))
-             {
-                 int X = br1.CommitFather;
-                 if(br2.CommitFather < X)
-                     X = br2.CommitFather;
-                 dir = get_Directory_project(X,br1.branchName,NameProject);
-                 break;
-             }
-             if(br1.BranchLevel < br2.BranchLevel)
-             {
-                 BranchFirst = br1.BranchFather;
-             }
-             else 
-             {
-                 BranchSecond = br2.BranchFather;
-             }
+        while (true) {
+            branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
+            branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
+            if (br1.branchName.equals(br2.branchName)) {
+                int X = br1.CommitFather;
+                if (br2.CommitFather < X) {
+                    X = br2.CommitFather;
+                }
+                dir = get_Directory_project(X, br1.branchName, NameProject);
+                break;
+            }
+            if (br1.BranchLevel < br2.BranchLevel) {
+                BranchFirst = br1.BranchFather;
+            } else {
+                BranchSecond = br2.BranchFather;
+            }
         }
         return dir;
     }
+
     private void SendToGetMerge(Command command) {
         //// here must be Merge Files
         String NameProject = ((GetMerge) command).getNameProject();
-        String BranchFirst = ((GetMerge)command).getBranchFirst();
-        String BranchSecond = ((GetMerge)command).getBranchSecond();
+        String BranchFirst = ((GetMerge) command).getBranchFirst();
+        String BranchSecond = ((GetMerge) command).getBranchSecond();
         /// BranchFirst = BranchSecond need code
-        String dir1  = get_Directory_project_first_Time(BranchFirst, NameProject);
-        String dir2  = get_Directory_project_first_Time(BranchSecond, NameProject);
-        String Base  = get_Base(NameProject,BranchFirst,BranchSecond);
-        
+        String dir1 = get_Directory_project_first_Time(BranchFirst, NameProject);
+        String dir2 = get_Directory_project_first_Time(BranchSecond, NameProject);
+        String Base = get_Base(NameProject, BranchFirst, BranchSecond);
+
         ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
-       
+
         SendProject_Merge Rc = new SendProject_Merge(ob);
         Send_Respone(Rc);
-        SendFolder(ob , Base);
-        
+        SendFolder(ob, Base);
+
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
         try {
             output.writeObject(BENHKFile);
@@ -428,20 +426,17 @@ public class ClientHandler extends Thread {
         Send_Done();
     }
 
-    private void SendToFollow(Command command)
-    {
-        String ProjectName = ((FollowProject)command).ProjectName;
-        boolean isFollow = ((FollowProject)command).Follow;
-        if(isFollow)
-        {
-            add_follow_to_User(MyUser,ProjectName);
-        }
-        else 
-        {
-            delete_follow_to_User(MyUser,ProjectName);
+    private void SendToFollow(Command command) {
+        String ProjectName = ((FollowProject) command).ProjectName;
+        boolean isFollow = ((FollowProject) command).Follow;
+        if (isFollow) {
+            add_follow_to_User(MyUser, ProjectName);
+        } else {
+            delete_follow_to_User(MyUser, ProjectName);
         }
         Send_Done();
     }
+
     private void add_follow_to_User(String user, String Project) {
         List< User> ServerUser = get_list_user_in_server();
         for (User temp : ServerUser) {
@@ -829,33 +824,52 @@ public class ClientHandler extends Thread {
         }
         return;
     }
-    
-     /// Send Folder for merge
-    private void SendFolder(ViewDiff_folderClass ob , String Base) {
+
+    /// Send Folder for merge
+    private void SendFolder(ViewDiff_folderClass ob, String Base) {
         for (NameAndDirectoryAndState temp : ob.MyFile) {
-            GetFile get = new GetFile(temp.MyFile.Directory);
-            GETFILE(get);
             //// if there is old file then  (merge file need )
-            
-            
+
             /// Here we Have three directory 
             /// 1 - Base  = Base+"\\"+temp.MyFile.Name
             /// 2 - first = temp.MyFile.Directory;
             /// 3 - secound = temp.OldFile.Directory;
-            
-            String dir1 = Base+"\\"+temp.MyFile.Name;
+            String dir1 = Base + "\\" + temp.MyFile.Name;
             String dir2 = temp.MyFile.Directory;
             String dir3 = temp.OldFile.Directory;
-            
+
+            File base = new File(dir1);
+            File filenew = new File(dir2);
+            File fileold = new File(dir3);
+            if (base.exists() && fileold.exists() && filenew.exists()) {
+                Merge M = new Merge(dir1, dir2, dir3);
+                List<String> MergingList = M.getMergingList();
+                //this List most send as Merging to the filenew and fileold
+                M.write(MergingList, new File(SeverBENKH.tempFile));
+                GetFile get = new GetFile(SeverBENKH.tempFile);
+                GETFILE(get);
+
+            } else if (fileold.exists() && filenew.exists()) {
+                //her make the base file as empty file ... 
+                Merge M = new Merge(SeverBENKH.emptyFile, dir2, dir3);
+                List<String> MergingList = M.getMergingList();
+                M.write(MergingList, new File(SeverBENKH.tempFile));
+                GetFile get = new GetFile(SeverBENKH.tempFile);
+                GETFILE(get);
+
+            } else if (filenew.exists()) {
+                GetFile get = new GetFile(temp.MyFile.Directory);
+                GETFILE(get);
+            }
         }
         int cnt = 0;
         for (ViewDiff_folderClass temp : ob.MyFolderView) {
             String F = ob.MyFolder.get(cnt).MyFile.Name;
-            SendFolder(temp,Base+"\\"+F);
+            SendFolder(temp, Base + "\\" + F);
             cnt++;
         }
     }
-    
+
     /// Send Folder
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
@@ -1198,19 +1212,17 @@ public class ClientHandler extends Thread {
         }
     }
 
-    private branchClass get_BranchClass_in_Project(String NameProject,String BranchName)
-    {
-        Project Pr= get_projectClass(NameProject);
-        for(branchClass temp :  Pr.branchListClass)
-        {
-            if(temp.branchName.equals(BranchName))
-            {
+    private branchClass get_BranchClass_in_Project(String NameProject, String BranchName) {
+        Project Pr = get_projectClass(NameProject);
+        for (branchClass temp : Pr.branchListClass) {
+            if (temp.branchName.equals(BranchName)) {
                 return temp;
             }
-            
+
         }
         return null;
     }
+
     /// get project class in server form info file 
     private Project get_projectClass(String temp) {
         try {

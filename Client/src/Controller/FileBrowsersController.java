@@ -369,11 +369,14 @@ public class FileBrowsersController implements Initializable {
     @FXML
     void btnPush(ActionEvent event) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/PushProject.fxml"));
+        String Commit = idCommit.getText().substring(9), Branch = idBranch.getText().substring(9);
+
         Stage stage = new Stage();
         try {
             AnchorPane root = (AnchorPane) fxmlLoader.load();
             PushProjectController pushProjectController = fxmlLoader.getController();
             pushProjectController.setNameProject(Owner.NameProject);
+            pushProjectController.setNameBranch(Branch);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();

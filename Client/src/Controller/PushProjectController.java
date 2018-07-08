@@ -34,6 +34,7 @@ import org.controlsfx.control.Notifications;
 public class PushProjectController implements Initializable {
 
     String NameProject;
+    String NameBranch;
 
     @FXML
     private JFXTextField Comment;
@@ -73,7 +74,11 @@ public class PushProjectController implements Initializable {
         if (hiddenFile == null) {
             return;
         }
+        System.out.println("***********************************************************");
+        System.out.println(hiddenFile.BranchName);
+        hiddenFile.BranchName = NameBranch;
         System.out.println(NameProject + "  " + hiddenFile + "  " + selectedFile.getName() + "  " + Comment.getText());
+        System.out.println("Branch = " + NameBranch);
         Command command = new GetPush(NameProject, hiddenFile, selectedFile.getName(), Comment.getText());
         try {
             networkOutput.writeObject(command);
@@ -113,7 +118,9 @@ public class PushProjectController implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /****/
+            /**
+             * *
+             */
             Notifications notification = Notifications.create()
                     .title("Push Project")
                     .text("Done Push Project")
@@ -123,7 +130,9 @@ public class PushProjectController implements Initializable {
             notification.showConfirm();
 
         } else {
-            /*****/
+            /**
+             * **
+             */
             Notifications notification = Notifications.create()
                     .title("Push Project")
                     .text("Can't Push Project")
@@ -152,7 +161,7 @@ public class PushProjectController implements Initializable {
             byte[] DataFile = new byte[4096];
             String dir = ((GetFile) command).getDirectoryFile();
             File file = new File(dir);
-            NameAndDirectory My = new NameAndDirectory(file.getName(),file.length(),file.lastModified(), dir);
+            NameAndDirectory My = new NameAndDirectory(file.getName(), file.length(), file.lastModified(), dir);
             fis = new FileInputStream(file);
             long fileSize = file.length();
             int n;
@@ -182,6 +191,10 @@ public class PushProjectController implements Initializable {
 
     public void setNameProject(String NameProject) {
         this.NameProject = NameProject;
+    }
+
+    public void setNameBranch(String NameBranch) {
+        this.NameBranch = NameBranch;
     }
 
     @Override

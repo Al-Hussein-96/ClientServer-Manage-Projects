@@ -104,8 +104,9 @@ public class BranchMergeController implements Initializable {
                 } catch (Exception ex) {
                     Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             } else {
+        System.out.println("5555");
 
             }
 
