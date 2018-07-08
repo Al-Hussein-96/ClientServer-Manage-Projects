@@ -175,8 +175,9 @@ public class ClientHandler extends Thread {
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
         while (true) {
-            branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
+             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
+            System.out.println(BranchFirst + " "+BranchSecond+ "  "+br1.BranchLevel+ " "+ br2.BranchLevel);
             if (br1.branchName.equals(br2.branchName)) {
                 int X = br1.CommitFather;
                 if (br2.CommitFather < X) {
@@ -185,7 +186,7 @@ public class ClientHandler extends Thread {
                 dir = get_Directory_project(X, br1.branchName, NameProject);
                 break;
             }
-            if (br1.BranchLevel < br2.BranchLevel) {
+            if (br1.BranchLevel > br2.BranchLevel) {
                 BranchFirst = br1.BranchFather;
             } else {
                 BranchSecond = br2.BranchFather;
@@ -834,33 +835,41 @@ public class ClientHandler extends Thread {
             /// 1 - Base  = Base+"\\"+temp.MyFile.Name
             /// 2 - first = temp.MyFile.Directory;
             /// 3 - secound = temp.OldFile.Directory;
-            String dir1 = Base + "\\" + temp.MyFile.Name;
-            String dir2 = temp.MyFile.Directory;
-            String dir3 = temp.OldFile.Directory;
-
-            File base = new File(dir1);
-            File filenew = new File(dir2);
-            File fileold = new File(dir3);
-            if (base.exists() && fileold.exists() && filenew.exists()) {
-                Merge M = new Merge(dir1, dir2, dir3);
-                List<String> MergingList = M.getMergingList();
-                //this List most send as Merging to the filenew and fileold
-                M.write(MergingList, new File(SeverBENKH.tempFile));
-                GetFile get = new GetFile(SeverBENKH.tempFile);
-                GETFILE(get);
-
-            } else if (fileold.exists() && filenew.exists()) {
-                //her make the base file as empty file ... 
-                Merge M = new Merge(SeverBENKH.emptyFile, dir2, dir3);
-                List<String> MergingList = M.getMergingList();
-                M.write(MergingList, new File(SeverBENKH.tempFile));
-                GetFile get = new GetFile(SeverBENKH.tempFile);
-                GETFILE(get);
-
-            } else if (filenew.exists()) {
+            if(temp.OldFile == null)
+            {
                 GetFile get = new GetFile(temp.MyFile.Directory);
                 GETFILE(get);
             }
+            else 
+            {
+                String dir1 = Base + "\\" + temp.MyFile.Name;
+                String dir2 = temp.MyFile.Directory;
+                String dir3 = dir3 = temp.OldFile.Directory;
+                File base = new File(dir1);
+                File filenew = new File(dir2);
+                File fileold = new File(dir3);
+                if ( base.exists() && fileold.exists() && filenew.exists()) {
+                    Merge M = new Merge(dir1, dir2, dir3);
+                    List<String> MergingList = M.getMergingList();
+                    //this List most send as Merging to the filenew and fileold
+                    M.write(MergingList, new File(SeverBENKH.tempFile));
+                    GetFile get = new GetFile(SeverBENKH.tempFile);
+                    GETFILE(get);
+
+                } else if (fileold.exists() && filenew.exists()) {
+                    //her make the base file as empty file ... 
+                    Merge M = new Merge(SeverBENKH.emptyFile, dir2, dir3);
+                    List<String> MergingList = M.getMergingList();
+                    M.write(MergingList, new File(SeverBENKH.tempFile));
+                    GetFile get = new GetFile(SeverBENKH.tempFile);
+                    GETFILE(get);
+
+                } else if (filenew.exists()) {
+                    GetFile get = new GetFile(temp.MyFile.Directory);
+                    GETFILE(get);
+                }
+            }
+            
         }
         int cnt = 0;
         for (ViewDiff_folderClass temp : ob.MyFolderView) {
