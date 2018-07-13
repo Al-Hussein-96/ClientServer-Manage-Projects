@@ -157,6 +157,9 @@ public class ClientHandler extends Thread {
                 case Follow_Project:
                     SendToFollow(command);
                     break;
+                case MyFollowProjects:
+                    SendToGetMyFollowProjects(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -172,12 +175,18 @@ public class ClientHandler extends Thread {
 
     }
 
+    private void SendToGetMyFollowProjects(Command command){
+        List<String> MyFollowProjects = get_MyFollow_Project(MyUser);
+        Respone res= new SendMyFollowProjects(MyFollowProjects);
+        Send_Respone(res);
+        
+    }
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
         while (true) {
-             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
+            branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
-            System.out.println(BranchFirst + " "+BranchSecond+ "  "+br1.BranchLevel+ " "+ br2.BranchLevel);
+            System.out.println(BranchFirst + " " + BranchSecond + "  " + br1.BranchLevel + " " + br2.BranchLevel);
             if (br1.branchName.equals(br2.branchName)) {
                 int X = br1.CommitFather;
                 if (br2.CommitFather < X) {
@@ -835,20 +844,17 @@ public class ClientHandler extends Thread {
             /// 1 - Base  = Base+"\\"+temp.MyFile.Name
             /// 2 - first = temp.MyFile.Directory;
             /// 3 - secound = temp.OldFile.Directory;
-            if(temp.OldFile == null)
-            {
+            if (temp.OldFile == null) {
                 GetFile get = new GetFile(temp.MyFile.Directory);
                 GETFILE(get);
-            }
-            else 
-            {
+            } else {
                 String dir1 = Base + "\\" + temp.MyFile.Name;
                 String dir2 = temp.MyFile.Directory;
                 String dir3 = dir3 = temp.OldFile.Directory;
                 File base = new File(dir1);
                 File filenew = new File(dir2);
                 File fileold = new File(dir3);
-                if ( base.exists() && fileold.exists() && filenew.exists()) {
+                if (base.exists() && fileold.exists() && filenew.exists()) {
                     Merge M = new Merge(dir1, dir2, dir3);
                     List<String> MergingList = M.getMergingList();
                     //this List most send as Merging to the filenew and fileold
@@ -869,7 +875,7 @@ public class ClientHandler extends Thread {
                     GETFILE(get);
                 }
             }
-            
+
         }
         int cnt = 0;
         for (ViewDiff_folderClass temp : ob.MyFolderView) {
@@ -1009,6 +1015,9 @@ public class ClientHandler extends Thread {
         List< CommonProject> MyProject = GetMyProject();
         SendMyProject Rc = new SendMyProject(MyProject);
         Send_Respone(Rc);
+        for (CommonProject CP : MyProject) {
+            System.out.println(CP.NameProject);
+        }
     }
 
     /// send list of all project to client
