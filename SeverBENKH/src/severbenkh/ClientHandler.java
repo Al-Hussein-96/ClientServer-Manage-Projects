@@ -175,12 +175,13 @@ public class ClientHandler extends Thread {
 
     }
 
-    private void SendToGetMyFollowProjects(Command command){
+    private void SendToGetMyFollowProjects(Command command) {
         List<String> MyFollowProjects = get_MyFollow_Project(MyUser);
-        Respone res= new SendMyFollowProjects(MyFollowProjects);
+        Respone res = new SendMyFollowProjects(MyFollowProjects);
         Send_Respone(res);
-        
+
     }
+
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
         while (true) {

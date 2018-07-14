@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendAllProject extends Respone implements Serializable{
+public class SendAllProject extends Respone implements Serializable {
+
     List<CommonProject> mylist = new ArrayList<>();
-    public SendAllProject(ResponeType TypeRespone , List<CommonProject> mylist)
-    {
+
+    public SendAllProject(ResponeType TypeRespone, List<CommonProject> mylist) {
         super(TypeRespone);
-        for(CommonProject temp : mylist)
-        {
+        for (CommonProject temp : mylist) {
             this.mylist.add(temp);
         }
     }
@@ -19,6 +19,5 @@ public class SendAllProject extends Respone implements Serializable{
     public List<CommonProject> getMylist() {
         return mylist;
     }
-    
-    
+
 }

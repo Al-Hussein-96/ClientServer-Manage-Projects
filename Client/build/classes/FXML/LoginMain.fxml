@@ -16,14 +16,14 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="topPane">
          <children>
-            <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="15.0" layoutY="10.0" onMouseClicked="#Back" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../res/Fleche-gauche.png" />
-               </image>
-            </ImageView>
             <ImageView fitHeight="412.0" fitWidth="626.0" layoutX="-14.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../res/winsel1.jpg" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="20.0" fitWidth="30.0" layoutX="15.0" layoutY="10.0" onMouseClicked="#Back" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/Fleche-gauche.png" />
                </image>
             </ImageView>
             <JFXButton cancelButton="true" layoutX="560.0" layoutY="-1.0" onAction="#Close" prefHeight="31.0" prefWidth="30.0" text="X" textFill="#fff4f4" />

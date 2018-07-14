@@ -32,10 +32,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.DirectoryChooser;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 /**
  * FXML Controller class
@@ -101,12 +104,26 @@ public class BranchMergeController implements Initializable {
                 try {
                     /// save File in directory of Project
                     ResourceManager.save(hiddenFile, txtLocation.getText() + "\\" + "BEHKN.BEHKN");
+                    Open.getScene().getWindow().hide();
                 } catch (Exception ex) {
                     Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+                Notifications notification = Notifications.create()
+                        .title("Merge Projects")
+                        .text("Done Merge Projects")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
             } else {
-        System.out.println("5555");
+                Notifications notification = Notifications.create()
+                        .title("Merge Projects")
+                        .text("Can't Merge Projects")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
 
             }
 

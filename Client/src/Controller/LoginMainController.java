@@ -20,6 +20,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -65,6 +67,15 @@ public class LoginMainController implements Initializable {
             String UserName = username.getText();
             String PassWord = password.getText();
 
+            if (!isValidUserName(UserName)) {
+                ShowNotifications("Login", "Invalid UserName");
+                return;
+            }
+            if (!isValidPassword(PassWord)) {
+                ShowNotifications("Login", "Invalid Password");
+                return;
+            }
+
             User user = new User(UserName, PassWord);
 
             Command command = new GetLOGIN(user);
@@ -78,22 +89,10 @@ public class LoginMainController implements Initializable {
                 /**
                  * *
                  */
-                Notifications notification = Notifications.create()
-                        .title("Login")
-                        .text("Done Login")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+                ShowNotifications("Login", "Done Login");
             } else {
                 ////
-                Notifications notification = Notifications.create()
-                        .title("Login")
-                        .text("Can't Login")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+                ShowNotifications("Login", "Can't Login");
             }
 
         } catch (IOException ex) {
@@ -160,4 +159,35 @@ public class LoginMainController implements Initializable {
         }
     }
 
+    // check if UserName Valid :
+    // Have at least 3 character
+    // First one is char
+    public boolean isValidUserName(String UserName) {
+        Pattern ptn = Pattern.compile("^[a-zA-Z][a-zA-Z0-9\\-._]{2,}$");
+        Matcher match = ptn.matcher(UserName);
+        return match.find();
+    }
+
+    //    (?=.*[0-9]) a digit must occur at least once
+    //    (?=.*[a-z]) a lower case letter must occur at least once
+    //    (?=.*[A-Z]) an upper case letter must occur at least once
+    //    (?=.*[@#$%^&+=]) a special character must occur at least once
+    //    (?=\\S+$) no whitespace allowed in the entire string
+    //    .{8,} at least 8 characters
+    public boolean isValidPassword(String Password) {
+        //  Pattern ptn = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$");
+        Pattern ptn = Pattern.compile("^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).{5,}$");
+        Matcher match = ptn.matcher(Password);
+        return match.find();
+    }
+
+    public void ShowNotifications(String title, String text) {
+        Notifications notification = Notifications.create()
+                .title(title)
+                .text(text)
+                .graphic(null)
+                .hideAfter(Duration.seconds(2))
+                .position(Pos.CENTER);
+        notification.showConfirm();
+    }
 }
