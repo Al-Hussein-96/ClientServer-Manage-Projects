@@ -81,11 +81,11 @@ public class SignUpController implements Initializable {
                 ShowNotifications("Sign Up", "Mismatch");
                 return;
             }
-            if (!isValidUserName(UserName)) {
+            if (!isValidUserName(UserName) && false) {
                 ShowNotifications("Sign Up", "Invalid UserName");
                 return;
             }
-            if (!isValidPassword(PassWord)) {
+            if (!isValidPassword(PassWord) && false) {
                 ShowNotifications("Sign Up", "Invalid Password");
                 return;
             }

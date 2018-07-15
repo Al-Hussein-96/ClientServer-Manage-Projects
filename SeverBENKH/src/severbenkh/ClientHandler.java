@@ -184,23 +184,28 @@ public class ClientHandler extends Thread {
 
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
+         int last1 = 1 , last2 = 1;
+           
         while (true) {
             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
-            System.out.println(BranchFirst + " " + BranchSecond + "  " + br1.BranchLevel + " " + br2.BranchLevel);
+            System.out.println(BranchFirst + " " + BranchSecond + "  " + last1 + " " + last2);
             if (br1.branchName.equals(br2.branchName)) {
-                int X = br1.CommitFather;
-                if (br2.CommitFather < X) {
-                    X = br2.CommitFather;
+                int X = last1;
+                if (last2 > X) {
+                    X = last2;
                 }
                 dir = get_Directory_project(X, br1.branchName, NameProject);
                 break;
             }
+            last1 = br1.CommitFather;
+            last2 = br2.CommitFather;
             if (br1.BranchLevel > br2.BranchLevel) {
                 BranchFirst = br1.BranchFather;
             } else {
                 BranchSecond = br2.BranchFather;
             }
+            
         }
         return dir;
     }
