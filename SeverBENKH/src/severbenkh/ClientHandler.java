@@ -174,7 +174,12 @@ public class ClientHandler extends Thread {
         }
 
     }
-
+    private ProjectToUpload add_User_And_Password(ProjectToUpload temp)
+    {
+        User user =  get_information(MyUser);
+        temp.add_Local_User(user);
+        return temp;
+    }
     private void SendToGetMyFollowProjects(Command command) {
         List<String> MyFollowProjects = get_MyFollow_Project(MyUser);
         Respone res = new SendMyFollowProjects(MyFollowProjects);
@@ -227,6 +232,8 @@ public class ClientHandler extends Thread {
         SendFolder(ob, Base);
 
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
+        BENHKFile = add_User_And_Password(BENHKFile);
+                
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -684,6 +691,7 @@ public class ClientHandler extends Thread {
 
         System.out.println("Send BenkhFile");
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
+        BenkhFile = add_User_And_Password(BenkhFile);
         try {
             //// Here we send hiddenFile to client
             System.out.println("Send BenkhFile:");
@@ -804,6 +812,7 @@ public class ClientHandler extends Thread {
         SendFolder(ob);
         Project temp = get_projectClass(NameProject);
         ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
+        BENHKFile = add_User_And_Password(BENHKFile);
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -991,6 +1000,7 @@ public class ClientHandler extends Thread {
         Send_Done();
         Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
+        BenkhFile = add_User_And_Password(BenkhFile);
         //// Here we send hiddenFile to client 
 
         SendCreateProject Rc = new SendCreateProject(BenkhFile);
