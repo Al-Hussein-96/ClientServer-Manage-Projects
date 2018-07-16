@@ -19,7 +19,16 @@ public class ProjectToUpload implements Serializable {
     public String ProjectName;
     public List<Contributor> Contributors = new ArrayList<>();
     public String BranchName;
-
+    
+    /// for right Click
+    public String LocalUserName ; 
+    public String LocalUserPassword;
+    
+    public void add_Local_User(User temp)
+    {
+        this.LocalUserName = temp.getName();
+        this.LocalUserPassword = temp.getPassword();
+    }
     public ProjectToUpload(String director, int IdLastCommit, String ProjectName, List<Contributor> Contributors, String BranchName) {
         this.ProjectName = ProjectName;
         this.director = director + "\\BEHKN.BEHKN";

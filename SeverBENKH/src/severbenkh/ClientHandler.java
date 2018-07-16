@@ -174,7 +174,12 @@ public class ClientHandler extends Thread {
         }
 
     }
-
+    private ProjectToUpload add_User_And_Password(ProjectToUpload temp)
+    {
+        User user =  get_information(MyUser);
+        temp.add_Local_User(user);
+        return temp;
+    }
     private void SendToGetMyFollowProjects(Command command) {
         List<String> MyFollowProjects = get_MyFollow_Project(MyUser);
         Respone res = new SendMyFollowProjects(MyFollowProjects);
@@ -184,23 +189,28 @@ public class ClientHandler extends Thread {
 
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
+         int last1 = 1 , last2 = 1;
+           
         while (true) {
             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
-            System.out.println(BranchFirst + " " + BranchSecond + "  " + br1.BranchLevel + " " + br2.BranchLevel);
+            System.out.println(BranchFirst + " " + BranchSecond + "  " + last1 + " " + last2);
             if (br1.branchName.equals(br2.branchName)) {
-                int X = br1.CommitFather;
-                if (br2.CommitFather < X) {
-                    X = br2.CommitFather;
+                int X = last1;
+                if (last2 > X) {
+                    X = last2;
                 }
                 dir = get_Directory_project(X, br1.branchName, NameProject);
                 break;
             }
+            last1 = br1.CommitFather;
+            last2 = br2.CommitFather;
             if (br1.BranchLevel > br2.BranchLevel) {
                 BranchFirst = br1.BranchFather;
             } else {
                 BranchSecond = br2.BranchFather;
             }
+            
         }
         return dir;
     }
@@ -222,6 +232,8 @@ public class ClientHandler extends Thread {
         SendFolder(ob, Base);
 
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
+        BENHKFile = add_User_And_Password(BENHKFile);
+                
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -679,6 +691,7 @@ public class ClientHandler extends Thread {
 
         System.out.println("Send BenkhFile");
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
+        BenkhFile = add_User_And_Password(BenkhFile);
         try {
             //// Here we send hiddenFile to client
             System.out.println("Send BenkhFile:");
@@ -799,6 +812,7 @@ public class ClientHandler extends Thread {
         SendFolder(ob);
         Project temp = get_projectClass(NameProject);
         ProjectToUpload BENHKFile = Get_BENKH(NameProject, BranchName, idCommit);
+        BENHKFile = add_User_And_Password(BENHKFile);
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -986,6 +1000,7 @@ public class ClientHandler extends Thread {
         Send_Done();
         Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
+        BenkhFile = add_User_And_Password(BenkhFile);
         //// Here we send hiddenFile to client 
 
         SendCreateProject Rc = new SendCreateProject(BenkhFile);
