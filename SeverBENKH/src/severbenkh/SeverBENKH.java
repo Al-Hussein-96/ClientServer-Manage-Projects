@@ -31,6 +31,8 @@ public class SeverBENKH extends Application {
     public static String idFileName = "Data\\id.Name";
     public static String idFileProject = "Data\\id.Project";
     public static String idFileEvent = "Data\\id.Event";
+    public static String idTempFile = "Data\\id.idTempFile";
+    public static String TempFiledirectory = "Data\\TempFile";
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
@@ -84,6 +86,19 @@ public class SeverBENKH extends Application {
         x--;
         return x;
     }
+    
+    public static int idTempFileIncre() throws FileNotFoundException, IOException {
+        
+        int x;
+        try (FileInputStream id = new FileInputStream(idTempFile)) {
+            x = id.read();
+        }
+        FileOutputStream idd = new FileOutputStream(idTempFile);
+        x++;
+        idd.write(x);
+        x--;
+        return x;
+    }
 
     public static int idincreEvent() throws FileNotFoundException, IOException {
         String idFilename = idFileEvent;
@@ -127,6 +142,15 @@ public class SeverBENKH extends Application {
         if (!DataFile.exists()) {
             DataFile.mkdir();
         }
+        
+        
+        // create idTempFile
+        File idTempFileName = new File(idTempFile);
+        if (!idTempFileName.exists()) {
+            try (FileOutputStream id = new FileOutputStream(idTempFileName)) {
+                id.write(0);
+            }
+        }
         // create id Name
         File idFile = new File(idFileName);
         if (!idFile.exists()) {
@@ -168,6 +192,13 @@ public class SeverBENKH extends Application {
         File userDir = new File(usersdirectoryName);
         if (!userDir.exists()) {
             userDir.mkdir();
+
+        }
+        
+        // create TempFiledirectory 
+        File tempFiledirectory = new File(TempFiledirectory);
+        if (!tempFiledirectory.exists()) {
+            tempFiledirectory.mkdir();
 
         }
 

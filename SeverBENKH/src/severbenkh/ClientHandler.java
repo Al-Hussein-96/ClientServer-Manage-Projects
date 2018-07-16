@@ -160,6 +160,9 @@ public class ClientHandler extends Thread {
                 case MyFollowProjects:
                     SendToGetMyFollowProjects(command);
                     break;
+                case GetPullAndMerge:
+                    SendToGetPullAndMerge(command);
+                    break;
             }
 
         } while (!command.equals("Stop"));
@@ -213,6 +216,67 @@ public class ClientHandler extends Thread {
             
         }
         return dir;
+    }
+
+    
+    private void SendToGetPullAndMerge(Command command) {
+
+        /// first make push on temp File 
+        String NameProject = ((GetPush) command).NameProject;
+        ProjectToUpload clientFile = ((GetPush) command).getHiddenFile();
+        /// important for path 
+        String NameFolderSelect = ((GetPush) command).getNameFolderSelect();
+
+        ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName, clientFile.BranchName);
+        
+        String Base = get_Directory_project(clientFile.IdLastCommit,clientFile.BranchName , clientFile.ProjectName);
+        String dir1 = get_Directory_project_first_Time(clientFile.BranchName , clientFile.ProjectName);
+        String dir2 = null; 
+
+        SendProject newRespone = null;
+        try {
+            newRespone = (SendProject) input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+
+        }
+        ResourceManager.ShowViewfolder(newRespone.ob);
+
+        Project serverproject = get_projectClass(clientFile.ProjectName);
+        String NewTempCommitPlace = "";   /// temp File Save
+        int idTempFile = 1;
+        try {
+            idTempFile = SeverBENKH.idTempFileIncre();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        NewTempCommitPlace = SeverBENKH.TempFiledirectory+"\\"+idTempFile;
+        dir2 = NewTempCommitPlace;
+        /// get directory to receive data from user
+        File file = new File(NewTempCommitPlace);
+        if (!file.exists()) {
+            file.mkdir(); /// Create Folder that contain IdCommit
+        }
+
+        CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
+        Receive(newRespone.ob, file.getPath(), NameFolderSelect);
+        
+        /// Here I resive data and need compare 
+        ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
+        
+        SendProject_Merge Rc = new SendProject_Merge(ob);
+        Send_Respone(Rc);
+        SendFolder(ob, Base);
+        
+        ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
+        BENHKFile = add_User_And_Password(BENHKFile);
+                
+        try {
+            output.writeObject(BENHKFile);
+            output.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        /// we should delete Temp File
     }
 
     private void SendToGetMerge(Command command) {
