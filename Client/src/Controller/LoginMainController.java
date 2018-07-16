@@ -67,11 +67,12 @@ public class LoginMainController implements Initializable {
             String UserName = username.getText();
             String PassWord = password.getText();
 
-            if (!isValidUserName(UserName)) {
+            if (!isValidUserName(UserName) && false) 
+            {
                 ShowNotifications("Login", "Invalid UserName");
                 return;
             }
-            if (!isValidPassword(PassWord)) {
+            if (!isValidPassword(PassWord) && false) {
                 ShowNotifications("Login", "Invalid Password");
                 return;
             }
