@@ -155,13 +155,13 @@ public class Project extends Application {
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         networkInput = new ObjectInputStream(socket.getInputStream());
 
-        if (args.length > 0) {
-            benkh = getBenkh(args[0]);
-            if (benkh != null) {
-                GUI = true;
-            }
-
-        }
+//        if (args.length > 0) {
+//            benkh = getBenkh(args[0]);
+//            if (benkh != null) {
+//                GUI = true;
+//            }
+//
+//        }
         launch(args);
         //sendMessage();
     }

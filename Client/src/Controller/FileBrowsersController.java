@@ -68,12 +68,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -885,6 +887,61 @@ public class FileBrowsersController implements Initializable {
         }
         for (ViewDiff_folderClass temp : ob.MyFolderView) {
             Receive(temp, path);
+        }
+    }
+
+    @FXML
+    void btnInformation(ActionEvent event) {
+        List<CommitClass> listCommit = null;
+        List<Contributor> listContributor = null;
+        
+        /// get listCommit
+        String Branch = idBranch.getText().substring(9);
+        System.out.println(Branch + "Need : ");
+        Command command = new GetListCommits(Owner.NameProject, Branch);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        Respone respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+        listCommit = ((SendListCommits) respone).getListCommit();
+        /// get listContributor
+        command = new GetListContributors(Owner.NameProject);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            System.out.println("Error: btnBranch");
+        }
+        respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("Errot in FileBrowsers");
+        }
+        listContributor = ((SendListContributors) respone).getList();
+
+        
+        /// go to Drow Charts for info
+        InformationController InfoController = new InformationController(listCommit,listContributor);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Information.fxml"));
+        fxmlLoader.setController(InfoController);
+        Stage stage = new Stage();
+        try {
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
