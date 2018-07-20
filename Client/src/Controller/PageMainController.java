@@ -74,6 +74,10 @@ public class PageMainController implements Initializable {
 
     @FXML
     private void btnProfile(ActionEvent event) {
+        goToProfile();
+    }
+
+    public void goToProfile() {
         try {
             /// this for Display MyProfile Only without Edit
             Command command = new GetProfile(Owner.getName());
@@ -110,7 +114,7 @@ public class PageMainController implements Initializable {
                 System.out.println("Respone For GetListUsers is Done " + respone.getListUser().size());
 
                 List<User> ListUser = new ArrayList<>(respone.getListUser());
-                UserController userController = new UserController(ListUser,Owner,roopane);
+                UserController userController = new UserController(ListUser, Owner, roopane);
 
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Users.fxml"));
                 fXMLLoader.setController(userController);
@@ -147,6 +151,7 @@ public class PageMainController implements Initializable {
 
     public void setOwner(User Owner) {
         this.Owner = Owner;
+        goToProfile();
     }
 
     @Override

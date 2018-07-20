@@ -63,7 +63,25 @@ public class PushProjectController implements Initializable {
 
     @FXML
     void btnPush(ActionEvent event) {
-        if (Path == null) {
+        if(Comment.getText().length()==0)
+        {
+            Notifications notification = Notifications.create()
+                    .title("Push Project")
+                    .text("Not Name")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showConfirm();
+            return;
+        }
+        if (Path == null || selectedFile == null) {
+            Notifications notification = Notifications.create()
+                    .title("Push Project")
+                    .text("Not Selected File")
+                    .graphic(null)
+                    .hideAfter(Duration.seconds(2))
+                    .position(Pos.CENTER);
+            notification.showConfirm();
             return;
         }
         ProjectToUpload hiddenFile = null;
@@ -81,11 +99,7 @@ public class PushProjectController implements Initializable {
         if (hiddenFile == null) {
             return;
         }
-        System.out.println("***********************************************************");
-        System.out.println(hiddenFile.BranchName);
         hiddenFile.BranchName = NameBranch;
-        System.out.println(NameProject + "  " + hiddenFile + "  " + selectedFile.getName() + "  " + Comment.getText());
-        System.out.println("Branch = " + NameBranch);
         Command command = new GetPush(NameProject, hiddenFile, selectedFile.getName(), Comment.getText());
         try {
             networkOutput.writeObject(command);
@@ -214,8 +228,8 @@ public class PushProjectController implements Initializable {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/ProgressBar.fxml"));
             AnchorPane root = (AnchorPane) fxmlLoader.load();
-            
-            ((ProgressBarController)fxmlLoader.getController()).setStage(stage);
+
+            ((ProgressBarController) fxmlLoader.getController()).setStage(stage);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();

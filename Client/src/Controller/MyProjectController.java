@@ -51,8 +51,8 @@ public class MyProjectController implements Initializable {
     void btnOpen(ActionEvent event) {
         doubleClick_Open();
     }
-    
-    void doubleClick_Open(){
+
+    void doubleClick_Open() {
         TreeItem<TabelProject> TI = TabelView.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
         TabelProject TP = null;
@@ -73,18 +73,21 @@ public class MyProjectController implements Initializable {
         //  HER GO TO THE NEXT WINDOW AND SENT CP TO SHOW IT
 
         FileBrowsersController fileBrowsersController = new FileBrowsersController(CP, user);
+        fileBrowsersController.setRoopane(roopane);
+        fileBrowsersController.setIf_PreviousPageIsMyProject(true);
+        
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/FileBrowsers.fxml"));
-
         fxmlLoader.setController(fileBrowsersController);
         AnchorPane root = null;
         try {
             root = (AnchorPane) fxmlLoader.load();
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
+            System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
         }
-        System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
         roopane.getChildren().setAll(root);
     }
+
     public void setRoopane(AnchorPane roopane) {
         this.roopane = roopane;
     }

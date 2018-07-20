@@ -79,6 +79,9 @@ import org.controlsfx.control.Notifications;
 
 public class FileBrowsersController implements Initializable {
 
+    AnchorPane roopane;
+    boolean previousPageIsMyProject;
+
     boolean ShowDiff = true;
 
     User user;
@@ -124,6 +127,14 @@ public class FileBrowsersController implements Initializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setRoopane(AnchorPane roopane) {
+        this.roopane = roopane;
+    }
+
+    public void setIf_PreviousPageIsMyProject(boolean previousPageIsMyProject) {
+        this.previousPageIsMyProject = previousPageIsMyProject;
     }
 
     @Override
@@ -271,6 +282,28 @@ public class FileBrowsersController implements Initializable {
             previous.remove(previous.size() - 1);
         } else {
             // HER THE FIRST PAGE
+            if (previousPageIsMyProject) {
+                try {
+                    FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/MyProject.fxml"));
+                    MyProjectController myProjectController = new MyProjectController(roopane, user);
+                    fXMLLoader.setController(myProjectController);
+                    AnchorPane pane = (AnchorPane) fXMLLoader.load();
+                    roopane.getChildren().setAll(pane);
+                } catch (IOException ex) {
+                    System.out.println("Error: " + ex.getMessage() + "End Message");
+                }
+            } else {
+                try {
+                    FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/AllProject.fxml"));
+                    AnchorPane pane = (AnchorPane) fXMLLoader.load();
+                    AllProjectController allProjectController = fXMLLoader.getController();
+                    allProjectController.setRoopane(roopane);
+                    allProjectController.setUser(user);
+                    roopane.getChildren().setAll(pane);
+                } catch (IOException ex) {
+                    System.out.println("Error: " + ex.getMessage() + "End Message");
+                }
+            }
         }
     }
 
@@ -388,17 +421,16 @@ public class FileBrowsersController implements Initializable {
         } catch (IOException ex) {
             System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
-        
-        
 
     }
-        private void openProgressBar() {
+
+    private void openProgressBar() {
         Stage stage = new Stage();
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/ProgressBar.fxml"));
             AnchorPane root = (AnchorPane) fxmlLoader.load();
-            
-            ((ProgressBarController)fxmlLoader.getController()).setStage(stage);
+
+            ((ProgressBarController) fxmlLoader.getController()).setStage(stage);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();
@@ -911,7 +943,7 @@ public class FileBrowsersController implements Initializable {
     void btnInformation(ActionEvent event) {
         List<CommitClass> listCommit = null;
         List<Contributor> listContributor = null;
-        
+
         /// get listCommit
         String Branch = idBranch.getText().substring(9);
         System.out.println(Branch + "Need : ");
@@ -946,9 +978,8 @@ public class FileBrowsersController implements Initializable {
         }
         listContributor = ((SendListContributors) respone).getList();
 
-        
         /// go to Drow Charts for info
-        InformationController InfoController = new InformationController(listCommit,listContributor);
+        InformationController InfoController = new InformationController(listCommit, listContributor);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/Information.fxml"));
         fxmlLoader.setController(InfoController);
         Stage stage = new Stage();
