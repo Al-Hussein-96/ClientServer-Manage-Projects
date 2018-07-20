@@ -1,9 +1,7 @@
 package CommonClass;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class CommitClass implements Serializable {
 
@@ -23,18 +21,16 @@ public class CommitClass implements Serializable {
         this.MyDate = new Date();
         this.Id = Id;
     }
-    
-     @Override
+    @Override
     public CommitClass clone() {
-        String Directory=new  String(this.Directory);
+        String Directory = new String(this.Directory);
         String Author = new String(this.Author);
         Date MyDate = this.MyDate;
         String Detail = new String(this.Detail);
         String branchName = new String(this.branchName);
         int id = this.Id;
         CommitClass PTU = new CommitClass(branchName, Author, Directory, Detail, Id);
-        PTU.MyDate = this.MyDate ; 
+        PTU.MyDate = this.MyDate;
         return PTU;
     }
-    
 }
