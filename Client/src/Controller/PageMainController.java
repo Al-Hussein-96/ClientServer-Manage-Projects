@@ -90,6 +90,7 @@ public class PageMainController implements Initializable {
                 ProfileController profileController = new ProfileController();
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);
+                profileController.setUser(Owner);
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
                 fXMLLoader.setController(profileController);
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();

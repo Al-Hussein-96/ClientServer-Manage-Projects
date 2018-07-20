@@ -177,12 +177,13 @@ public class ClientHandler extends Thread {
         }
 
     }
-    private ProjectToUpload add_User_And_Password(ProjectToUpload temp)
-    {
-        User user =  get_information(MyUser);
+
+    private ProjectToUpload add_User_And_Password(ProjectToUpload temp) {
+        User user = get_information(MyUser);
         temp.add_Local_User(user);
         return temp;
     }
+
     private void SendToGetMyFollowProjects(Command command) {
         List<String> MyFollowProjects = get_MyFollow_Project(MyUser);
         Respone res = new SendMyFollowProjects(MyFollowProjects);
@@ -192,8 +193,8 @@ public class ClientHandler extends Thread {
 
     private String get_Base(String NameProject, String BranchFirst, String BranchSecond) {
         String dir = null;
-         int last1 = 1 , last2 = 1;
-           
+        int last1 = 1, last2 = 1;
+
         while (true) {
             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
@@ -213,12 +214,11 @@ public class ClientHandler extends Thread {
             } else {
                 BranchSecond = br2.BranchFather;
             }
-            
+
         }
         return dir;
     }
 
-    
     private void SendToGetPullAndMerge(Command command) {
 
         /// first make push on temp File 
@@ -228,10 +228,10 @@ public class ClientHandler extends Thread {
         String NameFolderSelect = ((GetPush) command).getNameFolderSelect();
 
         ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName, clientFile.BranchName);
-        
-        String Base = get_Directory_project(clientFile.IdLastCommit,clientFile.BranchName , clientFile.ProjectName);
-        String dir1 = get_Directory_project_first_Time(clientFile.BranchName , clientFile.ProjectName);
-        String dir2 = null; 
+
+        String Base = get_Directory_project(clientFile.IdLastCommit, clientFile.BranchName, clientFile.ProjectName);
+        String dir1 = get_Directory_project_first_Time(clientFile.BranchName, clientFile.ProjectName);
+        String dir2 = null;
 
         SendProject newRespone = null;
         try {
@@ -249,7 +249,7 @@ public class ClientHandler extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        NewTempCommitPlace = SeverBENKH.TempFiledirectory+"\\"+idTempFile;
+        NewTempCommitPlace = SeverBENKH.TempFiledirectory + "\\" + idTempFile;
         dir2 = NewTempCommitPlace;
         /// get directory to receive data from user
         File file = new File(NewTempCommitPlace);
@@ -259,17 +259,17 @@ public class ClientHandler extends Thread {
 
         CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
-        
+
         /// Here I resive data and need compare 
         ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
-        
+
         SendProject_Merge Rc = new SendProject_Merge(ob);
         Send_Respone(Rc);
         SendFolder(ob, Base);
-        
+
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
         BENHKFile = add_User_And_Password(BENHKFile);
-                
+
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -297,7 +297,7 @@ public class ClientHandler extends Thread {
 
         ProjectToUpload BENHKFile = get_ProjectToUpload(NameProject, BranchFirst);
         BENHKFile = add_User_And_Password(BENHKFile);
-                
+
         try {
             output.writeObject(BENHKFile);
             output.flush();
@@ -429,7 +429,22 @@ public class ClientHandler extends Thread {
                 OwnProject.add(t);
             }
         }
-        temp = new Profile(NewUser, OwnProject, ContributorProject);
+        List<String> MyFollow = get_MyFollow_Project(user);
+        List< CommonProject> MyProjectFollow = new ArrayList<>();
+        List< Project> TempList = getAllProjectInServer();
+        for (Project s : TempList) {
+            boolean ok = false;
+            for (String t : MyFollow) {
+                if (t.equals(s.NameProject)) {
+                    ok = true;
+                    break;
+                }
+            }
+            if (ok) {
+                MyProjectFollow.add(Project_to_CommonProject(s));
+            }
+        }
+        temp = new Profile(NewUser, OwnProject, ContributorProject,MyProjectFollow);
         return temp;
     }
 

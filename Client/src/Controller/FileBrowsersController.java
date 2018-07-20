@@ -80,7 +80,7 @@ import org.controlsfx.control.Notifications;
 public class FileBrowsersController implements Initializable {
 
     AnchorPane roopane;
-    boolean previousPageIsMyProject;
+    boolean previousPageIsMyProject=true;
 
     boolean ShowDiff = true;
 

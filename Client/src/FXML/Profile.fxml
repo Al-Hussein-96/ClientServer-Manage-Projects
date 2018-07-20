@@ -20,7 +20,7 @@
                <children>
                   <JFXButton onAction="#btnProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Projects" />
                   <JFXButton onAction="#btnContributorProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Contributor" />
-                  <JFXButton prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Followers" />
+                  <JFXButton onAction="#btnProjectsFollow" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Projects Follow-up" />
                </children>
             </HBox>
          </children>

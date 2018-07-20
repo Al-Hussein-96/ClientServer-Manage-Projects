@@ -83,24 +83,17 @@ public class UserController implements Initializable {
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();
-
             Respone respone = (Respone) networkInput.readObject();
             Profile InfoProfile = ((SendProfile) respone).getProfile();
-
             if (respone.TypeRespone == ResponeType.DONE) {
                 System.out.println("Respone For GetProfile is Done " + InfoProfile.getOwnProject().size());
-
                 ProfileController profileController = new ProfileController();
-
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);
                 profileController.setUser(MyUser);
-
                 FXMLLoader fXMLLoader = new FXMLLoader(getClass().getResource("/FXML/Profile.fxml"));
                 fXMLLoader.setController(profileController);
-
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();
-
                 roopane.getChildren().setAll(pane);
             }
 
