@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="846.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AreaChart fx:id="CommitChart" title="Commit">
+        <xAxis>
+          <CategoryAxis label="Time" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Number of commit" side="LEFT" />
+        </yAxis>
+      </AreaChart>
+      <BarChart fx:id="ContributorsChart" layoutX="504.0" title="Contributors">
+        <xAxis>
+          <CategoryAxis label="Name Contributor" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="Number of commit" side="LEFT" />
+        </yAxis>
+      </BarChart>
+   </children>
+</AnchorPane>

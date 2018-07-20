@@ -23,11 +23,18 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -104,6 +111,7 @@ public class PushProjectController implements Initializable {
             } catch (IOException ex) {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            openProgressBar();
             SendFolder(ob);
 
             try {
@@ -199,6 +207,23 @@ public class PushProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    private void openProgressBar() {
+        Stage stage = new Stage();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/ProgressBar.fxml"));
+            AnchorPane root = (AnchorPane) fxmlLoader.load();
+            
+            ((ProgressBarController)fxmlLoader.getController()).setStage(stage);
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.showAndWait();
+
+        } catch (IOException ex) {
+            System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
+        }
+
     }
 
 }
