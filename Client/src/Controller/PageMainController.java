@@ -146,7 +146,7 @@ public class PageMainController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(WindowsSelectController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        File F = new File("Data\\temp.txt");
+        File F = new File("Data\\temp");
         F.delete();
     }
 

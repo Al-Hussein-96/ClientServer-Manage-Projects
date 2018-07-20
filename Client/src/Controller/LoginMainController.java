@@ -14,8 +14,11 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -67,8 +70,7 @@ public class LoginMainController implements Initializable {
             String UserName = username.getText();
             String PassWord = password.getText();
 
-            if (!isValidUserName(UserName) && false) 
-            {
+            if (!isValidUserName(UserName) && false) {
                 ShowNotifications("Login", "Invalid UserName");
                 return;
             }
@@ -142,20 +144,20 @@ public class LoginMainController implements Initializable {
             f.mkdir();
         }
         if (RememberMe.isSelected()) {
-            File F = new File("Data\\temp.txt");
-            BufferedWriter writer;
+            File F = new File("Data\\temp");
+            ObjectOutputStream output = null;
+            User u = new User(UserName, PassWord);
             try {
-                writer = new BufferedWriter(new FileWriter(F));
-                writer.write(UserName);
-                writer.newLine();
-                writer.write(PassWord);
-                writer.close();
+                output = new ObjectOutputStream(new FileOutputStream(F));
+                output.writeObject(u);
+                output.flush();
+                output.close();
             } catch (IOException ex) {
                 Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } else {
-            File F = new File("Data\\temp.txt");
+            File F = new File("Data\\temp");
             F.delete();
         }
     }

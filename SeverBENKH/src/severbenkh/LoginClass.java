@@ -6,11 +6,11 @@ import static CommonClass.ResourceManager.load;
 public class LoginClass {
 
     public static boolean Login(User user) {
-        String directoryname= SeverBENKH.usersdirectoryName +"\\"+user.getName();
-        String filename=directoryname+"\\"+user.getName()+"information file.data";
+        String directoryname = SeverBENKH.usersdirectoryName + "\\" + user.getName();
+        String filename = directoryname + "\\" + user.getName() + "information file.data";
         try {
-            User nuser=(User)load(filename);
-            if(nuser.getPassword().equals(user.getPassword())){
+            User nuser = (User) load(filename);
+            if (nuser.getPassword().equals(user.getPassword())) {
                 return true;
             }
             return false;

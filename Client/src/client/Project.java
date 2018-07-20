@@ -16,7 +16,9 @@ import Controller.PageMainController;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -172,18 +174,27 @@ public class Project extends Application {
         if (!f.exists()) {
             f.mkdir();
         }
-        File F = new File("Data\\temp.txt");
+        File F = new File("Data\\temp");
         if (F.exists()) {
-            BufferedReader reader = null;
+            ObjectInputStream input = null;
+            User u = null;
             try {
+                input = new ObjectInputStream(new FileInputStream(F));
+                u = (User) input.readObject();
+                input.close();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-                reader = new BufferedReader(new FileReader(F));
-                String UserName = reader.readLine();
-                String PassWord = reader.readLine();
+            String UserName = u.getName();
+            String PassWord = u.getPassword();
 
-                User user = new User(UserName, PassWord);
+            User user = new User(UserName, PassWord);
 
-                Command command = new GetLOGIN(user);
+            Command command = new GetLOGIN(user);
+            try {
                 networkOutput.writeObject(command);
                 networkOutput.flush();
                 Respone respone = (Respone) networkInput.readObject();
@@ -191,19 +202,10 @@ public class Project extends Application {
                 if (respone.TypeRespone == ResponeType.DONE) {
                     GoToMainPage(new User(UserName, PassWord), stage);
                 }
-
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Project.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                try {
-                    reader.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(LoginMainController.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
             bo = true;
         }
