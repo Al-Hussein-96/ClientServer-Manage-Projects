@@ -446,7 +446,7 @@ public class ClientHandler extends Thread {
             }
         }
         if (!MyUserInContributors) {
-            Send_FALIURE();
+            Send_FALIURE("You don't have permission to add Contributor");
             return;
         }
         // check if the username exists
@@ -471,7 +471,7 @@ public class ClientHandler extends Thread {
                 return;
             }
         }
-        Send_FALIURE();
+        Send_FALIURE("there is no users in server");
     }
 
     private void SendToAddBranch(Command command) {
@@ -490,13 +490,13 @@ public class ClientHandler extends Thread {
             }
         }
         if (!MyUserInContributors) {
-            Send_FALIURE();
+            Send_FALIURE("You don't have permission to add Branch");
             return;
         }
         for (branchClass s : Myproject.branchListClass) {
             if (s.branchName.equals(BranchName)) {
                 /// there is branch same name 
-                Send_FALIURE();
+                Send_FALIURE("Branch Name is used before try another name");
                 return;
             }
             if (s.branchName.equals(BranchFather)) {
@@ -694,7 +694,7 @@ public class ClientHandler extends Thread {
         } else {
             /// here send FALIURE
             /// user dont have last change
-            Send_FALIURE();
+            Send_FALIURE("You don't have the last version try pull and Merge");
             /// Stop function
             return;
         }
@@ -721,7 +721,7 @@ public class ClientHandler extends Thread {
                 CommitUserCreate = s.addNewVersion(MyUser, CommentUser);
                 if (CommitUserCreate == null) {
                     /// user is not of Contributors
-                    Send_FALIURE();
+                    Send_FALIURE("You don't have permission to make push because you are not Contributors in this project");
                     /// Stop function
                     return;
                 }
@@ -734,7 +734,7 @@ public class ClientHandler extends Thread {
 
         if (!Done) {
             /// not fount branch
-            Send_FALIURE();
+            Send_FALIURE("Branch Not found");
             /// Stop function
             return;
         }
@@ -845,7 +845,7 @@ public class ClientHandler extends Thread {
             cnt++;
         }
         if (id == -1) {
-            Send_FALIURE();
+            Send_FALIURE("Branch not found");
         }
         //// 0 is temp for NameBranch
         Respone respone = new SendListCommits(commonproject.BranchNames.get(id).way);
@@ -1025,7 +1025,7 @@ public class ClientHandler extends Thread {
                 Send_Done();
 
             } else {
-                Send_FALIURE();
+                Send_FALIURE("User name used by another person try another name");
             }
         } catch (IOException ex) {
             System.out.println("Error SIGNUP");
@@ -1040,7 +1040,7 @@ public class ClientHandler extends Thread {
             MyUser = ((GetLOGIN) command).user.getName();
             Send_Done();
         } else {
-            Send_FALIURE();
+            Send_FALIURE("incorrect username or password");
         }
     }
 
@@ -1058,7 +1058,7 @@ public class ClientHandler extends Thread {
         }
         boolean ok = CanAddNewProjectToServer(NameProject);
         if (!ok) {
-            Send_FALIURE();
+            Send_FALIURE("Project name used by another person try another name");
             return;
         }
         Send_Done();
@@ -1227,7 +1227,7 @@ public class ClientHandler extends Thread {
         String NameProject = ((GetProject) command).NameProject;
         String dir = get_Directory_project_first_Time("Master", NameProject);
         if ("".equals(dir)) {
-            Send_FALIURE();
+            Send_FALIURE("Project not found");
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendProject(ob);
@@ -1245,7 +1245,7 @@ public class ClientHandler extends Thread {
         System.out.println(branchName + "Get ");
         String dir = get_Directory_project_first_Time(branchName, NameProject);
         if ("".equals(dir)) {
-            Send_FALIURE();
+            Send_FALIURE("Branch not found");
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendBranch(ob);
@@ -1254,8 +1254,9 @@ public class ClientHandler extends Thread {
 
     }
 
-    private void Send_FALIURE() {
+    private void Send_FALIURE(String Message) {
         Respone Rc = new SendStatus(ResponeType.FALIURE);
+        Rc.Message = Message;
         try {
             output.writeObject(Rc);
             output.flush();
@@ -1282,7 +1283,7 @@ public class ClientHandler extends Thread {
         int id = ((GetCommits) command).IDCommit;
         String dir = get_Directory_project(id, branchName, NameProject);
         if ("".equals(dir)) {
-            Send_FALIURE();
+            Send_FALIURE("Commit not found");
         } else {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
             SendProject Rc = new SendBranch(ob);
@@ -1299,9 +1300,9 @@ public class ClientHandler extends Thread {
         String dir2 = get_Directory_project(IDCommitTwo, branchName, NameProject);
 
         if ("".equals(dir1)) {
-            Send_FALIURE();
+            Send_FALIURE("first commit not found");
         } else if ("".equals(dir2)) {
-            Send_FALIURE();
+            Send_FALIURE("second commit not found");
         } else {
             System.out.println("dir1 : " + dir1 + " :: " + "dir2 : " + dir2);
             ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
