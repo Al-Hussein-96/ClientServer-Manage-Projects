@@ -57,8 +57,26 @@ public class CreateProjectController implements Initializable {
         }
     }
 
+    private void Notification(String title, String text) {
+        Notifications notification = Notifications.create()
+                .title(title)
+                .text(text)
+                .graphic(null)
+                .hideAfter(Duration.seconds(2))
+                .position(Pos.CENTER);
+        notification.showConfirm();
+    }
+
     @FXML
     void btnCreate(ActionEvent event) {
+        if (txtNameProject.getText().length() == 0) {
+            Notification("Create Project", "Not Name");
+            return;
+        }
+        if (txtLocation == null || selectedFile == null) {
+            Notification("Push Project", "Not Selected File");
+            return;
+        }
         try {
             String path = txtLocation.getText();
             String Access = PrivateProject.isSelected() ? "false" : "true";
@@ -86,21 +104,10 @@ public class CreateProjectController implements Initializable {
                 ResourceManager.save(hiddenFile, path + "\\" + "BEHKN.BEHKN");
 
                 /// 
-                Notifications notification = Notifications.create()
-                        .title("Create Project")
-                        .text("Done Create Project")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+                Notification("Create Project", "Done Create Project");
+
             } else {
-                Notifications notification = Notifications.create()
-                        .title("Create Project")
-                        .text("Can't Create Project")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showError();
+                Notification("Create Project", "Can't Create Project");
 
             }
         } catch (IOException | ClassNotFoundException ex) {

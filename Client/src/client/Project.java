@@ -32,6 +32,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javax.swing.JOptionPane;
 
 public class Project extends Application {
 
@@ -141,7 +142,7 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        try {
+       try {
             host = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {
             System.out.println("\nHost ID not foun!");

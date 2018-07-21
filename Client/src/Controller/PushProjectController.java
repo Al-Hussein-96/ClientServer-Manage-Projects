@@ -61,27 +61,24 @@ public class PushProjectController implements Initializable {
         }
     }
 
+    private void Notification(String title, String text) {
+        Notifications notification = Notifications.create()
+                .title(title)
+                .text(text)
+                .graphic(null)
+                .hideAfter(Duration.seconds(2))
+                .position(Pos.CENTER);
+        notification.showConfirm();
+    }
+
     @FXML
     void btnPush(ActionEvent event) {
-        if(Comment.getText().length()==0)
-        {
-            Notifications notification = Notifications.create()
-                    .title("Push Project")
-                    .text("Not Name")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showConfirm();
+        if (Comment.getText().length() == 0) {
+            Notification("Push Project", "Not Name");
             return;
         }
         if (Path == null || selectedFile == null) {
-            Notifications notification = Notifications.create()
-                    .title("Push Project")
-                    .text("Not Selected File")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showConfirm();
+            Notification("Push Project", "Not Selected File");
             return;
         }
         ProjectToUpload hiddenFile = null;
@@ -137,29 +134,9 @@ public class PushProjectController implements Initializable {
             } catch (Exception ex) {
                 Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /**
-             * *
-             */
-            Notifications notification = Notifications.create()
-                    .title("Push Project")
-                    .text("Done Push Project")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showConfirm();
-
+            Notification("Push Project", "Done Push Project");
         } else {
-            /**
-             * **
-             */
-            Notifications notification = Notifications.create()
-                    .title("Push Project")
-                    .text("Can't Push Project")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showError();
-
+            Notification("Push Project", "Can't Push Project");
         }
     }
 
