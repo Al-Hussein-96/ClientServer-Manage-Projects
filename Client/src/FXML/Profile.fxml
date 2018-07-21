@@ -21,7 +21,7 @@
                <children>
                   <JFXButton onAction="#btnProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Projects" />
                   <JFXButton onAction="#btnContributorProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Contributor" />
-                  <JFXButton prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Followers" />
+                  <JFXButton onAction="#btnProjectsFollow" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Followers" />
                </children>
             </HBox>
          </children>
@@ -51,12 +51,12 @@
             <Image url="@../res/30-512.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" layoutX="105.0" layoutY="237.0" prefHeight="40.0" prefWidth="120.0" text="Date Create" textFill="#da21dd">
+      <Label alignment="CENTER" layoutX="14.0" layoutY="236.0" prefHeight="40.0" prefWidth="120.0" text="Date Create" textFill="#da21dd">
          <font>
             <Font name="CoconNextArabic-Light" size="15.0" />
          </font>
       </Label>
-      <Text fx:id="DateCreate" layoutX="209.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017" />
+      <Text fx:id="DateCreate" layoutX="134.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017" />
       <Label alignment="CENTER" layoutX="296.0" layoutY="336.0" prefHeight="40.0" prefWidth="120.0" text="Email" textFill="#ff8a2b">
          <font>
             <Font name="CoconNextArabic-Light" size="15.0" />
