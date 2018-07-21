@@ -309,7 +309,6 @@ public class ClientHandler extends Thread {
     private void SendToGetNewEvent(Command command) {
         List<Event_Class> NewEvent = get_NewEvent();
 
-
         Respone res = new SendNewEvent(NewEvent);
         Send_Respone(res);
     }
@@ -439,7 +438,7 @@ public class ClientHandler extends Thread {
                 MyProjectFollow.add(Project_to_CommonProject(s));
             }
         }
-        temp = new Profile(NewUser, OwnProject, ContributorProject,MyProjectFollow);
+        temp = new Profile(NewUser, OwnProject, ContributorProject, MyProjectFollow);
         return temp;
     }
 
@@ -1027,7 +1026,7 @@ public class ClientHandler extends Thread {
             boolean ok = SignUpClass.SignUp(((GetSIGNUP) command).user);
             if (ok) {
                 MyUser = ((GetSIGNUP) command).user.getName();
-        
+
                 Send_Done();
 
             } else {
@@ -1040,7 +1039,7 @@ public class ClientHandler extends Thread {
     // Login
 
     private void SendToLogin(Command command) {
-      
+
         boolean ok = LoginClass.Login(((GetLOGIN) command).user);
         if (ok) {
             MyUser = ((GetLOGIN) command).user.getName();
@@ -1069,6 +1068,24 @@ public class ClientHandler extends Thread {
         }
         Send_Done();
         Project NewProject = new Project(Access, Author, NameProject, ProjectDirectory);
+
+        String NewCommitPlace = NewProject.branchListClass.get(0).way.get(0).Directory;
+        /// get directory to receive data from user
+        File file = new File(NewCommitPlace);
+        if (!file.exists()) {
+            file.mkdir(); /// Create Folder that contain IdCommit
+        }
+        String NameFolderSelect = ((GetStartProject) command).getNameFolderSelect();
+        SendProject newRespone = null;
+        try {
+            newRespone = (SendProject) input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+
+        }
+
+        CreateFolder(newRespone.ob, file.getPath(), NameFolderSelect);
+        Receive(newRespone.ob, file.getPath(), NameFolderSelect);
+
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, "Master");
         BenkhFile = add_User_And_Password(BenkhFile);
         //// Here we send hiddenFile to client 
@@ -1229,15 +1246,31 @@ public class ClientHandler extends Thread {
 
     /// get project first time
     private void GETPROJECT(Command command) {
+
         /// Get last Commit in master branch
         String NameProject = ((GetProject) command).NameProject;
         String dir = get_Directory_project_first_Time("Master", NameProject);
         if ("".equals(dir)) {
             Send_FALIURE("Project not found");
         } else {
-            ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
-            SendProject Rc = new SendProject(ob);
-            Send_Respone(Rc);
+            Project pr = get_projectClass(NameProject);
+            /// private
+            boolean ok = true;
+            if (pr.Access == false) {
+                ok = false;
+                for (Contributor t : pr.Contributors) {
+                    if (t.Name.equals(MyUser)) {
+                        ok = true;
+                    }
+                }
+            }
+            if (ok) {
+                ViewfolderClass ob = ResourceManager.ViewProject(new File(dir));
+                SendProject Rc = new SendProject(ob);
+                Send_Respone(Rc);
+            } else {
+                Send_FALIURE("You don't have permission to Access");
+            }
 
         }
     }
@@ -1248,7 +1281,7 @@ public class ClientHandler extends Thread {
         /// Get last Commit in any branch
         String NameProject = ((GetBranch) command).NameProject;
         String branchName = ((GetBranch) command).BranchName;
-        
+
         String dir = get_Directory_project_first_Time(branchName, NameProject);
         if ("".equals(dir)) {
             Send_FALIURE("Branch not found");

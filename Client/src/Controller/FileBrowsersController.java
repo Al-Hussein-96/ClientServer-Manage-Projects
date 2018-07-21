@@ -80,7 +80,7 @@ import org.controlsfx.control.Notifications;
 public class FileBrowsersController implements Initializable {
 
     AnchorPane roopane;
-    boolean previousPageIsMyProject=true;
+    boolean previousPageIsMyProject = true;
 
     boolean ShowDiff = true;
 
@@ -579,7 +579,7 @@ public class FileBrowsersController implements Initializable {
             String DirFile1 = null, DirFile2 = null;
             for (int i = 0; i < current.MyFile.size(); i++) {
                 if ((current.MyFile.get(i).MyFile.Name).equals(TI.Name.get())) {
-                    if (current.MyFile.get(i).MyState == StateType.NoChange) {
+                    if (current.MyFile.get(i).MyState == StateType.NoChange || current.MyFile.get(i).MyState == null) {
                         return;
                     }
                     DirFile1 = current.MyFile.get(i).MyFile.Directory;
@@ -590,16 +590,13 @@ public class FileBrowsersController implements Initializable {
             if (DirFile1 == null) {
                 return;
             }
-
             Command command = new GetDiffFile(DirFile1, DirFile2);
-
             /**
              * @here must receive Respone : SendDiffFile , inside it must
              * Contain List , every Element one Line from File and State
              *
              */
             try {
-
                 networkOutput.writeObject(command);
                 networkOutput.flush();
 
@@ -636,8 +633,10 @@ public class FileBrowsersController implements Initializable {
             if (Difference == null) {
                 return;
             }
-
+            String Branch = idBranch.getText().substring(9);
             DisplayDiffController displayDiffController = new DisplayDiffController(this, Difference);
+            displayDiffController.setBranchName(Branch);
+            displayDiffController.setProjectName(Owner.NameProject);
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXML/DisplayDiff.fxml"));
             fxmlLoader.setController(displayDiffController);
             Stage stage = new Stage();
@@ -792,7 +791,7 @@ public class FileBrowsersController implements Initializable {
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).MyFile.Name;
             if (MyFile.get(i).OldFile != null) {
-              
+
             }
             if (s1.equals("BEHKN.BEHKN")) {
                 continue;

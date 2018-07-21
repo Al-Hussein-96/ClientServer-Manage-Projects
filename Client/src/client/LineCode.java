@@ -15,24 +15,34 @@ import javafx.scene.text.Text;
  */
 public class LineCode {
     
-    StringProperty line;
+    StringProperty OldRow;
+    StringProperty NewRow;
     StringProperty state;
    // TextFieldProperty
     StringProperty text;
 
-    public LineCode(String line, String state, String text) {
-        this.line = new SimpleStringProperty(line);
+    public LineCode(String OldRow,String NewRow, String state, String text) {
+        this.OldRow = new SimpleStringProperty(OldRow);
+        this.NewRow = new SimpleStringProperty(NewRow);
         this.state = new SimpleStringProperty(state);
         this.text = new SimpleStringProperty(text);
       //  this.text.setStyle("-fx-fill: yellow;");
     }
 
-    public String getLine() {
-        return line.get();
+    public String getNewRow() {
+        return NewRow.get();
     }
 
-    public void setLine(SimpleStringProperty line) {
-        this.line = line;
+    public void setNewRow(SimpleStringProperty line) {
+        this.NewRow = line;
+    }
+    
+    public String getOldRow() {
+        return OldRow.get();
+    }
+
+    public void setOldRow(SimpleStringProperty line) {
+        this.OldRow = line;
     }
 
     public String getState() {
