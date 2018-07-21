@@ -113,7 +113,6 @@ public class PushProjectController implements Initializable {
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("ERROR in GETPUSH: " + ex.getMessage());
         }
-        System.out.println("Respone For Push: " + respone.TypeRespone);
 
         if (respone.TypeRespone == ResponeType.DONE) {
             ViewfolderClass ob = ResourceManager.ViewProject(new File(selectedFile.getPath()));
@@ -129,9 +128,7 @@ public class PushProjectController implements Initializable {
             SendFolder(ob);
 
             try {
-                System.out.println("Path HiddenFile: " + Path.getText());
                 ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
-                System.out.println("Path HiddenFile: " + Path.getText());
                 ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
                 Path.getScene().getWindow().hide();
 
@@ -169,7 +166,6 @@ public class PushProjectController implements Initializable {
     private void SendFolder(ViewfolderClass ob) {
         for (NameAndDirectory temp : ob.MyFile) {
             GetFile get = new GetFile(temp.Directory);
-            System.out.println("SendFolder: " + temp.Directory);
             GETFILE(get);
         }
         for (ViewfolderClass temp : ob.MyFolderView) {

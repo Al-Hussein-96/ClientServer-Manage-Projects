@@ -39,7 +39,6 @@ public class TextFileReader {
 			while ((line = br.readLine()) != null) {
                             if(line.trim().equals(""))
                                 lines.add(Constants.NEWLINE);
-                       //     System.out.println(line);
                             else
 				lines.add(line);
 			}

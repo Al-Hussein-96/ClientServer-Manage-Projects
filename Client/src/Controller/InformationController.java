@@ -82,7 +82,6 @@ public class InformationController implements Initializable {
                     numCommit++;
                 }
             }
-            System.out.println(c.Name);
             xy.getData().add(new XYChart.Data<>(c.Name, numCommit));
         }
 

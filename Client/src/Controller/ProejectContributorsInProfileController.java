@@ -77,11 +77,9 @@ public class ProejectContributorsInProfileController implements Initializable {
             root = (AnchorPane) fxmlLoader.load();
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
-            System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
 
         }
         if (root == null) {
-            System.out.println("root = " + root);
         } else {
             roopane.getChildren().setAll(root);
             Open.getScene().getWindow().hide();
@@ -100,7 +98,6 @@ public class ProejectContributorsInProfileController implements Initializable {
         TabelProject[] st = new TabelProject[Myproject.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
-        System.out.println("Size = " + Myproject.size());
         for (CommonProject temp : Myproject) {
             int numCommit = 0;
             for (CommonBranch t : temp.BranchNames) {

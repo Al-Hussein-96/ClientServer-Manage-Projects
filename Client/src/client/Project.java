@@ -14,12 +14,8 @@ import Controller.FileBrowsersController;
 import Controller.LoginMainController;
 import Controller.PageMainController;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -113,7 +109,6 @@ public class Project extends Application {
 
                     stage.show();
                     stage.setResizable(false);
-                    //    System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
 
                 }
             } catch (ClassNotFoundException ex) {
@@ -146,7 +141,6 @@ public class Project extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println(args[0]);
         try {
             host = InetAddress.getLocalHost();
         } catch (UnknownHostException ex) {

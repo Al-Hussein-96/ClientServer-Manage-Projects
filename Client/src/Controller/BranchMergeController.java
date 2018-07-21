@@ -96,7 +96,6 @@ public class BranchMergeController implements Initializable {
             SendProject_Merge respone = (SendProject_Merge) networkInput.readObject();
 
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Size Respone : " + respone.ob.MyFile.size());
                 Father.CreateFolder(respone.ob, txtLocation.getText() + "\\");
                 Father.Receive(respone.ob, txtLocation.getText() + "\\");
 
@@ -140,7 +139,6 @@ public class BranchMergeController implements Initializable {
         TabelBranch[] st = new TabelBranch[NameBranch.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
-        System.out.println("Size = " + NameBranch.size());
         for (CommonBranch temp : NameBranch) {
             st[idx++] = new TabelBranch(temp.branchName, temp.userCreateBranch, ft.format(temp.lastCommite));
         }

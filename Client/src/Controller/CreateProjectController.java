@@ -62,7 +62,6 @@ public class CreateProjectController implements Initializable {
 
                 /// save File in directory of Project
                 ResourceManager.save(hiddenFile, path + "\\" + "BEHKN.BEHKN");
-                System.out.println("Done Create Project.");
 
                 /// 
                 Notifications notification = Notifications.create()

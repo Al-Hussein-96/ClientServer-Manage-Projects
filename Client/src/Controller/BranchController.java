@@ -93,7 +93,6 @@ public class BranchController implements Initializable {
                 Respone respone = (Respone) networkInput.readObject();
                 if (respone.TypeRespone == ResponeType.DONE) {
                     /// here Update Tabel With NewBranch Or Back To FileBrowsers
-                    System.out.println("Done Add Branch.");
                     BranchName.getScene().getWindow().hide();
                     Notifications notification = Notifications.create()
                             .title("Add Branch")
@@ -130,7 +129,6 @@ public class BranchController implements Initializable {
         TabelBranch[] st = new TabelBranch[NameBranch.size()];
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
-        System.out.println("Size = " + NameBranch.size());
         for (CommonBranch temp : NameBranch) {
             st[idx++] = new TabelBranch(temp.branchName, temp.userCreateBranch, ft.format(temp.lastCommite));
         }

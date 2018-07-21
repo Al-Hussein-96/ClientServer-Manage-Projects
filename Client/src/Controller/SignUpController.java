@@ -79,7 +79,6 @@ public class SignUpController implements Initializable {
             String Password_Confirmation = password_confirmation.getText();
             String Email = email.getText();
             if (!PassWord.equals(Password_Confirmation)) {
-                System.out.println("Mismatch");
                 ShowNotifications("Sign Up", "Mismatch");
                 return;
             }

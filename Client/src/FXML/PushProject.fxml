@@ -2,16 +2,29 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PushProjectController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="692.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PushProjectController">
    <children>
-      <JFXTextField fx:id="Comment" layoutX="76.0" layoutY="116.0" prefHeight="35.0" prefWidth="500.0" />
-      <JFXTextField fx:id="Path" layoutX="76.0" layoutY="235.0" prefHeight="35.0" prefWidth="406.0" />
-      <JFXButton layoutX="511.0" layoutY="246.0" onAction="#btnBrowsers" prefHeight="35.0" prefWidth="85.0" text="Browsers" />
-      <Label layoutX="76.0" layoutY="200.0" prefHeight="27.0" prefWidth="100.0" text="Path" />
-      <Label layoutX="76.0" layoutY="81.0" prefHeight="27.0" prefWidth="100.0" text="Comment" />
-      <JFXButton layoutX="276.0" layoutY="317.0" onAction="#btnPush" prefHeight="35.0" prefWidth="100.0" text="Push" />
+      <AnchorPane layoutX="43.0" layoutY="69.0" opacity="0.84" prefHeight="255.0" prefWidth="606.0" styleClass="cardPane" stylesheets="@../Css/style.css">
+         <children>
+            <JFXTextField fx:id="Comment" alignment="TOP_CENTER" focusColor="#09f59b" labelFloat="true" layoutX="46.0" layoutY="55.0" prefHeight="35.0" prefWidth="312.0" promptText="Comment" unFocusColor="#04c541" />
+            <JFXTextField fx:id="Path" alignment="TOP_CENTER" focusColor="#09f59b" labelFloat="true" layoutX="161.0" layoutY="168.0" prefHeight="35.0" prefWidth="284.0" promptText="Path" unFocusColor="#04c541" />
+            <JFXButton layoutX="507.0" layoutY="177.0" onAction="#btnBrowsers" prefHeight="35.0" prefWidth="85.0" text="Browsers" textFill="#04c541" />
+            <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="458.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/folder-browser-find-path-512.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="120.0" layoutY="173.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/folder-browser-find-path-512.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <JFXButton layoutX="549.0" layoutY="334.0" onAction="#btnPush" prefHeight="35.0" prefWidth="100.0" stylesheets="@../Css/Button.css" text="Push" />
    </children>
 </AnchorPane>

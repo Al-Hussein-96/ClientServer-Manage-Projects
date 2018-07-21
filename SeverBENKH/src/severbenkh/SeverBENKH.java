@@ -53,7 +53,6 @@ public class SeverBENKH extends Application {
 
     public static void main(String[] args) throws IOException {
         String path = new File(".").getCanonicalPath();
-        System.out.println("\\\\   "+path);
         ViewfolderClass vi = ResourceManager.ViewProject(new File("src"));
         ResourceManager.ShowViewfolder(vi);
         initFile();
@@ -110,7 +109,7 @@ public class SeverBENKH extends Application {
         x++;
         idd.write(x);
         x--;
-        System.out.println("Event " + x);
+       
         return x;
     }
 

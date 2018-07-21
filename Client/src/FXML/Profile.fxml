@@ -12,52 +12,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" styleClass="cardPane" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+      <Text fx:id="UserName" layoutX="545.0" layoutY="197.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mohammad" />
       <Pane prefHeight="115.0" prefWidth="700.0" style="-fx-background-color: #66CC99;">
          <children>
-            <HBox layoutX="200.0" layoutY="60.0" spacing="20.0">
+            <HBox layoutX="158.0" layoutY="58.0" spacing="20.0">
                <children>
                   <JFXButton onAction="#btnProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Projects" />
                   <JFXButton onAction="#btnContributorProject" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Contributor" />
-                  <JFXButton onAction="#btnProjectsFollow" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Projects Follow-up" />
+                  <JFXButton prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Followers" />
                </children>
             </HBox>
          </children>
       </Pane>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="25.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../res/30-512.png" />
-         </image>
-      </ImageView>
-      <VBox alignment="CENTER" layoutX="175.0" layoutY="191.0">
+      <VBox alignment="CENTER" layoutX="175.0" layoutY="309.0" />
+      <VBox layoutX="381.0" layoutY="350.0" prefHeight="40.0" prefWidth="154.0" spacing="30.0">
          <children>
-            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="UserName" textFill="#117531">
-               <font>
-                  <Font name="CoconNextArabic-Light" size="15.0" />
-               </font></Label>
-            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="Date Create" textFill="#117531">
-               <font>
-                  <Font name="CoconNextArabic-Light" size="15.0" />
-               </font></Label>
-            <Label alignment="CENTER" prefHeight="40.0" prefWidth="120.0" text="Email" textFill="#117531">
-               <font>
-                  <Font name="CoconNextArabic-Light" size="15.0" />
-               </font></Label>
-         </children>
-      </VBox>
-      <VBox layoutX="306.0" layoutY="203.0" prefHeight="94.0" prefWidth="154.0" spacing="30.0">
-         <children>
-            <Text fx:id="UserName" strokeType="OUTSIDE" strokeWidth="0.0" text="Mohammad">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Text>
-            <Text fx:id="DateCreate" strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Text>
             <Text fx:id="email" strokeType="OUTSIDE" strokeWidth="0.0" text="m.alhussein.96@gmail.com">
                <VBox.margin>
                   <Insets />
@@ -65,5 +36,46 @@
             </Text>
          </children>
       </VBox>
+      <Label alignment="CENTER" layoutX="442.0" layoutY="172.0" prefHeight="40.0" prefWidth="120.0" text="UserName" textFill="#3019dd">
+         <font>
+            <Font name="CoconNextArabic-Light" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="144.0" fitWidth="146.0" layoutX="277.0" layoutY="181.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/Capture.JPG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="104.0" fitWidth="83.0" layoutX="299.0" layoutY="205.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/30-512.png" />
+         </image>
+      </ImageView>
+      <Label alignment="CENTER" layoutX="105.0" layoutY="237.0" prefHeight="40.0" prefWidth="120.0" text="Date Create" textFill="#da21dd">
+         <font>
+            <Font name="CoconNextArabic-Light" size="15.0" />
+         </font>
+      </Label>
+      <Text fx:id="DateCreate" layoutX="209.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="17-5-2017" />
+      <Label alignment="CENTER" layoutX="296.0" layoutY="336.0" prefHeight="40.0" prefWidth="120.0" text="Email" textFill="#ff8a2b">
+         <font>
+            <Font name="CoconNextArabic-Light" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="77.0" fitWidth="40.0" layoutX="231.0" layoutY="197.0" pickOnBounds="true" preserveRatio="true" rotate="93.2">
+         <image>
+            <Image url="@../res/pink-arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="77.0" fitWidth="40.0" layoutX="321.0" layoutY="304.0" pickOnBounds="true" preserveRatio="true" rotate="55.3">
+         <image>
+            <Image url="@../res/orange-arrow.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="44.0" fitWidth="176.0" layoutX="395.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../res/downloa1d.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

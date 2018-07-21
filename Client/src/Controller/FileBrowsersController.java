@@ -139,7 +139,6 @@ public class FileBrowsersController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("OK");
         List< CommonBranch> listB = Owner.BranchNames;
         List< CommitClass> listC = listB.get(listB.size() - 1).way;
         idBranch.setText("Branch : " + listB.get(listB.size() - 1).branchName);
@@ -167,15 +166,12 @@ public class FileBrowsersController implements Initializable {
             @Override
             public void updateItem(TabelBrowsers item, boolean empty) {
                 super.updateItem(item, empty);
-                System.out.println("item: " + item);
                 setStyle("-fx-background-color: white");
 
                 if (item == null) {
-                    System.out.println("Null");
                 } else if (ShowDiff) {
 
 //                    TabelBrowsers x = item;
-                    System.out.println(item.getState());
                     if (null != item.getState()) {
                         switch (item.getState()) {
                             case Add:
@@ -475,7 +471,6 @@ public class FileBrowsersController implements Initializable {
     @FXML
     void btnCommits(ActionEvent event) {
         String Branch = idBranch.getText().substring(9);
-        System.out.println(Branch + "Need : ");
         Command command = new GetListCommits(Owner.NameProject, Branch);
         try {
             networkOutput.writeObject(command);
@@ -535,10 +530,8 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnDiffTo(ActionEvent event) {
-        System.out.println("Diff To");
 
         String Branch = idBranch.getText().substring(9);
-        System.out.println(Branch + "Need : ");
         Command command = new GetListCommits(Owner.NameProject, Branch);
         try {
             networkOutput.writeObject(command);
@@ -598,7 +591,6 @@ public class FileBrowsersController implements Initializable {
                 return;
             }
 
-            System.out.println("DirFile1 : " + DirFile1 + " DirFile2 : " + DirFile2);
             Command command = new GetDiffFile(DirFile1, DirFile2);
 
             /**
@@ -619,27 +611,27 @@ public class FileBrowsersController implements Initializable {
             try {
                 respone = (Respone) networkInput.readObject();
             } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("Errot in FileBrowsers");
+                System.out.println("Error in FileBrowsers");
             }
             Diff Difference = null;
             if (respone != null && respone.TypeRespone == ResponeType.DONE) {
                 Difference = ((SendDiffFile) respone).Difference;
-                for (Changes change : Difference.getChanges()) {
-                    if (change instanceof Insert) {
-                        System.out.print("Insert : ");
-                    }
-                    if (change instanceof Delete) {
-                        System.out.print("Delete : ");
-                    }
-                    if (change instanceof NoChange) {
-                        System.out.print("NoChange : ");
-                    }
-                    if ("".equals(change.getObject().trim())) {
-                        System.out.println("NEW LINE");
-                    } else {
-                        System.out.println(change.getObject());
-                    }
-                }
+//                for (Changes change : Difference.getChanges()) {
+//                    if (change instanceof Insert) {
+//                        System.out.print("Insert : ");
+//                    }
+//                    if (change instanceof Delete) {
+//                        System.out.print("Delete : ");
+//                    }
+//                    if (change instanceof NoChange) {
+//                        System.out.print("NoChange : ");
+//                    }
+//                    if ("".equals(change.getObject().trim())) {
+//                        System.out.println("NEW LINE");
+//                    } else {
+//                        System.out.println(change.getObject());
+//                    }
+//                }
             }
             if (Difference == null) {
                 return;
@@ -778,7 +770,6 @@ public class FileBrowsersController implements Initializable {
 
     /// this Show Folder for Color Folder and File 
     private void ShowFolderWithDiff(ViewDiff_folderClass MyProject) {
-        System.out.println("ShowFolderWithDiff");
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         tabelView.getItems().clear();
@@ -801,8 +792,7 @@ public class FileBrowsersController implements Initializable {
         for (int i = 0; i < MyFile.size(); i++) {
             String s1 = MyFile.get(i).MyFile.Name;
             if (MyFile.get(i).OldFile != null) {
-                System.out.println("Here Current File: " + MyFile.get(i).MyFile.Directory);
-                System.out.println("Here Old File: " + MyFile.get(i).OldFile.Directory);
+              
             }
             if (s1.equals("BEHKN.BEHKN")) {
                 continue;
@@ -946,7 +936,6 @@ public class FileBrowsersController implements Initializable {
 
         /// get listCommit
         String Branch = idBranch.getText().substring(9);
-        System.out.println(Branch + "Need : ");
         Command command = new GetListCommits(Owner.NameProject, Branch);
         try {
             networkOutput.writeObject(command);

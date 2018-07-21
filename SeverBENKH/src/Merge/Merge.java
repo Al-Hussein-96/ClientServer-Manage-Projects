@@ -26,9 +26,7 @@ public class Merge {
         List<String> listOrg = read(new File(Original));
         List<String> listFr = read(new File(FirstBranch));
         List<String> listSc = read(new File(SecondBranch));
-        System.out.println("Original : " + listOrg);
-        System.out.println("First : " + listFr);
-        System.out.println("Second : " + listSc);
+
 
         Myers01 diff1 = new Myers01(FirstBranch, Original);
         Myers01 diff2 = new Myers01(SecondBranch, Original);

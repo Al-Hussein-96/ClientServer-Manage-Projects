@@ -83,7 +83,6 @@ public class MyProjectController implements Initializable {
             root = (AnchorPane) fxmlLoader.load();
         } catch (IOException ex) {
             System.out.println("Error:::: " + ex.getMessage());
-            System.out.println("Bug is initlize in FileBrowsersController: " + roopane + " : " + root);
         }
         roopane.getChildren().setAll(root);
     }

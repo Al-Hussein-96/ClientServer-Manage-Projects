@@ -63,9 +63,9 @@ public class DisplayDiffController implements Initializable {
                     int rowIndex = getTableRow().getIndex();
                     String valueInSecondaryCell = getTableView().getItems().get(rowIndex).getState();
                     if (valueInSecondaryCell.equals("+")) {
-                        setStyle("-fx-background-color: #8d95a0; -fx-border-color: black;"); //Set the style in the first cell based on the value of the second cell
+                        setStyle("-fx-background-color: #bec8d6; -fx-border-color: black;"); //Set the style in the first cell based on the value of the second cell
                     } else {
-                        setStyle("-fx-background-color: green; -fx-border-color: black;");
+                        setStyle("-fx-background-color: #71dd71; -fx-border-color: black;");
                     }
                     
                 }

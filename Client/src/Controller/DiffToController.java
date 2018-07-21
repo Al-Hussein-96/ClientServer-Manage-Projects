@@ -77,7 +77,6 @@ public class DiffToController implements Initializable {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
         int idx = 0;
         for (CommitClass temp : Commits) {
-            System.out.println(temp.Id + " " + CommitIdShow);
             if(temp.Id >= CommitIdShow)continue;
             
             TabelCommit CC = new TabelCommit(temp.Author, temp.branchName, String.valueOf(temp.Id),

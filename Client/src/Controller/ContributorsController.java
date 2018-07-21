@@ -50,14 +50,12 @@ public class ContributorsController implements Initializable {
          * Add New Contributors
          */
         Command command = new GetAddContributor(NameProject, NameContributors.getText());
-        System.out.println(NameProject+"  "+NameContributors.getText());
         try {
             networkOutput.writeObject(command);
             networkOutput.flush();
             Respone respone = (Respone) networkInput.readObject();
             if (respone.TypeRespone == ResponeType.DONE) {
                 //// Update Tabel
-                System.out.println("Done Add Contributor.");
                 NameContributors.getScene().getWindow().hide();
                 
                 Notifications notification = Notifications.create()

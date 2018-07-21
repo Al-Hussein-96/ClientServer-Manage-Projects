@@ -19,7 +19,6 @@ public class Myers01 {
     public Myers01(String dirNew, String dirOld) {
         List<String> list1 = read(new File(dirNew));
         List<String> list2 = read(new File(dirOld));
-        System.out.println(list1 + " : " + list2);
         StringsComparator sc = new StringsComparator(list2, list1);
         Differences = sc.getScript();
 //        Differences.visit(new CommandVisitor() {

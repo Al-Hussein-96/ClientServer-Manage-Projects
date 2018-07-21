@@ -198,7 +198,6 @@ public class ClientHandler extends Thread {
         while (true) {
             branchClass br1 = get_BranchClass_in_Project(NameProject, BranchFirst);
             branchClass br2 = get_BranchClass_in_Project(NameProject, BranchSecond);
-            System.out.println(BranchFirst + " " + BranchSecond + "  " + last1 + " " + last2);
             if (br1.branchName.equals(br2.branchName)) {
                 int X = last1;
                 if (last2 > X) {
@@ -310,7 +309,6 @@ public class ClientHandler extends Thread {
     private void SendToGetNewEvent(Command command) {
         List<Event_Class> NewEvent = get_NewEvent();
 
-        System.out.println("Size = " + NewEvent.size());
 
         Respone res = new SendNewEvent(NewEvent);
         Send_Respone(res);
@@ -324,30 +322,27 @@ public class ClientHandler extends Thread {
      * @param command
      */
     private void SendToGetDiffFile(Command command) {
-        System.out.println("Hello Wolrd SendToGetDiffFile");
-        System.out.println("DirFile1: " + ((GetDiffFile) command).DirFile1);
-        System.out.println("DirFile2: " + ((GetDiffFile) command).DirFile2);
+
         String Dir1 = ((GetDiffFile) command).DirFile1;
         String Dir2 = ((GetDiffFile) command).DirFile2;
-        System.out.println("DirNew : " + Dir1 + "\nDirOld : " + Dir2);
         Myers01 Myers = new Myers01(Dir1, Dir2);
         Diff Difference = Myers.getDiff();
 
         for (Changes change : Difference.getChanges()) {
-            if (change instanceof Insert) {
-                System.out.print("Insert : ");
-            }
-            if (change instanceof Delete) {
-                System.out.print("Delete : ");
-            }
-            if (change instanceof NoChange) {
-                System.out.print("NoChange : ");
-            }
-            if ("".equals(change.getObject().trim())) {
-                System.out.println("NEW LINE");
-            } else {
-                System.out.println(change.getObject());
-            }
+//            if (change instanceof Insert) {
+//                System.out.print("Insert : ");
+//            }
+//            if (change instanceof Delete) {
+//                System.out.print("Delete : ");
+//            }
+//            if (change instanceof NoChange) {
+//                System.out.print("NoChange : ");
+//            }
+//            if ("".equals(change.getObject().trim())) {
+//                System.out.println("NEW LINE");
+//            } else {
+//                System.out.println(change.getObject());
+//            }
         }
         /**
          * Difference is List<Changes> where Changes is abstract class and have
@@ -580,14 +575,12 @@ public class ClientHandler extends Thread {
                 break;
             }
         }
-        System.out.println("ID last event user = " + Id_last_Event);
         int lastEvent = 0;
         try {
             lastEvent = SeverBENKH.getIdLastEvent();
         } catch (IOException ex) {
             Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("last = " + lastEvent);
         List< String> MyFollowProject = get_MyFollow_Project(user);
         List< Event_Class> MyEvent = new ArrayList<>();
         for (int i = Id_last_Event + 1; i < lastEvent; i++) {
@@ -768,12 +761,10 @@ public class ClientHandler extends Thread {
         Receive(newRespone.ob, file.getPath(), NameFolderSelect);
         /// update_BENKH 
 
-        System.out.println("Send BenkhFile");
         ProjectToUpload BenkhFile = get_ProjectToUpload(NameProject, clientFile.BranchName);
         BenkhFile = add_User_And_Password(BenkhFile);
         try {
             //// Here we send hiddenFile to client
-            System.out.println("Send BenkhFile:");
             output.writeObject(BenkhFile);
             output.flush();
         } catch (IOException ex) {
@@ -1036,7 +1027,7 @@ public class ClientHandler extends Thread {
             boolean ok = SignUpClass.SignUp(((GetSIGNUP) command).user);
             if (ok) {
                 MyUser = ((GetSIGNUP) command).user.getName();
-                System.out.println("Ok");
+        
                 Send_Done();
 
             } else {
@@ -1049,7 +1040,7 @@ public class ClientHandler extends Thread {
     // Login
 
     private void SendToLogin(Command command) {
-        System.out.println("SendToLogin");
+      
         boolean ok = LoginClass.Login(((GetLOGIN) command).user);
         if (ok) {
             MyUser = ((GetLOGIN) command).user.getName();
@@ -1110,9 +1101,9 @@ public class ClientHandler extends Thread {
         List< CommonProject> MyProject = GetMyProject();
         SendMyProject Rc = new SendMyProject(MyProject);
         Send_Respone(Rc);
-        for (CommonProject CP : MyProject) {
-            System.out.println(CP.NameProject);
-        }
+//        for (CommonProject CP : MyProject) {
+//            System.out.println(CP.NameProject);
+//        }
     }
 
     /// send list of all project to client
@@ -1257,7 +1248,7 @@ public class ClientHandler extends Thread {
         /// Get last Commit in any branch
         String NameProject = ((GetBranch) command).NameProject;
         String branchName = ((GetBranch) command).BranchName;
-        System.out.println(branchName + "Get ");
+        
         String dir = get_Directory_project_first_Time(branchName, NameProject);
         if ("".equals(dir)) {
             Send_FALIURE("Branch not found");
@@ -1319,7 +1310,6 @@ public class ClientHandler extends Thread {
         } else if ("".equals(dir2)) {
             Send_FALIURE("second commit not found");
         } else {
-            System.out.println("dir1 : " + dir1 + " :: " + "dir2 : " + dir2);
             ViewDiff_folderClass ob = ResourceManager.ViewDiffProject(new File(dir1), new File(dir2));
             Send_Diff_Two_Commit Rc = new Send_Diff_Two_Commit(ob);
             Send_Respone(Rc);

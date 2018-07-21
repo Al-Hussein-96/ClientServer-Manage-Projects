@@ -76,10 +76,8 @@ public class Different3 {
                 oldRow++;
                 newRow++;
                 match[oldRow] = newRow;
-                System.out.println(oldRow + " => " + newRow);
             }
         }
-        System.out.println();
         return match;
     }
 

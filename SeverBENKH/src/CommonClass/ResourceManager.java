@@ -95,8 +95,7 @@ public class ResourceManager {
     
     /// double bytes = file.length();
     public static ViewDiff_folderClass ViewDiffProject(File CommitOne, File CommitTwo) {
-        System.out.println("CommitOne : " + CommitOne);
-        System.out.println("CommitTwo : " + CommitTwo);
+   
         ViewDiff_folderClass MyViewdiff_folder = new ViewDiff_folderClass();
         String DirectoryOne = CommitOne.getPath();
         String DirectoryTwo = CommitTwo.getPath();
@@ -129,7 +128,6 @@ public class ResourceManager {
                     NameAndDirectory New1 = new NameAndDirectory(Name, size, DateModified, Directory1);
                     NameAndDirectoryAndState New = new NameAndDirectoryAndState(New1, Delete, null);
                     File tempFolder1 = new File(Directory1);// + "\\" + file1.getName());
-                    System.out.println("tempFolder1 : " + tempFolder1);
                     ViewDiff_folderClass temp = ViewDiffProject_del(tempFolder1);
                     New.MyState = temp.MyState;
                     MyViewdiff_folder.MyFolder.add(New);
@@ -237,6 +235,7 @@ public class ResourceManager {
 
         ViewfolderClass MyViewfolder = new ViewfolderClass();
         String MyDirectory = NameFolder.getPath();
+        System.out.println("My Directory: " + MyDirectory);
         for (File file : NameFolder.listFiles()) {
 
             boolean isDirectory = file.isDirectory(); // Check if it's a directory
@@ -292,12 +291,12 @@ public class ResourceManager {
 
     /// this take Viewfile and Show it
     public static void ShowViewfolder(ViewfolderClass G) {
-        for (NameAndDirectory f : G.MyFile) {
-            System.out.println("File : " + f.Name + " " + f.Directory);
-        }
-        for (NameAndDirectory f : G.MyFolder) {
-            System.out.println("File : " + f.Name + " " + f.Directory);
-        }
+//        for (NameAndDirectory f : G.MyFile) {
+//            System.out.println("File : " + f.Name + " " + f.Directory);
+//        }
+//        for (NameAndDirectory f : G.MyFolder) {
+//            System.out.println("File : " + f.Name + " " + f.Directory);
+//        }
     }
     
     /// need code

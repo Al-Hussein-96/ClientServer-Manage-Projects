@@ -54,7 +54,6 @@ public class UserController implements Initializable {
         ObservableList<TabelUsers> list;
         TabelUsers[] st = new TabelUsers[ListUser.size()];
         int idx = 0;
-        System.out.println("Size = " + ListUser.size());
         for (User temp : ListUser) {
             st[idx++] = new TabelUsers(temp.getName());
         }
@@ -86,7 +85,6 @@ public class UserController implements Initializable {
             Respone respone = (Respone) networkInput.readObject();
             Profile InfoProfile = ((SendProfile) respone).getProfile();
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Respone For GetProfile is Done " + InfoProfile.getOwnProject().size());
                 ProfileController profileController = new ProfileController();
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);

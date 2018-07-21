@@ -86,7 +86,6 @@ public class PageMainController implements Initializable {
             Respone respone = (Respone) networkInput.readObject();
             Profile InfoProfile = ((SendProfile) respone).getProfile();
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Respone For GetProfile is Done " + InfoProfile.getOwnProject().size());
                 ProfileController profileController = new ProfileController();
                 profileController.setRoopane(roopane);
                 profileController.setProfile(InfoProfile);
@@ -112,7 +111,6 @@ public class PageMainController implements Initializable {
             SendListUser respone = (SendListUser) networkInput.readObject();
 
             if (respone.TypeRespone == ResponeType.DONE) {
-                System.out.println("Respone For GetListUsers is Done " + respone.getListUser().size());
 
                 List<User> ListUser = new ArrayList<>(respone.getListUser());
                 UserController userController = new UserController(ListUser, Owner, roopane);
@@ -122,7 +120,6 @@ public class PageMainController implements Initializable {
 
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();
 
-                System.out.println("Hello World");
                 roopane.getChildren().setAll(pane);
 
             }
