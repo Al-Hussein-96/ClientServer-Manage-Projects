@@ -1101,6 +1101,11 @@ public class ClientHandler extends Thread {
         /// Her i set the new project in My follow and must add to every contribut add
         add_follow_to_User(MyUser, NameProject);
         //
+        
+        CommitClass CommitUserCreate = NewProject.branchListClass.get(0).way.get(0);
+        CommitUserCreate.Detail = "First Commit";
+        Event_Class Ev = new Event_AddCommit(MyUser, NameProject, new Date(), CommitUserCreate);
+        addNewEvent(Ev);
     }
 
     /// to see if this project name is use before
