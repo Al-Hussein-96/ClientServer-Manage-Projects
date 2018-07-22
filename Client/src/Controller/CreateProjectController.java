@@ -107,7 +107,7 @@ public class CreateProjectController implements Initializable {
                 Notification("Create Project", "Done Create Project");
 
             } else {
-                Notification("Create Project", "Can't Create Project");
+                Notification("Create Project", response.Message);
 
             }
         } catch (IOException | ClassNotFoundException ex) {

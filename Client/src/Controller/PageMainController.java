@@ -9,6 +9,7 @@ import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendListUser;
 import CommonRespone.SendProfile;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import java.io.File;
@@ -95,6 +96,10 @@ public class PageMainController implements Initializable {
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();
                 roopane.getChildren().setAll(pane);
             }
+            else
+            {
+                Notification.Notification("Get Profile", respone.Message);
+            }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage() + "End Message");
         }
@@ -122,6 +127,10 @@ public class PageMainController implements Initializable {
 
                 roopane.getChildren().setAll(pane);
 
+            }
+            else
+            {
+                Notification.Notification("Get User", respone.Message);
             }
 
         } catch (IOException | ClassNotFoundException ex) {

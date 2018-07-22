@@ -14,6 +14,7 @@ import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendProject;
 import CommonRespone.SendProject_Merge;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBranch;
@@ -116,13 +117,7 @@ public class BranchMergeController implements Initializable {
                         .position(Pos.CENTER);
                 notification.showConfirm();
             } else {
-                Notifications notification = Notifications.create()
-                        .title("Merge Projects")
-                        .text("Can't Merge Projects")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+                Notification.Notification("Merge Project", respone.Message);
 
             }
 

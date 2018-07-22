@@ -9,6 +9,7 @@ import CommonCommand.GetMyProject;
 import CommonRespone.Respone;
 import CommonRespone.SendMyProject;
 import CommonRespone.ResponeType;
+import client.Notification;
 import client.TabelProject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -182,6 +183,10 @@ public class MyProjectController implements Initializable {
             Respone respone = (Respone) networkInput.readObject();
             if (respone.TypeRespone == ResponeType.DONE) {
                 return ((SendMyProject) respone).getMylist();
+            }
+            else
+            {
+                Notification.Notification("Get My Project", respone.Message);
             }
         } catch (IOException | ClassNotFoundException ex) {
             System.out.println("Error3 in function : GetMyProject  Class: MyProjectController  : " + ex.getMessage());

@@ -9,6 +9,7 @@ import CommonCommand.GetAllProject;
 import CommonRespone.Respone;
 import CommonRespone.SendAllProject;
 import CommonRespone.ResponeType;
+import client.Notification;
 import client.TabelProject;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTreeTableColumn;
@@ -36,21 +37,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class AllProjectController implements Initializable {
-
+    
     User user;
-
+    
     private AnchorPane roopane;
     @FXML
     private JFXButton open;
     @FXML
     private JFXTreeTableView<TabelProject> tabelview;
     private List< CommonProject> AllProject;
-
+    
     @FXML
     void btnOpen(ActionEvent event) {
         doubleClick_Open();
     }
-
+    
     void doubleClick_Open() {
         TreeItem<TabelProject> TI = tabelview.getSelectionModel().getSelectedItem();
         CommonProject CP = null;
@@ -88,19 +89,19 @@ public class AllProjectController implements Initializable {
             System.out.println("Error:::: " + ex.getMessage());
         }
     }
-
+    
     public void setRoopane(AnchorPane roopane) {
         this.roopane = roopane;
     }
-
+    
     public void setUser(User user) {
         this.user = user;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         AllProject = GetAllProject();
-
+        
         JFXTreeTableColumn<TabelProject, String> nameProject = new JFXTreeTableColumn<>("Name");
         nameProject.setPrefWidth(150);
         nameProject.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<TabelProject, String>, ObservableValue<String>>() {
@@ -109,7 +110,7 @@ public class AllProjectController implements Initializable {
                 return param.getValue().getValue().NameProject;
             }
         });
-
+        
         JFXTreeTableColumn<TabelProject, String> dataCreate = new JFXTreeTableColumn<>("Date");
         dataCreate.setPrefWidth(130);
         dataCreate.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<TabelProject, String>, ObservableValue<String>>() {
@@ -118,7 +119,7 @@ public class AllProjectController implements Initializable {
                 return param.getValue().getValue().DateCreate;
             }
         });
-
+        
         JFXTreeTableColumn<TabelProject, String> author = new JFXTreeTableColumn<>("Author");
         author.setPrefWidth(140);
         author.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<TabelProject, String>, ObservableValue<String>>() {
@@ -127,7 +128,7 @@ public class AllProjectController implements Initializable {
                 return param.getValue().getValue().Author;
             }
         });
-
+        
         JFXTreeTableColumn<TabelProject, String> numberOfContributors = new JFXTreeTableColumn<>("Contributors");
         numberOfContributors.setPrefWidth(140);
         numberOfContributors.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<TabelProject, String>, ObservableValue<String>>() {
@@ -136,7 +137,7 @@ public class AllProjectController implements Initializable {
                 return param.getValue().getValue().NumberOfContributors;
             }
         });
-
+        
         JFXTreeTableColumn<TabelProject, String> numberOfCommits = new JFXTreeTableColumn<>("Commits");
         numberOfCommits.setPrefWidth(130);
         numberOfCommits.setCellValueFactory(new Callback<TreeTableColumn.CellDataFeatures<TabelProject, String>, ObservableValue<String>>() {
@@ -146,7 +147,7 @@ public class AllProjectController implements Initializable {
             }
         });
         SimpleDateFormat ft = new SimpleDateFormat("yyyy.MM.dd 'at' HH:mm:ss");
-
+        
         ObservableList<TabelProject> users = FXCollections.observableArrayList();
         for (int i = 0; i < AllProject.size(); i++) {
             CommonProject CP = AllProject.get(i);
@@ -170,7 +171,7 @@ public class AllProjectController implements Initializable {
             }
         });
     }
-
+    
     private List<CommonProject> GetAllProject() {
         try {
             networkOutput.writeObject(new GetAllProject());
@@ -180,9 +181,11 @@ public class AllProjectController implements Initializable {
         }
         try {
             Respone respone = (Respone) networkInput.readObject();
-
+            
             if (respone.TypeRespone == ResponeType.DONE) {
                 return ((SendAllProject) respone).getMylist();
+            } else {
+                Notification.Notification("Get All Project", respone.Message);
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(MyProjectController.class.getName()).log(Level.SEVERE, null, ex);

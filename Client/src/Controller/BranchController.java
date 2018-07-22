@@ -5,6 +5,7 @@ import CommonCommand.Command;
 import CommonCommand.GetAddBranch;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelBranch;
@@ -102,13 +103,8 @@ public class BranchController implements Initializable {
                             .position(Pos.CENTER);
                     notification.showConfirm();
                 } else {
-                    Notifications notification = Notifications.create()
-                            .title("Add Branch")
-                            .text("Can't Add Branch.")
-                            .graphic(null)
-                            .hideAfter(Duration.seconds(2))
-                            .position(Pos.CENTER);
-                    notification.showConfirm();
+                    Notification.Notification("Get All Project", respone.Message);
+                  
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(BranchController.class.getName()).log(Level.SEVERE, null, ex);

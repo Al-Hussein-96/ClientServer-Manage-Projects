@@ -104,6 +104,11 @@ public class SignUpController implements Initializable {
                 GoToMainPage();
                 CheckRememberMe(UserName, PassWord);
             }
+            else
+            {
+                ShowNotifications("Sign Up", response.Message);
+                
+            }
         } catch (IOException ex) {
             System.out.println("Error SIGN UP");
         } catch (ClassNotFoundException ex) {

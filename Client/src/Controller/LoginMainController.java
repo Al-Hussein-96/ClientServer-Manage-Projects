@@ -95,7 +95,7 @@ public class LoginMainController implements Initializable {
                 ShowNotifications("Login", "Done Login");
             } else {
                 ////
-                ShowNotifications("Login", "Can't Login");
+                ShowNotifications("Login", respone.Message);
             }
 
         } catch (IOException ex) {

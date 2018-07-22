@@ -5,6 +5,7 @@ import CommonCommand.Command;
 import CommonCommand.GetAddContributor;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelContributor;
@@ -67,13 +68,7 @@ public class ContributorsController implements Initializable {
                 notification.showConfirm();
             }
             else{
-                Notifications notification = Notifications.create()
-                        .title("Add Contributor")
-                        .text("Can't Add Contributor")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+             Notification.Notification("Add Contributes", respone.Message);
             }
         } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(ContributorsController.class.getName()).log(Level.SEVERE, null, ex);

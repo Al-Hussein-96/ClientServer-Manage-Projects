@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.application.Application;
-import javafx.application.ConditionalFeature;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -153,42 +152,43 @@ public class Project extends Application {
 
     public static void main(String[] args) throws IOException {
 
-//        String input;
-//        while (true) {
-//            input = JOptionPane.showInputDialog(new Component() {
-//            }, "Enter IP : ", "IP Server", -1);
-//            System.out.println(input);
-//            if (isValidIP(input) || input.equals("1")) {
-//                break;
-//            }
-//        }
-//        if (input.equals("1")) {
-//            try {
-//                host = InetAddress.getLocalHost();
-//            } catch (UnknownHostException ex) {
-//                System.out.println("\nHost ID not foun!");
-//                System.exit(1);
-//            }
-//        }
-//        else host = InetAddress.getByName(input);
-        try {
-            host = InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            System.out.println("\nHost ID not foun!");
-            System.exit(1);
+        String input;
+        while (true) {
+            input = JOptionPane.showInputDialog(new Component() {
+            }, "Enter IP : ", "IP Server", -1);
+            System.out.println(input);
+            if (isValidIP(input) || input.equals("1")) {
+                break;
+            }
         }
+        if (input.equals("1")) {
+            try {
+                host = InetAddress.getLocalHost();
+            } catch (UnknownHostException ex) {
+                System.out.println("\nHost ID not foun!");
+                System.exit(1);
+            }
+        } else {
+            host = InetAddress.getByName(input);
+        }
+//        try {
+//            host = InetAddress.getLocalHost();
+//        } catch (UnknownHostException ex) {
+//            System.out.println("\nHost ID not foun!");
+//            System.exit(1);
+//        }
         System.out.println(host);
         socket = new Socket(host, PORT);
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         networkInput = new ObjectInputStream(socket.getInputStream());
 
-//        if (args.length > 0) {
-//            benkh = getBenkh(args[0]);
-//            if (benkh != null) {
-//                GUI = true;
-//            }
-//
-//        }
+        if (args.length > 0) {
+            benkh = getBenkh(args[0]);
+            if (benkh != null) {
+                GUI = true;
+            }
+
+        }
         launch(args);
         //sendMessage();
     }

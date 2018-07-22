@@ -7,6 +7,7 @@ import CommonCommand.GetProfile;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendProfile;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import client.TabelUsers;
@@ -93,6 +94,10 @@ public class UserController implements Initializable {
                 fXMLLoader.setController(profileController);
                 AnchorPane pane = (AnchorPane) fXMLLoader.load();
                 roopane.getChildren().setAll(pane);
+            }
+            else
+            {
+                Notification.Notification("Users", respone.Message);
             }
 
         } catch (IOException | ClassNotFoundException ex) {

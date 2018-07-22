@@ -14,6 +14,7 @@ import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
 import CommonRespone.SendProject;
 import CommonRespone.SendProject_Merge;
+import client.Notification;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXTextField;
@@ -143,7 +144,7 @@ public class PushProjectController implements Initializable {
 
             Notification("Push Project", "Done Push Project");
         } else {
-            Notification("Push Project", "Can't Push Project");
+            Notification("Push Project", respone.Message);
             return;
         }
         //  deleteFile(ob);
@@ -173,13 +174,7 @@ public class PushProjectController implements Initializable {
                         .position(Pos.CENTER);
                 notification.showConfirm();
             } else {
-                Notifications notification = Notifications.create()
-                        .title("Merge Projects")
-                        .text("Can't Merge Projects")
-                        .graphic(null)
-                        .hideAfter(Duration.seconds(2))
-                        .position(Pos.CENTER);
-                notification.showConfirm();
+               Notification.Notification("Merge Project", respone.Message);
 
             }
 
@@ -255,7 +250,7 @@ public class PushProjectController implements Initializable {
             }
             Notification("Push Project", "Done Push Project");
         } else {
-            Notification("Push Project", "Can't Push Project");
+           Notification.Notification("Push Project", respone.Message);
         }
     }
 
