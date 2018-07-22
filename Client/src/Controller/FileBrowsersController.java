@@ -861,6 +861,7 @@ public class FileBrowsersController implements Initializable {
         for (NameAndDirectoryAndState u : Folder) {
             String tem = u.MyFile.Directory;
             Path dir = Paths.get(tem);
+           
             File folder = new File(path + dir.subpath(4, dir.getNameCount())); //// cur from (four slash --> end)
             folder.mkdir();
             for (ViewDiff_folderClass temp : ob.MyFolderView) {
@@ -908,6 +909,9 @@ public class FileBrowsersController implements Initializable {
             try {
                 String tem = temp.MyFile.Directory;
                 Path dir = Paths.get(tem);
+                System.out.println(tem);
+                System.out.println(dir);
+                System.out.println(path + dir.subpath(4, dir.getNameCount()));
                 fos = new FileOutputStream(path + dir.subpath(4, dir.getNameCount()));
                 SendFile respone;
                 do {

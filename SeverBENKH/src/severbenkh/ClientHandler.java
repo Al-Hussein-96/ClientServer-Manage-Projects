@@ -233,10 +233,10 @@ public class ClientHandler extends Thread {
 
         ProjectToUpload serverFile = get_ProjectToUpload(clientFile.ProjectName, clientFile.BranchName);
 
-        String Base = get_Directory_project(clientFile.IdLastCommit, clientFile.BranchName, clientFile.ProjectName);
+        String Base = get_Directory_project(clientFile.IdLastCommit+1, clientFile.BranchName, clientFile.ProjectName);
         String dir1 = get_Directory_project_first_Time(clientFile.BranchName, clientFile.ProjectName);
         String dir2 = null;
-
+        Send_Done();
         SendProject newRespone = null;
         try {
             newRespone = (SendProject) input.readObject();
@@ -803,9 +803,15 @@ public class ClientHandler extends Thread {
             FileOutputStream fos = null;
             try {
                 String temp1 = temp.Directory.substring(temp.Directory.indexOf(NameFolderSelect));
+                 System.out.println(temp1);
                 Path dir = Paths.get(temp1);
+                System.out.println(dir);
                 dir = dir.subpath(1, dir.getNameCount());
+                System.out.println(dir);
+                System.out.println("new " + NewDirectory);
                 fos = new FileOutputStream(NewDirectory + "\\" + dir);
+                
+               
                 SendFile respone;
                 do {
                     respone = (SendFile) input.readObject();
@@ -939,7 +945,7 @@ public class ClientHandler extends Thread {
             } else {
                 String dir1 = Base + "\\" + temp.MyFile.Name;
                 String dir2 = temp.MyFile.Directory;
-                String dir3 = dir3 = temp.OldFile.Directory;
+                String dir3 =  temp.OldFile.Directory;
                 File base = new File(dir1);
                 File filenew = new File(dir2);
                 File fileold = new File(dir3);
@@ -1388,6 +1394,7 @@ public class ClientHandler extends Thread {
             if (br.branchName.equals(BranchName)) /// get Branch
             {
                 int id = idCommit - 1;
+                System.out.println("id :"+id);
                 dir = br.way.get(id).Directory;
             }
         }

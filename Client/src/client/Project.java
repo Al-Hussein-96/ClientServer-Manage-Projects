@@ -153,24 +153,30 @@ public class Project extends Application {
 
     public static void main(String[] args) throws IOException {
 
-        String input;
-        while (true) {
-            input = JOptionPane.showInputDialog(new Component() {
-            }, "Enter IP : ", "IP Server", -1);
-            System.out.println(input);
-            if (isValidIP(input) || input.equals("1")) {
-                break;
-            }
+//        String input;
+//        while (true) {
+//            input = JOptionPane.showInputDialog(new Component() {
+//            }, "Enter IP : ", "IP Server", -1);
+//            System.out.println(input);
+//            if (isValidIP(input) || input.equals("1")) {
+//                break;
+//            }
+//        }
+//        if (input.equals("1")) {
+//            try {
+//                host = InetAddress.getLocalHost();
+//            } catch (UnknownHostException ex) {
+//                System.out.println("\nHost ID not foun!");
+//                System.exit(1);
+//            }
+//        }
+//        else host = InetAddress.getByName(input);
+        try {
+            host = InetAddress.getLocalHost();
+        } catch (UnknownHostException ex) {
+            System.out.println("\nHost ID not foun!");
+            System.exit(1);
         }
-        if (input.equals("1")) {
-            try {
-                host = InetAddress.getLocalHost();
-            } catch (UnknownHostException ex) {
-                System.out.println("\nHost ID not foun!");
-                System.exit(1);
-            }
-        }
-        else host = InetAddress.getByName(input);
         System.out.println(host);
         socket = new Socket(host, PORT);
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));

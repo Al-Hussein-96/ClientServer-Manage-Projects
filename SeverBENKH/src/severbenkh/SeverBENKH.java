@@ -32,7 +32,7 @@ public class SeverBENKH extends Application {
     public static String idFileProject = "Data\\id.Project";
     public static String idFileEvent = "Data\\id.Event";
     public static String idTempFile = "Data\\id.idTempFile";
-    public static String TempFiledirectory = "Data\\TempFile";
+    public static String TempFiledirectory = "Data\\TempFile\\TempFile";
     public static String projectdirectoryName = "Data\\Projects Information";
     public static String usersdirectoryName = "Data\\Users Information";
     public static String list_user_in_server = "Data\\Users Information\\All-User.data";
@@ -141,7 +141,11 @@ public class SeverBENKH extends Application {
         if (!DataFile.exists()) {
             DataFile.mkdir();
         }
-        
+       
+        File a = new File("Data\\TempFile");
+        if (!a.exists()) {
+            a.mkdir();
+        }
         
         // create idTempFile
         File idTempFileName = new File(idTempFile);

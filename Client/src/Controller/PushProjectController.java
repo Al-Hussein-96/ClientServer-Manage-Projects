@@ -102,7 +102,7 @@ public class PushProjectController implements Initializable {
             if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
                 try {
                     hiddenFile = (ProjectToUpload) load(file.getPath());
-                    file.delete();
+                    //  file.delete();
                     break;
                 } catch (Exception ex) {
 
@@ -141,32 +141,21 @@ public class PushProjectController implements Initializable {
             openProgressBar();
             SendFolder(ob);
 
-            try {
-                ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
-                ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
-                Path.getScene().getWindow().hide();
-
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
-                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
             Notification("Push Project", "Done Push Project");
         } else {
             Notification("Push Project", "Can't Push Project");
             return;
         }
-      //  deleteFile(ob);
+        //  deleteFile(ob);
         try {
-            networkOutput.writeObject(command);
-            networkOutput.flush();
+
             SendProject_Merge respone1 = (SendProject_Merge) networkInput.readObject();
 
             if (respone1.TypeRespone == ResponeType.DONE) {
                 Father.CreateFolder(respone1.ob, Path.getText() + "\\");
-                Father.Receive(respone1.ob, Path.getText() + "\\");
-
+               
+                    Father.Receive(respone1.ob, Path.getText() + "\\");
+               
                 hiddenFile = (ProjectToUpload) networkInput.readObject();
                 try {
                     /// save File in directory of Project
@@ -216,7 +205,7 @@ public class PushProjectController implements Initializable {
             if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
                 try {
                     hiddenFile = (ProjectToUpload) load(file.getPath());
-                    file.delete();
+                    ///file.delete();
                     break;
                 } catch (Exception ex) {
 
