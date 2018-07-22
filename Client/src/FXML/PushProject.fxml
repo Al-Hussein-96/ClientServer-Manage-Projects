@@ -26,5 +26,6 @@
          </children>
       </AnchorPane>
       <JFXButton layoutX="549.0" layoutY="334.0" onAction="#btnPush" prefHeight="35.0" prefWidth="100.0" stylesheets="@../Css/Button.css" text="Push" />
+      <JFXButton layoutX="71.0" layoutY="334.0" onAction="#btnPullMerge" prefHeight="37.0" prefWidth="122.0" stylesheets="@../Css/Button.css" text="pull-merge" />
    </children>
 </AnchorPane>

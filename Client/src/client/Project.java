@@ -13,6 +13,7 @@ import CommonRespone.SendMyProject;
 import Controller.FileBrowsersController;
 import Controller.LoginMainController;
 import Controller.PageMainController;
+import java.awt.Component;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,10 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.application.Application;
+import javafx.application.ConditionalFeature;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -141,13 +145,33 @@ public class Project extends Application {
         return null;
     }
 
+    public static boolean isValidIP(String ipAddr) {
+        Pattern ptn = Pattern.compile("^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$");
+        Matcher mtch = ptn.matcher(ipAddr);
+        return mtch.find();
+    }
+
     public static void main(String[] args) throws IOException {
-       try {
-            host = InetAddress.getLocalHost();
-        } catch (UnknownHostException ex) {
-            System.out.println("\nHost ID not foun!");
-            System.exit(1);
+
+        String input;
+        while (true) {
+            input = JOptionPane.showInputDialog(new Component() {
+            }, "Enter IP : ", "IP Server", -1);
+            System.out.println(input);
+            if (isValidIP(input) || input.equals("1")) {
+                break;
+            }
         }
+        if (input.equals("1")) {
+            try {
+                host = InetAddress.getLocalHost();
+            } catch (UnknownHostException ex) {
+                System.out.println("\nHost ID not foun!");
+                System.exit(1);
+            }
+        }
+        else host = InetAddress.getByName(input);
+        System.out.println(host);
         socket = new Socket(host, PORT);
         networkOutput = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
         networkInput = new ObjectInputStream(socket.getInputStream());

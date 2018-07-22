@@ -22,7 +22,7 @@
                 <TableColumn prefWidth="269.0" text="Description" />
             </columns>
         </TableView>
-        <HBox layoutX="23.0" layoutY="51.0" prefHeight="40.0" prefWidth="657.0" spacing="10.0">
+        <HBox layoutX="1.0" layoutY="51.0" prefHeight="40.0" prefWidth="700.0" spacing="10.0">
             <children>
                 <JFXButton onAction="#btnBranch" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Branch" />
                 <JFXButton onAction="#btnCommits" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Commits" />
@@ -32,10 +32,15 @@
             <JFXButton onAction="#btnInformation" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="info" />
             </children>
         </HBox>
-        <JFXButton layoutX="3.0" layoutY="428.0" onAction="#btnOpen" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Open" />
-        <JFXButton layoutX="547.0" layoutY="428.0" onAction="#btnBack" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Back" />
-        <JFXButton layoutX="184.0" layoutY="428.0" onAction="#btnPull" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Pull" />
-        <JFXButton fx:id="push" layoutX="364.0" layoutY="428.0" onAction="#btnPush" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Push" />
+      <HBox layoutX="1.0" layoutY="428.0" prefHeight="40.0" prefWidth="700.0" spacing="10.0">
+         <children>
+              <JFXButton onAction="#btnBack" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Back" />
+              <JFXButton onAction="#btnPull" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="pull" />
+              <JFXButton fx:id="push" onAction="#btnPush" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Push" />
+            <JFXButton onAction="#btnDiffTo" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="DiffTo" />
+              <JFXButton onAction="#btnOpen" prefHeight="40.0" prefWidth="120.0" stylesheets="@../Css/Button.css" text="Open" />
+         </children>
+      </HBox>
         <Label fx:id="idCommit" layoutX="275.0" layoutY="14.0" prefHeight="25.0" prefWidth="226.0" text="Commit : " textAlignment="CENTER">
             <font>
                 <Font name="CoconNextArabic-Light" size="16.0" />
@@ -59,6 +64,5 @@
                 <ColorAdjust />
             </effect>
         </Label>
-      <JFXButton layoutX="523.0" layoutY="7.0" onAction="#btnDiffTo" prefHeight="40.0" prefWidth="150.0" stylesheets="@../Css/Button.css" text="Diff To" />
     </children>
 </AnchorPane>

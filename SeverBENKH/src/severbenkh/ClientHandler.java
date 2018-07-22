@@ -219,7 +219,12 @@ public class ClientHandler extends Thread {
     }
 
     private void SendToGetPullAndMerge(Command command) {
-
+        try {
+            command = (Command)input.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
         /// first make push on temp File 
         String NameProject = ((GetPush) command).NameProject;
         ProjectToUpload clientFile = ((GetPush) command).getHiddenFile();

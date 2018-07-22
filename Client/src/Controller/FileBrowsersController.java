@@ -23,6 +23,8 @@ import CommonCommand.GetListCommits;
 import CommonCommand.GetListContributors;
 import CommonCommand.GetProject;
 import CommonCommand.GetPull;
+import CommonCommand.GetPullAndMerge;
+import CommonCommand.GetPush;
 import CommonCommand.Get_Diff_Two_Commit;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
@@ -406,6 +408,7 @@ public class FileBrowsersController implements Initializable {
             AnchorPane root = (AnchorPane) fxmlLoader.load();
             PushProjectController pushProjectController = fxmlLoader.getController();
             pushProjectController.setNameProject(Owner.NameProject);
+            pushProjectController.setFather(this);
             pushProjectController.setNameBranch(Branch);
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -527,6 +530,9 @@ public class FileBrowsersController implements Initializable {
             Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
+   
 
     @FXML
     void btnDiffTo(ActionEvent event) {

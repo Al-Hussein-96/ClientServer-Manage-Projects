@@ -7,11 +7,13 @@ import static CommonClass.ResourceManager.load;
 import CommonClass.ViewfolderClass;
 import CommonCommand.Command;
 import CommonCommand.GetFile;
+import CommonCommand.GetPullAndMerge;
 import CommonCommand.GetPush;
 import CommonRespone.Respone;
 import CommonRespone.ResponeType;
 import CommonRespone.SendFile;
 import CommonRespone.SendProject;
+import CommonRespone.SendProject_Merge;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXTextField;
@@ -40,6 +42,7 @@ import org.controlsfx.control.Notifications;
 
 public class PushProjectController implements Initializable {
 
+    FileBrowsersController Father;
     String NameProject;
     String NameBranch;
 
@@ -50,6 +53,10 @@ public class PushProjectController implements Initializable {
     private JFXTextField Path;
 
     File selectedFile;
+
+    public void setFather(FileBrowsersController Father) {
+        this.Father = Father;
+    }
 
     @FXML
     void btnBrowsers(ActionEvent event) {
@@ -69,6 +76,129 @@ public class PushProjectController implements Initializable {
                 .hideAfter(Duration.seconds(2))
                 .position(Pos.CENTER);
         notification.showConfirm();
+    }
+
+    @FXML
+    void btnPullMerge(ActionEvent event) {
+
+        if (Comment.getText().length() == 0) {
+            Notification("Push Project", "Not Name");
+            return;
+        }
+        if (Path == null || selectedFile == null) {
+            Notification("Push Project", "Not Selected File");
+            return;
+        }
+        Command command = new GetPullAndMerge(NameProject);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        ProjectToUpload hiddenFile = null;
+        for (File file : selectedFile.listFiles()) {
+            if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
+                try {
+                    hiddenFile = (ProjectToUpload) load(file.getPath());
+                    file.delete();
+                    break;
+                } catch (Exception ex) {
+
+                }
+            }
+        }
+        if (hiddenFile == null) {
+            return;
+        }
+        hiddenFile.BranchName = NameBranch;
+        command = new GetPush(NameProject, hiddenFile, selectedFile.getName(), Comment.getText());
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Respone respone = null;
+        try {
+            respone = (Respone) networkInput.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println("ERROR in GETPUSH: " + ex.getMessage());
+        }
+        ViewfolderClass ob;
+        if (respone.TypeRespone == ResponeType.DONE) {
+            ob = ResourceManager.ViewProject(new File(selectedFile.getPath()));
+            ResourceManager.ShowViewfolder(ob);
+            Respone newRespone = new SendProject(ob);
+            try {
+                networkOutput.writeObject(newRespone);
+                networkOutput.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+            openProgressBar();
+            SendFolder(ob);
+
+            try {
+                ProjectToUpload BenkhFile = (ProjectToUpload) networkInput.readObject();
+                ResourceManager.save(BenkhFile, Path.getText() + "\\" + "BEHKN.BEHKN");
+                Path.getScene().getWindow().hide();
+
+            } catch (IOException | ClassNotFoundException ex) {
+                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception ex) {
+                Logger.getLogger(PushProjectController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            Notification("Push Project", "Done Push Project");
+        } else {
+            Notification("Push Project", "Can't Push Project");
+            return;
+        }
+      //  deleteFile(ob);
+        try {
+            networkOutput.writeObject(command);
+            networkOutput.flush();
+            SendProject_Merge respone1 = (SendProject_Merge) networkInput.readObject();
+
+            if (respone1.TypeRespone == ResponeType.DONE) {
+                Father.CreateFolder(respone1.ob, Path.getText() + "\\");
+                Father.Receive(respone1.ob, Path.getText() + "\\");
+
+                hiddenFile = (ProjectToUpload) networkInput.readObject();
+                try {
+                    /// save File in directory of Project
+                    ResourceManager.save(hiddenFile, Path.getText() + "\\" + "BEHKN.BEHKN");
+                    Path.getScene().getWindow().hide();
+                } catch (Exception ex) {
+                    Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Notifications notification = Notifications.create()
+                        .title("Merge Projects")
+                        .text("Done Merge Projects")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
+            } else {
+                Notifications notification = Notifications.create()
+                        .title("Merge Projects")
+                        .text("Can't Merge Projects")
+                        .graphic(null)
+                        .hideAfter(Duration.seconds(2))
+                        .position(Pos.CENTER);
+                notification.showConfirm();
+
+            }
+
+        } catch (IOException e) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BranchMergeController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @FXML
@@ -211,6 +341,9 @@ public class PushProjectController implements Initializable {
             System.out.println("Error in Load Fxml PushProject: " + ex.getMessage());
         }
 
+    }
+
+    private void deleteFile(ViewfolderClass ob) {
     }
 
 }
