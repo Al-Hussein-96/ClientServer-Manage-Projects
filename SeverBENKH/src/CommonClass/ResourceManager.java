@@ -3,12 +3,21 @@ package CommonClass;
 import CommonClass.NameAndDirectory;
 import static CommonClass.StateType.*;
 import CommonClass.ViewfolderClass;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import severbenkh.ClientHandler;
 
 public class ResourceManager {
 
@@ -182,6 +191,8 @@ public class ResourceManager {
                         String Directory1 = DirectoryOne + "\\" + file1.getName();
                         String Directory2 = DirectoryTwo + "\\" + file.getName();
 
+                        boolean bo =  compare_Two_File(file,file1);
+                        
                         String Name = file.getName();
                         long size2 = file.length();
                         long size1 = file1.length();
@@ -189,7 +200,7 @@ public class ResourceManager {
                         long DateModified1 = file1.lastModified();
                         NameAndDirectory One = new NameAndDirectory(Name, size1, DateModified1, Directory1);
                         NameAndDirectory Two = new NameAndDirectory(Name, size2, DateModified2, Directory2);
-                        if (size1 != size2) {
+                        if (!bo) {
                             NameAndDirectoryAndState New = new NameAndDirectoryAndState(Two, Change, One);
                             MyViewdiff_folder.MyFile.add(New);
                             MyViewdiff_folder.MyState = Change;
@@ -229,7 +240,29 @@ public class ResourceManager {
 
         return MyViewdiff_folder;
     }
- 
+        public static boolean compare_Two_File(File f1, File f2) {
+        Path p1 = f1.toPath();
+        Path p2 = f2.toPath();
+        byte[] b1 = null;
+        byte[] b2 = null;
+        try {
+            b1 = Files.readAllBytes(p1);
+            b2 = Files.readAllBytes(p2);
+        } catch (IOException ex) {
+            
+             return false;
+        }
+        if (b1.length != b2.length) {
+            return false;
+        }
+        for (int i = 0; i < b1.length; i++) {
+            if (b1[i] != b2[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /// this get list of files and folders inside folder
     public static ViewfolderClass ViewProject(File NameFolder) {
 
