@@ -21,54 +21,6 @@ public class Myers01 {
         List<String> list2 = read(new File(dirOld));
         StringsComparator sc = new StringsComparator(list2, list1);
         Differences = sc.getScript();
-//        Differences.visit(new CommandVisitor() {
-//
-//            boolean nlAdd = true;
-//            boolean nlRemove = true;
-//
-//            @Override
-//            public void visitInsertCommand(String object) {
-//                if (nlAdd) {
-//                    System.out.println();
-//                    //  System.out.print("+ ");
-//                    nlAdd = false;
-//                }
-//
-//                if ("".equals(object.trim())) {
-//                    object = "NEW LINE";
-//                }
-//
-//                System.out.println("Insert : " + object);
-//            }
-//
-//            @Override
-//            public void visitKeepCommand(String object) {
-//                if (!nlAdd) {
-//                    nlAdd = true;
-//                }
-//                if (!nlRemove) {
-//                    nlRemove = true;
-//                    System.out.println();
-//                }
-//                if ("".equals(object.trim())) {
-//                    object = "NEW LINE";
-//                }
-//                System.out.println("NoChange : " + object);
-//            }
-//
-//            @Override
-//            public void visitDeleteCommand(String object) {
-//                if (nlRemove) {
-//                    System.out.println();
-//                    nlRemove = false;
-//                }
-//                if ("".equals(object.trim())) {
-//                    object = "NEW LINE";
-//                }
-//                System.out.println("Delete : " + object);
-//            }
-//        });
-//        System.out.println("\n");
     }
 
     public static void main(String[] args) {

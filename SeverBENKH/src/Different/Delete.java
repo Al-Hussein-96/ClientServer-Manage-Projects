@@ -8,8 +8,4 @@ public class Delete extends Changes {
         super(object);
     }
 
-    @Override
-    public void accept(CommandVisitor visitor) {
-        visitor.visitDeleteCommand(getObject());
-    }
 }

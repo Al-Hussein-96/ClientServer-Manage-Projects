@@ -28,7 +28,6 @@ public class SignUpClass {
 
         String directoryname = SeverBENKH.usersdirectoryName + "\\" + user.getName();
         String userFileName = directoryname + "\\" + user.getName() + "information file.data";
-        String projectFileName = directoryname + "\\" + user.getName() + "projects.data";
         //create a directory for each user
         File dir = new File(directoryname);
         if (!dir.exists()) {
@@ -49,10 +48,6 @@ public class SignUpClass {
             ResourceManager.save((Serializable) User_in_server, list_user_in_server);
         } catch (Exception ex) {
             Logger.getLogger(SignUpClass.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //create projects file that may contains projects ids and names only
-        try (PrintWriter out = new PrintWriter(projectFileName)) {
-            out.println("no projects yet!!!");
         }
         return true;
     }

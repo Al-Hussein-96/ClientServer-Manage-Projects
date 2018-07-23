@@ -530,6 +530,9 @@ public class FileBrowsersController implements Initializable {
 
     @FXML
     void btnDisplayDiff(ActionEvent event) {
+        if (current == null) {
+            return;
+        }
         List< ViewDiff_folderClass> MyFolderView = current.MyFolderView;
 
         TabelBrowsers TI = tabelView.getSelectionModel().getSelectedItem();

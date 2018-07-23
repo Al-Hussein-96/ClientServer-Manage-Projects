@@ -31,12 +31,6 @@ public class Diff implements Serializable {
         ++modifications;
     }
 
-    public void visit(CommandVisitor visitor) {
-        for (Changes command : commands) {
-            command.accept(visitor);
-        }
-    }
-
     public int getLCSLength() {
         return lcsLength;
     }

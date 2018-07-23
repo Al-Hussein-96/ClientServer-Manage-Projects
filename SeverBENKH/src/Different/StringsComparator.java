@@ -8,9 +8,6 @@ public class StringsComparator {
     private final List<String> left;
     private final List<String> right;
 
-    /**
-     * Temporary variables.
-     */
     private int[][] trace;
     int Delete;
     int Insert;

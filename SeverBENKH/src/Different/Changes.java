@@ -14,6 +14,4 @@ public abstract class Changes implements Serializable {
         return object;
     }
 
-    public abstract void accept(CommandVisitor visitor);
-
 }
