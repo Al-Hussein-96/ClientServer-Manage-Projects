@@ -22,6 +22,7 @@ import EventClass.Event_AddCommit;
 import EventClass.Event_AddContributor;
 import EventClass.Event_Class;
 import Merge.Merge;
+import static Merge.Merge.read;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -950,20 +951,36 @@ public class ClientHandler extends Thread {
                 File filenew = new File(dir2);
                 File fileold = new File(dir3);
                 if (base.exists() && fileold.exists() && filenew.exists()) {
-                    Merge M = new Merge(dir1, dir2, dir3);
-                    List<String> MergingList = M.getMergingList();
-                    //this List most send as Merging to the filenew and fileold
-                    M.write(MergingList, new File(SeverBENKH.tempFile));
-                    GetFile get = new GetFile(SeverBENKH.tempFile);
-                    GETFILE(get);
+                    if(checkIfBinary(dir2))
+                    {
+                         GetFile get = new GetFile(temp.OldFile.Directory);
+                         GETFILE(get);
+                    }
+                    else
+                    {
+                        Merge M = new Merge(dir1, dir2, dir3);
+                        List<String> MergingList = M.getMergingList();
+                        //this List most send as Merging to the filenew and fileold
+                        M.write(MergingList, new File(SeverBENKH.tempFile));
+                        GetFile get = new GetFile(SeverBENKH.tempFile);
+                        GETFILE(get);
+                    }
 
                 } else if (fileold.exists() && filenew.exists()) {
                     //her make the base file as empty file ... 
-                    Merge M = new Merge(SeverBENKH.emptyFile, dir2, dir3);
-                    List<String> MergingList = M.getMergingList();
-                    M.write(MergingList, new File(SeverBENKH.tempFile));
-                    GetFile get = new GetFile(SeverBENKH.tempFile);
-                    GETFILE(get);
+                    if(checkIfBinary(dir2))
+                    {
+                         GetFile get = new GetFile(temp.OldFile.Directory);
+                         GETFILE(get);
+                    }
+                    else
+                    {
+                        Merge M = new Merge(SeverBENKH.emptyFile, dir2, dir3);
+                        List<String> MergingList = M.getMergingList();
+                        M.write(MergingList, new File(SeverBENKH.tempFile));
+                        GetFile get = new GetFile(SeverBENKH.tempFile);
+                        GETFILE(get);
+                    }
 
                 } else if (filenew.exists()) {
                     GetFile get = new GetFile(temp.MyFile.Directory);
@@ -978,6 +995,29 @@ public class ClientHandler extends Thread {
             SendFolder(temp, Base + "\\" + F);
             cnt++;
         }
+    }
+    private boolean checkIfBinary(String temp) {
+        String la7ka = "";
+        int ok = 0, ok2 = 0;
+        for (int i = 0; i < temp.length(); i++) {
+            la7ka += temp.charAt(i);
+            if (temp.charAt(i) == '.') {
+                la7ka = "";
+                ok = 1;
+            }
+        }
+        if (ok == 0) {
+            la7ka = "";
+        }
+        if (la7ka.equalsIgnoreCase("txt") || la7ka.equalsIgnoreCase("java") || la7ka.equalsIgnoreCase("cpp")
+                || la7ka.equalsIgnoreCase("c") || la7ka.equalsIgnoreCase("fxml") || la7ka.equalsIgnoreCase("css") ) {
+            ok2 = 1;
+        }
+        if (ok2 == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     /// Send Folder
@@ -1120,7 +1160,7 @@ public class ClientHandler extends Thread {
         File projects = new File(dir);
         for (File t : projects.listFiles()) {
             if (t.isDirectory()) {
-                if (t.getName().equals(s)) {
+                if (t.getName().equalsIgnoreCase(s)) {
                     return false;
                 }
             }
