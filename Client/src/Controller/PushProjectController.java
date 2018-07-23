@@ -15,6 +15,7 @@ import CommonRespone.SendFile;
 import CommonRespone.SendProject;
 import CommonRespone.SendProject_Merge;
 import client.Notification;
+import static client.Project.Args;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
 import com.jfoenix.controls.JFXTextField;
@@ -66,6 +67,7 @@ public class PushProjectController implements Initializable {
         selectedFile = dc.showDialog(null);
         if (selectedFile != null) {
             Path.setText(selectedFile.getPath());
+            Args = Path.getText();
         }
     }
 
@@ -154,9 +156,9 @@ public class PushProjectController implements Initializable {
 
             if (respone1.TypeRespone == ResponeType.DONE) {
                 Father.CreateFolder(respone1.ob, Path.getText() + "\\");
-               
-                    Father.Receive(respone1.ob, Path.getText() + "\\");
-               
+
+                Father.Receive(respone1.ob, Path.getText() + "\\");
+
                 hiddenFile = (ProjectToUpload) networkInput.readObject();
                 try {
                     /// save File in directory of Project
@@ -174,7 +176,7 @@ public class PushProjectController implements Initializable {
                         .position(Pos.CENTER);
                 notification.showConfirm();
             } else {
-               Notification.Notification("Merge Project", respone.Message);
+                Notification.Notification("Merge Project", respone.Message);
 
             }
 
@@ -191,10 +193,12 @@ public class PushProjectController implements Initializable {
             Notification("Push Project", "Not Name");
             return;
         }
-        if (Path == null || selectedFile == null) {
+        if (Path == null) {
             Notification("Push Project", "Not Selected File");
             return;
         }
+        Args = Path.getText();
+        selectedFile = new File(Path.getText());
         ProjectToUpload hiddenFile = null;
         for (File file : selectedFile.listFiles()) {
             if (file.isFile() && "BEHKN.BEHKN".equals(file.getName())) {
@@ -236,6 +240,7 @@ public class PushProjectController implements Initializable {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
             openProgressBar();
+
             SendFolder(ob);
 
             try {
@@ -250,7 +255,7 @@ public class PushProjectController implements Initializable {
             }
             Notification("Push Project", "Done Push Project");
         } else {
-           Notification.Notification("Push Project", respone.Message);
+            Notification.Notification("Push Project", respone.Message);
         }
     }
 
@@ -308,6 +313,9 @@ public class PushProjectController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (!"".equals(Args)) {
+            Path.setText(Args);
+        }
     }
 
     private void openProgressBar() {

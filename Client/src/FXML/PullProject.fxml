@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="692.0" styleClass="root" stylesheets="@../Css/style.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.PullProjectController">
+   <children>
+      <AnchorPane layoutX="43.0" layoutY="69.0" opacity="0.84" prefHeight="255.0" prefWidth="606.0" styleClass="cardPane" stylesheets="@../Css/style.css">
+         <children>
+            <JFXTextField fx:id="Path" alignment="TOP_CENTER" focusColor="#09f59b" labelFloat="true" layoutX="135.0" layoutY="99.0" prefHeight="35.0" prefWidth="284.0" promptText="Path" unFocusColor="#04c541" />
+            <JFXButton layoutX="490.0" layoutY="110.0" onAction="#btnBrowsers" prefHeight="35.0" prefWidth="85.0" text="Browsers" textFill="#04c541" />
+            <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="441.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/folder-browser-find-path-512.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="30.0" fitWidth="35.0" layoutX="95.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../res/folder-browser-find-path-512.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+      <JFXButton layoutX="549.0" layoutY="334.0" onAction="#btnPull" prefHeight="35.0" prefWidth="100.0" stylesheets="@../Css/Button.css" text="Pull" />
+   </children>
+</AnchorPane>

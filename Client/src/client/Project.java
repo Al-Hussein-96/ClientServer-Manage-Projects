@@ -47,6 +47,7 @@ public class Project extends Application {
     public static Socket socket;
     public static ObjectInputStream networkInput;
     public static ObjectOutputStream networkOutput;
+    public static String Args = "";
 
     private static ProjectToUpload getBenkh(String arg) {
         File folder = new File(arg + "/");
@@ -109,7 +110,7 @@ public class Project extends Application {
                     }
                     Scene scene = new Scene(root);
                     stage.setScene(scene);
-                    stage.initStyle(StageStyle.TRANSPARENT);
+                  //  stage.initStyle(StageStyle.TRANSPARENT);
 
                     stage.show();
                     stage.setResizable(false);
@@ -186,6 +187,8 @@ public class Project extends Application {
             benkh = getBenkh(args[0]);
             if (benkh != null) {
                 GUI = true;
+                System.out.println(args[0]);
+                Args = args[0];
             }
 
         }
