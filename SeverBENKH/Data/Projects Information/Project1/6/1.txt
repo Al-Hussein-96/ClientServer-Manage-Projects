@@ -1,0 +1,27 @@
+<<<<<<<First Person
+Moaz
+++
+=======
+<<<<<<<a
+Moaz
+=======
+Ahmad
+>>>>>>>b
+>>>>>>>Second Person
+
+
+
+
+int Chunk_bounds_check(Chunk *chunk, size_t start, size_t n)
+{
+    if (chunk == NULL) return 0;
+
+
+
+
+    return start <= chunk->length && n <= chunk->length - start;
+}
+
+
+
+

@@ -5,6 +5,8 @@ import CommonClass.ResourceManager;
 import CommonCommand.Command;
 import CommonCommand.GetPull;
 import CommonRespone.SendProject;
+import client.Notification;
+import static client.Notification.Notification;
 import static client.Project.Args;
 import static client.Project.networkInput;
 import static client.Project.networkOutput;
@@ -54,7 +56,8 @@ public class PullProjectController implements Initializable {
     @FXML
     void btnPull(ActionEvent event) {
 
-        if (Path == null) {
+        if (Path == null || Path.getText().isEmpty()) {
+            Notification("Pull Project", "Not selected file");
             return;
         }
         Args = Path.getText();
@@ -75,29 +78,18 @@ public class PullProjectController implements Initializable {
             try {
                 /// save File in directory of Project
                 ResourceManager.save(hiddenFile, selectedFile.getPath() + "\\" + "BEHKN.BEHKN");
+                Path.getScene().getWindow().hide();
             } catch (Exception ex) {
                 Logger.getLogger(FileBrowsersController.class.getName()).log(Level.SEVERE, null, ex);
             }
             /**
              * **
              */
-            Notifications notification = Notifications.create()
-                    .title("Pull Project")
-                    .text("Done Pull Project")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showConfirm();
+            Notification("Pull Project", "Done Pull Project");
+
         } catch (IOException | ClassNotFoundException ex) {
             System.err.println("Error in btnPull : " + ex.getMessage());
-            Notifications notification = Notifications.create()
-                    .title("Pull Project")
-                    .text("Can't Pull Project")
-                    .graphic(null)
-                    .hideAfter(Duration.seconds(2))
-                    .position(Pos.CENTER);
-            notification.showError();
-
+            Notification("Pull Project", "Can't Pull Project");
         }
 
     }

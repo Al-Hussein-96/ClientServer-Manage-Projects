@@ -88,10 +88,12 @@ public class PushProjectController implements Initializable {
             Notification("Push Project", "Not Name");
             return;
         }
-        if (Path == null || selectedFile == null) {
+        if (Path == null || Path.getText().isEmpty()) {
             Notification("Push Project", "Not Selected File");
             return;
         }
+        Args = Path.getText();
+        selectedFile = new File(Path.getText());
         Command command = new GetPullAndMerge(NameProject);
         try {
             networkOutput.writeObject(command);
@@ -193,7 +195,7 @@ public class PushProjectController implements Initializable {
             Notification("Push Project", "Not Name");
             return;
         }
-        if (Path == null) {
+        if (Path == null || Path.getText().isEmpty()) {
             Notification("Push Project", "Not Selected File");
             return;
         }

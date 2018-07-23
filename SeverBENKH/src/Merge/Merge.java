@@ -19,14 +19,13 @@ import sun.security.pkcs11.wrapper.Constants;
 
 public class Merge {
 
-    String Name_a = "a", Name_b = "b";
+    String Name_a = "First Person", Name_b = "Second Person";
     List<String> MergingList = new ArrayList<>();
 
     public Merge(String Original, String FirstBranch, String SecondBranch) {
         List<String> listOrg = read(new File(Original));
         List<String> listFr = read(new File(FirstBranch));
         List<String> listSc = read(new File(SecondBranch));
-
 
         Myers01 diff1 = new Myers01(FirstBranch, Original);
         Myers01 diff2 = new Myers01(SecondBranch, Original);
@@ -39,9 +38,8 @@ public class Merge {
         tt.MergingLists();
         MergingList = tt.getMergingList();
         System.out.println(MergingList);
-        
-   //     write(MergingList, new File("4.txt"));
 
+        //     write(MergingList, new File("4.txt"));
     }
 
     public void setName_a(String Name_a) {
@@ -53,7 +51,7 @@ public class Merge {
     }
 
     public static void main(String[] args) {
-   //            Merge m = new Merge("1.txt", "2.txt", "3.txt");
+        //            Merge m = new Merge("1.txt", "2.txt", "3.txt");
     }
 
     public static List<String> read(File file) {
@@ -83,7 +81,9 @@ public class Merge {
 
             for (String line : Lines) {
                 bw.write(line);
-                bw.newLine();
+                if (!(line.trim().equals(""))) {
+                    bw.newLine();
+                }
             }
 
             bw.close();
