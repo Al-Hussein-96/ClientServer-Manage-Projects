@@ -60,8 +60,11 @@ public class CommitsController implements Initializable {
         if (CC == null) {
             return;
         }
-
-        Father.CreateCommitSelected(CC.branchName, CC.Id, CC.Id - 1);
+        if (CC.Id == 1) {
+            Father.CreateCommitSelectedFirstCommit(CC.branchName, CC.Id);
+        } else {
+            Father.CreateCommitSelected(CC.branchName, CC.Id, CC.Id - 1);
+        }
         Open.getScene().getWindow().hide();
     }
 

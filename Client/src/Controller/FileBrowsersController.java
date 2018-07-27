@@ -722,6 +722,18 @@ public class FileBrowsersController implements Initializable {
             idCommit.setText("Commit : " + FR_ID);
         }
     }
+        public void CreateCommitSelectedFirstCommit(String BranchName, int FR_ID) {
+        previous.clear();
+        current = getViewDiff(GetMyCommit(BranchName, FR_ID));
+       //  ViewfolderClass CurrentDiff = GetMyCommit(BranchName, ID);
+
+        if (current != null) {
+            ShowFolderWithDiff(current);
+            //  ShowFolder(CurrentDiff);
+            idBranch.setText("Branch : " + BranchName);
+            idCommit.setText("Commit : " + FR_ID);
+        }
+    }
 
     private ViewDiff_folderClass GetMyCommitDiff(String BranchName, int FR_ID, int SC_ID) {
         /// we will remove First Comment from GUI and this problem will fix
